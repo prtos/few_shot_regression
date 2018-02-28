@@ -1,0 +1,13 @@
+=>> PBS: job killed: walltime 43216 exceeded limit 43200
+
+==============NVSMI LOG==============
+
+Timestamp                           : Sun Feb 18 12:08:45 2018
+Driver Version                      : 384.111
+
+Attached GPUs                       : 16
+GPU 00000000:11:00.0
+    Accounting Mode                 : Enabled
+    Accounting Mode Buffer Size     : 1920
+    Accounted Processes             : None
+

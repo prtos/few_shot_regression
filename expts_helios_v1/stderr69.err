@@ -1,0 +1,15 @@
+/home/ptossou/env/lib/python3.5/site-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+Using TensorFlow backend.
+
+==============NVSMI LOG==============
+
+Timestamp                           : Sun Feb 18 16:33:36 2018
+Driver Version                      : 384.111
+
+Attached GPUs                       : 16
+GPU 00000000:85:00.0
+    Accounting Mode                 : Enabled
+    Accounting Mode Buffer Size     : 1920
+    Accounted Processes             : None
+
