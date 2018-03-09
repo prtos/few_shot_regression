@@ -1,14 +1,9 @@
 import torch
-from torch.nn.functional import normalize,  mse_loss
-from torch.nn.parameter import Parameter
+from torch.nn.functional import mse_loss
 from torch.optim import Adam, SGD
-from pytoune.utils import tensors_to_variables
-from pytoune.framework.callbacks import CSVLogger, EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
-from .base import MetaModel, MetaLearnerRegression
+from .base import Model, MetaLearnerRegression
 from .modules import ClonableModule, LstmBasedRegressor
 from collections import OrderedDict
-from sklearn.metrics import r2_score
-from scipy.stats import pearsonr
 
 
 def set_params(module, new_params, prefix=''):
@@ -33,6 +28,8 @@ class MAMLNetwork(torch.nn.Module):
 
     def __forward(self, episode):
         x_train, y_train = episode['Dtrain']
+        x_test = episode['Dtest']
+        x_train.volatile = False
         learner_network = self.base_learner.clone()
 
         initial_params = OrderedDict((name, param - 0.0) for (name, param) in self.base_learner.named_parameters())
@@ -48,10 +45,10 @@ class MAMLNetwork(torch.nn.Module):
                                       zip(learner_network.named_parameters(), grads))
             set_params(learner_network, new_weights)
 
-        return learner_network
+        return learner_network(x_test)
 
     def forward(self, episodes):
-        return [self.__forward(episode) for episode in episodes]
+        return torch.stack([self.__forward(episode) for episode in episodes])
 
 
 class MAML(MetaLearnerRegression):
@@ -70,17 +67,7 @@ class MAML(MetaLearnerRegression):
             self.network.cuda()
 
         optimizer = Adam(self.network.parameters(), lr=self.lr)
-        self.model = MetaModel(self.network, optimizer, self.metaloss)
-
-    def metaloss(self, episodes, learners):
-        for i, (episode, learner) in enumerate(zip(episodes, learners)):
-            x_test, y_test = episode['Dtest']
-            y_pred = learner(x_test)
-            if i == 0:
-                loss = self.loss(y_pred, y_test)
-            else:
-                loss += self.loss(y_pred, y_test)
-        return loss/len(episodes)
+        self.model = Model(self.network, optimizer, self.metaloss)
 
     def fit(self, metatrain, metavalid, n_epochs=100, steps_per_epoch=100,
             log_filename=None, checkpoint_filename=None):
@@ -88,28 +75,3 @@ class MAML(MetaLearnerRegression):
             metavalid.use_available_gpu = False
             metatrain.use_available_gpu = False
         return super(MAML, self).fit(metatrain, metavalid, n_epochs, steps_per_epoch, log_filename, checkpoint_filename)
-
-    def evaluate(self, metatest):
-        if isinstance(self.learner_network, LstmBasedRegressor):
-            metatest.use_available_gpu = False
-        scores_r2, scores_pcc, sizes = dict(), dict(), dict()
-        for batch in metatest:
-            batch = tensors_to_variables(batch, volatile=False)
-            learners = self.model.predict(batch)
-            for episode, learner in zip(batch, learners):
-                x_test, y_test = episode['Dtest']
-                y_pred = learner(x_test)
-                x, y = y_test.data.cpu().numpy().flatten(), y_pred.data.cpu().numpy().flatten()
-                r2 = float(r2_score(x, y))
-                pcc = float(pearsonr(x, y)[0])
-                ep_name = "".join([chr(i) for i in episode['name'].data.cpu().numpy()])
-                if ep_name in scores_pcc:
-                    scores_pcc[ep_name].append(pcc)
-                    scores_r2[ep_name].append(r2)
-                else:
-                    scores_pcc[ep_name] = [pcc]
-                    scores_r2[ep_name] = [r2]
-                sizes[ep_name] = y_test.size(0)
-
-        return scores_r2, scores_pcc, sizes
-

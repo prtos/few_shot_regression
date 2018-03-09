@@ -98,8 +98,8 @@ class EmbeddingViaLinear(Module):
 
 
 class Cnn1dFeaturesExtractor(Module):
-    def __init__(self, vocab_size, embedding_size, cnn_sizes, kernel_size, pooling_len=1,
-                 normalize_features=True):
+    def __init__(self, vocab_size, embedding_size, cnn_sizes, kernel_size, pooling_len=1, dilatation_rate=1,
+                 normalize_features=True, lmax=None):
         assert type(pooling_len) in [list, int], "pooling_len should be of type int or int list"
         super(Cnn1dFeaturesExtractor, self).__init__()
         self.vocab_size = vocab_size
@@ -111,25 +111,30 @@ class Cnn1dFeaturesExtractor(Module):
             self.kernel_size = [kernel_size]*len(cnn_sizes)
         self.batch_first = True
         self.normalize_kernel = normalize_features
+        self.dilatation_rate = 1
         embedding = EmbeddingViaLinear(vocab_size, self.embedding_size)
         layers = []
         layers.append(Transpose(1, 2))
         in_channels = [self.embedding_size] + cnn_sizes[:-1]
-        for in_channel, out_channel, ksize, l_pool in zip(in_channels, cnn_sizes, self.kernel_size, self.pooling_len):
-            layers.append(Conv1d(in_channel, out_channel, kernel_size=ksize,))
+
+        for i, (in_channel, out_channel, ksize, l_pool) in \
+                enumerate(zip(in_channels, cnn_sizes, self.kernel_size, self.pooling_len)):
+            layers.append(Conv1d(in_channel, out_channel, kernel_size=ksize, dilation=dilatation_rate**i))
             layers.append(ReLU())
-            if l_pool != 1:
+            if l_pool > 1:
                 layers.append(MaxPool1d(pooling_len))
         layers.append(Transpose(1, 2))
-        layers.append(GlobalAvgPool1d())
-        # if normalize_features:
-        #     layers.append(UnitNormLayer())
+        if lmax is None:
+            layers.append(GlobalAvgPool1d())
+        else:
+            n = lmax * self.cnn_sizes[-1]
+        if normalize_features:
+            layers.append(UnitNormLayer())
 
         self.net = Sequential(embedding, *layers)
 
     @property
     def output_dim(self):
-        # return self.embedding_size
         return self.cnn_sizes[-1]
 
     def forward(self, x):
@@ -212,14 +217,14 @@ class LstmBasedRegressor(ClonableModule):
 
 
 class Cnn1dBasedRegressor(ClonableModule):
-    def __init__(self, vocab_size, embedding_size, cnn_sizes, kernel_size, pooling_len=1,
+    def __init__(self, vocab_size, embedding_size, cnn_sizes, kernel_size, pooling_len=1, dilatation_rate=1,
                  normalize_features=True, output_dim=1):
         super(Cnn1dBasedRegressor, self).__init__()
         self.params = locals()
         del self.params['__class__']
         del self.params['self']
         features_extraction = Cnn1dFeaturesExtractor(vocab_size, embedding_size, cnn_sizes,
-                                                     kernel_size, pooling_len, normalize_features)
+                                                     kernel_size, pooling_len, dilatation_rate, normalize_features)
         output_layer = Linear(features_extraction.output_dim, output_dim)
 
         self.net = Sequential(features_extraction, output_layer)

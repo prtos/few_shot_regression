@@ -3,14 +3,9 @@ from torch.nn import LSTM, Linear, Sequential, Tanh, Sigmoid
 from torch.nn.functional import normalize,  mse_loss, cosine_similarity, softmax, pad
 from torch.nn.parameter import Parameter
 from torch.autograd import Variable
-from torch.optim import Adam, SGD
-from pytoune.utils import tensors_to_variables
-from pytoune.framework.callbacks import CSVLogger, EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
-from .base import MetaModel, MetaLearnerRegression
+from torch.optim import Adam
+from .base import Model, MetaLearnerRegression
 from .modules import ClonableModule, LstmBasedRegressor
-from collections import OrderedDict
-from sklearn.metrics import r2_score
-from scipy.stats import pearsonr
 
 
 class LearnerWithMemory(torch.nn.Module):
@@ -94,11 +89,12 @@ class MANNNetwork(torch.nn.Module):
             M_tm1, wr_tm1, wu_tm1 = M_t, wr_t, wu_t
             # r_t = torch.sum(wr_t * M_t, dim=0)
 
-        return LearnerWithMemory(self.input_transformer, self.controller, self.controller_to_key,
+        learner = LearnerWithMemory(self.input_transformer, self.controller, self.controller_to_key,
                                  self.output_layer, self.gamma, M_tm1, y_last)
+        return learner(episode['Dtest'])
 
     def forward(self, episodes):
-        return [self.__forward(episode) for episode in episodes]
+        return torch.stack([self.__forward(episode) for episode in episodes])
 
 
 class MANN(MetaLearnerRegression):
@@ -114,17 +110,7 @@ class MANN(MetaLearnerRegression):
             self.network.cuda()
 
         optimizer = Adam(self.network.parameters(), lr=self.lr)
-        self.model = MetaModel(self.network, optimizer, self.metaloss)
-
-    def metaloss(self, episodes, learners):
-        for i, (episode, learner) in enumerate(zip(episodes, learners)):
-            x_test, y_test = episode['Dtest']
-            y_pred = learner(x_test)
-            if i == 0:
-                loss = self.loss(y_pred, y_test)
-            else:
-                loss += self.loss(y_pred, y_test)
-        return loss/len(episodes)
+        self.model = Model(self.network, optimizer, self.metaloss)
 
     def fit(self, metatrain, metavalid, n_epochs=100, steps_per_epoch=100,
             log_filename=None, checkpoint_filename=None):
@@ -132,28 +118,4 @@ class MANN(MetaLearnerRegression):
             metavalid.use_available_gpu = False
             metatrain.use_available_gpu = False
         return super(MANN, self).fit(metatrain, metavalid, n_epochs, steps_per_epoch, log_filename, checkpoint_filename)
-
-    def evaluate(self, metatest):
-        if isinstance(self.learner_network, LstmBasedRegressor):
-            metatest.use_available_gpu = False
-        scores_r2, scores_pcc, sizes = dict(), dict(), dict()
-        for batch in metatest:
-            batch = tensors_to_variables(batch, volatile=False)
-            learners = self.model.predict(batch)
-            for episode, learner in zip(batch, learners):
-                x_test, y_test = episode['Dtest']
-                y_pred = learner(x_test)
-                x, y = y_test.data.cpu().numpy().flatten(), y_pred.data.cpu().numpy().flatten()
-                r2 = float(r2_score(x, y))
-                pcc = float(pearsonr(x, y)[0])
-                ep_name = "".join([chr(i) for i in episode['name'].data.cpu().numpy()])
-                if ep_name in scores_pcc:
-                    scores_pcc[ep_name].append(pcc)
-                    scores_r2[ep_name].append(r2)
-                else:
-                    scores_pcc[ep_name] = [pcc]
-                    scores_r2[ep_name] = [r2]
-                sizes[ep_name] = y_test.size(0)
-
-        return scores_r2, scores_pcc, sizes
 

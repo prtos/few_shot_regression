@@ -34,7 +34,8 @@ def load_data(dataset_name, max_examples_per_episode, batch_size=10):
 
 
 def get_outfile_names(expts_dir, algo, arch, dataset_name, max_examples_per_episode, params, fold=0):
-    format_params = (expts_dir, algo, arch, dataset_name, fold, max_examples_per_episode, dict2str(params))
+    temp = dict2str(params)
+    format_params = (expts_dir, algo, arch, dataset_name, fold, max_examples_per_episode, temp)
     log_fname = "{}/log_{}_{}_{}_fold{}_nbsamples{}_{}.txt".format(*format_params)
     ckp_fname = "{}/ckp_{}_{}_{}_fold{}_nbsamples{}_{}.ckp".format(*format_params)
     result_fname = "{}/results_{}_{}_{}_fold{}_nbsamples{}_{}.txt".format(*format_params)
@@ -131,7 +132,7 @@ def comparison_expts(algo, arch, dataset_name, max_examples_per_episode,
 
 
 if __name__ == '__main__':
-    from config import *
+    from config_mhc import *
     if len(sys.argv[1:]) > 0:
         part = int(sys.argv[1])
         nb_jobs = int(sys.argv[2])
@@ -143,7 +144,8 @@ if __name__ == '__main__':
     np.random.seed(magic_number)
     torch.manual_seed(magic_number)
 
-    params_list = list(ParameterGrid([grid_mann_cnn]))
+    params_list = list(ParameterGrid([
+                                      grid_krr_cnn]))
     np.random.shuffle(params_list)
     nb_jobs = len(params_list) if nb_jobs == -1 else nb_jobs
     if len(params_list) % nb_jobs == 0:

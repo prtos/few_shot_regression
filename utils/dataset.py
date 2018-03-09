@@ -40,9 +40,10 @@ class MetaDataset:
         fy = self.y_transformer if self.y_transformer is not None else (lambda x: x)
         xtrain, ytrain = fx(xtrain), fy(ytrain)
         xtest, ytest = fx(xtest), fy(ytest)
+        x_test, y_test = MetaDataset.to_tensors(xtest, ytest, self.use_available_gpu)
         return dict(Dtrain=MetaDataset.to_tensors(xtrain, ytrain, self.use_available_gpu),
-                    Dtest=MetaDataset.to_tensors(xtest, ytest, self.use_available_gpu),
-                    name=MetaDataset.str_to_tensor(name, self.use_available_gpu))
+                    Dtest=x_test,
+                    name=MetaDataset.str_to_tensor(name, self.use_available_gpu)), y_test
 
     @staticmethod
     def to_tensors(x, y, use_available_gpu=True):
@@ -133,7 +134,8 @@ class MetaRegressionDataset(MetaDataset):
             while True:
                 episode_filenames = np.random.choice(self.episode_files, p=sampling_weights, size=self.batch_size)
                 # episode_filenames = choices(self.episode_files, sampling_weights, k=self.batch_size)
-                yield [self.__filename2episode(epf) for epf in episode_filenames]
+                x_batch, y_batch = zip(*[self.__filename2episode(epf) for epf in episode_filenames])
+                yield x_batch, torch.stack(y_batch)
 
     def full_datapoints_generator(self):
         batch_size = self.batch_size * self.max_examples_per_episode

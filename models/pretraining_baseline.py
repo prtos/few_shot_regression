@@ -1,12 +1,8 @@
 import torch
 from torch.nn.functional import normalize,  mse_loss
-from torch.nn.parameter import Parameter
 from torch.optim import Adam, SGD
 from pytoune.utils import tensors_to_variables
-from pytoune.framework.callbacks import CSVLogger, EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
-from .base import MetaModel, MetaLearnerRegression, Model
-from .modules import ClonableModule, Module
-from collections import OrderedDict
+from .base import MetaLearnerRegression, Model
 from sklearn.metrics import r2_score
 from scipy.stats import pearsonr
 
