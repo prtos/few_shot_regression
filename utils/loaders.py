@@ -70,44 +70,14 @@ def load_fewshot_mhcII(max_examples_per_episode=20, batch_size=10):
     yield meta_train, meta_valid, meta_test
 
 
-def load_fewshot_mhcII_DRB(max_examples_per_episode=20, batch_size=10):
+def load_fewshot_mhcII_DRB(max_examples_per_episode=20, batch_size=10, fold=0):
     ds_folder = join(DATASETS_ROOT, 'mhcII_DRB_all')
     episode_files = [join(ds_folder, x) for x in listdir(ds_folder)]
+    assert fold is not None
+    assert fold < len(episode_files)
     sorted(episode_files)
 
-    for test_file in episode_files:
-        train_files = episode_files[:]
-        train_files.remove(test_file)
-        dataset = MhcIIDatatset(train_files, max_examples_per_episode=max_examples_per_episode, batch_size=batch_size)
-        meta_test = MhcIIDatatset([test_file], max_examples_per_episode=max_examples_per_episode, batch_size=batch_size)
-        meta_train, meta_valid = dataset.train_test_split(test_size=0.25)
-        meta_test.eval()
-        yield meta_train, meta_valid, meta_test
-
-
-def load_fewshot_mhcII_DRB_a(max_examples_per_episode=20, batch_size=10):
-    ds_folder = join(DATASETS_ROOT, 'mhcII_DRB_all')
-    episode_files = [join(ds_folder, x) for x in listdir(ds_folder)]
-    sorted(episode_files)
-    deb = int(len(episode_files)/2)
-
-    for test_file in episode_files[:deb]:
-        train_files = episode_files[:]
-        train_files.remove(test_file)
-        dataset = MhcIIDatatset(train_files, max_examples_per_episode=max_examples_per_episode, batch_size=batch_size)
-        meta_test = MhcIIDatatset([test_file], max_examples_per_episode=max_examples_per_episode, batch_size=batch_size)
-        meta_train, meta_valid = dataset.train_test_split(test_size=0.25)
-        meta_test.eval()
-        yield meta_train, meta_valid, meta_test
-
-
-def load_fewshot_mhcII_DRB_b(max_examples_per_episode=20, batch_size=10):
-    ds_folder = join(DATASETS_ROOT, 'mhcII_DRB_all')
-    episode_files = [join(ds_folder, x) for x in listdir(ds_folder)]
-    sorted(episode_files)
-    deb = int(len(episode_files) / 2)
-
-    for test_file in episode_files[deb:]:
+    for test_file in [episode_files[fold]]:
         train_files = episode_files[:]
         train_files.remove(test_file)
         dataset = MhcIIDatatset(train_files, max_examples_per_episode=max_examples_per_episode, batch_size=batch_size)

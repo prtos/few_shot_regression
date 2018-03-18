@@ -40,10 +40,10 @@ class MetaDataset:
         fy = self.y_transformer if self.y_transformer is not None else (lambda x: x)
         xtrain, ytrain = fx(xtrain), fy(ytrain)
         xtest, ytest = fx(xtest), fy(ytest)
-        x_test, y_test = MetaDataset.to_tensors(xtest, ytest, self.use_available_gpu)
+        x_t, y_t = MetaDataset.to_tensors(xtest, ytest, self.use_available_gpu)
         return dict(Dtrain=MetaDataset.to_tensors(xtrain, ytrain, self.use_available_gpu),
-                    Dtest=x_test,
-                    name=MetaDataset.str_to_tensor(name, self.use_available_gpu)), y_test
+                    Dtest=x_t,
+                    name=MetaDataset.str_to_tensor(name, self.use_available_gpu)), y_t
 
     @staticmethod
     def to_tensors(x, y, use_available_gpu=True):

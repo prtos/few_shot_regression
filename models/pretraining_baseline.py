@@ -46,9 +46,9 @@ class PretrainBase(MetaLearnerRegression):
         scores_r2, scores_pcc, sizes = dict(), dict(), dict()
         for batch in metatest:
             batch = tensors_to_variables(batch, volatile=False)
-            learners = [self.fine_tune(*episode['Dtrain'], lr, n_epochs) for episode in batch]
-            for episode, learner in zip(batch, learners):
-                x_test, y_test = episode['Dtest']                
+            learners = [self.fine_tune(*episode['Dtrain'], lr, n_epochs) for episode, _ in batch]
+            for (episode, y_test), learner in zip(batch, learners):
+                x_test = episode['Dtest']
                 y_pred = torch.cat([learner(x_test[i:i+n]) if i+n < x_test.size(0) else learner(x_test[i:])
                                     for i in range(0, x_test.size(0), n)], dim=0)
                 x, y = y_test.data.cpu().numpy().flatten(), y_pred.data.cpu().numpy().flatten()

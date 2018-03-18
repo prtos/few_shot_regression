@@ -48,7 +48,7 @@ class MAMLNetwork(torch.nn.Module):
         return learner_network(x_test)
 
     def forward(self, episodes):
-        return torch.stack([self.__forward(episode) for episode in episodes])
+        return [self.__forward(episode) for episode in episodes]
 
 
 class MAML(MetaLearnerRegression):

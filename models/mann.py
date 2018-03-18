@@ -53,14 +53,19 @@ class MANNNetwork(torch.nn.Module):
         self.output_layer = Linear(memory_shape[1] + controller_size, 1)
 
     def get_init_values(self, ):
-        Memory_0 = 1e-6 * Variable(torch.ones(self.memory_shape), requires_grad=False)
+        temp_1 = torch.ones(self.memory_shape)
+        temp_2 = torch.zeros(self.memory_shape[0])
+        temp_2[0] = 1
+        if torch.cuda.is_available():
+            temp_1 = temp_1.cuda()
+            temp_2 = temp_2.cuda()
+
         # temp = torch.zeros(self.controller_size)
         # controller_c_0, controller_h_0 = Variable(temp.clone()), Variable(temp.clone())
         # read_vector_0 = Variable(torch.zeros(self.memory_shape[1]))
-        temp = torch.zeros(self.memory_shape[0])
-        temp[0] = 1
-        wr_0 = Variable(temp.clone(), requires_grad=False)
-        wu_0 = Variable(temp.clone(), requires_grad=False)
+
+        wr_0 = Variable(temp_2.clone(), requires_grad=False)
+        wu_0 = Variable(temp_2.clone(), requires_grad=False)
         return Memory_0, wr_0, wu_0
 
     def __forward(self, episode):
@@ -94,7 +99,7 @@ class MANNNetwork(torch.nn.Module):
         return learner(episode['Dtest'])
 
     def forward(self, episodes):
-        return torch.stack([self.__forward(episode) for episode in episodes])
+        return [self.__forward(episode) for episode in episodes]
 
 
 class MANN(MetaLearnerRegression):

@@ -1,7 +1,7 @@
 import torch, os, csv, sys
 import inspect
 import numpy as np
-from utils.loaders import load_fewshot_bindingdb, load_fewshot_mhcII, load_fewshot_mhcII_DRB, load_fewshot_mhcII_DRB_a, load_fewshot_mhcII_DRB_b
+from utils.loaders import load_fewshot_bindingdb, load_fewshot_mhcII, load_fewshot_mhcII_DRB
 from models import KrrMetaLearner, MAML, MANN, LstmFeaturesExtractor, LstmBasedRegressor, PretrainBase, Cnn1dBasedRegressor, Cnn1dFeaturesExtractor
 from sklearn.model_selection import ParameterGrid
 
@@ -9,36 +9,34 @@ SAVING_DIR_FORMAT = '{expts_dir}/results_{dataset_name}_{algo}_{arch}'
 
 
 def dict2str(d):
-    e = {k: v for k, v in d.items() if type(v) != bool}
-    base = '_'.join([k for k, v in d.items() if v is True])
-    r = str(e).replace(' ', '').replace(':', '_').replace('\'', '').replace(',', '_').replace('{', '').replace('}', '')
+    e = [(k, d[k]) for k in sorted(d.keys()) if type(d[k]) != bool]
+    base = '_'.join([k for k in sorted(d.keys()) if d[k] is True])
+    r = str(e).replace(' ', '').replace(':', '_').replace('\'', '').replace(',', '_').replace('(', '').replace(')', '')
     r = base + '_' + r
     return r
 
 
-def load_data(dataset_name, max_examples_per_episode, batch_size=10):
+def load_data(dataset_name, max_examples_per_episode, batch_size=10, fold=None):
     if dataset_name == 'bindingdb':
         loader = load_fewshot_bindingdb
     elif dataset_name == 'mhc':
         loader = load_fewshot_mhcII
     elif dataset_name == 'mhcpan':
         loader = load_fewshot_mhcII_DRB
-    elif dataset_name == 'mhcpana':
-        loader = load_fewshot_mhcII_DRB_a
-    elif dataset_name == 'mhcpanb':
-        loader = load_fewshot_mhcII_DRB_b
     else:
         raise Exception('Unsupported dataset name')
-
-    return loader(max_examples_per_episode, batch_size)
+    if fold:
+        return loader(max_examples_per_episode, batch_size, fold=fold)
+    else:
+        return loader(max_examples_per_episode, batch_size)
 
 
 def get_outfile_names(expts_dir, algo, arch, dataset_name, max_examples_per_episode, params, fold=0):
     temp = dict2str(params)
     format_params = (expts_dir, algo, arch, dataset_name, fold, max_examples_per_episode, temp)
-    log_fname = "{}/log_{}_{}_{}_fold{}_nbsamples{}_{}.txt".format(*format_params)
-    ckp_fname = "{}/ckp_{}_{}_{}_fold{}_nbsamples{}_{}.ckp".format(*format_params)
-    result_fname = "{}/results_{}_{}_{}_fold{}_nbsamples{}_{}.txt".format(*format_params)
+    log_fname = "{}/log_{}_{}_{}_fold{}_nbsamples{}--{}.txt".format(*format_params)
+    ckp_fname = "{}/ckp_{}_{}_{}_fold{}_nbsamples{}--{}.ckp".format(*format_params)
+    result_fname = "{}/results_{}_{}_{}_fold{}_nbsamples{}--{}.txt".format(*format_params)
     return log_fname, ckp_fname, result_fname
 
 
@@ -95,17 +93,17 @@ def save_stats(scores, outfile=sys.stdout):
 
 
 def comparison_expts(algo, arch, dataset_name, max_examples_per_episode,
-                     fit_params, eval_params, expts_dir, fit=True):
-    batch_size, n_epochs = 64, 1000
+                     fit_params, eval_params, expts_dir, fit=True, fold=None):
+    batch_size, n_epochs = 1, 1000
     nb_examples_per_epoch = 20000 if 'mhc' in dataset_name else 50000
-    steps_per_epoch = int(nb_examples_per_epoch/(batch_size*max_examples_per_episode))
-    data_iterator = load_data(dataset_name, max_examples_per_episode, batch_size)
+    steps_per_epoch = 1 # int(nb_examples_per_epoch/(batch_size*max_examples_per_episode))
+    data_iterator = load_data(dataset_name, max_examples_per_episode, batch_size, fold=fold)
 
     expts_dir = SAVING_DIR_FORMAT.format(expts_dir=expts_dir, algo=algo, arch=arch, dataset_name=dataset_name)
     if not os.path.exists(expts_dir):
         os.makedirs(expts_dir, exist_ok=True)
 
-    for fold, (meta_train, meta_valid, meta_test) in enumerate(data_iterator):
+    for meta_train, meta_valid, meta_test in data_iterator:
         res = get_outfile_names(expts_dir, algo, arch, dataset_name, max_examples_per_episode, fit_params, fold)
         log_fname, ckp_fname, result_fname = res
         fit_params.update(dict(vocab_size=meta_train.ALPHABET_SIZE))
@@ -143,9 +141,9 @@ if __name__ == '__main__':
     magic_number = 42
     np.random.seed(magic_number)
     torch.manual_seed(magic_number)
-
-    params_list = list(ParameterGrid([
-                                      grid_krr_cnn]))
+    params_list = list(ParameterGrid([grid_krr_cnn]))
+    params_list = list(ParameterGrid([grid_mann_cnn, grid_maml_cnn,
+                                      grid_krr_cnn, grid_pretrain_cnn]))
     np.random.shuffle(params_list)
     nb_jobs = len(params_list) if nb_jobs == -1 else nb_jobs
     if len(params_list) % nb_jobs == 0:

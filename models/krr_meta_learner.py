@@ -7,6 +7,8 @@ from pytoune.utils import variables_to_tensors, tensors_to_variables
 from .base import Model, MetaLearnerRegression
 from .modules import *
 
+HARDTANH_LIMIT = 5
+
 
 def compute_kernel(x, y, kernel):
     if kernel.lower() == 'linear':
@@ -55,7 +57,7 @@ class L2Net(torch.nn.Module):
         n_in = (dim_inputs + dim_targets)*4
         self.net = Sequential(
             # GaussianDropout(alpha=0.1),
-            Linear(n_in, 1), torch.nn.Hardtanh(-5, 5))
+            Linear(n_in, 1))
 
     def forward(self, inputs):
         phis, y = inputs
@@ -63,7 +65,7 @@ class L2Net(torch.nn.Module):
                        y.mean(dim=0), y.std(dim=0), y.max(dim=0)[0], y.min(dim=0)[0]
                ]
         x = torch.cat(var, 0)
-        return torch.exp(self.net(x))
+        return self.net(x)
 
 
 class KrrMetaNetwork(torch.nn.Module):
@@ -76,17 +78,22 @@ class KrrMetaNetwork(torch.nn.Module):
         self.unique_l2 = unique_l2
         self.kernel = kernel
         if unique_l2:
-            self.l2 = Parameter(torch.FloatTensor([1e-2]), requires_grad=True)
+            self.l2_params = Parameter(torch.FloatTensor([1e-2]), requires_grad=True)
         else:
             self.l2_network = L2Net(self.feature_extractor.output_dim, 1)
+
+        self.l2_krr = 0
 
     def __forward(self, episode):
         x_train, y_train = episode['Dtrain']
         phis = self.feature_extractor(x_train)
-        if self.unique_l2:
-            l2 = torch.nn.Hardtanh(-5, 5)(self.l2)
-        else:
+        if not self.unique_l2:
             l2 = self.l2_network((phis, y_train))
+        else:
+            l2 = self.l2_params
+        l2 = torch.exp(torch.nn.Hardtanh(-HARDTANH_LIMIT, HARDTANH_LIMIT)(l2))
+        self.l2_krr = l2.data.cpu().numpy()[0]
+
         learner = KrrLearner(l2, self.kernel)
         learner.fit(phis, y_train)
 
@@ -94,7 +101,7 @@ class KrrMetaNetwork(torch.nn.Module):
         return y_pred
 
     def forward(self, episodes):
-        return torch.stack([self.__forward(episode) for episode in episodes])
+        return [self.__forward(episode) for episode in episodes]
 
 
 class KrrMetaLearner(MetaLearnerRegression):
