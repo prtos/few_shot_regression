@@ -94,9 +94,9 @@ def save_stats(scores, outfile=sys.stdout):
 
 def comparison_expts(algo, arch, dataset_name, max_examples_per_episode,
                      fit_params, eval_params, expts_dir, fit=True, fold=None):
-    batch_size, n_epochs = 1, 1000
+    batch_size, n_epochs = 64, 1000
     nb_examples_per_epoch = 20000 if 'mhc' in dataset_name else 50000
-    steps_per_epoch = 1 # int(nb_examples_per_epoch/(batch_size*max_examples_per_episode))
+    steps_per_epoch = int(nb_examples_per_epoch/(batch_size*max_examples_per_episode))
     data_iterator = load_data(dataset_name, max_examples_per_episode, batch_size, fold=fold)
 
     expts_dir = SAVING_DIR_FORMAT.format(expts_dir=expts_dir, algo=algo, arch=arch, dataset_name=dataset_name)
@@ -130,7 +130,12 @@ def comparison_expts(algo, arch, dataset_name, max_examples_per_episode,
 
 
 if __name__ == '__main__':
-    from config_mhc import *
+    dataset = 'mhc'
+    if dataset == 'mhc':
+        from config_mhc import *
+    elif dataset == 'bdb':
+        from config_bdb import *
+
     if len(sys.argv[1:]) > 0:
         part = int(sys.argv[1])
         nb_jobs = int(sys.argv[2])

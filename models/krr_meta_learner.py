@@ -28,13 +28,13 @@ def compute_kernel(x, y, kernel):
 
 
 class KrrLearner(torch.nn.Module):
-
-    def __init__(self, l2_penalty, kernel='linear'):
+    def __init__(self, l2_penalty, kernel='linear', center_kernel=False):
         super(KrrLearner, self).__init__()
         self.l2_penalty = l2_penalty
         self.alpha = None
         self.phis_train = None
         self.kernel = kernel
+        self.center_kernel = center_kernel
 
     def fit(self, phis, y):
         batch_size_train = phis.size(0)
@@ -42,13 +42,28 @@ class KrrLearner(torch.nn.Module):
         I = torch.eye(batch_size_train)
         if torch.cuda.is_available():
             I = I.cuda()
-        tmp = torch.inverse(K + self.l2_penalty * Variable(I))
-        self.alpha = torch.mm(tmp, y)
+        I = Variable(I)
+        if self.center_kernel:
+            self.H = I - (1/batch_size_train)
+            K = torch.mm(torch.mm(self.H, K), self.H)
+            self.y_mean = torch.mean(y)
+            self.K = K
+        else:
+            self.y_mean = 0
+
+        tmp = torch.inverse(K + self.l2_penalty * I)
+        self.alpha = torch.mm(tmp, (y-self.y_mean))
         self.phis_train = phis
 
     def forward(self, phis):
         K = compute_kernel(phis, self.phis_train, self.kernel)
-        return torch.mm(K, self.alpha)
+        if self.center_kernel:
+            K_mean = torch.mean(self.K, dim=1)
+            K = torch.mm(K - K_mean, self.H)
+            y = torch.mm(K, self.alpha) + self.y_mean
+        else:
+            y = torch.mm(K, self.alpha)
+        return y
 
 
 class L2Net(torch.nn.Module):
@@ -69,7 +84,7 @@ class L2Net(torch.nn.Module):
 
 
 class KrrMetaNetwork(torch.nn.Module):
-    def __init__(self, feature_extractor, unique_l2=False, kernel='linear'):
+    def __init__(self, feature_extractor, unique_l2=False, kernel='linear', center_kernel=False):
         """
         In the constructor we instantiate an lstm module
         """
@@ -77,6 +92,7 @@ class KrrMetaNetwork(torch.nn.Module):
         self.feature_extractor = feature_extractor
         self.unique_l2 = unique_l2
         self.kernel = kernel
+        self.center_kernel = center_kernel
         if unique_l2:
             self.l2_params = Parameter(torch.FloatTensor([1e-2]), requires_grad=True)
         else:
@@ -94,7 +110,7 @@ class KrrMetaNetwork(torch.nn.Module):
         l2 = torch.exp(torch.nn.Hardtanh(-HARDTANH_LIMIT, HARDTANH_LIMIT)(l2))
         self.l2_krr = l2.data.cpu().numpy()[0]
 
-        learner = KrrLearner(l2, self.kernel)
+        learner = KrrLearner(l2, self.kernel, self.center_kernel)
         learner.fit(phis, y_train)
 
         y_pred = learner(self.feature_extractor(episode['Dtest']))
@@ -106,11 +122,11 @@ class KrrMetaNetwork(torch.nn.Module):
 
 class KrrMetaLearner(MetaLearnerRegression):
 
-    def __init__(self, feature_extractor, unique_l2, lr=0.001, kernel='linear'):
+    def __init__(self, feature_extractor, unique_l2, lr=0.001, kernel='linear', center_kernel=False):
         super(KrrMetaLearner, self).__init__()
         self.unique_l2 = unique_l2
         self.lr = lr
-        self.network = KrrMetaNetwork(feature_extractor, unique_l2, kernel)
+        self.network = KrrMetaNetwork(feature_extractor, unique_l2, kernel, center_kernel)
         # if torch.cuda.device_count() > 1:
         #     print("Let's use", torch.cuda.device_count(), "GPUs!")
         #     # dim = 0 [33, xxx] -> [11, ...], [11, ...], [11, ...] on 3 GPUs
