@@ -1,7 +1,7 @@
 from sklearn.model_selection import ParameterGrid
 
 
-expts_directory = 'expts_results/bdb'
+expts_directory = 'expt_results/bdb'
 datasets = ['bindingdb']
 examples_per_episode = [5, 10, 15]
 features_extractor_params_cnn = dict(

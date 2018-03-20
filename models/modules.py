@@ -119,15 +119,17 @@ class Cnn1dFeaturesExtractor(Module):
 
         for i, (in_channel, out_channel, ksize, l_pool) in \
                 enumerate(zip(in_channels, cnn_sizes, self.kernel_size, self.pooling_len)):
-            layers.append(Conv1d(in_channel, out_channel, kernel_size=ksize, dilation=dilatation_rate**i))
+            pad = ((dilatation_rate**i) * (ksize - 1) + 1) // 2
+            layers.append(Conv1d(in_channel, out_channel, padding=pad,
+                                 kernel_size=ksize, dilation=dilatation_rate**i))
             layers.append(ReLU())
             if l_pool > 1:
                 layers.append(MaxPool1d(pooling_len))
         layers.append(Transpose(1, 2))
-        if lmax is None:
-            layers.append(GlobalAvgPool1d())
-        else:
-            n = lmax * self.cnn_sizes[-1]
+        # if lmax is None:
+        #     layers.append(GlobalAvgPool1d())
+        # else:
+        #     n = lmax * self.cnn_sizes[-1]
         if normalize_features:
             layers.append(UnitNormLayer())
 
@@ -138,6 +140,9 @@ class Cnn1dFeaturesExtractor(Module):
         return self.cnn_sizes[-1]
 
     def forward(self, x):
+        print(x.size())
+        print(self.net(x).size())
+        exit()
         return self.net(x)
 
 

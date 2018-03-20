@@ -64,6 +64,7 @@ class MANNNetwork(torch.nn.Module):
         # controller_c_0, controller_h_0 = Variable(temp.clone()), Variable(temp.clone())
         # read_vector_0 = Variable(torch.zeros(self.memory_shape[1]))
 
+        Memory_0 = 1e-6 * Variable(temp_1, requires_grad=False)
         wr_0 = Variable(temp_2.clone(), requires_grad=False)
         wu_0 = Variable(temp_2.clone(), requires_grad=False)
         return Memory_0, wr_0, wu_0

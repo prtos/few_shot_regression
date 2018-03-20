@@ -130,7 +130,7 @@ def comparison_expts(algo, arch, dataset_name, max_examples_per_episode,
 
 
 if __name__ == '__main__':
-    dataset = 'mhc'
+    dataset = 'bdb'
     if dataset == 'mhc':
         from config_mhc import *
     elif dataset == 'bdb':
@@ -147,8 +147,8 @@ if __name__ == '__main__':
     np.random.seed(magic_number)
     torch.manual_seed(magic_number)
     params_list = list(ParameterGrid([grid_krr_cnn]))
-    params_list = list(ParameterGrid([grid_mann_cnn, grid_maml_cnn,
-                                      grid_krr_cnn, grid_pretrain_cnn]))
+    # params_list = list(ParameterGrid([grid_mann_cnn, grid_maml_cnn,
+    #                                   grid_krr_cnn, grid_pretrain_cnn]))
     np.random.shuffle(params_list)
     nb_jobs = len(params_list) if nb_jobs == -1 else nb_jobs
     if len(params_list) % nb_jobs == 0:

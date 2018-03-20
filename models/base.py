@@ -18,6 +18,7 @@ def pearsonr(x, y):
 
 
 def r2_score(y_pred, y_true):
+    y_pred, y_true = y_pred.view(-1), y_true.view(-1)
     mean_y_true = torch.mean(y_true)
     ss_tot = torch.sum(torch.pow(y_true.sub(mean_y_true), 2))
     ss_res = torch.sum(torch.pow(y_pred - y_true, 2))
