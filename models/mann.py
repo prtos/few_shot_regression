@@ -96,8 +96,17 @@ class MANNNetwork(torch.nn.Module):
             # r_t = torch.sum(wr_t * M_t, dim=0)
 
         learner = LearnerWithMemory(self.input_transformer, self.controller, self.controller_to_key,
-                                 self.output_layer, self.gamma, M_tm1, y_last)
-        return learner(episode['Dtest'])
+                                    self.output_layer, self.gamma, M_tm1, y_last)
+        x_test = episode['Dtest']
+        n = x_test.size(0)
+        batch_size = 512
+        if n > batch_size:
+            outs = [learner(x_test[i:i + batch_size])
+                    for i in range(0, n, batch_size)]
+            res = torch.cat(outs)
+        else:
+            res = learner(x_test)
+        return res
 
     def forward(self, episodes):
         return [self.__forward(episode) for episode in episodes]
@@ -112,16 +121,16 @@ class MANN(MetaLearnerRegression):
         self.loss = loss
         self.network = MANNNetwork(learner_network, memory_shape, controller_size, nb_reads)
 
-        if torch.cuda.is_available() and not isinstance(learner_network, LstmBasedRegressor):
+        if torch.cuda.is_available():
             self.network.cuda()
 
         optimizer = Adam(self.network.parameters(), lr=self.lr)
         self.model = Model(self.network, optimizer, self.metaloss)
 
-    def fit(self, metatrain, metavalid, n_epochs=100, steps_per_epoch=100,
-            log_filename=None, checkpoint_filename=None):
-        if isinstance(self.learner_network, LstmBasedRegressor):
-            metavalid.use_available_gpu = False
-            metatrain.use_available_gpu = False
-        return super(MANN, self).fit(metatrain, metavalid, n_epochs, steps_per_epoch, log_filename, checkpoint_filename)
-
+    # def fit(self, metatrain, metavalid, n_epochs=100, steps_per_epoch=100,
+    #         log_filename=None, checkpoint_filename=None):
+    #     if isinstance(self.learner_network, LstmBasedRegressor):
+    #         metavalid.use_available_gpu = False
+    #         metatrain.use_available_gpu = False
+    #     return super(MANN, self).fit(metatrain, metavalid, n_epochs, steps_per_epoch, log_filename, checkpoint_filename)
+    #

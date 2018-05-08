@@ -1,8 +1,8 @@
 import torch
 from torch.nn.functional import mse_loss
-from torch.optim import Adam, SGD
+from torch.optim import Adam
 from .base import Model, MetaLearnerRegression
-from .modules import ClonableModule, LstmBasedRegressor
+from .modules import ClonableModule
 from collections import OrderedDict
 
 
@@ -45,7 +45,15 @@ class MAMLNetwork(torch.nn.Module):
                                       zip(learner_network.named_parameters(), grads))
             set_params(learner_network, new_weights)
 
-        return learner_network(x_test)
+        n = x_test.size(0)
+        batch_size = 512
+        if n > batch_size:
+            outs = [learner_network(x_test[i:i + batch_size])
+                    for i in range(0, n, batch_size)]
+            res = torch.cat(outs)
+        else:
+            res = learner_network(x_test)
+        return res
 
     def forward(self, episodes):
         return [self.__forward(episode) for episode in episodes]
@@ -63,15 +71,8 @@ class MAML(MetaLearnerRegression):
         self.loss = loss
         self.network = MAMLNetwork(learner_network, loss, lr_learner, n_epochs_learner)
 
-        if torch.cuda.is_available() and not isinstance(learner_network, LstmBasedRegressor):
+        if torch.cuda.is_available():
             self.network.cuda()
 
         optimizer = Adam(self.network.parameters(), lr=self.lr)
         self.model = Model(self.network, optimizer, self.metaloss)
-
-    def fit(self, metatrain, metavalid, n_epochs=100, steps_per_epoch=100,
-            log_filename=None, checkpoint_filename=None):
-        if isinstance(self.learner_network, LstmBasedRegressor):
-            metavalid.use_available_gpu = False
-            metatrain.use_available_gpu = False
-        return super(MAML, self).fit(metatrain, metavalid, n_epochs, steps_per_epoch, log_filename, checkpoint_filename)

@@ -1,6 +1,6 @@
 import torch
 from torch.nn.functional import normalize
-from torch.nn import LSTM, Linear, Conv1d, Sequential, ReLU, Dropout, MaxPool1d, Module
+from torch.nn import LSTM, Linear, Conv1d, Sequential, ReLU, Tanh, MaxPool1d, Module
 from torch.nn.utils.rnn import pack_padded_sequence
 
 
@@ -126,10 +126,10 @@ class Cnn1dFeaturesExtractor(Module):
             if l_pool > 1:
                 layers.append(MaxPool1d(pooling_len))
         layers.append(Transpose(1, 2))
-        # if lmax is None:
-        #     layers.append(GlobalAvgPool1d())
-        # else:
-        #     n = lmax * self.cnn_sizes[-1]
+        if lmax is None:
+            layers.append(GlobalAvgPool1d())
+        else:
+            n = lmax * self.cnn_sizes[-1]
         if normalize_features:
             layers.append(UnitNormLayer())
 
@@ -140,9 +140,33 @@ class Cnn1dFeaturesExtractor(Module):
         return self.cnn_sizes[-1]
 
     def forward(self, x):
-        print(x.size())
-        print(self.net(x).size())
-        exit()
+        return self.net(x)
+
+
+class FcFeaturesExtractor(Module):
+    def __init__(self, input_size, hidden_sizes, normalize_features=True):
+        super(FcFeaturesExtractor, self).__init__()
+        self.input_size = input_size
+        self.hidden_sizes = hidden_sizes
+        self.normalize_kernel = normalize_features
+        layers = []
+        in_ = input_size
+        for out_ in hidden_sizes:
+            layers.append(Linear(in_, out_))
+            layers.append(ReLU())
+            in_ = out_
+
+        if normalize_features:
+            layers.append(UnitNormLayer())
+
+        self.net = Sequential(*layers)
+
+    @property
+    def output_dim(self):
+        return self.hidden_sizes[-1] if len(self.hidden_sizes) > 0 else self.input_size
+
+
+    def forward(self, x):
         return self.net(x)
 
 
@@ -239,6 +263,23 @@ class Cnn1dBasedRegressor(ClonableModule):
 
     def clone(self):
         return Cnn1dBasedRegressor(**self.params)
+
+
+class FcBasedRegressor(ClonableModule):
+    def __init__(self, input_size, hidden_sizes, normalize_features=True, output_dim=1):
+        super(FcBasedRegressor, self).__init__()
+        self.params = locals()
+        del self.params['__class__']
+        del self.params['self']
+        features_extraction = FcFeaturesExtractor(input_size, hidden_sizes, normalize_features)
+        output_layer = Linear(features_extraction.output_dim, output_dim)
+        self.net = Sequential(features_extraction, output_layer)
+
+    def forward(self, x):
+        return self.net(x)
+
+    def clone(self):
+        return FcBasedRegressor(**self.params)
 
 
 if __name__ == '__main__':

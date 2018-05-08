@@ -1,30 +1,28 @@
 from sklearn.model_selection import ParameterGrid
+from utils_data.preprocessing_movielens import NB_FEATURES
 
-datasets = ['mhc']
+datasets = ['movielens']
 examples_per_episode = [10]
 nb_examples_per_epoch = int(2.5e4)
 batch_size = 64
-max_episodes = int(2.5e4)
+max_episodes = int(1e5)
 features_extractor_params_cnn = dict(
-    embedding_size=[20],
-    cnn_sizes=[[256 for _ in range(3)]],
-    kernel_size=[2],
-    dilatation_rate=[2],
-    pooling_len=[1],
-    lr=[1e-3],
+    input_size=[NB_FEATURES],
+    hidden_sizes=[[256 for _ in range(3)]],
     normalize_features=[False])
 
 expt_settings = dict(
     dataset_name=datasets,
-    arch=['cnn'],
-    fold=range(14),
+    arch=['fc'],
     k_per_episode=examples_per_episode,
 )
 
 grid_krr = dict(
     algo=['krr'],
     fit_params=list(ParameterGrid(dict(
-        l2_mode=['best_theorique', 'best_mario'],
+        l2_mode=['unique', 'constant'],
+        kernel=['rbf'],
+        gamma=[1],
         **features_extractor_params_cnn
     ))),
     eval_params=[None],
@@ -78,19 +76,3 @@ grid_pretrain = dict(
     )],
     **expt_settings
 )
-# grid_krr_lstm = dict(
-#     dataset_name=datasets,
-#     arch=['lstm'],
-#     algo=['krr'],
-#     max_examples_per_episode=examples_per_episode,
-#     fit_params=list(ParameterGrid(dict(
-#         embedding_size=[20],
-#         lstm_hidden_size=[32, 64],
-#         nb_lstm_layers=[2],
-#         bidirectional=[True],
-#         normalize_features=[True],
-#         unique_l2=[True, False],
-#         lr=[1e-3, 1e-4]
-#     ))),
-#     eval_params=[None]
-# )

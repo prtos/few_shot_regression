@@ -2,9 +2,7 @@ import torch
 from torch.nn.functional import normalize,  mse_loss
 from torch.optim import Adam, SGD
 from pytoune.utils import tensors_to_variables
-from .base import MetaLearnerRegression, Model
-from sklearn.metrics import r2_score
-from scipy.stats import pearsonr
+from .base import MetaLearnerRegression, Model, r2_score, pearsonr, torch_to_numpy
 
 
 class PretrainBase(MetaLearnerRegression):
@@ -27,7 +25,8 @@ class PretrainBase(MetaLearnerRegression):
         return super(PretrainBase, self).fit(gtrain, gvalid, n_epochs,
                                              steps_per_epoch, log_filename, checkpoint_filename)
 
-    def fine_tune(self, x_train, y_train, lr, n_epochs):
+    def fine_tune_predict(self, episode, lr, n_epochs):
+        x_train, y_train = episode['Dtrain']
         new_learner = self.learner_network.clone()
         new_learner.load_state_dict(self.learner_network.state_dict())
 
@@ -39,21 +38,16 @@ class PretrainBase(MetaLearnerRegression):
         gen = PretrainBase.make_generator(x_train, y_train)
         model.fit_generator(gen, gen, epochs=n_epochs, steps_per_epoch=1)
 
-        return new_learner
+        return new_learner(episode['Dtest'])
 
     def evaluate(self, metatest, lr=1e-3, n_epochs=10):
-        n = 100
         scores_r2, scores_pcc, sizes = dict(), dict(), dict()
         for batch in metatest:
-            batch = tensors_to_variables(batch, volatile=False)
-            learners = [self.fine_tune(*episode['Dtrain'], lr, n_epochs) for episode, _ in batch]
-            for (episode, y_test), learner in zip(batch, learners):
-                x_test = episode['Dtest']
-                y_pred = torch.cat([learner(x_test[i:i+n]) if i+n < x_test.size(0) else learner(x_test[i:])
-                                    for i in range(0, x_test.size(0), n)], dim=0)
-                x, y = y_test.data.cpu().numpy().flatten(), y_pred.data.cpu().numpy().flatten()
-                r2 = float(r2_score(x, y))
-                pcc = float(pearsonr(x, y)[0])
+            for episode, y_test in batch:
+                episode = tensors_to_variables(episode, volatile=False)
+                y_pred = self.fine_tune_predict(episode, lr, n_epochs).data
+                r2 = torch_to_numpy(r2_score(y_pred, y_test))
+                pcc = torch_to_numpy(pearsonr(y_pred, y_test))
                 ep_name = "".join([chr(i) for i in episode['name'].data.cpu().numpy()])
                 if ep_name in scores_pcc:
                     scores_pcc[ep_name].append(pcc)
@@ -62,7 +56,7 @@ class PretrainBase(MetaLearnerRegression):
                     scores_pcc[ep_name] = [pcc]
                     scores_r2[ep_name] = [r2]
                 sizes[ep_name] = y_test.size(0)
-
+            print('here')
         return scores_r2, scores_pcc, sizes
 
     @staticmethod

@@ -1,70 +1,79 @@
 from sklearn.model_selection import ParameterGrid
 
-
-expts_directory = 'expt_results/bdb'
 datasets = ['bindingdb']
-examples_per_episode = [5, 10, 15]
+examples_per_episode = [10]
+nb_examples_per_epoch = int(2e4)
+batch_size = 32
+max_episodes = int(1e5)
 features_extractor_params_cnn = dict(
     embedding_size=[20],
     cnn_sizes=[[512 for _ in range(4)]],
     kernel_size=[2],
     dilatation_rate=[2],
     pooling_len=[1],
-    normalize_features=[True])
+    normalize_features=[False])
 
-grid_krr_cnn = dict(
+
+expt_settings = dict(
     dataset_name=datasets,
     arch=['cnn'],
+    k_per_episode=examples_per_episode,
+)
+
+grid_krr = dict(
     algo=['krr'],
-    max_examples_per_episode=examples_per_episode,
     fit_params=list(ParameterGrid(dict(
-        unique_l2=[True, False],
-        lr=[1e-3],
-        center_kernel=[True, False],
+        l2_mode=['best_theorique', 'best_mario'],
         **features_extractor_params_cnn
     ))),
-    eval_params=[None]
+    eval_params=[None],
+    **expt_settings
 )
 
-grid_maml_cnn = dict(
-    dataset_name=datasets,
-    arch=['cnn'],
+grid_maml = dict(
     algo=['maml'],
-    max_examples_per_episode=examples_per_episode,
     fit_params=list(ParameterGrid(dict(
-        lr=[2e-2],
         lr_learner=[0.01],
-        n_epochs_learner=[1],
+        n_epochs_learner=[1, 3],
         **features_extractor_params_cnn
     ))),
-    eval_params=[None]
+    eval_params=[None],
+    **expt_settings
 )
 
-grid_pretrain_cnn = dict(
-    dataset_name=datasets,
-    arch=['cnn'],
-    algo=['pretrain'],
-    max_examples_per_episode=examples_per_episode,
-    fit_params=list(ParameterGrid(dict(
-        lr=[1e-3],
-        **features_extractor_params_cnn
-    ))),
-    eval_params=[dict(
-        n_epochs=[5, 10],
-        lr=[2e-2]
-    )]
-)
-
-grid_mann_cnn = dict(
-    dataset_name=datasets,
-    arch=['cnn'],
+grid_mann = dict(
     algo=['mann'],
-    max_examples_per_episode=examples_per_episode,
     fit_params=list(ParameterGrid(dict(
         memory_shape=[(128, 40), (64, 40)],
         controller_size=[200, 100],
-        lr=[1e-3],
         **features_extractor_params_cnn
     ))),
-    eval_params=[None]
+    eval_params=[None],
+    **expt_settings
+)
+
+grid_snail = dict(
+    algo=['snail'],
+    fit_params=list(ParameterGrid(dict(
+        k=examples_per_episode,
+        arch=[
+            [('att', (64, 32)), ('tc', 128), ('att', (256, 128)), ('tc', 128), ('att', (512, 256))],
+            [('att', (64, 32)), ('tc', 128), ('att', (256, 128))]
+        ],
+        **features_extractor_params_cnn
+    ))),
+    eval_params=[None],
+    **expt_settings
+)
+
+grid_pretrain = dict(
+    algo=['pretrain'],
+    fit_params=list(ParameterGrid(dict(
+        **features_extractor_params_cnn
+    ))),
+    eval_params=[dict(
+        n_epochs=[5, 10, 20],
+        lr=[2e-2]
+    )],
+    **expt_settings
 )

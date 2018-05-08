@@ -1,7 +1,9 @@
-from .dataset import MetaRegressionDataset, to_categorical
+import pickle, torch
 import numpy as np
+import pandas as pd
 from os.path import dirname, realpath, join
 from os import listdir
+from .dataset import MetaRegressionDataset, to_categorical
 
 DATASETS_ROOT = join(dirname(dirname(realpath(__file__))), 'datasets')
 
@@ -28,12 +30,44 @@ def vectorize_and_pad_sequences(sequences, alpha2int):
         vectorized_sequences[i, :l] = res
         actual_max_len = l if l > actual_max_len else actual_max_len
     vectorized_sequences = vectorized_sequences[:, :actual_max_len]
-    # print(vectorized_sequences.shape)
-    # for row in vectorized_sequences:
-    #     print(row.shape)
-    final_res = np.array([to_categorical(row, len(alpha2int)+1) for row in vectorized_sequences])
+    final_res = np.array([to_categorical(row, len(alpha2int)+1)
+                          for row in vectorized_sequences])
     final_res[:, :, 0] = 0
     return final_res
+
+
+class MovielensDatatset(MetaRegressionDataset):
+    # features of the movies
+    with open(join(DATASETS_ROOT, 'movielens/movies_features.pkl'), 'rb') as f:
+        features_movies = pickle.load(f)
+
+    def __init__(self, episode_files, x_transformer=None, y_transformer=None,
+                 max_examples_per_episode=None, batch_size=1):
+        super(MovielensDatatset, self).__init__(episode_files, x_transformer, y_transformer, max_examples_per_episode,
+                                            batch_size)
+        self.x_transformer = lambda x: torch.FloatTensor(x)
+        self.y_transformer = lambda y: torch.FloatTensor(y)
+
+    def episode_loader(self, filename):
+        data = pd.read_csv(filename, sep='\t')
+        temp = data.as_matrix()
+        x, y = temp[:, 0], temp[:, 1].reshape((-1, 1))
+        x = np.array([MovielensDatatset.features_movies[movie] for movie in x])
+        return x, y
+
+    def get_sampling_weights(self):
+        n = len(self.episode_files)
+        return np.ones(n) / n
+
+
+def load_fewshot_movielens(max_examples_per_episode=20, batch_size=10):
+    ds_folder = join(DATASETS_ROOT, 'movielens')
+    episode_files = [join(ds_folder, x) for x in listdir(ds_folder) if x.endswith('.txt')]
+    dataset = MovielensDatatset(episode_files, max_examples_per_episode=max_examples_per_episode, batch_size=batch_size)
+    meta_train, meta_test = dataset.train_test_split(test_size=1/6.0)
+    meta_train, meta_valid = meta_train.train_test_split(test_size=0.25)
+    meta_test.eval()
+    yield meta_train, meta_valid, meta_test
 
 
 class MhcIIDatatset(MetaRegressionDataset):
@@ -47,8 +81,8 @@ class MhcIIDatatset(MetaRegressionDataset):
         super(MhcIIDatatset, self).__init__(episode_files, x_transformer, y_transformer, max_examples_per_episode,
                                             batch_size)
 
-        self.x_transformer = lambda x: vectorize_and_pad_sequences(x, self.aa_alphabet2int)
-        self.y_transformer = lambda y: np.log(y)
+        self.x_transformer = lambda x: torch.LongTensor(vectorize_and_pad_sequences(x, self.aa_alphabet2int))
+        self.y_transformer = lambda y: torch.FloatTensor(np.log(y))
 
     def episode_loader(self, filename):
         data = np.loadtxt(filename, dtype=str, )
@@ -58,16 +92,6 @@ class MhcIIDatatset(MetaRegressionDataset):
     def get_sampling_weights(self):
         episode_sizes = np.log2([len(self.episode_loader(f)[0]) for f in self.episode_files])
         return episode_sizes / np.sum(episode_sizes)
-
-
-def load_fewshot_mhcII(max_examples_per_episode=20, batch_size=10):
-    ds_folder = join(DATASETS_ROOT, 'mhcII_similarity_reduced')
-    episode_files = [join(ds_folder, x) for x in listdir(ds_folder)]
-    dataset = MhcIIDatatset(episode_files, max_examples_per_episode=max_examples_per_episode, batch_size=batch_size)
-    meta_train, meta_test = dataset.train_test_split(test_size=0.25)
-    meta_train, meta_valid = meta_train.train_test_split(test_size=0.25)
-    meta_test.eval()
-    yield meta_train, meta_valid, meta_test
 
 
 def load_fewshot_mhcII_DRB(max_examples_per_episode=20, batch_size=10, fold=0):
@@ -101,18 +125,15 @@ class BindingdbDatatset(MetaRegressionDataset):
     def __init__(self, episode_files, x_transformer=None, y_transformer=None, max_examples_per_episode=None, batch_size=1):
         super(BindingdbDatatset, self).__init__(episode_files, x_transformer, y_transformer, max_examples_per_episode,
                                                 batch_size)
-        self.x_transformer = lambda x: vectorize_and_pad_sequences(x, self.smilesAlphabet2int)
-        self.y_transformer = lambda y: np.log(y+self.y_epsilon)
+        self.x_transformer = lambda x: torch.LongTensor(vectorize_and_pad_sequences(x, self.smilesAlphabet2int))
+        self.y_transformer = lambda y: torch.FloatTensor(np.log(y+self.y_epsilon))
 
     def episode_loader(self, filename):
-        # print(filename)
         with open(filename, 'r') as f_in:
             lines = [line.split('\t') for line in f_in]
             lines = [(line[0], float(line[1])) for line in lines]
         x, y = zip(*lines)
         x, y = np.array(x), np.array(y).reshape((-1, 1))
-        # selec_indixes = [i for i in range(len(x)) if len(x[i]) < 250]
-        # return x[selec_indixes], y[selec_indixes]
         return x, y
 
     def get_sampling_weights(self):
@@ -132,27 +153,14 @@ def load_fewshot_bindingdb(max_examples_per_episode=20, batch_size=10):
 
 
 if __name__ == '__main__':
-    # ds_folder = join(DATASETS_ROOT, 'bindingDB')
-    # episode_files = [join(ds_folder, x) for x in listdir(ds_folder)]
-    # for ep in episode_files:
-    #     with open(ep, 'r') as f_in:
-    #         lines = [line.split('\t') for line in f_in]
-    #         lines = [(line[0], float(line[1])) for line in lines]
-    #     x, y = zip(*lines)
-    #     x, y = np.array(x), np.array(y).reshape((-1, 1))
-    #     print(np.isfinite(np.max(np.log(y+1e-3))) and np.isfinite(np.min(np.log(y+1e-3))))
-    # exit()
-
     from time import time
     t = time()
     ds = load_fewshot_mhcII_DRB()
     for meta_train, meta_valid, meta_test in ds:
-        #print(meta_train.__class__, meta_test.__class__, meta_valid.__class__)
-        # print(meta_train.ALPHABET_SIZE)
         for episodes in meta_train:
             for ep in episodes:
-                print(1)
-                # print(ep['name'], ep['Dtest'][0].size(0))
+                print(ep[0])
+                exit()
     print("time", time()-t)
 
 
