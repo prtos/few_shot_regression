@@ -6,7 +6,7 @@ from scipy.io.arff import loadarff
 from scipy.stats import chi2_contingency, kurtosis, skew, gmean
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from sklearn.cross_decomposition import CCA
-from sklearn.model_selection import GridSearchCV, KFold, St
+from sklearn.model_selection import GridSearchCV, KFold
 from sklearn.svm import SVC
 from quickviz import heatmap
 
@@ -87,13 +87,15 @@ def crossvalidate(inputs, targets):
 
 def caracterize_learn_and_save_results(inputs, targets, output_prefix):
     metadata = get_meta_features(inputs, targets)
+    metadata = pd.DataFrame([metadata])
+    metadata.to_csv(output_prefix+'.metadata', index=False)
     print(metadata)
     results = crossvalidate(inputs, targets)
     results.to_csv(output_prefix + '.csv', index=False)
     heatmap(results, prefix_filename=output_prefix)
 
 
-def create_few_shot_datasets(max_datasize=5e4):
+def create_few_shot_datasets(max_datasize=1e4):
     filenames = [f for f in os.listdir(UCI_FOLDER) if f.endswith('arff')]
     for arff_filename in filenames:
         output_prefix = os.path.join(UCI_CROSSVAL_FOLDER, arff_filename[:-5])
@@ -102,7 +104,7 @@ def create_few_shot_datasets(max_datasize=5e4):
         if m < max_datasize:
             caracterize_learn_and_save_results(inputs, targets, output_prefix)
         else:
-            n_splits = m / max_datasize
+            n_splits = int(np.ceil(m / max_datasize*1.0))
             splitter = KFold(n_splits=n_splits, shuffle=True, random_state=42)
             for i, (_, train_index) in enumerate(splitter.split(inputs)):
                 inputs_split, targets_split = inputs[train_index], targets[train_index]
