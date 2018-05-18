@@ -23,7 +23,11 @@ expt_settings = dict(
 grid_krr = dict(
     algo=['krr'],
     fit_params=list(ParameterGrid(dict(
-        l2_mode=['best_theorique', 'best_mario'],
+        l2_mode=['constant'],
+        center_kernel=[False],
+        initial_l2=[1],
+        y_scaling_factor=[1],
+        augment=[True],
         **features_extractor_params_cnn
     ))),
     eval_params=[None],

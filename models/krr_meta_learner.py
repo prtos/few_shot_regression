@@ -118,10 +118,25 @@ class KrrMetaNetwork(torch.nn.Module):
                 self.gamma = self.gamma.cuda()
         self.attr_watched = dict(l2=0, w_norm=0, phi_norm=0)
 
+    def augment(self):
+        self.is_augmented = True
+        for param in self.feature_extractor.parameters():
+            param.requires_grad = False
+        self.linear_reductor = Linear(self.feature_extractor.output_dim, 10)
+        if torch.cuda.is_available():
+            self.linear_reductor.cuda()
+            self.linear_reductor.cuda()
+
     def __forward(self, episode):
+        def extract(x_):
+            phis = self.feature_extractor(x_)
+            if self.is_augmented:
+                phis = self.linear_reductor(phis)
+            return phis
         x_train, y_train = episode['Dtrain']
         y_train = y_train * self.y_scaling_factor
-        phis = self.feature_extractor(x_train)
+        phis = extract(x_train)
+
         if self.l2_mode == 'variable':
             l2 = self.l2((phis, y_train))
         else:
@@ -146,11 +161,11 @@ class KrrMetaNetwork(torch.nn.Module):
         n = x_test.size(0)
         batch_size = 512
         if n > batch_size:
-            outs = [learner(self.feature_extractor(x_test[i:i+batch_size]))
+            outs = [learner(extract(x_test[i:i+batch_size]))
                     for i in range(0, n, batch_size)]
             res = torch.cat(outs)
         else:
-            res = learner(self.feature_extractor(x_test))
+            res = learner(extract(x_test))
         y_pred = res * (1/self.y_scaling_factor)
         return y_pred
 
@@ -162,10 +177,11 @@ class KrrMetaLearner(MetaLearnerRegression):
 
     def __init__(self, feature_extractor, l2_mode, lr=0.001,
                  kernel='linear', center_kernel=False, gamma=1,
-                 initial_l2=0.1, y_scaling_factor=1, constrain_phi_norm=False):
+                 initial_l2=0.1, y_scaling_factor=1, constrain_phi_norm=False, augment=False):
         super(KrrMetaLearner, self).__init__()
         self.l2_mode = l2_mode
         self.lr = lr
+        self.augment = augment
         self.network = KrrMetaNetwork(feature_extractor, l2_mode,
                                       kernel, center_kernel, gamma,
                                       initial_l2, y_scaling_factor, constrain_phi_norm)
@@ -180,6 +196,14 @@ class KrrMetaLearner(MetaLearnerRegression):
         optimizer = Adam(self.network.parameters(), lr=self.lr)
         self.model = Model(self.network, optimizer, self.metaloss)
 
+    def fit(self, metatrain, metavalid, n_epochs=100, steps_per_epoch=100,
+            max_episodes=None, batch_size=32,
+            log_filename=None, checkpoint_filename=None):
+        if self.augment:
+            self.load(checkpoint_filename.replace('augment', ''))
+            self.network.augment()
+        super(KrrMetaLearner, self).fit(metatrain, metavalid, n_epochs, steps_per_epoch,
+                                        max_episodes, batch_size, log_filename, checkpoint_filename)
 
 if __name__ == '__main__':
     pass

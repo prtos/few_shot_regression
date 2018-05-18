@@ -69,6 +69,9 @@ class MetaRegressionDataset(MetaDataset):
         self.mode = self.TRAIN
         self.train_without_dtest = train_without_dtest
 
+    def number_of_tasks(self):
+        return len(self.episode_files)
+
     def eval(self):
         """ This will change how the iter function works"""
         self.mode = self.TEST
@@ -131,6 +134,24 @@ class MetaRegressionDataset(MetaDataset):
                 episode_filenames = np.random.choice(self.episode_files, p=sampling_weights, size=self.batch_size)
                 x_batch, y_batch = zip(*[self.__filename2episode(epf) for epf in episode_filenames])
                 yield x_batch, y_batch
+
+    def to_multitask_generator(self):
+        n = self.episode_files
+        sampling_weights = self.get_sampling_weights()
+        episode_ids = np.arange(n)
+        while True:
+            episode_idx = np.random.choice(episode_ids, p=sampling_weights, size=self.batch_size)
+            xs, ys, masks = [], [], []
+            for i in episode_idx:
+                x, y = self.episode_loader(self.episode_files[i])
+                idx = np.arange(len(y)); np.random.shuffle(idx)
+                train_idx = idx[:self.max_examples_per_episode]
+                x, y_ = x[train_idx], y[train_idx]
+                y = np.zeros((y.shape[0], n)); y[:, i] = y_
+                zeros_mask = np.zeros((y.shape[0], n)); zeros_mask[:, i] = 1
+                xs.append(x); ys.append(y); masks.append(zeros_mask)
+            xs, ys, masks = np.concatenate(xs, axis=0), np.concatenate(ys, axis=0), np.concatenate(masks, axis=0)
+            yield xs, ys, masks
 
     def full_datapoints_generator(self):
         batch_size = self.batch_size * self.max_examples_per_episode

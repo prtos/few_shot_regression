@@ -12,7 +12,7 @@ if __name__ == '__main__':
                         type=str, nargs='+',
                         help='The name of the algos: krr|snail|mann|maml|pretrain')
     parser.add_argument('-d', '--dataset',
-                        default='movielens',
+                        default='bindingdb',
                         type=str,
                         help='The name of the dataset: mhc|bindingdb|movielens')
     args = parser.parse_args()
