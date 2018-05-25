@@ -60,16 +60,6 @@ class MovielensDatatset(MetaRegressionDataset):
         return np.ones(n) / n
 
 
-def load_fewshot_movielens(max_examples_per_episode=20, batch_size=10):
-    ds_folder = join(DATASETS_ROOT, 'movielens')
-    episode_files = [join(ds_folder, x) for x in listdir(ds_folder) if x.endswith('.txt')]
-    dataset = MovielensDatatset(episode_files, max_examples_per_episode=max_examples_per_episode, batch_size=batch_size)
-    meta_train, meta_test = dataset.train_test_split(test_size=1/6.0)
-    meta_train, meta_valid = meta_train.train_test_split(test_size=0.25)
-    meta_test.eval()
-    yield meta_train, meta_valid, meta_test
-
-
 class MhcIIDatatset(MetaRegressionDataset):
     # refactor the names
     aa_alphabet = list('ARNDCQEGHILKMFPSTWYVBZX*')
@@ -92,23 +82,6 @@ class MhcIIDatatset(MetaRegressionDataset):
     def get_sampling_weights(self):
         episode_sizes = np.log2([len(self.episode_loader(f)[0]) for f in self.episode_files])
         return episode_sizes / np.sum(episode_sizes)
-
-
-def load_fewshot_mhcII_DRB(max_examples_per_episode=20, batch_size=10, fold=0):
-    ds_folder = join(DATASETS_ROOT, 'mhcII_DRB_all')
-    episode_files = [join(ds_folder, x) for x in listdir(ds_folder)]
-    assert fold is not None
-    assert fold < len(episode_files)
-    sorted(episode_files)
-
-    for test_file in [episode_files[fold]]:
-        train_files = episode_files[:]
-        train_files.remove(test_file)
-        dataset = MhcIIDatatset(train_files, max_examples_per_episode=max_examples_per_episode, batch_size=batch_size)
-        meta_test = MhcIIDatatset([test_file], max_examples_per_episode=max_examples_per_episode, batch_size=batch_size)
-        meta_train, meta_valid = dataset.train_test_split(test_size=0.25)
-        meta_test.eval()
-        yield meta_train, meta_valid, meta_test
 
 
 class BindingdbDatatset(MetaRegressionDataset):
@@ -142,14 +115,38 @@ class BindingdbDatatset(MetaRegressionDataset):
         return episode_sizes/np.sum(episode_sizes)
 
 
-def load_fewshot_bindingdb(max_examples_per_episode=20, batch_size=10):
+def load_fewshot_bindingdb(max_examples_per_episode=20, batch_size=10, mode='fewshot'):
     ds_folder = join(DATASETS_ROOT, 'bindingDB')
     episode_files = [join(ds_folder, x) for x in listdir(ds_folder)]
     dataset = BindingdbDatatset(episode_files, max_examples_per_episode=max_examples_per_episode, batch_size=batch_size)
     meta_train, meta_test = dataset.train_test_split(test_size=0.25)
-    meta_train, meta_valid = meta_train.train_test_split(test_size=0.25)
     meta_test.eval()
-    yield meta_train, meta_valid, meta_test
+    yield meta_train, meta_test
+
+
+def load_fewshot_movielens(max_examples_per_episode=20, batch_size=10, mode='fewshot'):
+    ds_folder = join(DATASETS_ROOT, 'movielens')
+    episode_files = [join(ds_folder, x) for x in listdir(ds_folder) if x.endswith('.txt')]
+    dataset = MovielensDatatset(episode_files, max_examples_per_episode=max_examples_per_episode, batch_size=batch_size)
+    meta_train, meta_test = dataset.train_test_split(test_size=1/6.0)
+    meta_test.eval()
+    yield meta_train, meta_test
+
+
+def load_fewshot_mhcII_DRB(max_examples_per_episode=20, batch_size=10, fold=0, mode='fewshot'):
+    ds_folder = join(DATASETS_ROOT, 'mhcII_DRB_all')
+    episode_files = [join(ds_folder, x) for x in listdir(ds_folder)]
+    assert fold is not None
+    assert fold < len(episode_files)
+    sorted(episode_files)
+
+    for test_file in [episode_files[fold]]:
+        train_files = episode_files[:]
+        train_files.remove(test_file)
+        meta_train = MhcIIDatatset(train_files, max_examples_per_episode=max_examples_per_episode, batch_size=batch_size)
+        meta_test = MhcIIDatatset([test_file], max_examples_per_episode=max_examples_per_episode, batch_size=batch_size)
+        meta_test.eval()
+        yield meta_train, meta_test
 
 
 if __name__ == '__main__':

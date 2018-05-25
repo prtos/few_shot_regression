@@ -1,5 +1,6 @@
 import sys, os, argparse, subprocess
 from sklearn.model_selection import ParameterGrid
+from few_shot_regression.expts_utils import get_config_params
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -8,9 +9,9 @@ if __name__ == '__main__':
     parser.add_argument('-o', '--outdir', default='results/test', type=str,
                         help='The name of the output directory for the experiments')
     parser.add_argument('-a', '--algos',
-                        default=['krr'],  # ['krr', 'snail', 'mann', 'maml', 'pretrain']
+                        default=['multitask'],  # ['fskrr', 'metakrr', 'multitask', 'snail', 'mann', 'maml'],
                         type=str, nargs='+',
-                        help='The name of the algos: krr|snail|mann|maml|pretrain')
+                        help='The name of the algos: fskrr|metakrr|multitask|snail|mann|maml')
     parser.add_argument('-d', '--dataset',
                         default='bindingdb',
                         type=str,
@@ -21,17 +22,7 @@ if __name__ == '__main__':
     if not os.path.exists(expts_directory):
         os.makedirs(expts_directory, exist_ok=True)
 
-    if dataset == 'mhc':
-        from config_mhc import *
-    elif dataset == 'bindingdb':
-        from config_bdb import *
-    elif dataset == 'movielens':
-        from config_movielens import *
-    else:
-        raise Exception("Dataset {} is not found".format(dataset))
-
-    algo_dict = {'krr': grid_krr, 'mann': grid_mann, 'maml': grid_maml,
-                 'snail': grid_snail, 'pretrain': grid_pretrain}
+    algo_dict, _ = get_config_params(dataset)
     algo_grids = [algo_dict[a] for a in algos]
     algos_str = ' '.join(algos)
     ntasks = len(list(ParameterGrid(algo_grids)))

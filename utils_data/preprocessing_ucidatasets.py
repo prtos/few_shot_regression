@@ -86,6 +86,8 @@ def crossvalidate(inputs, targets):
 
 
 def caracterize_learn_and_save_results(inputs, targets, output_prefix):
+    if os.path.exists(output_prefix + '.csv'):
+        return
     metadata = get_meta_features(inputs, targets)
     metadata = pd.DataFrame([metadata])
     metadata.to_csv(output_prefix+'.metadata', index=False)
@@ -93,22 +95,6 @@ def caracterize_learn_and_save_results(inputs, targets, output_prefix):
     results = crossvalidate(inputs, targets)
     results.to_csv(output_prefix + '.csv', index=False)
     heatmap(results, prefix_filename=output_prefix)
-
-
-def create_few_shot_datasets(max_datasize=1e4):
-    filenames = [f for f in os.listdir(UCI_FOLDER) if f.endswith('arff')]
-    for arff_filename in filenames:
-        output_prefix = os.path.join(UCI_CROSSVAL_FOLDER, arff_filename[:-5])
-        inputs, targets = load_arff_dataset(os.path.join(UCI_FOLDER, arff_filename))
-        m = len(targets)
-        if m < max_datasize:
-            caracterize_learn_and_save_results(inputs, targets, output_prefix)
-        else:
-            n_splits = int(np.ceil(m / max_datasize*1.0))
-            splitter = KFold(n_splits=n_splits, shuffle=True, random_state=42)
-            for i, (_, train_index) in enumerate(splitter.split(inputs)):
-                inputs_split, targets_split = inputs[train_index], targets[train_index]
-                caracterize_learn_and_save_results(inputs_split, targets_split, output_prefix+'_split{}'.format(i))
 
 
 def load_arff_dataset(arff_filename):
@@ -148,5 +134,62 @@ def load_arff_dataset(arff_filename):
     return inputs, targets
 
 
+def create_few_shot_datasets(max_datasize=1e4, part=None, n_per_part=20):
+    filenames = sorted([f for f in os.listdir(UCI_FOLDER) if f.endswith('arff')])
+    if part is not None:
+        filenames = filenames[part*n_per_part:(part + 1)*n_per_part]
+
+    for arff_filename in filenames:
+        output_prefix = os.path.join(UCI_CROSSVAL_FOLDER, arff_filename[:-5])
+        inputs, targets = load_arff_dataset(os.path.join(UCI_FOLDER, arff_filename))
+        m = len(targets)
+        if m < max_datasize:
+            caracterize_learn_and_save_results(inputs, targets, output_prefix)
+        else:
+            n_splits = int(np.ceil(m / max_datasize*1.0))
+            splitter = KFold(n_splits=n_splits, shuffle=True, random_state=42)
+            for i, (_, train_index) in enumerate(splitter.split(inputs)):
+                inputs_split, targets_split = inputs[train_index], targets[train_index]
+                caracterize_learn_and_save_results(inputs_split, targets_split, output_prefix+'_split{}'.format(i))
+
+
 if __name__ == '__main__':
-    create_few_shot_datasets()
+    import argparse, subprocess
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-s', '--server', default='local', type=str,
+                        help='The name of the server: local|graham|helios')
+    parser.add_argument('-p', '--part', default=0, type=int,
+                        help='the id of the job that we should run in this execution')
+    parser.add_argument('-m', '--mode', default='run', type=str,
+                        help='How to run this script: dispatch jobs or run them')
+    args = parser.parse_args()
+
+    server, part, mode = args.server, args.part, args.mode
+    n_per_part = 20
+
+    if mode == 'dispatch':
+        filenames = [f for f in os.listdir(UCI_FOLDER) if f.endswith('arff')]
+        ntasks = int(np.ceil(len(filenames)/(n_per_part*1.0)))
+        print("Quick summary")
+        print('System:', server)
+        print('Number of tasks dispatched:', ntasks)
+
+        if server == "local":
+            create_few_shot_datasets(part=None)
+        else:
+            if server == 'graham':
+                launcher, prototype = 'sbatch', "submit_graham.sh"
+            elif server == 'helios':
+                launcher, prototype = 'msub', "submit_helios.sh"
+            else:
+                launcher, prototype = None, None
+                Exception("Server {} is not found".format(server))
+
+            with open(prototype) as f:
+                content = f.read()
+                content = content.format(ntasks=ntasks)
+            with open(prototype, 'w') as f:
+                f.write(content)
+            subprocess.Popen([launcher, prototype])
+    else:
+        create_few_shot_datasets(part=part, n_per_part=n_per_part)

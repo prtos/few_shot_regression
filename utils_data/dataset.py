@@ -3,6 +3,7 @@ import numpy as np
 import torch
 from keras.utils.np_utils import to_categorical
 from PIL import Image
+from sklearn.model_selection import train_test_split
 
 
 def load_images_data(grouped_filenames):
@@ -135,8 +136,13 @@ class MetaRegressionDataset(MetaDataset):
                 x_batch, y_batch = zip(*[self.__filename2episode(epf) for epf in episode_filenames])
                 yield x_batch, y_batch
 
-    def to_multitask_generator(self):
-        n = self.episode_files
+    def to_multitask_generator(self, train_size=None):
+        """
+
+        :param train_size: positive value will select examples in the
+        :return:
+        """
+        n = len(self.episode_files)
         sampling_weights = self.get_sampling_weights()
         episode_ids = np.arange(n)
         while True:
@@ -144,29 +150,41 @@ class MetaRegressionDataset(MetaDataset):
             xs, ys, masks = [], [], []
             for i in episode_idx:
                 x, y = self.episode_loader(self.episode_files[i])
-                idx = np.arange(len(y)); np.random.shuffle(idx)
+                idx = np.arange(len(y))
+                if train_size is not None:
+                    idx_train, idx_test = train_test_split(idx, train_size=abs(train_size), shuffle=False)
+                    idx = idx_train if train_size > 0 else idx_test
+                np.random.shuffle(idx)
                 train_idx = idx[:self.max_examples_per_episode]
-                x, y_ = x[train_idx], y[train_idx]
-                y = np.zeros((y.shape[0], n)); y[:, i] = y_
-                zeros_mask = np.zeros((y.shape[0], n)); zeros_mask[:, i] = 1
-                xs.append(x); ys.append(y); masks.append(zeros_mask)
+                x_, y_ = x[train_idx], y[train_idx]
+                z = np.zeros((y_.shape[0], n)); z[:, i] = y_.flatten()
+                zeros_mask = np.zeros((y_.shape[0], n)); zeros_mask[:, i] = 1
+                xs.append(x_); ys.append(z); masks.append(zeros_mask)
             xs, ys, masks = np.concatenate(xs, axis=0), np.concatenate(ys, axis=0), np.concatenate(masks, axis=0)
-            yield xs, ys, masks
+            xs = self.cuda_tensor(self.x_transformer(xs))
+            ys = self.cuda_tensor(self.y_transformer(ys))
+            masks = self.cuda_tensor(torch.LongTensor(masks))
+            yield xs, (ys, masks)
 
-    def full_datapoints_generator(self):
-        batch_size = self.batch_size * self.max_examples_per_episode
-        xs, ys = zip(*[self.episode_loader(epfile) for epfile in self.episode_files])
-        x_ = np.concatenate(xs, axis=0)
-        y_ = np.concatenate(ys, axis=0)
-        for x, y in make_generator(x_, y_, batch_size):
-            yield MetaDataset.cuda_tensor(self.x_transformer(x)), MetaDataset.cuda_tensor(self.y_transformer(y))
+    def train_test_split_for_multitask(self, test_size):
+        assert 0 < test_size < 1, "The test size should be comprize between 0 and 1"
+        ts = 0.75
+        return self.to_multitask_generator(train_size=ts), self.to_multitask_generator(train_size=-ts)
 
-    def full_datapoints(self):
-        xs, ys = zip(*[self.episode_loader(epfile) for epfile in self.episode_files])
-        x = np.concatenate(xs, axis=0)
-        y = np.concatenate(ys, axis=0)
-        return MetaDataset.cuda_tensor(self.x_transformer(x)), MetaDataset.cuda_tensor(self.y_transformer(y))
-
+    # def full_datapoints_generator(self):
+    #     batch_size = self.batch_size * self.max_examples_per_episode
+    #     xs, ys = zip(*[self.episode_loader(epfile) for epfile in self.episode_files])
+    #     x_ = np.concatenate(xs, axis=0)
+    #     y_ = np.concatenate(ys, axis=0)
+    #     for x, y in make_generator(x_, y_, batch_size):
+    #         yield MetaDataset.cuda_tensor(self.x_transformer(x)), MetaDataset.cuda_tensor(self.y_transformer(y))
+    #
+    # def full_datapoints(self):
+    #     xs, ys = zip(*[self.episode_loader(epfile) for epfile in self.episode_files])
+    #     x = np.concatenate(xs, axis=0)
+    #     y = np.concatenate(ys, axis=0)
+    #     return MetaDataset.cuda_tensor(self.x_transformer(x)), MetaDataset.cuda_tensor(self.y_transformer(y))
+    #
 
 if __name__ == '__main__':
     print('Nothing to run here !')

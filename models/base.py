@@ -96,9 +96,13 @@ class MetaLearnerRegression:
                     [self.loss(y_pred, y_test) for y_pred, y_test in zip(y_preds, y_tests)]
                 ))
 
-    def fit(self, metatrain, metavalid, n_epochs=100, steps_per_epoch=100,
+    def train_test_split(self, dataset, test_size):
+        return dataset.train_test_split(test_size=test_size)
+
+    def fit(self, metatrain, valid_size=0.25, n_epochs=100, steps_per_epoch=100,
             max_episodes=None, batch_size=32,
             log_filename=None, checkpoint_filename=None):
+        meta_train, meta_valid = self.train_test_split(metatrain, valid_size)
         callbacks = []
         if max_episodes is not None:
             n_epochs = int(np.ceil(max_episodes/(steps_per_epoch*batch_size*1.)))
@@ -118,7 +122,7 @@ class MetaLearnerRegression:
             checkpointer = ModelCheckpoint(checkpoint_filename, monitor='val_loss', save_best_only=True)
             callbacks += [checkpointer]
 
-        self.model.fit_generator(metatrain, metavalid,
+        self.model.fit_generator(meta_train, meta_valid,
                                  epochs=n_epochs,
                                  steps_per_epoch=steps_per_epoch,
                                  callbacks=callbacks)
