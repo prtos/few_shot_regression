@@ -1,8 +1,8 @@
-from torch.nn import MSELoss
+from torch.nn import MSELoss, Linear, Sequential
 from torch.optim import Adam
 from torch.nn.functional import normalize, mse_loss
-from .base import Model, MetaLearnerRegression
-from .modules import *
+from pytoune.framework import Model
+from .base import MetaLearnerRegression
 from .krr import *
 
 
@@ -80,13 +80,13 @@ class MultiTaskLearner(MetaLearnerRegression):
 
     def fit(self, metatrain, valid_size=0.25, n_epochs=100, steps_per_epoch=100,
             max_episodes=None, batch_size=32, log_filename=None, checkpoint_filename=None):
-        self.phase = 0
-        super(MultiTaskLearner, self).fit(metatrain, valid_size, n_epochs, steps_per_epoch,
-                                          max_episodes, batch_size, log_filename, checkpoint_filename)
+        self.network.phase = 0
+        return super(MultiTaskLearner, self).fit(metatrain, valid_size, n_epochs, steps_per_epoch,
+                                                 max_episodes, batch_size, log_filename, checkpoint_filename)
 
     def evaluate(self, metatest):
-        self.phase = 1
-        super(MultiTaskLearner, self).evaluate(metatest)
+        self.network.phase = 1
+        return super(MultiTaskLearner, self).evaluate(metatest)
 
 
 if __name__ == '__main__':

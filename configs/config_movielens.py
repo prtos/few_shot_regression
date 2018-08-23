@@ -2,10 +2,10 @@ from sklearn.model_selection import ParameterGrid
 from few_shot_regression.utils_data.preprocessing_movielens import NB_FEATURES
 
 datasets = ['movielens']
-examples_per_episode = [10]
+examples_per_episode = [10]   # [5, 10, 15, 20, 30, 40, 50, 65, 80, 90]
 nb_examples_per_epoch = int(2.5e4)
 batch_size = 64
-max_episodes = int(1e5)
+max_episodes = None     # int(1e5)
 features_extractor_params_cnn = dict(
     input_size=[NB_FEATURES],
     hidden_sizes=[[256 for _ in range(3)]],
@@ -20,6 +20,17 @@ expt_settings = dict(
 grid_krr = dict(
     fit_params=list(ParameterGrid(dict(
         l2=[0.1],
+        **features_extractor_params_cnn
+    ))),
+    **expt_settings
+)
+
+
+grid_hyperkrr = dict(
+    algo=['hyperkrr'],
+    fit_params=list(ParameterGrid(dict(
+        l2=[0.1],
+        use_addictive_loss=[True, False],
         **features_extractor_params_cnn
     ))),
     **expt_settings

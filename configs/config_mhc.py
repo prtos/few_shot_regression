@@ -1,11 +1,12 @@
 from sklearn.model_selection import ParameterGrid
-
+from few_shot_regression.utils.feature_extraction.transformers import AMINO_ACID_ALPHABET
 datasets = ['mhc']
-examples_per_episode = [10]
+examples_per_episode = [10]   # [5, 10, 15, 20, 30, 40, 50, 65, 80, 90]
 nb_examples_per_epoch = int(2.5e4)
 batch_size = 64
-max_episodes = int(2.5e4)
+max_episodes = None     # int(2.5e4)
 features_extractor_params_cnn = dict(
+    vocab_size=[1+len(AMINO_ACID_ALPHABET)],
     embedding_size=[20],
     cnn_sizes=[[256 for _ in range(3)]],
     kernel_size=[2],
@@ -28,9 +29,21 @@ grid_krr = dict(
     ))),
     **expt_settings
 )
+
+
+grid_hyperkrr = dict(
+    algo=['hyperkrr'],
+    fit_params=list(ParameterGrid(dict(
+        l2=[0.1],
+        use_addictive_loss=[True, False],
+        **features_extractor_params_cnn
+    ))),
+    **expt_settings
+)
 grid_fskrr = dict(algo=['fskrr'], **grid_krr)
 grid_metakrr = dict(algo=['metakrr'], **grid_krr)
 grid_multitask = dict(algo=['multitask'], **grid_krr)
+
 
 grid_maml = dict(
     algo=['maml'],

@@ -1,10 +1,10 @@
 import torch, numpy
-from torch.autograd import Variable
 from torch.nn.functional import mse_loss, tanh, sigmoid, softmax
 from torch.nn import Conv1d, Sequential, Linear
 from torch.optim import Adam
-from .base import Model, MetaLearnerRegression
-from .modules import ClonableModule, Transpose
+from pytoune.framework import Model
+from .base import MetaLearnerRegression
+from few_shot_regression.utils.feature_extraction.common_modules import ClonableModule, Transpose
 
 
 class DenseBlock(torch.nn.Module):
@@ -69,9 +69,7 @@ class AttentionBlock(torch.nn.Module):
         probs = logits / (self.key_size**0.5)
 
         causal_mask = torch.ones_like(probs.data[0]).byte().triu_(1).expand(b_size, -1, -1)
-        if torch.cuda.is_available():
-            causal_mask = causal_mask.cuda()
-        causal_mask = Variable(causal_mask, requires_grad=False)
+        causal_mask.requires_grad_(False)
         if torch.cuda.is_available():
             causal_mask = causal_mask.cuda()
         probs.masked_fill_(causal_mask, -1e9)
@@ -115,14 +113,14 @@ class SNAILNetwork(torch.nn.Module):
         phi_y_train = torch.cat((phi_train, y_train), dim=1)
         phi_test = self.input_transformer(episode['Dtest'])
         n_test = phi_test.size(0)
-        y_useless = Variable(torch.zeros(n_test, 1), requires_grad=False)
+        y_useless = torch.zeros(n_test, 1)
+        y_useless.requires_grad_(False)
         if torch.cuda.is_available():
             y_useless = y_useless.cuda()
         phi_y_test = torch.cat((phi_test, y_useless), dim=1)
         phi_y_train = phi_y_train.expand(n_test, -1, -1)
         phi_y_test = phi_y_test.unsqueeze(1)
         input_ = torch.cat((phi_y_train, phi_y_test), dim=1)
-
 
         n = input_.size(0)
         batch_size = 512

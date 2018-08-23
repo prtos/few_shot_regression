@@ -4,8 +4,9 @@ from torch.nn.functional import normalize,  mse_loss, cosine_similarity, softmax
 from torch.nn.parameter import Parameter
 from torch.autograd import Variable
 from torch.optim import Adam
-from .base import Model, MetaLearnerRegression
-from .modules import ClonableModule, LstmBasedRegressor
+from pytoune.framework import Model
+from .base import MetaLearnerRegression
+from few_shot_regression.utils.feature_extraction.common_modules import ClonableModule
 
 
 class LearnerWithMemory(torch.nn.Module):

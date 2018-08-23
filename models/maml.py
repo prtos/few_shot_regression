@@ -1,28 +1,46 @@
 import torch
+from torch.nn import Linear, Sequential
 from torch.nn.functional import mse_loss
 from torch.optim import Adam
-from .base import Model, MetaLearnerRegression
-from .modules import ClonableModule
+from pytoune.framework import Model
+from .base import MetaLearnerRegression
 from collections import OrderedDict
+from few_shot_regression.utils.feature_extraction.common_modules import ClonableModule
+from .utils import set_params
 
 
-def set_params(module, new_params, prefix=''):
-    module._parameters = OrderedDict((name, new_params[prefix + ('.' if prefix else '') + name])
-                                   for name, _ in module._parameters.items())
-    for mname, submodule in module.named_children():
-        submodule_prefix = prefix + ('.' if prefix else '') + mname
-        set_params(submodule, new_params, submodule_prefix)
+class Regressor(ClonableModule):
+    def __init__(self, feature_extractor: ClonableModule, output_dim=1):
+        super(Regressor, self).__init__()
+        self.feature_extractor = feature_extractor
+        self.out_dim = output_dim
+        output_layer = Linear(self.feature_extractor.output_dim, output_dim)
+
+        self.net = Sequential(self.feature_extractor, output_layer)
+
+    def forward(self, x):
+        # print(x.size())
+        # print(x.sum())
+        # print(self.net(x))
+        # exit()
+        return self.net(x)
+
+    def clone(self):
+        model = Regressor(self.feature_extractor.clone(), self.out_dim)
+        if next(self.parameters()).is_cuda:
+            model = model.cuda()
+        return model
 
 
 class MAMLNetwork(torch.nn.Module):
 
-    def __init__(self, learner_network: ClonableModule, loss=mse_loss, lr_learner=0.02, n_epochs_learner=1):
+    def __init__(self, feature_extractor: ClonableModule, loss=mse_loss, lr_learner=0.02, n_epochs_learner=1):
         """
         In the constructor we instantiate an lstm module
         """
         super(MAMLNetwork, self).__init__()
         self.lr_learner = lr_learner
-        self.base_learner = learner_network.clone()
+        self.base_learner = Regressor(feature_extractor.clone(), 1)
         self.n_epochs_learner = n_epochs_learner
         self.loss = loss
 
