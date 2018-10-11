@@ -1,0 +1,25 @@
+LKLVERLGAGQFGEVWMGYYNGHTKVAVKSLKQGSMSPDAFLAEANLMKQLQHQRLVRLYAVVTQEPIYIITEYMENGSLVDFLKTPSGIKLTINKLLDMAAQIAEGMAFIEERNYIHRDLRAANILVSDTLSCKIADFGLARLIEDNEYTAREGAKFPIKWTAPEAINYGTFTIKSDVWSFGILLTEIVTHGRIPYPGMTNPEVIQNLERGYRMVRPDNCPEELYQLMRLCWKERPEDRPTFDYLRSVLEDFF
+IC50
+CNc1nccc(n1)-c1cccnc1Oc1cc(ccc1C)C(=O)Nc1cccc(c1)C(F)(F)F	1.0
+Cc1ccc(cc1-c1ccc2nc(N)ncc2c1)C(=O)Nc1cccc(c1)C(F)(F)F	1.0
+Cc1ccc(cc1C#Cc1cnc(N)nc1)C(=O)Nc1cccc(c1)C(F)(F)F	1.0
+Nc1ncc(cn1)C#Cc1cccc(c1)C(=O)Nc1cccc(c1)C(F)(F)F	19.0
+Nc1ncc(cn1)C#Cc1ccc(F)c(c1)C(=O)Nc1cccc(c1)C(F)(F)F	65.0
+Cc1ccc(cc1C#Cc1cnc(N)nc1)C(=O)Nc1cc(ccc1N1CCCCC1)C(F)(F)F	42.0
+Nc1ncc(cn1)C#Cc1cccc(c1)C(=O)Nc1cc(ccc1N1CCCCC1)C(F)(F)F	410.0
+Nc1ncc(cn1)C#Cc1ccc(F)c(c1)C(=O)Nc1cc(ccc1N1CCCCC1)C(F)(F)F	370.0
+COc1ccc(cc1C(=O)Nc1cc(ccc1N1CCCCC1)C(F)(F)F)C#Cc1cnc(N)nc1	25000.0
+CN(C)CCCN(C)c1ccc(cc1NC(=O)c1cc(ccc1F)C#Cc1cnc(N)nc1)C(F)(F)F	21.0
+CN1CCN(CC1)c1ccc(cc1NC(=O)c1cc(ccc1F)C#Cc1cnc(N)nc1)C(F)(F)F	210.0
+CN(C)C1CCN(CC1)c1ccc(cc1NC(=O)c1cc(ccc1F)C#Cc1cnc(N)nc1)C(F)(F)F	150.0
+CN(C)[C@@H]1CCCN(C1)c1ccc(cc1NC(=O)c1cc(ccc1F)C#Cc1cnc(N)nc1)C(F)(F)F	780.0
+CN(C)[C@H]1CCCN(C1)c1ccc(cc1NC(=O)c1cc(ccc1F)C#Cc1cnc(N)nc1)C(F)(F)F	130.0
+CN[C@H]1CCCN(C1)c1ccc(cc1NC(=O)c1cc(ccc1F)C#Cc1cnc(N)nc1)C(F)(F)F	620.0
+N[C@H]1CCCN(C1)c1ccc(cc1NC(=O)c1cc(ccc1F)C#Cc1cnc(N)nc1)C(F)(F)F	1480.0
+CN(C)[C@@H]1CCN(C1)c1ccc(cc1NC(=O)c1cc(ccc1F)C#Cc1cnc(N)nc1)C(F)(F)F	1920.0
+CN(C)[C@H]1CCN(C1)c1ccc(cc1NC(=O)c1cc(ccc1F)C#Cc1cnc(N)nc1)C(F)(F)F	1100.0
+Cc1ccc(cc1C#Cc1ccc(N)nc1)C(=O)Nc1cccc(c1)C(F)(F)F	1.0
+Cc1ccc(cc1C#Cc1cnc2nc[nH]c2c1)C(=O)Nc1cccc(c1)C(F)(F)F	1.0
+CNC(=O)c1ccc(cn1)C#Cc1cc(ccc1C)C(=O)Nc1cccc(c1)C(F)(F)F	154.0
+Cc1ccc(cc1C#Cc1cnc2ccccc2c1)C(=O)Nc1cccc(c1)C(F)(F)F	1.0
+Cc1ccc(cc1C#Cc1cnc2ccccc2n1)C(=O)Nc1cccc(c1)C(F)(F)F	4.0

@@ -1,0 +1,22 @@
+MSDVAIVKEGWLHKRGEYIKTWRPRYFLLKNDGTFIGYKERPQDVDQREAPLNNFSVAQCQLMKTERPRPNTFIIRCLQWTTVIERTFHVETPEEREEWTTAIQTVADGLKKQEEEEMDFRSG
+IC50
+CC1=NN(C(=O)c2ccc(Cl)cc2)C(=O)C1\N=N\c1ccc(cc1)S(=O)(=O)Nc1ncccn1	24000.0
+NS(=O)(=O)c1nnc(NS(=O)(=O)c2cccc3cccnc23)s1	50000.0
+CC1=NN(C(=O)c2ccc(Cl)cc2)C(=O)C1\N=N\c1ccc(cc1)S(=O)(=O)Nc1nnc(C)s1	5000.0
+COc1cc(NS(=O)(=O)c2ccc(NS(=O)(=O)c3c(C)noc3C)cc2)nc(OC)n1	1000.0
+Nc1ccc(cc1)S(=O)(=O)Nc1nncs1	20000.0
+OC(=O)c1ccccc1C(=O)Nc1ccccc1C(=O)Nc1ccccc1	50000.0
+CCOc1ccccc1C(=O)Nc1ccccc1C(O)=O	25000.0
+COc1cc(NS(=O)(=O)c2ccc(Nc3ccco3)cc2)nc(OC)n1	50000.0
+COc1cc(NS(=O)(=O)c2ccc(NC(=O)c3ccco3)cc2)nc(OC)n1	50000.0
+COc1cc(NS(=O)(=O)c2ccc(NC(C)=O)cc2)nc(OC)n1	50000.0
+Cc1nnc(NS(=O)(=O)c2ccc(NS(=O)(=O)c3ccc4ccccc4c3)cc2)s1	25000.0
+Nc1ccc(cc1)S(=O)(=O)Nc1ccc(cc1)S(=O)(=O)Nc1nnc(s1)S(N)(=O)=O	50000.0
+Nc1ccc(cc1)S(=O)(=O)Nc1nncs1	20000.0
+Nc1ccc(cc1)S(=O)(=O)Nc1nncs1	25000.0
+CCCCCCCCCC(=O)Nc1ccc(cc1)S(=O)(=O)Nc1nncs1	10000.0
+CCCCCCCCCC(=O)Nc1ccc(cc1)S(=O)(=O)Nc1nncs1	15000.0
+CC(=O)Nc1ccc(cc1)S(=O)(=O)Nc1nncs1	50000.0
+COCCOCCOCC(=O)Nc1ccc(cc1)S(=O)(=O)Nc1nncs1	50000.0
+CCCCCCCCCCCCc1ccc(cc1)S(=O)(=O)Nc1nncs1	6300.0
+CCCCCCCCCCCCc1ccc(cc1)S(=O)(=O)Nc1nncs1	10000.0

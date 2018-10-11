@@ -1,0 +1,25 @@
+MSTQLASNIYAPLYAPFFGFAGCAAAMVLSCLGAAIGTAKSGIGIAGIGTFKPELIMKSLIPVVMSGILAIYGLVVAVLIAGNLSPTEDYTLFNGFMHLSCGLCVGFACLSSGYAIGMVGDVGVRKYMHQPRLFVGIVLILIFSEVLGLYGMIVALILNTRGSE
+EC50
+CCOC(=O)N\N=C1\c2ccccc2-c2nc3nonc3nc12	27060.0
+Cc1c(Cl)sn(-c2ccc(Cl)cc2)c1=O	5194.0
+CCOC(=O)N\N=C1\c2ccccc2-c2nc3nonc3nc12	2367.0
+Cc1c(Cl)sn(-c2ccc(Cl)cc2)c1=O	1404.0
+CN1C(=S)NC(=O)\C(=C\c2ccc(Br)s2)C1=O	6434.0
+[O-][N+](=O)c1ccc(o1)C(=O)Nc1ccccc1N1CCOCC1	25250.0
+[O-][N+](=O)c1ccc(o1)C(=O)N1CCN(CC1)c1nc2c(F)cc(F)cc2s1	8904.0
+[O-][N+](=O)c1ccc(o1)C(=O)N1CCN(CC1)c1nc2ccc(F)cc2s1	3644.0
+Fc1ccc-2c(Cc3cc(ccc-23)\N=C2/OC(=O)C=C2)c1	7257.0
+Cc1ccc(cc1)S(=O)(=O)C=CS(=O)(=O)c1ccc(C)cc1	3913.0
+[O-][N+](=O)c1ccc(o1)C(=O)Nc1ccccc1N1CCOCC1	4181.0
+[O-][N+](=O)c1ccc(o1)C(=O)N1CCN(CC1)c1nc2c(F)cc(F)cc2s1	1930.0
+[O-][N+](=O)c1ccc(o1)C(=O)N1CCN(CC1)c1nc2c(Cl)cccc2s1	3534.0
+[O-][N+](=O)c1ccc(o1)C(=O)N1CCN(CC1)c1ccc(cn1)C(F)(F)F	9817.0
+COc1ccccc1N1CCN(CC1)C(=O)c1ccc(o1)[N+]([O-])=O	40540.0
+[O-][N+](=O)c1ccc(o1)C(=O)N1CCN(CC1)c1cccc(Cl)c1	12380.0
+COc1ccc2nc(sc2c1)N1CCN(CC1)C(=O)c1ccc(o1)[N+]([O-])=O	728.0
+[O-][N+](=O)c1ccc(o1)C(=O)N1CCN(CC1)c1nc2ccc(F)cc2s1	384.0
+[O-][N+](=O)c1ccc(o1)C(=O)N1CCN(CC1)c1nc2c(F)cc(F)cc2s1	390.0
+[O-][N+](=O)c1ccc(o1)C(=O)N1CCN(CC1)c1nc2c(Cl)cccc2s1	860.0
+[O-][N+](=O)c1ccc(o1)C(=O)N1CCN(CC1)c1ccc(cn1)C(F)(F)F	1588.0
+COc1ccccc1N1CCN(CC1)C(=O)c1ccc(o1)[N+]([O-])=O	24260.0
+[O-][N+](=O)c1ccc(o1)C(=O)N1CCN(CC1)c1cccc(Cl)c1	1251.0

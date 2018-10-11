@@ -1,0 +1,27 @@
+{
+    "dataset_name": "uci",
+    "dataset_params.batch_size": 32,
+    "dataset_params.max_examples_per_episode": 10,
+    "fit_params.n_epochs": 100,
+    "fit_params.steps_per_epoch": 100,
+    "fit_params.valid_size": 0.25,
+    "model_name": "metakrr_mk",
+    "model_params.conditioner_params.arch": "EW",
+    "model_params.feature_extractor_params.arch": "fc",
+    "model_params.feature_extractor_params.hidden_sizes": [
+        64,
+        64
+    ],
+    "model_params.feature_extractor_params.input_size": 2,
+    "model_params.feature_extractor_params.normalize_features": false,
+    "model_params.l2": 0.1,
+    "model_params.lr": 0.001,
+    "model_params.task_descr_extractor_params.arch": "fc",
+    "model_params.task_descr_extractor_params.hidden_sizes": [
+        64,
+        64
+    ],
+    "model_params.task_descr_extractor_params.input_size": 13,
+    "model_params.task_descr_extractor_params.normalize_features": false,
+    "model_params.use_task_var": false
+}

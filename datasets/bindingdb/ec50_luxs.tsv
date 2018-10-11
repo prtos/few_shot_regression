@@ -1,0 +1,23 @@
+MPLLDSFTVDHTRMNAPAVRVAKTMQTPKGDTITVFDLRFTAPNKDILSEKGIHTLEHLYAGFMRNHLNGDSVEIIDISPMGCRTGFYMSLIGTPSEQQVADAWIAAMEDVLKVENQNKIPELNEYQCGTAAMHSLDEAK
+EC50
+Cc1cccc(NS(=O)(=O)c2ccc(Oc3ccccc3)cc2)n1	2559.0
+CCc1ccc(cc1)-c1ccc(C(O)=O)n1C=C	2071.0
+CN(C)S(=O)(=O)c1ccc(NC(=S)NC(=O)Cc2ccccc2)cc1	160000.0
+Cn1cnc(c1)S(=O)(=O)Nc1ccc(OC(F)(F)F)cc1	4393.0
+CCc1ccc(cc1)S(=O)(=O)Nc1ccc(Br)cn1	3637.0
+COc1cc(NC(=O)CN2C(=O)NC(C2=O)(c2ccccc2)c2ccccc2)cc(OC)c1	1570.0
+CCCc1ccc(cc1)S(=O)(=O)N(C)S(=O)(=O)c1ccc(F)cc1	1623.0
+Cc1cccc(NS(=O)(=O)c2ccc(Oc3ccccc3)cc2)n1	160000.0
+CCc1ccc(cc1)-c1ccc(C(O)=O)n1C=C	160000.0
+CN(C)S(=O)(=O)c1ccc(NC(=S)NC(=O)Cc2ccccc2)cc1	160000.0
+Cn1cnc(c1)S(=O)(=O)Nc1ccc(OC(F)(F)F)cc1	160000.0
+CCc1ccc(cc1)S(=O)(=O)Nc1ccc(Br)cn1	160000.0
+COc1cc(NC(=O)CN2C(=O)NC(C2=O)(c2ccccc2)c2ccccc2)cc(OC)c1	13680.0
+CCCc1ccc(cc1)S(=O)(=O)N(C)S(=O)(=O)c1ccc(F)cc1	4546.0
+Cc1cccc(NS(=O)(=O)c2ccc(Oc3ccccc3)cc2)n1	350000.0
+CCc1ccc(cc1)-c1ccc(C(O)=O)n1C=C	149100.0
+CN(C)S(=O)(=O)c1ccc(NC(=S)NC(=O)Cc2ccccc2)cc1	350000.0
+Cn1cnc(c1)S(=O)(=O)Nc1ccc(OC(F)(F)F)cc1	350000.0
+CCc1ccc(cc1)S(=O)(=O)Nc1ccc(Br)cn1	350000.0
+COc1cc(NC(=O)CN2C(=O)NC(C2=O)(c2ccccc2)c2ccccc2)cc(OC)c1	350000.0
+CCCc1ccc(cc1)S(=O)(=O)N(C)S(=O)(=O)c1ccc(F)cc1	350000.0

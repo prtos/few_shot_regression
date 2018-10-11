@@ -1,0 +1,36 @@
+MGNPILAGLGFSLPKRQVSNHDLVGRINTSDEFIVERTGVRTRYHVEPEQAVSALMVPAARQAIEAAGLLPEDIDLLLVNTLSPDHHDPSQACLIQPLLGLRHIPVLDIRAQCSGLLYGLQMARGQILAGLARHVLVVCGEVLSKRMDCSDRGRNLSILLGDGAGAVVVSAGESLDDGLLDLRLGADGNYFDLLMTAAPGSASPTFLDENVLREGGGEFLMRGRPMFEHASQTLVRIAGEMLAAHELTLDDIDHVICHQPNLRILDAVQEQLGIPQHKFAVTVDRLGNMASASTPVTLAMFWPDIQPGQRVLVLTYGSGATWGAALYRKPEEVNRPC
+IC50
+Oc1ccc(CCC(=O)OCc2ccccc2)cc1O	5900.0
+CNC(=O)CCc1ccc(O)c(O)c1	20000.0
+COC(=O)CCCc1ccc(O)c(O)c1	7900.0
+COC(=O)Cc1ccc(O)c(O)c1	23000.0
+CC(C)OC(=O)CCc1ccc(O)c(O)c1	8600.0
+CCOC(=O)CCc1ccc(O)c(O)c1	14000.0
+COC(=O)CCc1ccc(O)c(O)c1	23000.0
+OC(=O)CCc1ccc(O)c(O)c1	27000.0
+COC(=O)\C=C\c1ccc(O)c(O)c1	51000.0
+OC(c1ccccc1)c1ccccc1[N+]([O-])=O	1000.0
+OCc1ccccc1[N+]([O-])=O	2000.0
+COc1ccc(cc1)-c1cc(NC(=O)N[C@@H](Cc2ccccc2)C(O)=O)c(s1)C(O)=O	500.0
+COc1ccc(cc1)-c1cc(NC(=O)NCC(O)=O)c(s1)C(O)=O	7000.0
+COc1ccc(cc1)-c1cc(NC(=O)N[C@@H](Cc2ccccc2)C(=O)SCCNC(C)=O)c(s1)C(O)=O	32000.0
+OC(c1ccc(cc1)-c1ccc(cc1)-c1cc(NC(=O)N[C@@H](Cc2ccccc2)C(O)=O)c(s1)C(O)=O)c1ccccc1[N+]([O-])=O	360.0
+OCc1ccc(cc1)-c1ccc(cc1)-c1cc(NC(=O)N[C@@H](Cc2ccccc2)C(O)=O)c(s1)C(O)=O	140.0
+OC(=O)[C@H](Cc1ccccc1)NC(=O)Nc1cc(sc1C(O)=O)-c1ccc(cc1)-c1ccccc1	2700.0
+OCc1ccc(cc1)-c1cccc(c1)-c1cc(NC(=O)N[C@@H](Cc2ccccc2)C(O)=O)c(s1)C(O)=O	19400.0
+OC(=O)[C@H](Cc1ccccc1)NC(=O)Nc1cc(sc1C(O)=O)-c1cccc(c1)-c1ccccc1	6200.0
+COc1ccc(cc1)-c1cc(NC(=O)N[C@@H](Cc2ccccc2)C(O)=O)cs1	11500.0
+COc1ccc2C3SC(C(O)=O)=C(NC(=O)N[C@@H](Cc4ccccc4)C(O)=O)C3CCc2c1	23700.0
+COc1ccc(-c2cc(NC(=O)N[C@@H](Cc3ccccc3)C(O)=O)c(s2)C(O)=O)c(C)c1	7500.0
+OC(=O)[C@H](Cc1ccccc1)NC(=O)Nc1cc(sc1C(O)=O)-c1ccccc1	3800.0
+OC(=O)[C@H](Cc1ccccc1)NC(=O)Nc1cc(sc1C(O)=O)-c1ccc(O)cc1	21600.0
+COc1ccc(cc1)-c1cc(NC(=O)N[C@@H](CCC(O)=O)C(O)=O)c(s1)C(O)=O	30300.0
+COc1ccc(cc1)-c1cc(NC(=O)N[C@@H](Cc2c[nH]c3ccccc23)C(O)=O)c(s1)C(O)=O	5000.0
+COc1ccc(cc1)-c1cc(NC(=O)N[C@@H](CC(N)=O)C(O)=O)c(s1)C(O)=O	13200.0
+COc1ccc(cc1)-c1cc(NC(=O)N[C@@H](CO)C(O)=O)c(s1)C(O)=O	19000.0
+COc1ccc(cc1)-c1cc(NC(=O)N[C@@H](C(C)C)C(O)=O)c(s1)C(O)=O	31900.0
+COc1ccc(cc1)-c1cc(NC(=O)N[C@@H](CCc2ccccc2)C(O)=O)c(s1)C(O)=O	33700.0
+COc1ccc(cc1)-c1cc(NC(=O)N[C@H](C(O)=O)c2ccc(Cl)cc2)c(s1)C(O)=O	13800.0
+COc1ccc(cc1)[C@H](NC(=O)Nc1cc(sc1C(O)=O)-c1ccc(OC)cc1)C(O)=O	31300.0
+COc1ccc(cc1)-c1cc(NC(=O)N[C@H](C(O)=O)c2ccc(O)cc2)c(s1)C(O)=O	29000.0
+COc1ccc(cc1)-c1cc(NC(=O)NCP(O)(O)=O)c(s1)C(O)=O	7000.0

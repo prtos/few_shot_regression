@@ -1,0 +1,32 @@
+MSALLILALVGAAVAFPLEDDDKIVGGYTCPEHSVPYQVSLNSGYHFCGGSLINDQWVVSAAHCYKSRIQVRLGEHNINVLEGDEQFINAAKIIKHPNYSSWTLNNDIMLIKLSSPVKLNARVAPVALPSACAPAGTQCLISGWGNTLSNGVNNPDLLQCVDAPVLSQADCEAAYPGEITSSMICVGFLEGGKDSCQGDSGGPVVCNGQLQGIVSWGYGCALPDNPGVYTKVCNFVGWIQDTIAAN
+Ki
+NC(=N)c1ccc(CNC(=O)CNC(=O)[C@@H](CO)NS(=O)(=O)Cc2ccccc2)cc1	150.0
+NC(=N)c1ccc(CNC(=O)CNC(=O)[C@@H](CO)NS(=O)(=O)Cc2ccccc2)cc1	290.0
+NC(=N)c1ccc(CNC(=O)CNC(=O)[C@@H](CO)NS(=O)(=O)Cc2cccc(c2)C(O)=O)cc1	720.0
+COC(=O)c1ccc(CS(=O)(=O)N[C@H](CO)C(=O)NCC(=O)NCc2ccc(cc2)C(N)=N)cc1	180.0
+NC(=N)c1ccc(CNC(=O)CNC(=O)[C@@H](CO)NS(=O)(=O)Cc2ccc(cc2)C(O)=O)cc1	480.0
+COC(=O)c1ccccc1CS(=O)(=O)N[C@H](CO)C(=O)NCC(=O)NCc1ccc(cc1)C(N)=N	400.0
+NC(=N)c1ccc(CNC(=O)CNC(=O)[C@@H](CO)NS(=O)(=O)Cc2ccccc2C(O)=O)cc1	2400.0
+C[C@H](NC(=O)[C@@H](CO)NS(=O)(=O)Cc1ccc(cc1)C(O)=O)C(=O)NCc1ccc(cc1)C(N)=N	13.0
+C[C@H](NC(=O)[C@@H](CO)NS(=O)(=O)Cc1cccc(c1)C(O)=O)C(=O)NCc1ccc(cc1)C(N)=N	21.0
+C[C@H](NC(=O)[C@@H](CO)NS(=O)(=O)Cc1ccc(cc1)C#N)C(=O)NCc1ccc(cc1)C(N)=N	340.0
+NCc1ccc(CS(=O)(=O)N[C@H](CO)C(=O)NCC(=O)NCc2ccc(cc2)C(N)=N)cc1	280.0
+NC(=N)c1ccc(CNC(=O)[C@H](CO)NC(=O)[C@@H](CO)NS(=O)(=O)Cc2ccccc2)cc1	22.0
+NC(=N)c1ccc(CNC(=O)[C@H](COCc2ccccc2)NC(=O)[C@@H](CO)NS(=O)(=O)Cc2ccccc2)cc1	6.8
+NC[C@H](NC(=O)[C@@H](CO)NS(=O)(=O)Cc1ccccc1)C(=O)NCc1ccc(cc1)C(N)=N	21.0
+CC(O)[C@H](NC(=O)[C@@H](CO)NS(=O)(=O)Cc1ccccc1)C(=O)NCc1ccc(cc1)C(N)=N	30.0
+CC(OCc1ccccc1)[C@H](NC(=O)[C@@H](CO)NS(=O)(=O)Cc1ccccc1)C(=O)NCc1ccc(cc1)C(N)=N	11.0
+NC(=N)c1ccc(CNC(=O)[C@H](CO)NC(=O)[C@@H](CO)NS(=O)(=O)Cc2cccc(c2)C(O)=O)cc1	58.0
+NC(=N)c1ccc(CNC(=O)[C@H](CO)NC(=O)[C@@H](CO)NS(=O)(=O)Cc2ccc(cc2)C(O)=O)cc1	100.0
+COC(=O)c1ccc(CS(=O)(=O)N[C@H](CO)C(=O)N[C@@H](CO)C(=O)NCc2ccc(cc2)C(N)=N)cc1	20.0
+NC(=N)c1ccc(CNC(=O)CNC(=O)[C@@H](CO)NS(=O)(=O)Cc2ccc(Cl)cc2)cc1	350.0
+Cc1ccc(CS(=O)(=O)N[C@H](CO)C(=O)NCC(=O)NCc2ccc(cc2)C(N)=N)cc1	210.0
+NC(=N)c1ccc(CNC(=O)CNC(=O)[C@@H](CO)NS(=O)(=O)Cc2ccc(F)cc2)cc1	110.0
+NC(=N)c1ccc(CNC(=O)CNC(=O)[C@@H](CO)NS(=O)(=O)Cc2ccc(Cl)c(Cl)c2)cc1	600.0
+NC(=N)c1ccc(CNC(=O)CNC(=O)[C@@H](CO)NS(=O)(=O)Cc2ccncc2)cc1	410.0
+NCCCC[C@H](NC(=O)[C@@H](CO)NS(=O)(=O)Cc1ccccc1)C(=O)NCc1ccc(cc1)C(N)=N	6.8
+NC(N)=NCCC[C@H](NC(=O)[C@@H](CO)NS(=O)(=O)Cc1ccccc1)C(=O)NCc1ccc(cc1)C(N)=N	7.0
+NCCOCCOCCOCCOCCOCCOCCOCCNC(=O)COCC(=O)NCCCC[C@H](NC(=O)[C@@H](CO)NS(=O)(=O)Cc1ccccc1)C(=O)NCc1ccc(cc1)C(N)=N	4.7
+NC(CNS(=O)(=O)Cc1ccccc1)C(=O)NCC(=O)NCc1ccc(cc1)C(N)=N	180.0
+NC(=N)c1ccc(CNC(=O)[C@H](Cc2cnc[nH]2)NC(=O)[C@H](CO)NS(=O)(=O)Cc2ccccc2)cc1	25.0
+NC(=N)c1ccc(CNC(=O)CNC(=O)[C@H](CO)NS(=O)(=O)Cc2ccc(CC(O)=O)cc2)cc1	300.0

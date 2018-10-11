@@ -1,0 +1,37 @@
+PRAQPAPAQPRVAPPPGGAPGAARAGGAARRGDSSTAASRVPGPEDATQAGSGPGPAEPSSEDPPPSRSPGPERASLCPAGGGPGEALSPSGGLRPNGQTKPLPALKLALEYIVPCMNKHGICVVDDFLGRETGQQIGDEVRALHDTGKFTDGQLVSQKSDSSKDIRGDKITWIEGKEPGCETIGLLMSSMDDLIRHCSGKLGNYRINGRTKAMVACYPGNGTGYVRHVDNPNGDGRCVTCIYYLNKDWDAKVSGGILRIFPEGKAQFADIEPKFDRLLFFWSDRRNPHEVQPAYATRYAITVWYFDADERARAKVKYLTGEKGVRVELKPNSVSKDV
+IC50
+OC(=O)CNC(=O)c1c2cc(ccc2c(O)oc1=O)-c1ccccc1	250.0
+OC(=O)CNC(=O)c1c2cc(ccc2c(O)oc1=O)-c1ccccc1Cl	150.0
+OC(=O)CNC(=O)c1c2cc(ccc2c(O)oc1=O)-c1cccc(Cl)c1	150.0
+OC(=O)CNC(=O)c1c2cc(ccc2c(O)oc1=O)-c1ccc(Cl)cc1	150.0
+OC(=O)CNC(=O)c1c2cc(ccc2c(O)oc1=O)-c1cccc(c1)C(F)(F)F	150.0
+OC(=O)CNC(=O)c1c2cc(ccc2c(O)oc1=O)-c1ccc(cc1)C(F)(F)F	150.0
+OC(=O)CNC(=O)c1c2cc(ccc2c(O)oc1=O)-c1cccc(OC(F)(F)F)c1	150.0
+OC(=O)CNC(=O)c1c2cc(ccc2c(O)oc1=O)-c1ccc(OC(F)(F)F)cc1	150.0
+OC(=O)CNC(=O)c1c2cc(ccc2c(O)oc1=O)-c1ccc(Cl)c(Cl)c1	150.0
+OC(=O)CNC(=O)c1c2cc(ccc2c(O)oc1=O)-c1ccc(F)c(F)c1	150.0
+OC(=O)CNC(=O)c1c2cc(ccc2c(O)oc1=O)-c1cc(F)c(F)c(F)c1	150.0
+COc1cccc(c1)-c1ccc2c(O)oc(=O)c(C(=O)NCC(O)=O)c2c1	150.0
+COc1ccc(cc1)-c1ccc2c(O)oc(=O)c(C(=O)NCC(O)=O)c2c1	150.0
+Cc1cccc(c1)-c1ccc2c(O)oc(=O)c(C(=O)NCC(O)=O)c2c1	300.0
+Cc1ccc(cc1)-c1ccc2c(O)oc(=O)c(C(=O)NCC(O)=O)c2c1	150.0
+OC(=O)CNC(=O)c1c2c(cccc2c(O)oc1=O)-c1ccccc1	350.0
+OC(=O)CNC(=O)c1c2c(cccc2c(O)oc1=O)-c1ccccc1Cl	200.0
+OC(=O)CNC(=O)c1c2c(cccc2c(O)oc1=O)-c1cccc(Cl)c1	90.0
+OC(=O)CNC(=O)c1c2c(cccc2c(O)oc1=O)-c1ccc(Cl)cc1	150.0
+OC(=O)CNC(=O)c1c2c(cccc2c(O)oc1=O)-c1cccc(c1)C(F)(F)F	100.0
+OC(=O)CNC(=O)c1c2c(cccc2c(O)oc1=O)-c1ccc(cc1)C(F)(F)F	90.0
+OC(=O)CNC(=O)c1c2c(cccc2c(O)oc1=O)-c1cccc(OC(F)(F)F)c1	100.0
+OC(=O)CNC(=O)c1c2c(cccc2c(O)oc1=O)-c1ccc(OC(F)(F)F)cc1	150.0
+OC(=O)CNC(=O)c1c2c(cccc2c(O)oc1=O)-c1ccc(Cl)c(Cl)c1	30.0
+OC(=O)CNC(=O)c1c2c(cccc2c(O)oc1=O)-c1ccc(F)c(F)c1	150.0
+OC(=O)CNC(=O)c1c2c(cccc2c(O)oc1=O)-c1cc(F)c(F)c(F)c1	150.0
+COc1cccc(c1)-c1cccc2c(O)oc(=O)c(C(=O)NCC(O)=O)c12	150.0
+COc1ccc(cc1)-c1cccc2c(O)oc(=O)c(C(=O)NCC(O)=O)c12	80.0
+Cc1cccc(c1)-c1cccc2c(O)oc(=O)c(C(=O)NCC(O)=O)c12	150.0
+Cc1ccc(cc1)-c1cccc2c(O)oc(=O)c(C(=O)NCC(O)=O)c12	80.0
+OC(=O)CNC(=O)c1c2cc(ccc2c(O)oc1=O)-c1cccnc1	200.0
+OC(=O)CNC(=O)c1c2cc(ccc2c(O)oc1=O)-c1ccccc1	150.0
+OC(=O)CNC(=O)c1c2cc(Br)ccc2c(O)oc1=O	150.0
+OC(=O)CNC(=O)c1c2c(Br)cccc2c(O)oc1=O	300.0
+OC(=O)CNC(=O)c1c2ccc(Br)cc2c(O)oc1=O	700.0

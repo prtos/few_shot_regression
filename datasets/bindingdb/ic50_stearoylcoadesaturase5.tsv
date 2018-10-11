@@ -1,0 +1,24 @@
+MPGPATDAGKIPFCDAKEEIRAGLESSEGGGGPERPGARGQRQNIVWRNVVLMSLLHLGAVYSLVLIPKAKPLTLLWAYFCFLLAALGVTAGAHRLWSHRSYRAKLPLRIFLAVANSMAFQNDIFEWSRDHRAHHKYSETDADPHNARRGFFFSHIGWLFVRKHRDVIEKGRKLDVTDLLADPVVRIQRKYYKISVVLMCFVVPTLVPWYIWGESLWNSYFLASILRYTISLNISWLVNSAAHMYGNRPYDKHISPRQNPLVALGAIGEGFHNYHHTFPFDYSASEFGLNFNPTTWFIDFMCWLGLATDRKRATKPMIEARKARTGDSSA
+IC50
+Fc1ccccc1-c1ccc(cc1)-c1nc2ccc(cc2[nH]1)C#N	20000.0
+NS(=O)(=O)c1ccc2nc([nH]c2c1)-c1ccc(cc1)-c1ccccc1F	20000.0
+CS(=O)c1ccc2nc([nH]c2c1)-c1ccc(cc1)-c1ccccc1F	20000.0
+CS(=O)(=O)c1ccc2nc([nH]c2c1)-c1ccc(cc1)-c1ccccc1F	20000.0
+CCS(=O)(=O)c1ccc2nc([nH]c2c1)-c1ccc(cc1)-c1ccccc1F	20000.0
+CS(=O)(=O)c1ccc2nc([nH]c2c1)-c1ccc(cc1)-c1ccc(O)cc1	20000.0
+CS(=O)(=O)c1ccc2nc([nH]c2c1)-c1ccc(cc1)-c1cccc(O)c1	20000.0
+CS(=O)(=O)c1ccc2nc([nH]c2c1)-c1ccc(cc1)-c1cccc(F)c1	20000.0
+CS(=O)(=O)c1ccc2nc([nH]c2c1)-c1ccc(cc1)-c1ccccc1Cl	20000.0
+CS(=O)(=O)c1ccc2nc([nH]c2c1)-c1ccc(cc1)-c1ccncc1	20000.0
+CS(=O)(=O)c1ccc2nc([nH]c2c1)-c1ccc(cc1)-c1ccccn1	20000.0
+CS(=O)(=O)c1ccc2nc([nH]c2c1)-c1ccc(cc1)-c1ccoc1	20000.0
+CS(=O)(=O)c1ccc2nc([nH]c2c1)-c1ccc(cc1)-c1cccs1	20000.0
+CS(=O)(=O)c1cnc2nc([nH]c2c1)-c1ccc(cc1)-c1ccccc1F	20000.0
+CS(=O)(=O)c1ccc2nc([nH]c2c1)-c1ccc(cc1)-c1ccccc1	10000.0
+CS(=O)(=O)c1ccc2nc([nH]c2c1)-c1ccc(cc1)-c1cccc(Cl)c1	10000.0
+CC(C)(C)c1ccc2nc([nH]c2c1)-c1ccc(cc1)-c1ccccc1F	20000.0
+CS(=O)(=O)c1ccn2cc(nc2c1)-c1ccc(cc1)-c1ccccc1	20000.0
+CS(=O)(=O)c1ccc2nc([nH]c2c1)-c1ccc(nc1)-c1ccccc1F	20000.0
+OC(=O)Cn1nnc(n1)-c1cc(no1)N1CC2CN(CC2C1)c1cc(F)ccc1Cl	242.0
+OC(=O)c1cncc(c1)-c1ccc(nn1)N1CCC(CC1)Oc1cc(F)ccc1Br	4.0
+OC(=O)Cn1nnc(n1)-c1cc(OCCCOc2cc(F)ccc2Br)no1	32.0

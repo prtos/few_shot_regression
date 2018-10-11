@@ -1,0 +1,29 @@
+FLDGIDKAQDEHEKYHSNWRAMASDFNLPPVVAKEIVASCDKCQLKGEAMHGQVDCSPGIWQLDCTHLEGKVILVAVHVASGYIEAEVIPAETGQETAYFLLKLAGRWPVKTIHTDNGSNFTSTTVKAACWWAGIKQEFGIPYNPQSQGVVESMNKELKKIIGQVRDQAEHLKTAVQMAVFIHNFKRKGGIGGYSAGERIVDIIATDIQTKELQKQITKIQNFRVYYRDSRDPLWKGPAKLLWKGEGAVVIQDNSDIKVVPRRKVKIIRDYGKQMAGDDCVASRQDED
+Kd
+CO[C@H](C(O)=O)c1c(C)nc2ccc(Br)cc2c1-c1ccc(Cl)cc1	4700.0
+CC(C)O[C@H](C(O)=O)c1c(C)nc2ccc(Br)cc2c1-c1ccc(Cl)cc1	280.0
+Cc1nc2ccc(Br)cc2c(-c2ccc(Cl)cc2)c1[C@H](OC(C)(C)C)C(O)=O	150.0
+Cc1nc2ccc(F)cc2c(-c2ccc(Cl)cc2)c1[C@H](OC(C)(C)C)C(O)=O	61.0
+Cc1ccc2nc(C)c([C@H](OC(C)(C)C)C(O)=O)c(-c3ccc(Cl)cc3)c2c1	48.0
+Cc1nc2ccccc2c(-c2ccc(Cl)cc2)c1[C@H](OC(C)(C)C)C(O)=O	49.0
+Cc1nc2cc(F)ccc2c(-c2ccc(Cl)cc2)c1[C@H](OC(C)(C)C)C(O)=O	68.0
+Cc1nc2cc(Cl)ccc2c(-c2ccc(Cl)cc2)c1[C@H](OC(C)(C)C)C(O)=O	140.0
+Cc1ccc2c(-c3ccc(Cl)cc3)c([C@H](OC(C)(C)C)C(O)=O)c(C)nc2c1	40.0
+Cc1nc2ccccc2c(-c2ccc3OCCCc3c2)c1[C@H](OC(C)(C)C)C(O)=O	24.0
+Cc1nc2c(ccc3ccccc23)c(-c2ccc3OCCCc3c2)c1[C@H](OC(C)(C)C)C(O)=O	180.0
+Cc1nc-2c(Cc3ccccc-23)c(-c2ccc3OCCCc3c2)c1[C@H](OC(C)(C)C)C(O)=O	160.0
+Cc1nc-2c(CCCc3ccccc-23)c(-c2ccc3OCCCc3c2)c1[C@H](OC(C)(C)C)C(O)=O	1100.0
+Cc1nc(c(C)c(-c2ccc3OCCCc3c2)c1[C@H](OC(C)(C)C)C(O)=O)-c1ccccc1	1000.0
+Cc1nc(c(C)c(-c2ccc3OCCCc3c2)c1[C@H](OC(C)(C)C)C(O)=O)-c1ccccc1	40.0
+Cc1ccc(cc1)-c1nc(C)c([C@H](OC(C)(C)C)C(O)=O)c(c1C)-c1ccc2OCCCc2c1	31.0
+Cc1ccc(cc1C)-c1nc(C)c([C@H](OC(C)(C)C)C(O)=O)c(c1C)-c1ccc2OCCCc2c1	27.0
+Cc1cc(ccc1Cl)-c1nc(C)c([C@H](OC(C)(C)C)C(O)=O)c(c1C)-c1ccc2OCCCc2c1	17.0
+Cc1nc(c(C)c(-c2ccc3OCCCc3c2)c1[C@H](OC(C)(C)C)C(O)=O)-c1cccc(c1)-c1cnn(C)c1	59.0
+Cc1nc(c(C)c(-c2ccc3OCCCc3c2)c1[C@H](OC(C)(C)C)C(O)=O)-c1cccc(c1)-c1ccnn1C	52.0
+Cc1nc(c(C)c(-c2ccc3OCCCc3c2)c1[C@H](OC(C)(C)C)C(O)=O)-c1ccc(cc1)-c1ccncc1	24.0
+Cc1noc(C)c1-c1ccc(c(F)c1)-c1nc(C)c([C@H](OC(C)(C)C)C(O)=O)c(c1C)-c1ccc2OCCCc2c1	35.0
+Cc1ccc(cc1C)-c1nc(C)c([C@H](OC(C)(C)C)C(O)=O)c(c1C)-c1ccc2OCCCc2c1C	26.0
+Cc1ccc(cc1C)-c1nc(C)c([C@H](OC(C)(C)C)C(O)=O)c(c1C)-c1ccc2OCCNc2c1Cl	28.0
+Cc1ccc(cc1C)-c1nc(C)c([C@H](OC(C)(C)C)C(O)=O)c(c1C)-c1ccc(Cl)cc1	40.0
+Cc1noc(C)c1-c1ccc(cc1)-c1nc(C)c([C@H](OC(C)(C)C)C(O)=O)c(-c2ccc(Cl)cc2)c1C	50.0
+OC(=O)[C@H](OC(=O)\C=C\c1ccc(O)c(O)c1)[C@@H](OC(=O)\C=C\c1ccc(O)c(O)c1)C(O)=O	3000.0

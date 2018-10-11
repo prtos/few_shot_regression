@@ -106,4 +106,8 @@ venv.bak/
 # Pycharm projects
 .idea/
 
+# specific to this project
 dataset/BindingDB_*.tsv
+results/
+datasets/originals
+*.png

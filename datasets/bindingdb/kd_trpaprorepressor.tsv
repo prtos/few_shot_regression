@@ -1,0 +1,26 @@
+MAQQSPYSAAMAEQRHQEWLRFVDLLKNAYQNDLHLPLLNLMLTPDEREALGTRVRIVEELLRGEMSQRELKNELGAGIATITRGSNSLKAAPVELRQWLEEVLLKSD
+Kd
+[O-]C(=O)\C=C\c1c[nH]c2ccccc12	516.0
+Cc1ccc2[nH]cc(CC([NH3+])C([O-])=O)c2c1	3250.0
+[O-]C(=O)CCCc1c[nH]c2ccccc12	5510.0
+[O-]C(=O)CCc1c[nH]c2ccccc12	9740.0
+[NH3+]C(Cc1c[nH]c2ccccc12)C([O-])=O	14600.0
+OCCc1c[nH]c2ccccc12	23300.0
+c1cc2ccccc2[nH]1	25100.0
+Cn1cc(CC(N)C([O-])=O)c2ccccc12	26400.0
+NC(Cc1c[nH]c2ccccc12)C(N)=O	27700.0
+Cc1ccc2[nH]cc(CCN)c2c1	28800.0
+COc1ccc2[nH]cc(CC([NH3+])C([O-])=O)c2c1	30700.0
+[O-]C(=O)C(Cc1c[nH]c2ccccc12)[NH+]=C	31100.0
+OC(Cc1c[nH]c2ccccc12)C([O-])=O	35200.0
+COC(=O)C(N)Cc1c[nH]c2ccccc12	37100.0
+[NH3+]CCc1c[nH]c2ccccc12	41100.0
+[O-]C(=O)Cc1c[nH]c2ccccc12	72900.0
+[NH3+]C(Cc1c[nH]c2cc(ccc12)[N+]([O-])=O)C([O-])=O	75600.0
+[O-]C(=O)C(Cc1c[nH]c2ccccc12)[NH2+]C=O	117000.0
+C1Cc2ccccc2N1	174000.0
+[NH3+]C(Cc1c[nH]c2ccccc12)C([O-])=O	343000.0
+[NH3+]C(Cc1c[nH]c2ncccc12)C([O-])=O	466000.0
+[NH3+]C(Cc1c[nH]c2ccc(O)cc12)C([O-])=O	2840000.0
+[NH3+]C(Cc1ccccc1)C([O-])=O	3000000.0
+[NH3+]C(Cc1ccc(O)cc1)C([O-])=O	3000000.0

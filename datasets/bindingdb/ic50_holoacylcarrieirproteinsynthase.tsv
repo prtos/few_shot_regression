@@ -1,0 +1,24 @@
+MIYGIGLDITELKRIASMAGRQKRFAERILTRSELDQYYELSEKRKNEFLAGRFAAKEAFSKAFGTGIGRQLSFQDIEIRKDQNGKPYIICTKLSQAAVHVSITHTKEYAAAQVVIERLSS
+IC50
+OC(=O)c1cc(Cl)ccc1\N=C\c1nc(oc1O)-c1ccc(c(F)c1)C(F)(F)F	1100.0
+OC(=O)c1cc(I)ccc1\N=C\c1nc(oc1O)-c1ccc(Cl)cc1	1300.0
+COc1ccc(cc1)-c1nc(\C=N\c2ccc(F)cc2C(O)=O)c(O)o1	20000.0
+OC(=O)c1cc(Br)ccc1\N=C\c1nc(oc1O)-c1ccc(Cl)cc1	3400.0
+OC(=O)c1cc(Cl)ccc1\N=C\c1nc(oc1O)-c1cccc(OC(F)(F)F)c1	20000.0
+Cc1ccc(\N=C\c2nc(oc2O)-c2cccc(OC(F)(F)F)c2)c(c1)C(O)=O	4400.0
+OC(=O)c1cc(F)ccc1\N=C\c1nc(oc1O)-c1ccc(cc1)C(F)(F)F	1900.0
+OC(=O)c1cc(Br)c(Cl)cc1\N=C\c1nc(oc1O)-c1ccc(cc1)C(F)(F)F	2000.0
+OC(=O)c1cc(Br)ccc1\N=C\c1nc(oc1O)-c1ccc(c(F)c1)C(F)(F)F	1500.0
+Cc1ccc(\N=C\c2nc(oc2O)-c2ccc(c(F)c2)C(F)(F)F)c(c1)C(O)=O	270.0
+CC(=O)Nc1ccc(\N=C\c2nc(oc2O)-c2ccc(c(F)c2)C(F)(F)F)c(c1)C(O)=O	130.0
+OC(=O)c1cc(Br)ccc1\N=C\c1nc(oc1O)-c1cccc(OC(F)(F)F)c1	15000.0
+OC(=O)c1ccccc1\N=C\c1nc(oc1O)-c1ccc(Cl)cc1	15000.0
+OC(=O)c1cc(F)ccc1\N=C\c1nc(oc1O)-c1ccc(Cl)cc1	2100.0
+OC(=O)c1cc(Br)c(Cl)cc1\N=C\c1nc(oc1O)-c1ccc(Cl)cc1	20000.0
+Cc1ccc(\N=C\c2nc(oc2O)-c2ccc(cc2)C(F)(F)F)c(c1)C(O)=O	830.0
+OC(=O)c1ccccc1\N=C\c1nc(oc1O)-c1ccccc1	20000.0
+NS(=O)(=O)c1cc(C(O)=O)c(NCc2ccco2)cc1Cl	12700.0
+OC(=O)c1cc(Cl)ccc1NC(=O)c1cccc2C(=O)c3ccccc3-c12	820.0
+CC(Cc1ccccc1)C(=O)Nc1ccc(Cl)cc1C(O)=O	2800.0
+C\C(=C/c1ccc(Cl)cc1)C(=O)Nc1cc(Cl)ccc1C(O)=O	32300.0
+CSC(Cc1ccc(Cl)cc1)C(=O)Nc1ccc(Cl)cc1C(O)=O	1400.0

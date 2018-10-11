@@ -1,0 +1,31 @@
+MSFRFGQHLIKPSVVFLKTELSFALVNRKPVVPGHVLVCPLRPVERFHDLRPDEVADLFQTTQRVGTVVEKHFHGTSLTFSMQDGPEAGQTVKHVHVHVLPRKAGDFHRNDSIYEELQKHDKEDFPASWRSEEEMAAEAAALRVYFQ
+Ki
+Nc1ncnc2n(cnc12)C1O[C@H](COP([O-])(=O)OP([O-])(=O)OP([O-])(=O)OP([O-])(=O)OCC2O[C@H]([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)[C@@H](O)[C@H]1O	2600.0
+Nc1ncnc2n(cnc12)C1OC(COP([O-])(=S)OCCOP([S-])(=O)OCC2OC(C(O)C2O)n2cnc3c(N)ncnc23)C(O)C1O	2600.0
+Nc1ncnc2n(cnc12)C1OC(COP([O-])(=S)OC(C(OP([S-])(=O)OCC2OC(C(O)C2O)n2cnc3c(N)ncnc23)C([O-])=O)C([O-])=O)C(O)C1O	86000.0
+Nc1ncnc2n(cnc12)C1OC(COP([O-])(=S)OCC(O)C(O)COP([S-])(=O)OCC2OC(C(O)C2O)n2cnc3c(N)ncnc23)C(O)C1O	86000.0
+Nc1ncnc2n(cnc12)C1O[C@H](COP([O-])(=O)OCP(O)([O-])=COP([O-])(=O)OCC2O[C@H]([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)[C@@H](O)[C@H]1O	1500.0
+Nc1ncnc2n(cnc12)C1O[C@H](COP([O-])(=S)OC=P(O)([O-])COP([S-])(=O)OCC2O[C@H]([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)[C@@H](O)[C@H]1O	220.0
+Nc1ncnc2n(cnc12)C1OC(COP([O-])(=S)OCC(O)COP([S-])(=O)OCC2OC(C(O)C2O)n2cnc3c(N)ncnc23)C(O)C1O	35.0
+Nc1ncnc2n(cnc12)C1O[C@H](COP([O-])(=O)OCC(O)COP([O-])(=O)OCC2O[C@H]([C@H](O)C2O)n2cnc3c(N)ncnc23)[C@@H](O)[C@H]1O	4700.0
+CC(COP([S-])(=O)OCC1OC(C(O)C1O)n1cnc2c(N)ncnc12)COP([O-])(=S)OCC1OC(C(O)C1O)n1cnc2c(N)ncnc12	76000.0
+NC(COP([O-])(=S)OCC1OC(C(O)C1O)n1cnc2c(N)ncnc12)COP([S-])(=O)OCC1OC(C(O)C1O)n1cnc2c(N)ncnc12	3000.0
+Nc1ncnc2n(cnc12)C1OC(COP([O-])(=S)OCCCOP([S-])(=O)OCC2OC(C(O)C2O)n2cnc3c(N)ncnc23)C(O)C1O	230.0
+Nc1ncnc2n(cnc12)[C@@H]1OC(COP([O-])(=S)NCCCNP([S-])(=O)OC[C@H]2OC([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)[C@@H](O)[C@H]1O	3300.0
+Nc1ncnc2n(cnc12)C1OC(COP([O-])(=S)SCCCSP([S-])(=O)OCC2OC(C(O)C2O)n2cnc3c(N)ncnc23)C(O)C1O	5200.0
+Nc1ncnc2n(cnc12)C1OC(COP([O-])(=O)OCC(COP(O)([O-])=O)(COP([O-])(=O)OCC2O[C@H]([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)COP([O-])(=O)OC[C@H]2OC([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)[C@H](O)[C@@H]1O	1500.0
+Nc1ncnc2n(cnc12)C1OC(COP([S-])(=O)OCC(COP(O)([O-])=S)(COP([S-])(=O)OCC2OC(C(O)C2O)n2cnc3c(N)ncnc23)COP([S-])(=O)OCC2OC(C(O)C2O)n2cnc3c(N)ncnc23)C(O)C1O	40.0
+Nc1ncnc2n(cnc12)C1OC(COP([O-])(=O)OCC(COP([O-])(=O)OCC2O[C@H]([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)(COP([O-])(=O)OCC2O[C@H]([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)COP([O-])(=O)OC[C@H]2OC([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)[C@H](O)[C@@H]1O	3200.0
+Nc1ncnc2n(cnc12)C1OC(COP([O-])(=S)OCC(COP([S-])(=O)OCC2OC(C(O)C2O)n2cnc3c(N)ncnc23)(COP([S-])(=O)OCC2OC(C(O)C2O)n2cnc3c(N)ncnc23)COP([S-])(=O)OCC2OC(C(O)C2O)n2cnc3c(N)ncnc23)C(O)C1O	65.0
+Nc1ncnc2n(cnc12)C1O[C@H](COP([O-])(=O)OCC(COP([O-])([O-])=O)(COP([O-])([O-])=O)COP([O-])(=O)OCC2O[C@H]([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)[C@@H](O)[C@H]1O	900.0
+Nc1ncnc2n(cnc12)C1OC(COP([O-])(=S)OCC(COP([O-])([S-])=O)(COP([O-])([S-])=O)COP([S-])(=O)OCC2OC(C(O)C2O)n2cnc3c(N)ncnc23)C(O)C1O	700.0
+Nc1ncnc2n(cnc12)C1O[C@H](COP([O-])(=O)OCC(COP([O-])(=O)OCC2O[C@H]([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)OP([O-])(=O)OC[C@H]2OC([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)[C@@H](O)[C@H]1O	1500.0
+Nc1ncnc2n(cnc12)C1OC(COP([O-])(=S)OCC(COP([S-])(=O)OCC2OC(C(O)C2O)n2cnc3c(N)ncnc23)OP([S-])(=O)OCC2OC(C(O)C2O)n2cnc3c(N)ncnc23)C(O)C1O	78.0
+Nc1ncnc2n(cnc12)[C@@H]1OC(COP([O-])(=S)NCC(CNP([S-])(=O)OC[C@H]2OC([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)OP([S-])(=O)OC[C@H]2OC([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)[C@@H](O)[C@H]1O	2700.0
+Nc1ncnc2n(cnc12)C1O[C@H](COP([O-])(=O)OCC(COP([O-])(=O)OCC2O[C@H]([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)OP([O-])([O-])=O)[C@@H](O)[C@H]1O	420.0
+Nc1ncnc2n(cnc12)C1OC(COP([O-])(=S)OCC(COP([S-])(=O)OCC2OC(C(O)C2O)n2cnc3c(N)ncnc23)OP([O-])([S-])=O)C(O)C1O	110.0
+Nc1ncnc2n(cnc12)[C@@H]1O[C@H](COP(S)(=O)OCC(COP(S)(=O)OC[C@H]2O[C@H]([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)OP(O)(S)=O)[C@@H](O)[C@H]1O	35.0
+Nc1ncnc2n(cnc12)[C@@H]1O[C@H](COP(S)(=O)OCC(COP(S)(=O)OC[C@H]2O[C@H]([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)OP(S)(=O)OC[C@H]2O[C@H]([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)[C@@H](O)[C@H]1O	35.0
+Nc1ncnc2n(cnc12)[C@@H]1O[C@H](COP(S)(=O)OCC(COP(S)(=O)OC[C@H]2O[C@H]([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)(COP(S)(=O)OC[C@H]2O[C@H]([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)COP(S)(=O)OC[C@H]2O[C@H]([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)[C@@H](O)[C@H]1O	35.0
+Nc1ncnc2n(cnc12)[C@@H]1O[C@H](COP(S)(=O)OCC(COP(O)(S)=O)(COP(S)(=O)OC[C@H]2O[C@H]([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)COP(S)(=O)OC[C@H]2O[C@H]([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)[C@@H](O)[C@H]1O	35.0
+Nc1ncnc2n(cnc12)[C@@H]1O[C@H](COP(S)(=O)OCC(O)COP(S)(=O)OC[C@H]2O[C@H]([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)[C@@H](O)[C@H]1O	35.0

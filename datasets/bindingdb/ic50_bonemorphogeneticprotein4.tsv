@@ -1,0 +1,32 @@
+MIPGNRMLMVVLLCQVLLGGASHASLIPETGKKKVAEIQGHAGGRRSGQSHELLRDFEATLLQMFGLRRRPQPSKSAVIPDYMRDLYRLQSGEEEEEQIHSTGLEYPERPASRANTVRSFHHEEHLENIPGTSENSAFRFLFNLSSIPENEVISSAELRLFREQVDQGPDWERGFHRINIYEVMKPPAEVVPGHLITRLLDTRLVHHNVTRWETFDVSPAVLRWTREKQPNYGLAIEVTHLHQTRTHQGQHVRISRSLPQGSGNWAQLRPLLVTFGHDGRGHALTRRRRAKRSPKHHSQRARKKNKNCRRHSLYVDFSDVGWNDWIVAPPGYQAFYCHGDCPFPLADHLNSTNHAIVQTLVNSVNSSIPKACCVPTELSAISMLYLDEYDKVVLKNYQEMVVEGCGCR
+IC50
+CN1CCN(CCOc2ccc(cc2)-c2cnc3c(c(C)nn3c2)-c2ccncc2)CC1	20000.0
+COc1ccc(cc1)-c1cnc2c(ccn2c1)-c1ccnc2ccccc12	20000.0
+COC(=O)c1cc(-c2ccnc3ccccc23)c2ncc(cn12)-c1ccc(OC)cc1	20000.0
+C1CN(CCN1)c1cccc(c1)-c1cnc2c(cnn2c1)-c1ccnc2ccccc12	20000.0
+COc1ccc(cc1)-c1cnc2c(cnn2c1)-c1cnc2ccccc2c1	20000.0
+COc1ccc(cc1)-c1cnc2c(cnn2c1)-c1cccc2cccnc12	20000.0
+COc1ccc(cc1)-c1cnc2c(cnn2c1)-c1ccc2ncccc2c1	20000.0
+C(CN1CCCCC1)Oc1ccc(cc1)-c1cnc2c(cnn2c1)-c1ccccc1	20000.0
+C(CN1CCCCC1)Oc1ccc(cc1)-c1cnc2c(cnn2c1)-c1cccnc1	20000.0
+C(CN1CCCCC1)Oc1ccc(cc1)-c1cnc2ccnn2c1	20000.0
+C1CN(CCN1)c1ccc(cc1)-c1ccc2c(cnn2c1)-c1ccnc2ccccc12	5.0
+COc1ccc(cc1)-c1ccc2c(cnn2c1)-c1ccnc2ccccc12	150.0
+C(CN1CCCCC1)Oc1ccc(cc1)-c1cnc2c(ccn2c1)-c1ccnc2ccccc12	2600.0
+Clc1ccc2c(ccnc2c1)-c1cnn2cc(cnc12)-c1ccc(cc1)N1CCNCC1	350.0
+COc1ccc(cc1)-c1cnc2c(cnn2c1)-c1ccnc2cc(Cl)ccc12	500.0
+C1CN(CCN1)c1ccc(cc1)-c1cnc2c(cnn2c1)-c1ccnc2ccccc12	4.9
+Oc1ccc(cc1)-c1cnc2c(cnn2c1)-c1ccnc2ccccc12	250.0
+c1nn2cc(cnc2c1-c1ccnc2ccccc12)-c1ccccc1	750.0
+c1nn2cccnc2c1-c1ccnc2ccccc12	5000.0
+C(CN1CCCCC1)Oc1ccc(cc1)-c1cnc2c(cnn2c1)-c1ccnc2ccccc12	90.0
+CN1CCN(CCOc2ccc(cc2)-c2cnc3c(cnn3c2)-c2ccnc3ccccc23)CC1	10.0
+COc1ccc(cc1)-c1cnc2c(cnn2c1)-c1ccnc2ccccc12	55.0
+COc1ccc(cc1)-c1cnc2c(cnn2c1)-c1cccc2ncccc12	3000.0
+CN1CCN(CCOc2ccc(cc2)-c2cnc3c(cnn3c2)-c2ccncc2F)CC1	3300.0
+CN1CCN(CCOc2cccc(c2)-c2cnc3c(cnn3c2)-c2ccncc2)CC1	4500.0
+CN1CCN(CCOc2ccc(cc2)-c2cnc3c(cnn3c2)-c2ccncc2)CC1	450.0
+CCN(CC)CCOc1ccc(cc1)-c1cnc2c(cnn2c1)-c1ccncc1	500.0
+C(CN1CCOCC1)Oc1ccc(cc1)-c1cnc2c(cnn2c1)-c1ccncc1	2000.0
+COc1ccc(cc1)-c1cnc2c(cnn2c1)-c1ccncc1	6500.0
+C(CN1CCCCC1)Oc1ccc(cc1)-c1cnc2c(cnn2c1)-c1ccncc1	430.0

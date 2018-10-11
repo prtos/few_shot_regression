@@ -1,0 +1,30 @@
+MNKQRIYSIVAILLFVVGGVLIGKPFYDGYQAEKKQTENVQAVQKMDYEKHETEFVDASKIDQPDLAEVANASLDKKQVIGRISIPSVSLELPVLKSSTEKNLLSGAATVKENQVMGKGNYALAGHNMSKKGVLFSDIASLKKGDKIYLYDNENEYEYAVTGVSEVTPDKWEVVEDHGKDEITLITCVSVKDNSKRYVVAGDLVGTKAKK
+IC50
+Oc1c(Br)cc(cc1\C=C1/SC(=S)N(C1=O)c1ccc(cc1)[N+]([O-])=O)[N+]([O-])=O	20000.0
+CN1C(=S)S\C(=C/c2cc(cc(Br)c2O)[N+]([O-])=O)C1=O	13000.0
+CCCN1C(=S)S\C(=C/c2ccc(o2)-c2ccccc2)C1=O	53000.0
+CCN1C(=S)S\C(=C/c2ccc(o2)-c2ccccc2[N+]([O-])=O)C1=O	74000.0
+C=CCN1C(=S)S\C(=C/c2ccc(o2)-c2ccccc2)C1=O	27000.0
+CCOc1c(S)cnn(-c2ccccc2)c1=O	1400.0
+COc1cnn(-c2ccccc2)c(=O)c1S	1800.0
+Oc1cnn(-c2ccccc2)c(=O)c1OCc1ccccc1	50000.0
+COc1c(O)cnn(-c2ccccc2)c1=O	50000.0
+CCSc1c(O)cnn(-c2ccccc2)c1=O	50000.0
+CCSc1c(S)cnn(-c2ccccc2)c1=O	300.0
+CCOc1c(S)cnn(-c2ccccc2)c1=O	3200.0
+CCOc1c(S)cnn(-c2ccc(cc2)[N+]([O-])=O)c1=O	6700.0
+CCOc1c(S)cnn(-c2cccc(F)c2)c1=O	1800.0
+CCOc1c(S)cnn(-c2cccc(C)c2)c1=O	1700.0
+CCOc1c(S)cnn(-c2cc(Cl)cc(Cl)c2)c1=O	14000.0
+CCOc1c(S)cnn(C2CCCCC2)c1=O	1400.0
+CCOc1c(SSc2cnn(-c3ccccc3)c(=O)c2OCC)cnn(-c2ccccc2)c1=O	1200.0
+CCOc1cnn(-c2ccccc2)c(=O)c1S	1200.0
+CCOc1cnn(-c2cccc(F)c2)c(=O)c1S	900.0
+CCOc1cnn(-c2cccc(C)c2)c(=O)c1S	400.0
+CCOc1cnn(-c2cc(Cl)cc(Cl)c2)c(=O)c1S	5200.0
+CCOc1cnn(-c2ccccc2)c(=O)c1Cl	300.0
+CCOc1cnn(-c2ccc(cc2)[N+]([O-])=O)c(=O)c1Cl	247000.0
+Clc1cc(Cl)cc(c1)-n1ncc(Cl)c(Cl)c1=O	14000.0
+Cc1[nH]n(-c2ccccc2)c(=S)c1C=Nc1ccc(cc1)N=Nc1ccccc1	1400.0
+Cc1[nH]n(-c2ccccc2)c(=S)c1C=Nc1c(Br)cc(Br)cc1Br	1700.0
+Cc1[nH]n(-c2ccccc2)c(=S)c1C=Nc1ccccn1	1400.0

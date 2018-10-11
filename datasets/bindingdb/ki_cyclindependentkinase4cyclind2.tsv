@@ -1,0 +1,37 @@
+MATSRYEPVAEIGVGAYGTVYKARDPHSGHFVALKSVRVPNGGGGGGGLPISTVREVALLRRLEAFEHPNVVRLMDVCATSRTDREIKVTLVFEHVDQDLRTYLDKAPPPGLPAETIKDLMRQFLRGLDFLHANCIVHRDLKPENILVTSGGTVKLADFGLARIYSYQMALTPVVVTLWYRAPEVLLQSTYATPVDMWSVGCIFAEMFRRKPLFCGNSEADQLGKIFDLIGLPPEDDWPRDVSLPRGAFPPRGPRPVQSVVPEMEESGAQLLLEMLTFNPHKRISAFRALQHSYLHKDEGNPE
+Ki
+Cc1nc(N)sc1-c1ccnc(Nc2cccc(c2)N(=O)=O)n1	19.0
+CCNc1nc(C)c(s1)-c1ccnc(Nc2cccc(c2)S(N)(=O)=O)n1	132.0
+CNc1nc(C)c(s1)-c1ccnc(Nc2cccc(c2)S(N)(=O)=O)n1	9.1
+CNc1nc(C)c(s1)-c1ccnc(Nc2cccc(c2)S(=O)(=O)NC)n1	20.0
+CNS(=O)(=O)c1cccc(Nc2nccc(n2)-c2sc(N)nc2C)c1	163.0
+CNc1nc(C)c(s1)-c1ccnc(Nc2cccc(c2)S(C)(=O)=O)n1	94.0
+CCNc1nc(C)c(s1)-c1ccnc(Nc2cccc(c2)S(C)(=O)=O)n1	139.0
+CCNS(=O)(=O)c1cccc(Nc2nccc(n2)-c2sc(N)nc2C)c1	391.0
+CNc1nc(C)c(s1)-c1ccnc(Nc2ccc(C)c(c2)S(=O)(=O)N2CCOCC2)n1	500.0
+Cc1nc(N)sc1-c1ccnc(Nc2ccc(C)c(c2)S(=O)(=O)N2CCOCC2)n1	500.0
+COCCNS(=O)(=O)c1ccc(Nc2nccc(n2)-c2sc(=O)n(C)c2C)cc1	500.0
+Cc1c(sc(=O)n1C)-c1ccnc(Nc2cccc(c2)C#N)n1	102.0
+Cc1c(sc(=O)n1C)-c1ccnc(Nc2ccc(C)c(c2)N(=O)=O)n1	60.0
+Cc1c(sc(=O)n1C)-c1ccnc(Nc2ccc(cc2)N2CCNCC2)n1	68.0
+CN1CCC(C1CO)c1c(O)cc(O)c2c1oc(cc2=O)-c1ccccc1	100.0
+O=C1N=C(NCc2cccs2)SC1=Cc1ccc2ncccc2c1	2000.0
+NC1=NC(=O)C(S1)=Cc1ccc2ncccc2c1	2000.0
+O=C1N=C(N[C@@H]2C[C@H]2c2ccccc2)SC1=Cc1ccc2ncccc2c1	2000.0
+Cc1nc(N)sc1-c1ccnc(Nc2ccc(cc2)N2CCOCC2)n1	1090.0
+Cc1nc(C)c(s1)-c1ccnc(Nc2ccc(cc2)N2CCN(CC2)S(C)(=O)=O)n1	10000.0
+CC(=O)N1CCN(CC1)c1ccc(Nc2nccc(n2)-c2sc(C)nc2C)cc1	929.0
+CNc1nc(C)c(s1)-c1ccnc(Nc2ccc(cc2)N2CCN(CC2)C(C)=O)n1	22.0
+CC(=O)N1CCN(CC1)c1ccc(Nc2nccc(n2)-c2sc(N)nc2C)cc1	1248.0
+CCNc1nc(C)c(s1)-c1ccnc(Nc2ccc(cc2)N2CCOCC2)n1	196.0
+CNc1nc(C)c(s1)-c1ccnc(Nc2ccc(cc2)N2CCOCC2)n1	943.0
+Cc1nc(C)c(s1)-c1ccnc(Nc2ccc(cc2)N2CCOCC2)n1	2170.0
+CCNc1nc(C)c(s1)-c1ccnc(Nc2ccc(CNC(C)=O)cc2)n1	38.0
+CCNc1nc(C)c(s1)-c1ccnc(Nc2cc(OC)c(OC)c(OC)c2)n1	10000.0
+CNc1nc(C)c(s1)-c1ccnc(Nc2cc(OC)c(OC)c(OC)c2)n1	955.0
+COc1cc(Nc2nccc(n2)-c2sc(C)nc2C)cc(OC)c1OC	666.0
+Cc1nc(C)c(s1)-c1ccnc(Nc2ccc(N)cc2)n1	807.0
+CNc1ccc(Nc2nccc(n2)-c2sc(C)nc2C)cc1	840.0
+CN(C)c1ccc(Nc2nccc(n2)-c2sc(C)nc2C)cc1	1503.0
+Cc1nc(N)sc1-c1ccnc(Nc2cccc(c2)[N+]([O-])=O)n1	53.0
+CC(C)(C)c1cnc(CSc2cnc(NC(=O)C3CCNCC3)s2)o1	925.0

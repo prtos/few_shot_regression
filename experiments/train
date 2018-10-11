@@ -1,0 +1,100 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# A sample training component that trains a simple metalearning model.
+# This implementation works in File mode and makes no assumptions about the input file names.
+# Input is specified a folder in which the datasets live.
+
+import os
+import json
+import pickle
+import traceback
+from expts_utils import *
+from metalearn.utils.metric import mse, vse, pcc, r2
+
+
+def run_experiment(model_name, model_params, dataset_name, dataset_params,
+                   fit_params, out_path, ckp_path, inp_path=None, refit=True):
+    all_params = locals()
+    del all_params['out_path'], all_params['ckp_path'], all_params['inp_path'], all_params['refit']
+    model = get_model(model_name, model_params)
+    meta_train, meta_test = get_dataset_partitions(dataset_name, dataset_params, ds_folder=inp_path)
+
+    out_prefix = get_outfname_prefix(all_params)
+    ckp_fname = "{}/{}_ckp.ckp".format(ckp_path, out_prefix)
+    result_fname = "{}/{}_res.csv".format(out_path, out_prefix),
+    log_fname = "{}/{}_log.log".format(out_path, out_prefix)
+    tboard = "{}/{}".format(out_path, out_prefix)
+
+    if os.path.exists(ckp_fname):
+        try:
+            model.load(ckp_fname)
+        except:
+            pass
+    fit_params.update(dict(log_filename=log_fname,
+                           checkpoint_filename=ckp_fname,
+                           tboard_folder=tboard))
+    fit_and_eval(model, meta_train, meta_test, fit_params, result_fname, refit=refit)
+
+
+def fit_and_eval(model, meta_train, meta_test, fit_params, result_fname, refit=False):
+    if refit and model.is_fitted:
+        pass
+    else:
+        model.fit(meta_train, **fit_params)
+
+    scores = model.evaluate(meta_test, metrics=[mse, vse, r2, pcc])
+    with open(result_fname, "w") as outfile:
+        results = save_stats(scores, outfile)
+        print(results)
+
+
+# The function to execute the training.
+def main():
+    # These are the paths to where SageMaker mounts interesting things in your container.
+    prefix = '/opt/ml/'
+    # for local test uncomment the following
+    # prefix = './local_test/test_dir/'
+
+    data_path = prefix + 'input/data'
+    output_path = os.path.join(prefix, 'output')
+    model_path = os.path.join(prefix, 'model')
+    param_path = os.path.join(prefix, 'input/config/hyperparameters.json')
+
+    print('Starting the training.')
+    try:
+        # Read in any hyperparameters that the user passed with the training job
+        with open(param_path, 'r') as tc:
+            trainingParams = json.load(tc)
+
+        # use the params to initialize some variables
+        model_name = trainingParams.get('model_name', None)
+        model_params = trainingParams.get('model_params', None)
+        dataset_name = trainingParams.get('dataset_name', None)
+        dataset_params = trainingParams.get('dataset_params', None)
+        fit_params = trainingParams.get('fit_params', None)
+
+        # This algorithm has a single channel of input data called which name is defined by the param dataset_name.
+        # Since we run in File mode, the input files are copied to the directory specified here.
+        channel_name = dataset_name
+        input_path = os.path.join(data_path, channel_name)
+
+        # the function below does all the data loading and run the algo
+        run_experiment(model_name, model_params, dataset_name, dataset_params, fit_params,
+                       output_path, model_path, input_path, refit=True)
+
+    except Exception as e:
+        # Write out an error file. This will be returned as the failureReason in the
+        # DescribeTrainingJob result.
+        trc = traceback.format_exc()
+        with open(os.path.join(output_path, 'failure'), 'w') as s:
+            s.write('Exception during training: ' + str(e) + '\n' + trc)
+        # Printing this causes the exception to be in the training job logs, as well.
+        print('Exception during training: ' + str(e) + '\n' + trc, file=sys.stderr)
+        # A non-zero exit code causes the training job to be marked as Failed.
+        sys.exit(255)
+
+
+if __name__ == '__main__':
+    main()
+    # A zero exit code causes the job to be marked a Succeeded.
+    sys.exit(0)

@@ -1,0 +1,32 @@
+MPCCEVITNVNLPDDNVQSTLSQIENAISDVMGKPLGYIMSNYDYQKNLRFGGSNEAYCFVRITSIGGINRSNNSALADQITKLLVSNLNVKSRRIYVEFRDCSAQNFAFSGSLFG
+Ki
+COc1ccc(cc1)-c1cc(Oc2cc(C)cc(OC)c2)cc(C)n1	38.0
+COc1ccc(cc1)-c1cc(Oc2cc(C)cc(OC)c2)ccn1	370.0
+Oc1ccc(cc1)-c1cc(Oc2cccc(O)c2)ccn1	3000.0
+COc1cccc(Oc2cc(C)nc(c2)-c2ccccc2)c1	7700.0
+Cc1cc(Oc2cccc(O)c2)cc(n1)-c1ccccc1	39.0
+Cc1cc(Oc2cccc(c2)C#N)nc(n1)-c1ccccc1	1600.0
+Cc1cc(Oc2ccc(O)cc2)nc(n1)-c1ccccc1	93300.0
+COc1cccc(Oc2cc(C)nc(n2)-c2ccccc2)c1	5500.0
+COc1cccc(Oc2cc(C)nc(c2)N2CCOCC2)c1	43.0
+Cc1cc(Oc2cccc(c2)C#N)cc(n1)N1CCOCC1	11300.0
+COc1cc(C)cc(Oc2cc(C)nc(c2)N2CCOCC2)c1	1200.0
+CCOc1cccc(Oc2cc(C)nc(c2)N2CCOCC2)c1	7200.0
+CCOc1cccc(Oc2ccnc(c2)N2CCOCC2)c1	6900.0
+COc1cc(Cl)cc(Oc2ccnc(c2)N2CCOCC2)c1	2600.0
+COc1cc(C)cc(Oc2ccnc(c2)N2CCOCC2)c1	5600.0
+COc1cc(OC)cc(Oc2ccnc(c2)N2CCOCC2)c1	122000.0
+Oc1cccc(c1)-c1ccc(Oc2cccc(c2)C#N)cn1	370.0
+COc1cccc(Oc2ccc(nc2)-c2cccc(OC)c2)c1	57200.0
+Oc1ccc(cc1)-c1ccc(Oc2cccc(O)c2)cn1	67600.0
+Oc1cccc(Oc2ccc(nc2)-c2cccc(O)c2)c1	6900.0
+COc1cccc(Oc2ccnc(c2)N2CCOCC2)c1	22900.0
+Oc1cccc(Oc2ccnc(c2)N2CCOCC2)c1	43400.0
+COc1ccc(cc1)-c1nnc2ccc(Oc3cccc(O)c3)nn12	122300.0
+Cc1cc(Oc2cccc(O)c2)nc(n1)-c1ccccc1	19300.0
+Oc1cccc(Oc2c(F)c(F)nc(N3CCCCC3)c2F)c1	28600.0
+Oc1cccc(Oc2c(F)c(nc(F)c2Cl)N2CCOCC2)c1	15500.0
+Oc1cccc(Oc2c(F)c(F)nc(N3CCOCC3)c2F)c1	8600.0
+NC(=O)CSc1nc2ccccc2c2nc(Cc3c[nH]c4ccccc34)c(O)n12	25400.0
+Oc1cccc(NC2=NC(=O)C(S2)=Cc2cccc(O)c2)c1	20600.0
+NS(=O)(=O)c1ccc(NC2=CC(=O)C(=O)c3ccccc23)cc1	99000.0

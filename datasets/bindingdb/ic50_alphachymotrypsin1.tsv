@@ -1,0 +1,32 @@
+CGVPAIQPVLSGLSRIVNGEEAVPGSWPWQVSLQDKTGFHFCGGSLINENWVVTAAHCGVTTSDVVVAGEFDQGSSSEKIQKLKIAKVFKNSKYNSLTINNDITLLKLSTAASFSQTVSAVCLPSASDDFAAGTTCVTTGWGLTRYTNANTPDRLQQASLPLLSNTNCKKYWGTKIKDAMICAGASGVSSCMGDSGGPLVCKKNGAWTLVGIVSWGSSTCSTSTPGVYARVTALVNWVQQTLAAN
+IC50
+Fc1ccccc1-c1nc2ccccc2c(=O)o1	6500.0
+COc1ccccc1-c1nc2ccccc2c(=O)o1	9900.0
+O=c1oc(nc2ccccc12)-c1ccccc1	11700.0
+O=c1oc(nc2ccccc12)-c1cccs1	12100.0
+COc1ccc(cc1)-c1nc2ccccc2c(=O)o1	14400.0
+Brc1ccccc1-c1nc2ccccc2c(=O)o1	18800.0
+Cc1ccc(cc1)-c1nc2ccccc2c(=O)o1	20100.0
+Fc1cccc(F)c1-c1nc2ccccc2c(=O)o1	23500.0
+[O-][N+](=O)c1ccccc1-c1nc2ccccc2c(=O)o1	23800.0
+Cc1cccc(c1)-c1nc2ccccc2c(=O)o1	23900.0
+COc1cccc(OC)c1-c1nc2ccccc2c(=O)o1	26300.0
+Fc1cccc(c1)-c1nc2ccccc2c(=O)o1	28200.0
+Cc1ccccc1-c1nc2ccccc2c(=O)o1	28800.0
+Clc1cccc(c1)-c1nc2ccccc2c(=O)o1	41800.0
+Cc1cccc(c1)-c1nc2cc(ccc2c(=O)o1)[N+]([O-])=O	94100.0
+Fc1ccc(cc1)-c1nc2ccccc2c(=O)o1	158600.0
+Fc1ccccc1-c1nc2cc(Cl)ccc2c(=O)o1	328700.0
+[O-][N+](=O)c1cccc(c1)-c1nc2ccccc2c(=O)o1	341100.0
+[O-][N+](=O)c1ccc(cc1)-c1nc2ccccc2c(=O)o1	500000.0
+Brc1ccc(cc1)-c1nc2ccccc2c(=O)o1	500000.0
+COc1cc(cc(OC)c1OC)-c1nc2ccccc2c(=O)o1	500000.0
+[O-][N+](=O)c1ccc2c(c1)nc(oc2=O)-c1cccc(Br)c1	500000.0
+Cc1ccc2c(c1)nc(oc2=O)-c1cccc(Cl)c1	500000.0
+Clc1ccc2c(c1)nc(oc2=O)-c1ccccc1Cl	500000.0
+[O-][N+](=O)c1ccc(cc1)-c1nc2cc(Cl)ccc2c(=O)o1	500000.0
+Clc1ccc2c(c1)nc(oc2=O)-c1ccccc1	500000.0
+Cc1ccc(cc1)S(=O)(=O)Nc1ccccc1-c1nc2ccccc2c(=O)o1	500000.0
+Brc1cccc(c1)-c1nc2ccccc2c(=O)o1	500000.0
+O=c1[nH]c(nc2ccccc12)-c1ccccc1	500000.0
+CC(C)C[C@H](NC(=O)[C@@H](NC(=O)N[C@@H](Cc1ccccc1)C(O)=O)C1CCN=C(N)N1)C(=O)N[C@@H](Cc1ccccc1)C=O	5800.0

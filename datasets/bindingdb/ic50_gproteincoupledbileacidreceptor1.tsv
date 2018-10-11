@@ -1,0 +1,33 @@
+MMTPNSTELSAIPMGVLGLSLALASLIVIANLLLALGIALDRHLRSPPAGCFFLSLLLAGLLTGLALPMLPGLWSRNHQGYWSCLLLHLTPNFCFLSLLANLLLVHGERYMAVLQPLRPHGSVRLALFLTWVSSLFFASLPALGWNHWSPDANCSSQAVFPAPYLYLEVYGLLLPAVGATALLSVRVLATAHRQLCEIRRLERAVCRDVPSTLARALTWRQARAQAGATLLFLLCWGPYVATLLLSVLAYERRPPLGPGTLLSLISLGSTSAAAVPVAMGLGDQRYTAPWRTAAQRCLRVLRGRAKRDNPGPSTAYHTSSQCSIDLDLN
+IC50
+COc1ccc2cc(CNCCc3ccc(Br)cc3)c(nc2c1)-c1ccsc1	3200.0
+C[C@H](CCC(O)=O)[C@H]1CC[C@H]2[C@@H]3[C@H](O)C[C@@H]4C[C@H](O)CC[C@]4(C)[C@H]3C[C@H](O)[C@]12C	5300.0
+CC[C@H]1[C@@H](O)[C@H]2[C@@H]3CC[C@H]([C@H](C)C[C@H](C)C(O)=O)[C@@]3(C)CC[C@@H]2[C@@]2(C)CC[C@@H](O)C[C@@H]12	250.0
+COc1ccc2cc(CNCc3ccccc3)c(nc2c1)-c1ccsc1	10000.0
+COc1ccc2cc(CNCc3ccc(C)cc3)c(nc2c1)-c1ccsc1	3900.0
+COc1ccc(CNCc2cc3ccc(OC)cc3nc2-c2ccsc2)cc1	8500.0
+COc1ccc2cc(CNCc3ccc(Cl)cc3)c(nc2c1)-c1ccsc1	4300.0
+COc1ccc2cc(CNCCc3ccc(Cl)cc3)c(nc2c1)-c1ccsc1	3700.0
+COc1ccc2cc(CNCCc3cccc(Br)c3)c(nc2c1)-c1ccsc1	13000.0
+COc1ccc2cc(CNCCc3ccc(Br)cc3)c(nc2c1)-c1cccs1	4600.0
+COc1ccc2cc(CNCCc3ccc(Br)cc3)c(nc2c1)-c1ccoc1	6100.0
+COc1ccc2cc(CNCCc3ccc(Br)cc3)c(nc2c1)-c1ccco1	4000.0
+COc1ccc2cc(CNCCc3ccc(Br)cc3)c(nc2c1)-c1ccccc1	8100.0
+COc1ccc2cc(CNCCc3ccc(Br)cc3)c(nc2c1)-c1ccncc1	3700.0
+COc1ccc2cc(CNCCc3ccc(Br)cc3)c(nc2c1)-c1cccnc1	5000.0
+COc1ccc2cc(CNCCc3ccc(Br)cc3)c(Oc3cccnc3)nc2c1	10000.0
+COc1ccc2cc(CNCCc3ccc(Br)cc3)c(nc2c1)-c1nccs1	10000.0
+COc1ccc2cc(CNCCc3ccc(Br)cc3)c(nc2c1)-c1ncco1	10000.0
+Cc1ccc2cc(CNCCc3ccc(Br)cc3)c(nc2c1)-c1ccsc1	10000.0
+Clc1ccc2cc(CNCCc3ccc(Br)cc3)c(nc2c1)-c1ccsc1	10000.0
+CCOc1ccc2cc(CNCCc3ccc(Br)cc3)c(nc2c1)-c1ccsc1	9400.0
+FC(F)(F)Oc1ccc2cc(CNCCc3ccc(Br)cc3)c(nc2c1)-c1ccsc1	10000.0
+OC(=O)c1ccc2cc(CNCCc3ccc(Br)cc3)c(nc2c1)-c1ccsc1	10000.0
+Brc1ccc(CCNCc2cc3ccccc3nc2-c2ccsc2)cc1	10000.0
+Oc1ccc2cc(CNCCc3ccc(Br)cc3)c(nc2c1)-c1ccsc1	280.0
+COc1ccc2nc(-c3ccsc3)c(CNCCc3ccc(Br)cc3)cc2c1	10000.0
+Oc1ccc2nc(-c3ccsc3)c(CNCCc3ccc(Br)cc3)cc2c1	1600.0
+COc1cc2nc(-c3ccsc3)c(CNCCc3ccc(Br)cc3)cc2cc1O	320.0
+COc1cc2cc(CNCCc3ccc(Br)cc3)c(nc2cc1OC)-c1ccsc1	10000.0
+COc1cc2cc(CNCCc3ccc(Br)cc3)c(nc2cc1O)-c1ccsc1	10000.0
+Oc1cc2cc(CNCCc3ccc(Br)cc3)c(nc2cc1O)-c1ccsc1	10000.0

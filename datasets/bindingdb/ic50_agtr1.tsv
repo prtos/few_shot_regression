@@ -1,0 +1,35 @@
+MALNSSAEDGIKRIQDDCPKAGRHSYIFVMIPTLYSIIFVVGIFGNSLVVIVIYFYMKLKTVASVFLLNLALADLCFLLTLPLWAVYTAMEYRWPFGNHLCKIASASVSFNLYASVFLLTCLSIDRYLAIVHPMKSRLRRTMLVAKVTCIIIWLMAGLASLPAVIHRNVYFIENTNITVCAFHYESRNSTLPIGLGLTKNILGFLFPFLIILTSYTLIWKALKKAYEIQKNKPRNDDIFRIIMAIVLFFFFSWVPHQIFTFLDVLIQLGVIHDCKISDIVDTAMPITICIAYFNNCLNPLFYGFLGKKFKKYFLQLLKYIPPKAKSHSSLSTKMSTLSYRPSDNMSSSAKKPASCFEVE
+IC50
+CCc1nc2c(C)cc(C)nc2n1Cc1ccc(cc1)-c1ccccc1-c1nnn[nH]1	0.4
+CCCCC(=O)N(Cc1ccc(cc1)-c1ccccc1-c1nnn[nH]1)[C@@H](C(C)C)C(O)=O	3.4
+CCCCc1nc(Cl)c(CO)n1Cc1ccc(cc1)-c1ccccc1-c1nnn[nH]1	6.7
+CCCCn1nc(OCc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c2cccnc2c1=O	114.0
+CCCCn1nc(OCc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c2cccnc12	254.0
+CCCn1nc(OCc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c2cccnc12	146.0
+CCCCn1n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c2ccccc2c1=O	598.0
+CCCCc1n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c(=O)c2ccc[nH]c12	95.0
+CCCc1n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c(=O)c2ccc[nH]c12	154.0
+CCc1n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c(=O)c2ccc[nH]c12	10000.0
+O=c1n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)cc2[nH]cccc12	10000.0
+CCCCn1n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c(=O)c2ccc(Cl)nc12	461.0
+CCCCn1n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c(=O)c2ccc(C)nc12	90.0
+CCCCn1n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c(=O)c2cccnc12	39.0
+CCCn1c(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c2[nH]cccc2c1=O	3000.0
+CCCCn1n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c2nc(ccc2c1=O)N1CCOCC1	600.0
+CCCCn1n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c2nc(NC)ccc2c1=O	124.0
+CCCCn1n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c2nc(OC)ccc2c1=O	258.0
+CCCCn1n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c2ncc(Cl)cc2c1=O	76.0
+CCCCn1n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c2ncc(F)cc2c1=O	70.0
+CCCCn1n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c2nc(Cl)c(F)cc2c1=O	427.0
+CCCCn1n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c2nc(Cl)ccc2c1=O	168.0
+CCCCn1n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c2nc(C)ccc2c1=O	81.0
+CCCn1n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c2nc(C)ccc2c1=O	291.0
+CCn1n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c2nc(C)ccc2c1=O	1870.0
+O=c1n(Cc2ccccc2)n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c2ncccc12	3000.0
+CCCCCn1n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c2ncccc2c1=O	53.0
+CC(C)CCn1n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c2ncccc2c1=O	124.0
+CCCCn1n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c2ncccc2c1=O	18.0
+CC(C)Cn1n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c2ncccc2c1=O	2300.0
+CCCn1n(Cc2ccc(cc2)-c2ccccc2-c2nnn[nH]2)c2ncccc2c1=O	108.0
+CCCc1nc2c(C)cc(C)nc2n1Cc1ccc(cc1)-c1ccccc1-c1nnn[nH]1	0.8
+CCc1nc2c(C)cc(C)nc2n1Cc1ccc(cc1)-c1c(cnc2ccccc12)-c1nnn[nH]1	6.9

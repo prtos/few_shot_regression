@@ -1,0 +1,23 @@
+MTIEKPKISVAFICLGNFCRSPMAEAIFKHEVEKANLENRFNKIDSFGTSNYHVGESPDHRTVSICKQHGVKINHKGKQIKTKHFDEYDYIIGMDESNINNLKKIQPEGSKAKVCLFGDWNTNDGTVQTIIEDPWYGDIQDFEYNFKQITYFSKQFLKKEL
+IC50
+OC(=O)c1ccc(CN2\C(S\C(=C/c3cccc(Oc4ccccc4)c3)C2=O)=N\c2ccccc2)cc1	11100.0
+OC(=O)c1ccc(CN2\C(S\C(=C/c3ccc(Oc4ccccc4)cc3)C2=O)=N\c2ccccc2)cc1	6300.0
+OC(=O)c1ccc(CN2\C(S\C(=C/c3cccc(OCc4ccccc4)c3)C2=O)=N\c2ccccc2)cc1	12900.0
+OC(=O)c1ccc(CN2\C(S\C(=C/c3ccc(OCc4ccccc4)cc3)C2=O)=N\c2ccccc2)cc1	15900.0
+OC(=O)c1ccc(CN2\C(S\C(=C/c3cccc4ccccc34)C2=O)=N\c2ccccc2)cc1	500000.0
+OC(=O)c1ccc(CN2\C(S\C(=C/c3ccc4ccccc4c3)C2=O)=N\c2ccccc2)cc1	27600.0
+OC(=O)c1ccc(CN2\C(S\C(=C/c3cccc(O)c3)C2=O)=N\c2ccccc2)cc1	250000.0
+OC(=O)c1ccc(CN2\C(S\C(=C/c3ccc(O)cc3)C2=O)=N\c2ccccc2)cc1	195400.0
+COc1ccc(\C=C2/S\C(=N/c3ccccc3)N(Cc3ccc(cc3)C(O)=O)C2=O)cc1O	250000.0
+COc1cc(\C=C2/S\C(=N/c3ccccc3)N(Cc3ccc(cc3)C(O)=O)C2=O)ccc1O	250000.0
+OC(=O)c1ccc(CN2\C(S\C(=C/c3ccc(O)c(c3)C(O)=O)C2=O)=N\c2ccccc2)cc1	344900.0
+OC(=O)c1ccc(CN2C(=O)S\C(=C/c3ccc(OCc4ccccc4)cc3)C2=O)cc1	15000.0
+COc1cc(\C=C2/SC(=O)N(Cc3ccc(cc3)C(O)=O)C2=O)ccc1O	389000.0
+OC(=O)c1ccc(CN2C(=O)S\C(=C/c3cccc(Oc4ccccc4)c3)C2=O)cc1	483000.0
+OC(=O)c1ccc(CN2C(=O)S\C(=C/c3ccc(O)cc3)C2=O)cc1	188000.0
+OC(=O)c1ccc(CN2C(=O)S\C(=C/c3ccc4ccccc4c3)C2=O)cc1	149000.0
+OC(=O)c1ccc(CN2C(=O)S\C(=C/c3cccc(O)c3)C2=O)cc1	1395000.0
+OC(=O)c1ccc(CN2C(=O)S\C(=C/c3cccc4ccccc34)C2=O)cc1	99000.0
+OC(=O)c1ccc(CN2C(=O)S\C(=C/c3ccc(Oc4ccccc4)cc3)C2=O)cc1	34000.0
+OC(=O)c1ccc(CN2C(=O)S\C(=C/c3cccc(OCc4ccccc4)c3)C2=O)cc1	19700.0
+OC(=O)COc1ccc(\C=C2/SC(=O)N(Cc3ccc(cc3)C(O)=O)C2=O)cc1	450000.0

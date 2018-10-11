@@ -1,0 +1,24 @@
+MAARRGALIVLEGVDRAGKSTQSRKLVEALCAAGHRAELLRFPERSTEIGKLLSSYLQKKSDVEDHSVHLLFSANRWEQVPLIKEKLSQGVTLVVDRYAFSGVAFTGAKENFSLDWCKQPDVGLPKPDLVLFLQLQLADAAKRGAFGHERYENGAFQERALRCFHQLMKDTTLNWKMVDASKSIEAVHEDIRVLSEDAIRTATEKPLGELWK
+IC50
+Cn1c2cc(cnc2[nH]c1=O)-c1ccccc1	200000.0
+Cn1c2cc(cnc2[nH]c1=O)-c1cccc(c1)C(N)=O	200000.0
+Cn1c2cc(cnc2[nH]c1=O)-c1cccc(c1)C(=O)NCCCc1ccccc1	200000.0
+Cn1c2cc(cnc2[nH]c1=O)-c1cccc(c1)C(=O)NCCCc1ccc(F)cc1	123000.0
+Cn1c2cc(cnc2[nH]c1=O)-c1cccc(c1)C(=O)NCCCc1ccc(cc1)C(F)(F)F	124000.0
+OC(=O)c1cc(SSc2ccc(c(c2)C(O)=O)[N+]([O-])=O)ccc1[N+]([O-])=O	1530.0
+Cc1cn(C2C[C@H](O)[C@@H](COP(O)(=O)CP(O)(=O)OP(O)(=O)OP(O)(=O)OC[C@H]3OC([C@H](O)[C@@H]3O)n3cnc4c(N)ncnc34)O2)c(=O)[nH]c1=O	340000.0
+Cc1cn(C2C[C@H](O)[C@@H](COP(O)(=O)OP(O)(=O)OP(O)(=O)OP(O)(=O)OP(O)(=O)OP(O)(=O)OC[C@H]3OC([C@H](O)[C@@H]3O)n3cnc4c(N)ncnc34)O2)c(=O)[nH]c1=O	6000.0
+Nc1ncnc2n(cnc12)C1O[C@H](COP(O)(O)OP(O)(O)OP(O)(O)OP(O)(O)OP(O)(O)OC[C@H]2OC([C@H](O)[C@@H]2O)n2cnc3c(N)ncnc23)[C@@H](O)[C@H]1O	1000000.0
+Cc1cn(C2C[C@H](O)[C@@H](COP(O)(=O)OP(O)(=O)OP(O)(=O)OP(O)(=O)OC[C@H]3OC([C@H](O)[C@@H]3O)n3cnc4c(N)ncnc34)O2)c(=O)[nH]c1=O	290000.0
+Cc1cn(C2C[C@H](O)[C@@H](COP(O)(=O)OP(O)(=O)OP(O)(=O)OP(O)(=O)OP(O)(=O)OC[C@H]3OC([C@H](O)[C@@H]3O)n3cnc4c(N)ncnc34)O2)c(=O)[nH]c1=O	8000.0
+Cc1cn(C2C[C@H](O)[C@@H](COP(O)(=O)CP(O)(=O)OP(O)(=O)OC[C@H]3OC([C@H](O)[C@@H]3O)n3cnc4c(N)ncnc34)O2)c(=O)[nH]c1=O	730000.0
+Cc1cn(C2C[C@H](O)[C@@H](COP(O)(=O)CP(O)(=O)OP(O)(=O)OP(O)(=O)OP(O)(=O)OC[C@H]3OC([C@H](O)[C@@H]3O)n3cnc4c(N)ncnc34)O2)c(=O)[nH]c1=O	6000.0
+Cc1cn(C2C[C@H](O)[C@@H](COP(O)(=O)CP(O)(=O)OP(O)(=O)OP(O)(=O)OP(O)(=O)OP(O)(=O)OC[C@H]3OC([C@H](O)[C@@H]3O)n3cnc4c(N)ncnc34)O2)c(=O)[nH]c1=O	4000.0
+Cc1cn(C2C[C@H](O)[C@@H](COP(O)(=O)OP(O)(=O)OP(O)(=O)OC[C@H]3OC([C@H](O)[C@@H]3O)n3cnc4c(N)ncnc34)O2)c(=O)[nH]c1=O	1230000.0
+CCCCC[C@@H](N1CCC[C@@H](C1)n1cc(C)c(=O)[nH]c1=O)c1ccc(C(O)=O)c(Oc2cccc(Br)c2)c1	32000.0
+CCC(C)(C)C[C@@H](N1CCC[C@@H](C1)n1cc(C)c(=O)[nH]c1=O)c1ccc(C(O)=O)c(Oc2cccc(Cl)c2)c1	43400.0
+Cc1cn([C@H]2CCCN(C2)[C@H](CC(C)(C)C)c2ccc(C(O)=O)c(Oc3cccc(Br)c3)c2)c(=O)[nH]c1=O	62000.0
+CCC[C@@H](N1CCC[C@@H](C1)n1cc(C)c(=O)[nH]c1=O)c1ccc(C(O)=O)c(Oc2cccc(Cl)c2)c1	150000.0
+C[C@@H](N1CCC[C@@H](C1)n1cc(C)c(=O)[nH]c1=O)c1ccc(C(O)=O)c(Oc2cccc(Cl)c2)c1	150000.0
+Cc1cn([C@H]2CCCN(Cc3ccc(C(O)=O)c(Oc4cccc(c4)C(F)(F)F)c3)C2)c(=O)[nH]c1=O	200000.0
+Cc1cn([C@H]2CCCN(C2)S(=O)(=O)c2ccc(O)c(Oc3cccc(Cl)c3)c2)c(=O)[nH]c1=O	200000.0

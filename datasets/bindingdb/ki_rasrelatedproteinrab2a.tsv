@@ -1,0 +1,36 @@
+MAYAYLFKYIIIGDTGVGKSCLLLQFTDKRFQPVHDLTIGVEFGARMITIDGKQIKLQIWDTAGQESFRSITRSYYRGAAGALLVYDITRRDTFNHLTTWLEDARQHSNSNMVIMLIGNKSDLESRREVKKEEGEAFAREHGLIFMETSAKTASNVEEAFINTAKEIYEKIQEGVFDINNEANGIKIGPQHAATNATHAGNQGGQQAGGGCC
+Ki
+COc1ccc(cc1)-c1noc(CCC(=O)N2CCN(CC2)c2cc(C)ccc2C)n1	160.0
+COc1ccc(cc1)-c1noc(CCC(=O)N2CCN(CC2)c2cccc(OC)c2)n1	410.0
+COc1cccc(c1)-c1noc(CCC(=O)N2CCN(CC2)c2cc(C)ccc2C)n1	250.0
+COc1ccc(cc1)-c1noc(CCCC(=O)N2CCN(CC2)c2cc(C)ccc2C)n1	1030.0
+COc1ccc(cc1)-c1noc(CCC(=O)N2CCN(CC2)c2ccccc2Cl)n1	150.0
+COc1ccc(cc1)-c1noc(CCC(=O)N2CCN(CC2)c2ccc(C)cc2)n1	50.0
+Cc1ccc(C)c(c1)N1CCN(CC1)C(=O)CCc1nc(no1)-c1ccccc1	50.0
+Cc1ccc(C)c(c1)N1CCN(CC1)C(=O)CCc1nc(no1)-c1ccc(Br)cc1	190.0
+Cc1ccc(C)c(c1)N1CCN(CC1)C(=O)CCc1nc(no1)-c1ccc(F)cc1	20.0
+Cc1ccc(C)c(c1)N1CCN(CC1)C(=O)CCc1nc(no1)-c1cccc(Br)c1	230.0
+Cc1ccc(C)c(c1)N1CCN(CC1)C(=O)CCc1nc(no1)-c1ccccc1C	110.0
+COc1ccc(cc1)-c1noc(CCC(=O)N2CCN(CC2)c2ccccc2Br)n1	210.0
+COc1ccc(cc1)-c1noc(CCC(=O)N2CCN(CC2)c2ccccc2C(F)(F)F)n1	130.0
+Cc1ccc(C)c(c1)N1CCN(CC1)C(=O)CCc1nc(no1)-c1ccc(Cl)cc1	110.0
+Cc1ccc(cc1)-c1noc(CCC(=O)N2CCN(CC2)c2cc(C)ccc2C)n1	260.0
+Cc1ccc(C)c(c1)N1CCN(CC1)C(=O)CCc1nc(no1)-c1cccc(Cl)c1	180.0
+Cc1cccc(c1)-c1noc(CCC(=O)N2CCN(CC2)c2cc(C)ccc2C)n1	80.0
+COc1ccc(cc1)-c1noc(CCC(=O)N2CCN(CC2)c2cccc(Cl)c2)n1	540.0
+COc1ccc(cc1)-c1noc(CCC(=O)N2CCN(CC2)c2ccccc2C)n1	160.0
+COc1ccc(cc1)-c1noc(CCC(=O)N2CCN(CC2)c2ccccc2OC)n1	80.0
+Cc1ccc(C)c(c1)N1CCN(CC1)C(=O)CCc1nc(no1)-c1ccccc1F	60.0
+Cc1ccc(C)c(c1)N1CCN(CC1)C(=O)CCc1nc(no1)-c1ccccc1Br	200.0
+COc1ccc(cc1)-c1noc(CCC(=O)N2CCN(CC2)c2cccc(C)c2C)n1	150.0
+COc1ccc(cc1)-c1noc(CCC(=O)N2CCN(CC2)c2ccccc2F)n1	50.0
+COc1ccc(cc1)-c1cc(CCC(=O)N2CCN(CC2)c2cc(C)ccc2C)on1	160.0
+COc1ccc(cc1)-c1noc(CCC(=O)N2CCC(CC2)c2cc(C)ccc2C)n1	160.0
+COc1ccc(cc1)-c1ccc(CCC(=O)N2CCN(CC2)c2cc(C)ccc2C)o1	960.0
+COc1ccc(cc1)-c1ccc(CCC(=O)N2CCN(CC2)c2cc(C)ccc2C)[nH]1	330.0
+COc1ccc(cc1)-c1ccc(CCC(=O)N2CCN(CC2)c2cc(C)ccc2C)s1	160.0
+COc1ccc(cc1)C1CC(=NN1c1cccc(F)c1)c1ccc(OC)cc1	60.0
+COc1ccc(cc1)C1CC(=NN1c1ccc(cc1)S(N)(=O)=O)c1ccc(OC)cc1	110.0
+ONc1c([nH]c2ccccc12)C1=c2cc(Br)ccc2=NC1=O	4150.0
+ONc1c([nH]c2ccccc12)C1=c2cccc(Br)c2=NC1=O	4190.0
+COc1ccc2cc(ccc2c1)[C@@H](C)C([O-])=O	110.0

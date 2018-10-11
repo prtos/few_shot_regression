@@ -1,0 +1,36 @@
+MADQLTEEQIAEFKEAFSLFDKDGDGTITTKELGTVMRSLGQNPTEAELQDMINEVDADGNGTIDFPEFLTMMARKMKDTDSEEEIREAFRVFDKDGNGYISAAELRHVMTNLGEKLTDEEVDEMIREADIDGDGQVNYEEFVQMMTAK
+IC50
+CC(=C)[C@H]1COc2c(C)cc3oc4c(C[C@H](Cl)C(C)(C)O)ccc(O)c4c(=O)c3c2[C@@H]1O	9590.0
+CO[C@H]([C@@H]1OC1(C)C)c1ccc(O)c2c1oc1cc(C)c3OC[C@@H]([C@@H](O)c3c1c2=O)C(C)=C	5540.0
+CC(C)=CCc1ccc(O)c2c1oc1cc(C)c3OC[C@@H]([C@@H](O)c3c1c2=O)C(C)=C	29160.0
+CC(=C)[C@H]1COc2c(C)cc3oc4c(C[C@H](O)C(C)(C)O)ccc(O)c4c(=O)c3c2[C@@H]1O	5620.0
+CN(C)CCCN1c2ccccc2Sc2ccc(Cl)cc12	7260.0
+O=c1cc(oc2ccccc12)-c1ccccc1	102280.0
+Oc1c(oc2ccccc2c1=O)-c1ccccc1	55200.0
+Oc1ccc2oc(cc(=O)c2c1)-c1ccccc1	5170.0
+Oc1ccc2c(c1)oc(cc2=O)-c1ccccc1	37100.0
+Oc1cc(O)c2c(c1)oc(cc2=O)-c1ccccc1	33430.0
+Oc1cc(O)c2c(c1)oc(-c1ccc(O)c(O)c1)c(O)c2=O	12970.0
+Oc1ccc(cc1)[C@@H]1CC(=O)c2c(O)cc(O)cc2O1	22010.0
+COc1ccc(cc1O)[C@@H]1CC(=O)c2c(O)cc(O[C@@H]3O[C@H](CO[C@@H]4O[C@@H](C)[C@H](O)[C@@H](O)[C@H]4O)[C@@H](O)[C@H](O)[C@H]3O)cc2O1	74000.0
+COc1ccc(cc1O)[C@@H]1CC(=O)c2c(O)cc(O[C@@H]3O[C@H](CO[C@@H]4O[C@@H](C)[C@H](O)[C@@H](O)[C@H]4O)[C@@H](O)[C@H](O)[C@H]3O)cc2O1	70000.0
+COc1cc(O)cc(CCCc2ccc(O)c(OC)c2)c1	32540.0
+Oc1cccc(CCCc2ccc3OCOc3c2)c1	22940.0
+COc1ccc(CCCc2ccc(O)cc2)cc1	62680.0
+COc1cc(O)cc(c1)C(=O)\C=C\c1ccc(O)c(OC)c1	57270.0
+COc1cc(O)cc(c1)C(=O)\C=C\c1ccc(OC)c(O)c1	37680.0
+COc1ccc(\C=C\C(=O)c2ccc(O)cc2)cc1	22530.0
+C(c1ccccc1)c1ccccc1	15020.0
+COc1cc(Cc2ccc(O)c(OC)c2)cc(OC)c1	54730.0
+COc1cc(Cc2cccc(OC)c2O)cc(OC)c1	56150.0
+CCOc1ccc(CCc2cc(O)cc(OC)c2)cc1OC	54690.0
+CCOc1ccc(CCc2cccc(O)c2)cc1OC	46090.0
+COc1ccc(CCc2cc(OC)cc(OC)c2)cc1	146350.0
+Oc1cccc(CCc2ccc3OCOc3c2)c1	75890.0
+COc1cc(CCc2ccc(cc2)N(C)C)cc(OC)c1	36330.0
+COc1cc(O)cc(CCc2ccc(cc2)N(C)C)c1	30100.0
+CCOc1ccc(CCc2cc(OC)cc(OC)c2)cc1OC	18440.0
+COc1cc(O)cc(CCc2ccc3OCOc3c2)c1	31290.0
+COc1ccc(CCc2cc(O)cc(OC)c2)cc1	9380.0
+COc1cc(O)cc(CCc2ccc(O)c(OC)c2)c1	114180.0
+CN(C)CCCN1c2ccccc2Sc2ccc(Cl)cc12	10300.0
