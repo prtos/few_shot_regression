@@ -107,15 +107,15 @@ def get_model(model_name, model_params):
 
 def get_config_params(dataset):
     if dataset == 'mhc':
-        import few_shot_regression.configs.config_mhc as cfg
+        import configs.config_mhc as cfg
     elif dataset == 'bindingdb':
-        import few_shot_regression.configs.config_bdb as cfg
+        import configs.config_bdb as cfg
     elif dataset == 'movielens':
-        import few_shot_regression.configs.config_movielens as cfg
+        import configs.config_movielens as cfg
     elif dataset == 'uci':
-        import few_shot_regression.configs.config_uci as cfg
+        import configs.config_uci as cfg
     elif dataset == 'toy' or dataset == 'easytoy':
-        import few_shot_regression.configs.config_toy as cfg
+        import configs.config_toy as cfg
     else:
         raise Exception("Dataset {} is not found".format(dataset))
 

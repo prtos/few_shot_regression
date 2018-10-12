@@ -1,5 +1,21 @@
 #!/bin/bash
-env_name="metalearn"
+#optional parameters
+while [[ $# -gt 0 ]]
+do
+	case "$1" in
+	    -n|--envname)
+	    env_name="$2"
+	    shift # past argument
+	    shift # past value
+	    ;;
+	    *)
+		shift
+		echo "Invalid option -$1" >&2
+	    ;;
+	esac
+done
+
+env_name=${env_name:metalearn}
 # if conda doesn't exists install it
 if ! [ -x "$(command -v conda)" ]; then
     echo "Download and install conda...."
@@ -37,8 +53,8 @@ pip install joblib
 pip install seaborn
 pip install biopython
 pip install torchvision pytoune
-pip install tensorflow
-conda install -c rdkit rdkit
+conda install -y -c conda-forge -n $env_name tensorflow
+conda install -y -c rdkit -n $env_name rdkit
 
 
 # Run the setup.py script

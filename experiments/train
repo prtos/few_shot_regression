@@ -5,12 +5,33 @@
 # Input is specified a folder in which the datasets live.
 
 import os
+import ast
 import json
 import pickle
 import traceback
 from expts_utils import *
 from metalearn.utils.metric import mse, vse, pcc, r2
 
+
+def load_nested_params(fd):
+    """
+    This function allows to convert a string which represents a hyperparameter configuration into a dict.
+    It is required only if the string represent a nested dict in which case sagemaker store it the following way:
+    hyperparameters = {str(k): str(v) for (k, v) in estimator.hyperparameters().items()}
+    json.dump(hyperparameters)
+    """
+    if hasattr(fd, 'read'):
+        res = json.load(fd)
+    elif isinstance(fd, str) and fd.startswith('{') and fd.endswith('}'):
+        res = ast.literal_eval(fd)
+    else:
+        res = fd
+    if isinstance(res, dict):
+        res = {k: (load_nested_params(v)
+                   if (isinstance(v, str) and v.startswith('{') and v.endswith('}'))
+                   else v)
+               for k, v in res.items()}
+    return res
 
 def run_experiment(model_name, model_params, dataset_name, dataset_params,
                    fit_params, out_path, ckp_path, inp_path=None, refit=True):
@@ -63,24 +84,18 @@ def main():
     print('Starting the training.')
     try:
         # Read in any hyperparameters that the user passed with the training job
+        # Depending on how you set the hyperparameters
         with open(param_path, 'r') as tc:
-            trainingParams = json.load(tc)
+            trainingParams = load_nested_params(tc)
+            print(trainingParams)
 
-        # use the params to initialize some variables
-        model_name = trainingParams.get('model_name', None)
-        model_params = trainingParams.get('model_params', None)
-        dataset_name = trainingParams.get('dataset_name', None)
-        dataset_params = trainingParams.get('dataset_params', None)
-        fit_params = trainingParams.get('fit_params', None)
-
-        # This algorithm has a single channel of input data called which name is defined by the param dataset_name.
+        # This algorithm has a single channel of input data called training.
         # Since we run in File mode, the input files are copied to the directory specified here.
-        channel_name = dataset_name
+        channel_name = 'training'
         input_path = os.path.join(data_path, channel_name)
 
-        # the function below does all the data loading and run the algo
-        run_experiment(model_name, model_params, dataset_name, dataset_params, fit_params,
-                       output_path, model_path, input_path, refit=True)
+        # the function below does all the data loading, run, validate and test the algo
+        run_experiment(**trainingParams, out_path=output_path, ckp_path=model_path, inp_path=input_path, refit=True)
 
     except Exception as e:
         # Write out an error file. This will be returned as the failureReason in the

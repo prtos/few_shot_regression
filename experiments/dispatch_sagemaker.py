@@ -1,18 +1,23 @@
+# To test the dispatcher in local mode please install docker-compose with pip install docker-compose
+# If any problem to make this work, please contact me
 import argparse
 import boto3
-import os
 import sagemaker as sage
 from sagemaker.session import Session
-from .expts_utils import get_config_params
+from sagemaker.tuner import HyperparameterTuner, HyperparameterTuningJobAnalytics
+from sklearn.model_selection import ParameterGrid
+from expts_utils import get_config_params
+
 
 def get_hps(dataset, algo):
     return get_config_params(dataset)[algo]
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--imagename', type=str,
                         help='The name of the image that will be used to execute your code')
-    parser.add_argument('-a', '--algos', default=['metakrr_mk'],
+    parser.add_argument('-a', '--algos', default=['metagp_sk'],
                         type=str, nargs='+',
                         help="""The name of the algos: 
                                 metakrr_sk|metakrr_mk|metagp_sk|metagp_mk|deep_prior|snail|mann|maml""")
@@ -40,12 +45,12 @@ if __name__ == '__main__':
                                 If not specified, results are stored to a default bucket. If the bucket with the 
                                 specific name does not exist, the estimator creates the bucket during the
                                 sagemaker.estimator.EstimatorBase.fit method execution.""")
-    parser.add_argument('-j', '--job_name', type=str, default=None,
-                        help="""Prefix for training job name when the sagemaker.estimator.EstimatorBase.fit
-            method launches. If not specified, the estimator generates a default job name, based on
-            the training image name and current timestamp.""")
-    parser.add_argument('-p', '--hyperparameters', type=str, default='',
-                        help="""Dictionary containing the hyperparameters to initialize this estimator with.""")
+    # parser.add_argument('-j', '--job_name', type=str, default=None,
+    #                     help="""Prefix for training job name when the sagemaker.estimator.EstimatorBase.fit
+    #         method launches. If not specified, the estimator generates a default job name, based on
+    #         the training image name and current timestamp.""")
+    # parser.add_argument('-p', '--hyperparameters', type=str, default='',
+    #                     help="""Dictionary containing the hyperparameters to initialize this estimator with.""")
 
     args = parser.parse_args()
     # set role
@@ -58,27 +63,45 @@ if __name__ == '__main__':
             role = r['Arn']
 
     # setup hyperparameter grid using args.datasets and args.algos
+    # you can simplify this if you have a small grid (single dataset dans single algo)
     datasets = args.datasets
     algos = args.algos
-    hp_grid = []
+    hp_grids = []
     for dataset in datasets:
         for algo in algos:
-            hp_grid.extend(get_hps(dataset, algo))
+            hp_grids.append(get_hps(dataset, algo))
+    hps = list(ParameterGrid(hp_grids))
+    ntasks = len(hps)
+    print("Quick summary")
+    print('Datasets:', datasets)
+    print('Algos:', algos)
+    print('Number of tasks dispatched:', ntasks)
 
-    print(hp_grid)
-    exit()
-    for hp in hp_grid:
+    for hpid, hp in enumerate(hps):
         dataset_name = hp['dataset_name']
+        model_name = hp['model_name']
+        job_name = '{}-{}'.format(dataset_name, model_name).replace('_', '-')
         if 'local' in args.instance_type:
             session = None
-            image = args.imagename
-            input_path = "file:///home/prtos/workspace/code/few_shot_regression/datasets"
+            image = '{}:latest'.format(args.imagename)
+            # the input_path is a folder thus only its content will be copied.
+            # The destination is /opt/ml/input/data/training/, where training is called a default channel name and
+            # usually one can have different channel for training testing and validation.
+            # Depending on your problem, some common channel ideas are: “train”, “test”,
+            # “evaluation” or “images’,”labels”
+            # I don't have it here because I my code I handle the split of the training myself
+            input_path = "file:///home/prtos/workspace/code/few_shot_regression/datasets/{}".format(dataset_name)
             output_path = "file:///home/prtos/workspace/code/few_shot_regression/results"
+            # output_path = ''
         else:
             session = Session()
             account = session.boto_session.client('sts').get_caller_identity()['Account']
             region = session.boto_session.region_name
             image = '{}.dkr.ecr.{}.amazonaws.com/{}:latest'.format(account, region, args.imagename)
+            # the input_path is a folder thus only its content will be copied.
+            # The destination is /opt/ml/input/data/training/, where training is called a channel name and
+            # usually one can have different channel for training testing and validation.
+            # I don't have it here because I my code I handle the split of the training myself
             input_path = "s3://prudencio/metalearning/{}".format(dataset_name)
             output_path = "s3://prudencio/metalearning/results/output"
 
@@ -87,8 +110,8 @@ if __name__ == '__main__':
                                          train_instance_type=args.instance_type,
                                          train_volume_size=args.volume_size,
                                          train_max_run=args.max_runtime,
-                                         base_job_name=args.job_name,
-                                         hyperparameters=args.hyperparameters,
+                                         base_job_name=job_name,
+                                         hyperparameters=hp,
                                          output_path=output_path,
                                          sagemaker_session=session)
         print(args)

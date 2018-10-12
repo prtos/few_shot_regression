@@ -129,8 +129,9 @@ def load_episodic_movielens(max_examples_per_episode=20, batch_size=10, ds_folde
     return meta_train, meta_test
 
 
-def load_episodic_uciselection(max_examples_per_episode=20, batch_size=10):
-    ds_folder = join(DATASETS_ROOT, 'uci_rbf')
+def load_episodic_uciselection(max_examples_per_episode=20, batch_size=10, ds_folder=None):
+    if ds_folder is None:
+        ds_folder = join(DATASETS_ROOT, 'uci_rbf')
     episode_files = [join(ds_folder, x) for x in listdir(ds_folder) if x.endswith('.csv')][:400]
     dataset = UciSelectionDatatset(episode_files, max_examples_per_episode=max_examples_per_episode, batch_size=batch_size)
     meta_train, meta_test = dataset.train_test_split(test_size=1/4.0)
