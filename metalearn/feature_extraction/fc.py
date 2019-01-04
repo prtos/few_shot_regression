@@ -1,5 +1,5 @@
 from torch.nn import Linear, Sequential, ReLU
-from metalearn.feature_extraction.common_modules import *
+from metalearn.feature_extraction.common_modules import UnitNormLayer, ClonableModule
 
 
 class FcFeaturesExtractor(ClonableModule):

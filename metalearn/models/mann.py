@@ -5,7 +5,7 @@ from torch.nn.parameter import Parameter
 from torch.autograd import Variable
 from torch.optim import Adam
 from pytoune.framework import Model
-from metalearn.models.base import MetaLearnerRegression
+from metalearn.models.base import MetaLearnerRegression, FeaturesExtractorFactory, MetaNetwork
 from metalearn.feature_extraction.common_modules import ClonableModule
 
 
@@ -34,20 +34,20 @@ class LearnerWithMemory(torch.nn.Module):
         return y_pred
 
 
-class MANNNetwork(torch.nn.Module):
+class MANNNetwork(MetaNetwork):
 
-    def __init__(self, input_transformer: ClonableModule, memory_shape=(128, 40),
+    def __init__(self, feature_extractor_params, memory_shape=(128, 40),
                  controller_size=200, nb_reads=1):
         """
         In the constructor we instantiate an lstm module
         """
         super(MANNNetwork, self).__init__()
-        self.input_transformer = input_transformer
+        self.feature_extractor = FeaturesExtractorFactory()(**feature_extractor_params)
         self.memory_shape = memory_shape
         self.controller_size = controller_size
         self.nb_reads = nb_reads
 
-        self.controller = LSTM(input_transformer.output_dim+1, self.controller_size)
+        self.controller = LSTM(self.feature_extractor.output_dim+1, self.controller_size)
         self.controller_to_key = Sequential(Linear(self.controller_size, memory_shape[1]), Tanh())
         self.controller_to_sigma = Sequential(Linear(self.controller_size, 1), Sigmoid())
         self.gamma = Parameter(torch.FloatTensor([0.95]), requires_grad=True)
@@ -72,7 +72,7 @@ class MANNNetwork(torch.nn.Module):
 
     def __forward(self, episode):
         x_train, y_train = episode['Dtrain']
-        xs = self.input_transformer(x_train)
+        xs = self.feature_extractor(x_train)
         y_train_shifted, y_last = pad(y_train, (0, 0, 1, 0))[:-1], y_train[-1]
         xys = torch.cat((xs, y_train_shifted), dim=1)
         hiddens, _ = self.controller(xys.unsqueeze(0))
@@ -96,7 +96,7 @@ class MANNNetwork(torch.nn.Module):
             M_tm1, wr_tm1, wu_tm1 = M_t, wr_t, wu_t
             # r_t = torch.sum(wr_t * M_t, dim=0)
 
-        learner = LearnerWithMemory(self.input_transformer, self.controller, self.controller_to_key,
+        learner = LearnerWithMemory(self.feature_extractor, self.controller, self.controller_to_key,
                                     self.output_layer, self.gamma, M_tm1, y_last)
         x_test = episode['Dtest']
         n = x_test.size(0)
@@ -114,24 +114,6 @@ class MANNNetwork(torch.nn.Module):
 
 
 class MANN(MetaLearnerRegression):
-    def __init__(self, learner_network: ClonableModule, loss=mse_loss, lr=0.001,
-                 memory_shape=(128, 40), controller_size=200, nb_reads=1):
-        super(MANN, self).__init__()
-        self.lr = lr
-        self.learner_network = learner_network
-        self.loss = loss
-        self.network = MANNNetwork(learner_network, memory_shape, controller_size, nb_reads)
-
-        if torch.cuda.is_available():
-            self.network.cuda()
-
-        optimizer = Adam(self.network.parameters(), lr=self.lr)
-        self.model = Model(self.network, optimizer, self.metaloss)
-
-    # def fit(self, metatrain, metavalid, n_epochs=100, steps_per_epoch=100,
-    #         log_filename=None, checkpoint_filename=None):
-    #     if isinstance(self.learner_network, LstmBasedRegressor):
-    #         metavalid.use_available_gpu = False
-    #         metatrain.use_available_gpu = False
-    #     return super(MANN, self).fit(metatrain, metavalid, n_epochs, steps_per_epoch, log_filename, checkpoint_filename)
-    #
+    def __init__(self, *args, optimizer='adam', lr=0.001, weight_decay=0.0, **kwargs):
+        network = MANNNetwork(*args, **kwargs)
+        super(MANN, self).__init__(network, optimizer, lr, weight_decay)

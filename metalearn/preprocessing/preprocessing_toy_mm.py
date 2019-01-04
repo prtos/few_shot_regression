@@ -33,6 +33,7 @@ def random_periodic_fn(base_freq_range=(1.,1.), n_harmonics=2, fix_base_magnitud
     return periodic_fn(base_freq, magnitudes, phases, instruments)
 
 
+# def random_quadratic_fn()
 def make_dataset(fn, start, stop, n, normal_domain, noise, rng):
     if normal_domain:
         std = (stop - start)/4.

@@ -3,6 +3,8 @@ import numpy as np
 import operator as op
 from functools import reduce
 from collections import OrderedDict
+from torch.nn import MSELoss
+from torch.nn.functional import mse_loss
 
 
 def prod(iterable):
@@ -107,6 +109,27 @@ def sigm_heating(step, max=1.0):
     return res[0]
 
 
+def annealed_softmax(x, t, cooling_factor=0.001):
+    y = x - x.max()
+    beta = min(t*cooling_factor, 1)
+    res = beta*torch.exp(y) + (1 - beta)*(1/x.size(-1))
+    res = res / res.sum(dim=-1)
+    return res
+
+
+class MaskedMSE(MSELoss):
+    def __init__(self, size_average=True, reduce=True):
+        super(MaskedMSE, self).__init__(size_average)
+        self.reduce = reduce
+
+    def forward(self, input, target_and_mask):
+        target, mask = target_and_mask
+        non_zeros = torch.nonzero(mask)
+        y_true = target[non_zeros[:, 0], non_zeros[:, 1]]
+        y_pred = input[non_zeros[:, 0], non_zeros[:, 1]]
+        return mse_loss(y_pred, y_true, size_average=self.size_average, reduce=self.reduce)
+
+
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
     max = 0
@@ -116,3 +139,4 @@ if __name__ == '__main__':
     print(np.min(y))
     plt.plot(x, y)
     plt.show()
+

@@ -3,7 +3,7 @@ from torch.nn import Linear, Sequential
 from torch.nn.functional import mse_loss
 from torch.optim import Adam
 from pytoune.framework import Model
-from metalearn.models.base import MetaLearnerRegression
+from metalearn.models.base import MetaLearnerRegression, FeaturesExtractorFactory, MetaNetwork
 from collections import OrderedDict
 from metalearn.feature_extraction.common_modules import ClonableModule
 from metalearn.models.utils import set_params
@@ -32,13 +32,14 @@ class Regressor(ClonableModule):
         return model
 
 
-class MAMLNetwork(torch.nn.Module):
+class MAMLNetwork(MetaNetwork):
 
-    def __init__(self, feature_extractor: ClonableModule, loss=mse_loss, lr_learner=0.02, n_epochs_learner=1):
+    def __init__(self, feature_extractor_params, loss=mse_loss, lr_learner=0.02, n_epochs_learner=1):
         """
         In the constructor we instantiate an lstm module
         """
         super(MAMLNetwork, self).__init__()
+        feature_extractor = FeaturesExtractorFactory()(**feature_extractor_params)
         self.lr_learner = lr_learner
         self.base_learner = Regressor(feature_extractor.clone(), 1)
         self.n_epochs_learner = n_epochs_learner
@@ -78,19 +79,6 @@ class MAMLNetwork(torch.nn.Module):
 
 
 class MAML(MetaLearnerRegression):
-    def __init__(self, learner_network: ClonableModule, loss=mse_loss, lr=0.001,
-                 lr_learner=0.02, n_epochs_learner=1):
-        super(MAML, self).__init__()
-        self.lr = lr
-        self.learner_network = learner_network
-        # if isinstance(learner_network, LstmBasedRegressor):
-        #     print("Switch torch backend")
-        #     torch.backends.cudnn.enabled = False
-        self.loss = loss
-        self.network = MAMLNetwork(learner_network, loss, lr_learner, n_epochs_learner)
-
-        if torch.cuda.is_available():
-            self.network.cuda()
-
-        optimizer = Adam(self.network.parameters(), lr=self.lr)
-        self.model = Model(self.network, optimizer, self.metaloss)
+    def __init__(self, *args, optimizer='adam', lr=0.001, weight_decay=0.0, **kwargs):
+        network = MAMLNetwork(*args, **kwargs)
+        super(MAML, self).__init__(network, optimizer, lr, weight_decay)

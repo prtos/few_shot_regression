@@ -15,7 +15,7 @@ do
 	esac
 done
 
-env_name=${env_name:metalearn}
+env_name=${env_name:=metalearn}
 # if conda doesn't exists install it
 if ! [ -x "$(command -v conda)" ]; then
     echo "Download and install conda...."

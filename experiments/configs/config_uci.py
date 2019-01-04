@@ -3,7 +3,7 @@ from sklearn.model_selection import ParameterGrid
 shared_params = dict(
     dataset_name=['uci'],
     dataset_params=[dict(max_examples_per_episode=10, batch_size=32)],
-    fit_params=[dict(valid_size=0.25, n_epochs=100, steps_per_epoch=500)],
+    fit_params=[dict(n_epochs=100, steps_per_epoch=500)],
 )
 
 features_extractor_params = list(ParameterGrid(dict(

@@ -2,8 +2,10 @@ import pickle
 import pandas as pd
 from os.path import dirname, realpath, join
 from os import listdir
+from sklearn.model_selection import train_test_split
 from metalearn.datasets.metadataset import MetaRegressionDataset
 from metalearn.feature_extraction.transformers import *
+from torch.utils.data import DataLoader, WeightedRandomSampler
 
 DATASETS_ROOT = join(dirname(dirname(dirname(realpath(__file__)))), 'datasets')
 
@@ -41,7 +43,6 @@ class MovielensDatatset(MetaRegressionDataset):
         x, y = temp[:, 0], temp[:, 1].reshape((-1, 1))
         x = np.array([self.features_movies[movie] for movie in x])
         return x, y, None
-
 
 class UciSelectionDatatset(MetaRegressionDataset):
     def __init__(self, *args, **kwargs):
@@ -81,8 +82,17 @@ class MhcDatatset(MetaRegressionDataset):
 
 
 class BindingdbDatatset(MetaRegressionDataset):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, use_graph_for_mol=True, **kwargs):
         super(BindingdbDatatset, self).__init__(*args, **kwargs)
+        y_epsilon = 1e-7
+        if use_graph_for_mol:
+            transformer = MolecularGraphTransformer(returnTensor=True, return_adj_matrix=False)
+        else:
+            transformer = SequenceTransformer(SMILES_ALPHABET, returnTensor=True)
+        prot_transformer = SequenceTransformer(AMINO_ACID_ALPHABET)
+        x_transformer = lambda x: transformer.transform(x)
+        y_transformer = lambda y: torch.FloatTensor(np.log(y + y_epsilon))
+        task_descr_transformer = lambda z: prot_transformer.transform([z])[0]
 
     def episode_loader(self, filename):
         with open(filename, 'r') as f_in:
@@ -98,97 +108,48 @@ class BindingdbDatatset(MetaRegressionDataset):
         return episode_sizes/np.sum(episode_sizes)
 
 
-def load_episodic_bindingdb(use_graph_for_mol=False, max_examples_per_episode=20, batch_size=10, ds_folder=None):
-    y_epsilon = 1e-3
+def __get_partitions(dataset_cls, episode_files, batch_size, test_size=0.25, valid_size=0.25, **kwargs):
+    train_files, test_files = train_test_split(episode_files, test_size=test_size)
+    train_files, valid_files = train_test_split(train_files, test_size=valid_size)
+    train = dataset_cls(train_files, **kwargs)
+    valid = dataset_cls(valid_files, **kwargs)
+    test = dataset_cls(test_files, is_test=True, **kwargs)
+    collate = lambda x: list(zip(*x))
+    train = DataLoader(train, batch_size=batch_size, collate_fn=collate, 
+                 sampler=WeightedRandomSampler(np.log(train.task_sizes()), len(train)))
+    test = DataLoader(test, batch_size=batch_size, collate_fn=collate)
+    valid = DataLoader(valid, batch_size=batch_size, collate_fn=collate)
+    return train, valid, test
+
+
+def load_dataset(dataset_name, ds_folder=None, max_tasks=None, **kwargs):
+    maps = dict(
+        bindingdb=('bindingdb', '', BindingdbDatatset),
+        movielens=('movielens', '.txt', MovielensDatatset),
+        mhc=('mhc_all', '', MhcDatatset),
+        uci=('uci_rbf', '.csv', UciSelectionDatatset),
+        toy=('toy', '.csv', HarmonicsDatatset),
+        easytoy=('easytoy', '.csv', HarmonicsDatatset)
+    )
+
+    if dataset_name not in maps:
+        raise Exception(f"Unhandled dataset. The name of \
+            the dataset should be one of those: {list(maps.keys())}")
+    folder, ext, dscls = maps[dataset_name]
     if ds_folder is None:
-        ds_folder = join(DATASETS_ROOT, 'bindingDB')
-    episode_files = [join(ds_folder, x) for x in listdir(ds_folder)][:1000]
-    if use_graph_for_mol:
-        transformer = MolecularGraphTransformer(returnTensor=True, return_adj_matrix=False)
-    else:
-        transformer = SequenceTransformer(SMILES_ALPHABET, returnTensor=True)
-    prot_transformer = SequenceTransformer(AMINO_ACID_ALPHABET)
-    x_transformer = lambda x: transformer.transform(x)
-    y_transformer = lambda y: torch.FloatTensor(np.log(y + y_epsilon))
-    task_descr_transformer = lambda z: prot_transformer.transform([z])[0]
-    dataset = BindingdbDatatset(episode_files, x_transformer, y_transformer, task_descr_transformer,
-                                max_examples_per_episode=max_examples_per_episode,
-                                batch_size=batch_size)
-    meta_train, meta_test = dataset.train_test_split(test_size=0.25)
-    meta_test.eval()
-    return meta_train, meta_test
-
-
-def load_episodic_movielens(max_examples_per_episode=20, batch_size=10, ds_folder=None):
-    if ds_folder is None:
-        ds_folder = join(DATASETS_ROOT, 'movielens')
-    episode_files = [join(ds_folder, x) for x in listdir(ds_folder) if x.endswith('.txt')]
-    dataset = MovielensDatatset(episode_files, max_examples_per_episode=max_examples_per_episode, batch_size=batch_size)
-    meta_train, meta_test = dataset.train_test_split(test_size=1/6.0)
-    meta_test.eval()
-    return meta_train, meta_test
-
-
-def load_episodic_uciselection(max_examples_per_episode=20, batch_size=10, ds_folder=None):
-    if ds_folder is None:
-        ds_folder = join(DATASETS_ROOT, 'uci_rbf')
-    episode_files = [join(ds_folder, x) for x in listdir(ds_folder) if x.endswith('.csv')][:400]
-    dataset = UciSelectionDatatset(episode_files, max_examples_per_episode=max_examples_per_episode, batch_size=batch_size)
-    meta_train, meta_test = dataset.train_test_split(test_size=1/4.0)
-    meta_test.eval()
-    print(len(meta_train), len(meta_test))
-    return meta_train, meta_test
-
-
-def load_episodic_harmonics(max_examples_per_episode=20, batch_size=10, ds_folder=None):
-    if ds_folder is None:
-        ds_folder = join(DATASETS_ROOT, 'toy')
-    episode_files = [join(ds_folder, x) for x in listdir(ds_folder) if x.endswith('.csv')]
-    dataset = HarmonicsDatatset(episode_files, max_examples_per_episode=max_examples_per_episode,
-                                batch_size=batch_size, max_test_examples=1000)
-    meta_train, meta_test = dataset.train_test_split(test_size=1/5.0)
-    meta_test.eval()
-    print(len(meta_train), len(meta_test))
-    return meta_train, meta_test
-
-
-def load_episodic_easyharmonics(max_examples_per_episode=20, batch_size=10, ds_folder=None):
-    if ds_folder is None:
-        ds_folder = join(DATASETS_ROOT, 'toy_easy')
-    episode_files = [join(ds_folder, x) for x in listdir(ds_folder) if x.endswith('.csv')][:1000]
-    dataset = HarmonicsDatatset(episode_files, max_examples_per_episode=max_examples_per_episode,
-                                batch_size=batch_size, max_test_examples=1000)
-    meta_train, meta_test = dataset.train_test_split(test_size=1/5.0)
-    meta_test.eval()
-    print(len(meta_train), len(meta_test))
-    return meta_train, meta_test
-
-
-def load_episodic_mhc(max_examples_per_episode=20, batch_size=10, ds_folder=None):
-    if ds_folder is None:
-        ds_folder = join(DATASETS_ROOT, 'mhc_all')
-    episode_files = [join(ds_folder, x) for x in listdir(ds_folder)]
-
-    dataset = MhcDatatset(episode_files, max_examples_per_episode=max_examples_per_episode, batch_size=batch_size)
-    meta_train, meta_test = dataset.train_test_split(test_size=1/4.0)
-    meta_test.eval()
-    return meta_train, meta_test
+        ds_folder = join(DATASETS_ROOT, folder)
+    files = [join(ds_folder, x) for x in listdir(ds_folder) 
+             if x.endswith(ext)][:max_tasks]
+    return __get_partitions(dscls, files, **kwargs)
 
 
 if __name__ == '__main__':
     from time import time
     t = time()
-    ds = load_episodic_mhc()
+    ds = load_dataset('mhc')
     for meta_train, meta_valid, meta_test in ds:
         for episodes in meta_train:
             for ep in episodes:
                 print(ep[0])
                 exit()
     print("time", time()-t)
-
-
-
-
-
-
-

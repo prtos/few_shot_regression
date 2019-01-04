@@ -2,8 +2,8 @@ from sklearn.model_selection import ParameterGrid
 
 shared_params = dict(
     dataset_name=['easytoy'],
-    dataset_params=[dict(max_examples_per_episode=10, batch_size=32)],
-    fit_params=[dict(valid_size=0.25, n_epochs=10, steps_per_epoch=500)],
+    dataset_params=[dict(max_examples_per_episode=10, batch_size=32, max_tasks=None)],
+    fit_params=[dict(n_epochs=50, steps_per_epoch=500)],
 )
 
 features_extractor_params = list(ParameterGrid(dict(
@@ -18,11 +18,26 @@ task_descr_extractor_params = list(ParameterGrid(dict(
     hidden_sizes=[[64] * 2],
     normalize_features=[False])))
 
+
+grid_mars = dict(
+    model_name=['mars'],
+    model_params=list(ParameterGrid(dict(
+        l2=[0.1],
+        lr=[0.001],
+        n_estimators=[4],
+        cooling_factor=[1],
+        feature_extractor_params=features_extractor_params,
+    ))),
+    **shared_params
+)
+
 grid_metakrr_sk = dict(
     model_name=['metakrr_sk'],
     model_params=list(ParameterGrid(dict(
         l2=[0.1],
         lr=[0.001],
+        regularize_w_pairs=[False],
+        regularize_phi=[False],
         feature_extractor_params=features_extractor_params,
     ))),
     **shared_params
@@ -33,6 +48,29 @@ grid_metagp_sk = dict(
     model_params=list(ParameterGrid(dict(
         l2=[None],
         lr=[0.001],  # [0.001, 0.01],
+        feature_extractor_params=features_extractor_params,
+    ))),
+    **shared_params
+)
+
+grid_metarf = dict(
+    model_name=['metarf'],
+    model_params=list(ParameterGrid(dict(
+        l2=[0.1],
+        lr=[0.001],
+        n_estimators_train=[10],
+        n_estimators_test=[100],
+        feature_extractor_params=features_extractor_params,
+    ))),
+    **shared_params
+)
+
+grid_metaboost = dict(
+    model_name=['metaboost'],
+    model_params=list(ParameterGrid(dict(
+        l2=[0.1],
+        lr=[0.001],
+        n_estimators=[100],
         feature_extractor_params=features_extractor_params,
     ))),
     **shared_params

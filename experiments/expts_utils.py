@@ -1,36 +1,10 @@
 import sys, hashlib, json
 import pandas as pd
 import numpy as np
-from metalearn.datasets import loaders
-import metalearn.feature_extraction as extraction
-import metalearn.models as models
 from collections import OrderedDict, MutableMapping
 
+
 SAVING_DIR_FORMAT = '{expts_dir}/results_{dataset_name}_{algo}_{arch}'
-loader_dict = dict(
-    bindingdb=loaders.load_episodic_bindingdb,
-    movielens=loaders.load_episodic_movielens,
-    mhc=loaders.load_episodic_mhc,
-    uci=loaders.load_episodic_uciselection,
-    toy=loaders.load_episodic_harmonics,
-    easytoy=loaders.load_episodic_easyharmonics)
-inner_class_dict = dict(
-    tcnn=extraction.TcnnFeaturesExtractor,
-    cnn=extraction.Cnn1dFeaturesExtractor,
-    lstm=extraction.LstmFeaturesExtractor,
-    fc=extraction.FcFeaturesExtractor,
-    gcnn=extraction.GraphCnnFeaturesExtractor)
-metalearnerclass_dict = dict(
-    mann=models.MANN,
-    maml=models.MAML,
-    snail=models.SNAIL,
-    deep_prior=models.DeepPriorLearner,
-    multitask=models.MultiTaskLearner,
-    metakrr_sk=models.MetaKrrSingleKernelLearner,
-    metakrr_mk=models.MetaKrrMultiKernelsLearner,
-    metagp_sk=models.MetaGPSingleKernelLearner,
-    metagp_mk=models.MetaGPMultiKernelsLearner
-)
 
 
 def params_dict_to_str(d):
@@ -72,65 +46,6 @@ def get_outfname_prefix(all_params):
 
     return prefix
 
-
-def get_dataset_partitions(dataset_name, dataset_params, ds_folder):
-    assert dataset_name in loader_dict, 'Unknown dataset'
-    return loader_dict[dataset_name](**dataset_params, ds_folder=ds_folder)
-
-
-def get_model(model_name, model_params):
-    assert model_name in metalearnerclass_dict, "unhandled model"
-    model_class = metalearnerclass_dict[model_name]
-
-    params = {}
-    for k, v in model_params.items():
-        if k == 'feature_extractor_params':
-            assert isinstance(v, dict) and v['arch'] in inner_class_dict, "unhandled feature extractor"
-            fe_class = inner_class_dict[v['arch']]
-            fe_params = {i: j for i, j in v.items() if i != 'arch'}
-            feature_extractor = fe_class(**fe_params)
-            params['feature_extractor'] = feature_extractor
-        elif k == 'task_descr_extractor_params':
-            if v is None:
-                task_descr_extractor = None
-            else:
-                assert isinstance(v, dict) and v['arch'] in inner_class_dict, "unhandled feature extractor"
-                tde_class = inner_class_dict[v['arch']]
-                tde_params = {i: j for i, j in v.items() if i != 'arch'}
-                task_descr_extractor = tde_class(**tde_params)
-            params['task_descr_extractor'] = task_descr_extractor
-        else:
-            params[k] = v
-
-    return model_class(**params)
-
-
-def get_config_params(dataset):
-    if dataset == 'mhc':
-        import configs.config_mhc as cfg
-    elif dataset == 'bindingdb':
-        import configs.config_bdb as cfg
-    elif dataset == 'movielens':
-        import configs.config_movielens as cfg
-    elif dataset == 'uci':
-        import configs.config_uci as cfg
-    elif dataset == 'toy' or dataset == 'easytoy':
-        import configs.config_toy as cfg
-    else:
-        raise Exception("Dataset {} is not found".format(dataset))
-
-    algo_params = dict(mann=cfg.grid_mann,
-                       maml=cfg.grid_maml,
-                       snail=cfg.grid_snail,
-                       deep_prior=cfg.grid_deep_prior,
-                       multitask=cfg.grid_multitask,
-                       metakrr_sk=cfg.grid_metakrr_sk,
-                       metakrr_mk=cfg.grid_metakrr_mk,
-                       metagp_sk=cfg.grid_metagp_sk,
-                       metagp_mk=cfg.grid_metagp_mk)
-    return algo_params
-
-
 def save_stats(scores_dict, outfile=sys.stdout):
     metrics = list(scores_dict.keys())
     metrics.remove('size')
@@ -149,5 +64,44 @@ def save_stats(scores_dict, outfile=sys.stdout):
     return results
 
 
+def save_params(params, fname):
+    with open(fname, 'w') as fd:
+        json.dump(params, fd, indent=2)
+
+
+def load_nested_params(fd):
+    if hasattr(fd, 'read'):
+        content = fd.read()
+        res = ast.literal_eval(content)
+        # res = json.load(fd)
+    elif isinstance(fd, str) and (
+                    (fd.startswith('{') and fd.endswith('}')) or
+                    (fd.startswith('[') and fd.endswith(']'))):
+        res = ast.literal_eval(fd)
+    else:
+        res = fd
+    if isinstance(res, dict):
+        res = {k: (load_nested_params(v)
+                   if isinstance(v, str) and ((v.startswith('{') and v.endswith('}')) or
+                        (v.startswith('[') and v.endswith(']')))
+                   else v)
+               for k, v in res.items()}
+    return res
+
+
 if __name__ == '__main__':
+    import ast
+    load_nested_params("""{"krr": "[{'kernel': ['rbf'], 'alpha': array([1.e-03, 1.e-02, 1.e-01, 1.e+00, 1.e+01, 1.e+02]), 'gamma': array([1.e-03, 1.e-02, 1.e-01, 1.e+00, 1.e+01, 1.e+02])}, {'kernel': ['linear'], 'alpha': array([1.e-03, 1.e-02, 1.e-01, 1.e+00, 1.e+01, 1.e+02])}]", "svm": "{'C': [1.0, 10.0, 100.0, 1000.0], 'gamma': array([1.e-02, 1.e-01, 1.e+00, 1.e+01, 1.e+02])}", "rf": "{'n_estimators': [100, 200]}", "target": "Inhibition", "aid": "1241454.csv"}""")
+    hps = {'dataset_name': 'uci',
+           'dataset_params': {'max_examples_per_episode': 10, 'batch_size': 32},
+           'fit_params': {'valid_size': 0.25, 'n_epochs': 100, 'steps_per_epoch': 500},
+           'model_name': 'metagp_sk',
+           'model_params': {'feature_extractor_params': {'arch': 'fc', 'hidden_sizes': [64, 64],
+                                                         'input_size': 2, 'normalize_features': False},
+                            'l2': 0.1, 'lr': 0.001}}
+
+    hyperparameters = {str(k): str(v) for (k, v) in hps.items()}
+
+    print(ast.literal_eval(str(hyperparameters)))
+    print(load_nested_params(json.dumps(hyperparameters)))
     pass

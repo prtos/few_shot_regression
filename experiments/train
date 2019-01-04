@@ -22,13 +22,14 @@ def load_nested_params(fd):
     """
     if hasattr(fd, 'read'):
         res = json.load(fd)
-    elif isinstance(fd, str) and fd.startswith('{') and fd.endswith('}'):
+    elif isinstance(fd, str) and ((fd.startswith('{') and fd.endswith('}')) or (fd.startswith('[') and fd.endswith(']'))):
         res = ast.literal_eval(fd)
     else:
         res = fd
     if isinstance(res, dict):
         res = {k: (load_nested_params(v)
-                   if (isinstance(v, str) and v.startswith('{') and v.endswith('}'))
+                   if ((fd.startswith('{') and fd.endswith('}')) or
+                        (fd.startswith('[') and fd.endswith(']')))
                    else v)
                for k, v in res.items()}
     return res

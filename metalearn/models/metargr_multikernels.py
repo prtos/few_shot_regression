@@ -2,22 +2,25 @@ from torch.nn.functional import log_softmax, nll_loss
 from torch.optim import Adam
 from pytoune.framework import Model
 from metalearn.feature_extraction import ClonableModule
-from metalearn.models.base import *
-from metalearn.models.krr import *
-from metalearn.models.gp import *
-from metalearn.models.conditioning import FeatureExtractorConditioner
-from metalearn.models.utils import KL_div_diag_multivar_normals, sigm_heating, normal_entropy
+from .base import FeaturesExtractorFactory, MetaLearnerRegression, MetaNetwork
+from .krr import *
+from .gp import *
+from .conditioning import FeatureExtractorConditioner
+from .utils import KL_div_diag_multivar_normals, sigm_heating, normal_entropy
 
 # debug in command-line with: import pdb; pdb.set_trace()
 
 
-class MetaKrrMultiKernelsNetwork(torch.nn.Module):
-    def __init__(self, feature_extractor: ClonableModule, task_descr_extractor=None, conditioner_params=None,
+class MetaKrrMultiKernelsNetwork(MetaNetwork):
+    def __init__(self, feature_extractor_params, task_descr_extractor_params=None, conditioner_params=None,
                  use_task_var=False, use_data_encoder=True, use_hloss=True, beta_kl=1.0, l2=0.1):
         super(MetaKrrMultiKernelsNetwork, self).__init__()
         conditioner_params = {} if conditioner_params is None else conditioner_params
-        self.feature_extractor = feature_extractor
-        self.task_descr_extractor = task_descr_extractor
+        self.feature_extractor = FeaturesExtractorFactory()(**feature_extractor_params)
+        if task_descr_extractor_params:
+            self.task_descr_extractor = FeaturesExtractorFactory()(task_descr_extractor_params)
+        else:
+            self.task_descr_extractor=None
         self.step = 0
         self.writer = None
         self.beta_kl = beta_kl

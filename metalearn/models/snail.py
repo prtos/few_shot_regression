@@ -3,7 +3,7 @@ from torch.nn.functional import mse_loss, tanh, sigmoid, softmax
 from torch.nn import Conv1d, Sequential, Linear
 from torch.optim import Adam
 from pytoune.framework import Model
-from metalearn.models.base import MetaLearnerRegression
+from metalearn.models.base import MetaLearnerRegression, FeaturesExtractorFactory, MetaNetwork
 from metalearn.feature_extraction.common_modules import ClonableModule, Transpose
 
 
@@ -79,15 +79,15 @@ class AttentionBlock(torch.nn.Module):
         return torch.cat([inputs, read], dim=2)
 
 
-class SNAILNetwork(torch.nn.Module):
-    def __init__(self, input_transformer: ClonableModule, k, arch):
+class SNAILNetwork(MetaNetwork):
+    def __init__(self, feature_extractor_params: ClonableModule, k, arch):
         """
         In the constructor we instantiate the snail module
         """
         super(SNAILNetwork, self).__init__()
-        self.input_transformer = input_transformer
+        self.feature_extractor = FeaturesExtractorFactory()(**feature_extractor_params)
         self.arch = arch
-        input_dim = self.input_transformer.output_dim + 1
+        input_dim = self.feature_extractor.output_dim + 1
 
         layers = []
         for i, (layer_type, layer_infos) in enumerate(arch):
@@ -109,9 +109,9 @@ class SNAILNetwork(torch.nn.Module):
 
     def __forward(self, episode):
         x_train, y_train = episode['Dtrain']
-        phi_train = self.input_transformer(x_train)
+        phi_train = self.feature_extractor(x_train)
         phi_y_train = torch.cat((phi_train, y_train), dim=1)
-        phi_test = self.input_transformer(episode['Dtest'])
+        phi_test = self.feature_extractor(episode['Dtest'])
         n_test = phi_test.size(0)
         y_useless = torch.zeros(n_test, 1)
         y_useless.requires_grad_(False)
@@ -137,14 +137,6 @@ class SNAILNetwork(torch.nn.Module):
 
 
 class SNAIL(MetaLearnerRegression):
-    def __init__(self, input_transformer: ClonableModule, k, arch, loss=mse_loss, lr=0.001):
-        super(SNAIL, self).__init__()
-        self.lr = lr
-        self.loss = loss
-        self.network = SNAILNetwork(input_transformer, k, arch)
-
-        if torch.cuda.is_available():
-            self.network.cuda()
-
-        optimizer = Adam(self.network.parameters(), lr=self.lr)
-        self.model = Model(self.network, optimizer, self.metaloss)
+    def __init__(self, *args, optimizer='adam', lr=0.001, weight_decay=0.0, **kwargs):
+        network = SNAILNetwork(*args, **kwargs)
+        super(SNAIL, self).__init__(network, optimizer, lr, weight_decay)

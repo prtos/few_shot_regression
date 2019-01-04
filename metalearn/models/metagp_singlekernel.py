@@ -2,19 +2,19 @@ import torch
 from torch.nn import Parameter
 from torch.optim import Adam
 from pytoune.framework import Model
-from metalearn.models.base import *
-from metalearn.models.gp import *
-from metalearn.models.utils import reset_BN_stats
+from .base import MetaLearnerRegression, FeaturesExtractorFactory, MetaNetwork
+from .gp import *
+from .utils import reset_BN_stats
 
 
 def activate_l2(l2):
     return torch.sigmoid(l2) + 1e-4
 
 
-class MetaGPSingleKernelNetwork(torch.nn.Module):
-    def __init__(self, feature_extractor, l2=0.1):
+class MetaGPSingleKernelNetwork(MetaNetwork):
+    def __init__(self, feature_extractor_params, l2=0.1):
         super(MetaGPSingleKernelNetwork, self).__init__()
-        self.feature_extractor = feature_extractor
+        self.feature_extractor = FeaturesExtractorFactory()(**feature_extractor_params)
         l2 = 0.1 if l2 is None else l2
         # self.pre_l2 = torch.FloatTensor([l2])
         # self.pre_l2.requires_grad_(True)
@@ -81,23 +81,11 @@ class MetaGPSingleKernelNetwork(torch.nn.Module):
 
 class MetaGPSingleKernelLearner(MetaLearnerRegression):
 
-    def __init__(self, feature_extractor, lr=0.001, l2=0.1):
-        super(MetaGPSingleKernelLearner, self).__init__()
-        self.lr = lr
-        self.network = MetaGPSingleKernelNetwork(feature_extractor, l2)
-        if torch.cuda.is_available():
-            self.network.cuda()
-        optimizer = Adam(
-            [
-                {'params': (p for name, p in self.network.named_parameters() if not name.endswith('pre_l2'))},
-                {'params': (p for name, p in self.network.named_parameters() if name.endswith('pre_l2')),
-                 'weight_decay': 1}
-            ],
-            # self.network.named_parameters(),
-            lr=lr)
-        self.model = Model(self.network, optimizer, self.metaloss)
+    def __init__(self, *args, optimizer='adam', lr=0.001, weight_decay=0.0, **kwargs):
+        network = MetaGPSingleKernelNetwork(*args, **kwargs)
+        super(MetaGPSingleKernelLearner, self).__init__(network, optimizer, lr, weight_decay)
 
-    def metaloss(self, y_preds, y_tests):
+    def _compute_loss_and_metrics(self, y_preds, y_tests):
         if self.network.meta_training:
             res = torch.mean(torch.stack([loss for loss, _ in zip(y_preds, y_tests)]))
         else:

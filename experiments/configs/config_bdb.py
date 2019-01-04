@@ -6,7 +6,7 @@ use_graph_for_mol = False
 shared_params = dict(
     dataset_name=['bindingdb'],
     dataset_params=[dict(use_graph_for_mol=use_graph_for_mol, max_examples_per_episode=10, batch_size=32)],
-    fit_params=[dict(valid_size=0.25, n_epochs=100, steps_per_epoch=250)],
+    fit_params=[dict(n_epochs=100, steps_per_epoch=250)],
 )
 
 if use_graph_for_mol:
