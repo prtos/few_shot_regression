@@ -24,5 +24,5 @@ Where the first line corresponds to the target ChemBL ID, the corresponding acce
 The second line is the target sequence, if available. In a few case, the target is actually a protein complex, and only one member of such complex is returned. There is indeed a limitation for the choosen file format, and using an older ChemBL (v17) release to match the manuscript did not help.
 The remaining lines correspond to the actual dataset, with each compound chemID, it's smile (canonical) and the activity value.
 
-_Note that I used the ChemBL release 17 to match the original paper, but some chem ID might have changed in later versions.__
+_Note that I used the ChemBL release 17 to match the original paper, but some chem ID might have changed in later versions._
  
