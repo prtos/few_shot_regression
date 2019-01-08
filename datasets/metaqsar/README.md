@@ -11,18 +11,18 @@ The format of this dataset is similar to the binding-db dataset. Each file repre
 The inside of each file looks like this:
 
 
-  CHEMBL3200      Q9Y3R4  Sialidase-2
-  MASLPVLQKESVFQSGAHAYRIPALLYLPGQQSLLAFAEQRASKKDEHAELIVLRRGDYDAPTHQVQWQAQEVVAQARLDGHRSMNPCPLYDAQTGTLFLFFIAIPGQVTEQQQLQTRANVTRLCQVTSTDHGRTWSSPRDLTDAAIGPAYREWSTFAVGPGHCLQLHDRARSLVVPAYAYRKLHPIQRPIPSAFCFLSHDHGRTWARGHFVAQDTLECQVAEVETGEQRVVTLNARSHLRARVQAQSTNDGLDFQESQLVKKLVEPPPQGCQGSVISFPSPRSGPGSPAQWLLYTHPTHSWQRADLGAYLNPRPPAPEAWSEPVLLAKGSCAYSDLQSMGTGPDGSPLFGCLYEANDYEEIVFLMFTLKQAFPAEYLPQ
-  CHEMBL1089732   OC(=O)c1cc(O)c2C(=O)c3c(O)c(Cl)c(O)cc3C(=O)c2c1 4.0
-  CHEMBL1234524   CC(=O)N[C@@H]1[C@@H](O)C[C@@](Oc2ccc3C(=CC(=O)Oc3c2)C)(O[C@H]1[C@H](O)[C@H](O)CO)C(=O)O 2.7460000515
-  .
-  .
-  .
+    CHEMBL3200      Q9Y3R4  Sialidase-2
+    MASLPVLQKESVFQSGAHAYRIPALLYLPGQQSLLAFAEQRASKKDEHAELIVLRRGDYDAPTHQVQWQAQEVVAQARLDGHRSMNPCPLYDAQTGTLFLFFIAIPGQVTEQQQLQTRANVTRLCQVTSTDHGRTWSSPRDLTDAAIGPAYREWSTFAVGPGHCLQLHDRARSLVVPAYAYRKLHPIQRPIPSAFCFLSHDHGRTWARGHFVAQDTLECQVAEVETGEQRVVTLNARSHLRARVQAQSTNDGLDFQESQLVKKLVEPPPQGCQGSVISFPSPRSGPGSPAQWLLYTHPTHSWQRADLGAYLNPRPPAPEAWSEPVLLAKGSCAYSDLQSMGTGPDGSPLFGCLYEANDYEEIVFLMFTLKQAFPAEYLPQ
+    CHEMBL1089732   OC(=O)c1cc(O)c2C(=O)c3c(O)c(Cl)c(O)cc3C(=O)c2c1 4.0
+    CHEMBL1234524   CC(=O)N[C@@H]1[C@@H](O)C[C@@](Oc2ccc3C(=CC(=O)Oc3c2)C)(O[C@H]1[C@H](O)[C@H](O)CO)C(=O)O 2.7460000515
+    .
+    .
+    .
 
 
 Where the first line corresponds to the target ChemBL ID, the corresponding accession number in uniprot and the protein name.
 The second line is the target sequence, if available. In a few case, the target is actually a protein complex, and only one member of such complex is returned. There is indeed a limitation for the choosen file format, and using an older ChemBL (v17) release to match the manuscript did not help.
 The remaining lines correspond to the actual dataset, with each compound chemID, it's smile (canonical) and the activity value.
 
-__Note that I used the ChemBL release 17 to match the original paper, but some chem ID might have changed in later version._
+_Note that I used the ChemBL release 17 to match the original paper, but some chem ID might have changed in later versions.__
  
