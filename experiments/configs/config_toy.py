@@ -19,6 +19,38 @@ task_descr_extractor_params = list(ParameterGrid(dict(
     normalize_features=[False])))
 
 
+hp_grid_perspectron = dict(
+    model_name=['perspectron'],
+    model_params=list(ParameterGrid(dict(
+        lr=[0.001],
+        input_dim=[1],
+        target_dim=[1],
+        pooling_mode=['mean'],
+        is_latent_discrete=[True],   # , False],
+        latent_space_dim=[25, 64],
+        feature_extractor_params=features_extractor_params,
+    ))),
+    **shared_params
+)
+
+hp_grid_deepprior = dict(
+    model_name=['deep_prior'],
+    model_params=list(ParameterGrid(dict(
+        lr=[0.001],
+        beta_kl=[0.1, 1],
+        input_dim=[1],
+        fusion_layer_size=[128],
+        fusion_nb_layer=[6],
+        feature_extractor_params=features_extractor_params,
+        task_encoder_params=list(ParameterGrid(dict(
+            target_dim=[1],
+            latent_space_dim=[64, 128],
+            pooling_mode=['mean'],
+        ))),
+    ))),
+    **shared_params
+)
+
 grid_mars = dict(
     model_name=['mars'],
     model_params=list(ParameterGrid(dict(
@@ -38,6 +70,7 @@ grid_metakrr_sk = dict(
         lr=[0.001],
         regularize_w_pairs=[False],
         regularize_phi=[False],
+        do_cv=[True],
         feature_extractor_params=features_extractor_params,
     ))),
     **shared_params
@@ -120,17 +153,6 @@ grid_metagp_mk = dict(
     **shared_params
 )
 
-grid_deep_prior = dict(
-    model_name=['deep_prior'],
-    model_params=list(ParameterGrid(
-        dict(
-            use_data_encoder=[True],
-            task_descr_extractor_params=[None],
-            **model_params_comm_mk
-        )
-    )),
-    **shared_params
-)
 
 grid_multitask = dict(
     model_name=['mutitask'],

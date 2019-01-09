@@ -7,6 +7,18 @@ from torch.nn import MSELoss
 from torch.nn.functional import mse_loss
 
 
+def to_numpy_vec(x):
+    return x.data.cpu().numpy().flatten()
+
+
+def to_unit(t):
+    if isinstance(t, torch.Tensor):
+        x = t.data.cpu().numpy()
+    else:
+        x = t
+    return x
+    
+
 def prod(iterable):
     return reduce(op.mul, iterable, 1)
 
@@ -36,25 +48,7 @@ def set_params(module, new_params, prefix=''):
         set_params(submodule, new_params, submodule_prefix)
 
 
-def get_gpu_memory_map():
-    """Get the current gpu usage.
 
-    Returns
-    -------
-    usage: dict
-        Keys are device ids as integers.
-        Values are memory usage as integers in MB.
-    """
-    # nvidia-smi --query-gpu=memory.free --format=csv,nounits,noheader
-    result = subprocess.check_output(
-        [
-            'nvidia-smi', '--query-gpu=memory.free',
-            '--format=csv,nounits,noheader'
-        ])
-    # Convert lines into a dictionary
-    gpu_memory = [int(x) for x in result.strip().split('\n')]
-    # gpu_memory_map = dict(zip(range(len(gpu_memory)), gpu_memory))
-    return gpu_memory
 
 
 def reset_BN_stats(module):
@@ -96,17 +90,13 @@ def KL_div_diag_multivar_normals(mu1, var1, mu2=None, var2=None):
 
 
 def normal_entropy(mu, var):
-
     logvar = torch.log(var)
     return logvar.sum() + 0.5*logvar.size(0)*np.log(2*np.pi*np.e)
 
 
-def sigm_heating(step, max=1.0):
-    res = torch.Tensor([max/(1 + (1/0.01 - 1)*np.exp(-step/2000.0))])
-    res.requires_grad = False
-    if torch.cuda.is_available():
-        res = res.cuda()
-    return res[0]
+def sigm_heating(t, max_x=1.0, max_t=2000.0):
+    res = max_x/(1 + (1/0.01 - 1)*np.exp(-t/max_t))
+    return res
 
 
 def annealed_softmax(x, t, cooling_factor=0.001):
