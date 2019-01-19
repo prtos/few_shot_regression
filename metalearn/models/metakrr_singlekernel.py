@@ -3,15 +3,15 @@ from torch.nn import MSELoss
 from torch.nn.functional import mse_loss
 from torch.optim import Adam
 from pytoune.framework import Model
-from .base import MetaLearnerRegression, FeaturesExtractorFactory, MetaNetwork, to_unit
-from .krr import KrrLearner
-from .utils import reset_BN_stats
+from .base import MetaLearnerRegression, FeaturesExtractorFactory, MetaNetwork
+from .krr import KrrLearner, KrrLearnerCV
+from .utils import reset_BN_stats, to_unit
 
 
 
 class MetaKrrSingleKernelNetwork(MetaNetwork):
     def __init__(self, feature_extractor_params, l2=0.1, regularize_w_pairs=False, 
-                 regularize_phi=False, select_kernel=False):
+                 regularize_phi=False, do_cv=False):
         """
         In the constructor we instantiate an lstm module
         """
@@ -22,7 +22,7 @@ class MetaKrrSingleKernelNetwork(MetaNetwork):
         self.l2.requires_grad_(False)
         if torch.cuda.is_available():
             self.l2 = self.l2.cuda()
-
+        self.do_cv = do_cv
         self.regularize_w_pairs = regularize_w_pairs
         self.regularize_phi = regularize_phi
         self.phis_norms = []
@@ -34,7 +34,12 @@ class MetaKrrSingleKernelNetwork(MetaNetwork):
         self.feature_extractor.train()
         x_train, y_train = episode['Dtrain']
         phis = self.feature_extractor(x_train)
-        learner = KrrLearner(self.l2, dual=False)
+        if self.do_cv:
+            l2s = torch.logspace(-4, 1, 10)
+            gammas = torch.logspace(-4, 1, 10)
+            learner = KrrLearnerCV(l2s, gammas, dual=False)
+        else:
+            learner = KrrLearner(self.l2, dual=False)
         learner.fit(phis, y_train)
 
         # Testing part of the episode

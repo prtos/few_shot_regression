@@ -10,19 +10,8 @@ from metalearn.feature_extraction.factory import FeaturesExtractorFactory
 from torch.nn.functional import mse_loss
 from torch.utils.data import random_split
 from pytoune.framework import warning_settings, Model
+from metalearn.models.utils import to_unit, to_numpy_vec
 warning_settings['batch_size'] = 'ignore'
-
-
-def to_numpy_vec(x):
-    return x.data.cpu().numpy().flatten()
-
-
-def to_unit(t):
-    if isinstance(t, torch.Tensor):
-        x = t.data.cpu().numpy()
-    else:
-        x = t
-    return x
 
 
 def get_optimizer_cls(optimizer):

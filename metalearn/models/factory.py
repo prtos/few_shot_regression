@@ -9,6 +9,7 @@ from .deep_prior import DeepPriorLearner
 from .metarf import MetaRFLearner
 from .metaboost import MetaBoostLearner
 from .mars import MarsLearner
+from .perspectron import PerspectronEncoderLearner
 
 class ModelFactory:
     name_map = dict(
@@ -23,6 +24,7 @@ class ModelFactory:
         metarf=MetaRFLearner,
         metaboost=MetaBoostLearner,
         mars=MarsLearner,
+        perspectron=PerspectronEncoderLearner,
     )
 
     def __init__(self):
