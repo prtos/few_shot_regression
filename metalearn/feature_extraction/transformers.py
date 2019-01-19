@@ -1,4 +1,5 @@
 import torch
+import warnings
 import numpy as np
 from itertools import zip_longest, product
 from sklearn.base import TransformerMixin
@@ -6,17 +7,91 @@ from rdkit import Chem
 from joblib import delayed, Parallel
 from scipy.sparse import csr_matrix
 from scipy.sparse.csgraph import minimum_spanning_tree
+from rdkit.Chem.rdmolops import RDKFingerprint, RenumberAtoms
+from dgl import DGLGraph
+from .constants import *
 
 
-AMINO_ACID_ALPHABET = list('ARNDCQEGHILKMFPSTWYVBZX*')
-periodic_elements = [Chem.GetPeriodicTable().GetElementSymbol(i) for i in range(1, 121)]
-ATOM_ALPHABET = periodic_elements
-BOND_ALPHABET = list(Chem.BondType().names.values())  # if you want the names: use temp_bond_name.names.keys()
-MOL_ALPHABET = ATOM_ALPHABET + BOND_ALPHABET
-SMILES_ALPHABET = list('#%)(+*-/.1032547698:=@[]\\cons') + ATOM_ALPHABET + ['se']
+def one_of_k_encoding(val, allowed_choices):
+    """Converts a single value to a one-hot vector.
 
-MAPPING_ATOM_TO_INT = dict(zip(ATOM_ALPHABET, np.arange(len(ATOM_ALPHABET))))
-MAPPING_BOND_TO_INT = dict(zip(BOND_ALPHABET,  np.arange(len(BOND_ALPHABET))))
+    Parameters
+    ----------
+        val: class to be converted into a one hot vector
+            (integers from 0 to num_classes).
+        allowed_choices: a list of allowed choices for val to take
+
+    Returns
+    -------
+        A list of size len(allowed_choices) + 1
+    """
+    encoding = np.zeros(len(allowed_choices)+1, dtype=int)
+    # not using index of, in case, someone fuck up
+    # and there are duplicates in the allowed choices
+    for i, v in enumerate(allowed_choices):
+        if v == val:
+            encoding[i] = 1
+    if np.sum(encoding) == 0:  # aka not found
+        encoding[-1] = 1
+    return encoding
+
+
+def get_atom_features(atom, use_chirality=True, explicit_H=False):
+    feats = []
+    # Set type symbol
+    feats.extend(one_of_k_encoding(atom.GetSymbol(), ATOM_LIST))
+    # add the degree of the atom now
+    feats.extend(one_of_k_encoding(atom.GetDegree(), ATOM_DEGREE_LIST))
+    # mplicit valence
+    feats.extend(one_of_k_encoding(atom.GetImplicitValence(), IMPLICIT_VALENCE))
+    # add hybridization type of atom
+    feats.extend(one_of_k_encoding(atom.GetHybridization(), HYBRIDATION_LIST))
+    # whether the atom is aromatic or not
+    feats.append(int(atom.GetIsAromatic()))
+    # atom formal charge
+    feats.append(atom.GetFormalCharge())
+    # add number of radical electrons
+    feats.append(atom.GetNumRadicalElectrons())
+    # atom is in ring
+    feats.append(int(atom.IsInRing()))
+
+    if not explicit_H:
+        # number of hydrogene, is usually 0 after Chem.AddHs(mol) is called
+        feats.extend(one_of_k_encoding(atom.GetTotalNumHs(), ATOM_NUM_H))
+
+    if use_chirality:
+        try:
+            feats.extend(one_of_k_encoding(
+                atom.GetProp('_CIPCode'), CHIRALITY_LIST))
+            feats.append(int(atom.HasProp('_ChiralityPossible')))
+
+        except:
+            feats.extend([0, 0, int(atom.HasProp('_ChiralityPossible'))])
+
+    return np.asarray(feats, dtype=np.float32)
+
+
+def get_edge_features(bond):
+    # Initialise bond feature vector as an empty list
+    edge_features = []
+    # Encode bond type as a feature vector
+    bond_type = bond.GetBondType()
+    edge_features.extend(one_of_k_encoding(bond_type, BOND_TYPES))
+    # Encode whether the bond is conjugated or not
+    edge_features.append(int(bond.GetIsConjugated()))
+    # Encode whether the bond is in a ring or not
+    edge_features.append(int(bond.IsInRing()))
+    edge_features.append(int(bond.GetStereo()))
+    return np.array(edge_features, dtype=np.float32)
+
+
+def totensor(x, gpu=True, dtype=torch.float):
+    """convert a np array to tensor"""
+    x = torch.from_numpy(x)
+    x = x.type(dtype)
+    if torch.cuda.is_available() and gpu:
+        x = x.cuda()
+    return x
 
 
 def to_categorical(y, num_classes=None):
@@ -47,143 +122,96 @@ def to_categorical(y, num_classes=None):
     return categorical
 
 
-def decomposition_into_tree(mol):
-    """
-    Given a molecule, the function outputs the maximum spanning tree over all its clusters.
-    :param mol : (rdkit.Chem.Molecule) The molecule of interest
-    :return: (int list list, int list)
-    - nodes: list of all the cluster formed by the decomposition
-    Each cluster is a list of integers which represent the ids of the atoms in the molecule.
-    - edges, list of the edges. Each edges is a tuple of source node and destination node
-    represented by their position in the list of clusters
-    """
-    n_atoms = mol.GetNumAtoms()
-    # rings clusters
-    rings = [list(x) for x in Chem.GetSymmSSSR(mol)]
-    i, temp = 0, []
-    while i < len(rings):
-        j = i + 1
-        while j < len(rings):
-            atoms_ring_i = set(rings[i])
-            atoms_ring_j = set(rings[j])
-            if len(atoms_ring_i.intersection(atoms_ring_j)) > 2:
-                rings[i] = list(atoms_ring_i.union(atoms_ring_j))
-                rings[j:j+1] = []
-            j += 1
-        i += 1
-    # non rings clusters aka bonds
-    non_rings = [[bond.GetBeginAtom().GetIdx(), bond.GetEndAtom().GetIdx()]
-                 for bond in mol.GetBonds() if not bond.IsInRing()]
-    clusters = rings + non_rings
-    # singleton clusters
-    nb_appearence_per_atoms = dict(zip(range(n_atoms), [0]*n_atoms))
-    for cluster in clusters:
-        for atom_id in cluster:
-            nb_appearence_per_atoms[atom_id] += 1
-    for atom_id, nb_appearence in nb_appearence_per_atoms.items():
-        if nb_appearence >= 3:
-            clusters.append([atom_id])
-
-    # clusters are the nodes of the cluster graph
-    # here we construct the edges of that graph
-    clusters_sets = [set(el) for el in clusters]
-    clusters_edges = []
-    for i in range(len(clusters)):
-        for j in range(i+1, len(clusters)):
-            has_intersection = len(clusters_sets[i].intersection(clusters_sets[j])) > 0
-            has_singleton = len(clusters_sets[i]) == 1 or len(clusters_sets[j]) == 1
-            if has_singleton and has_intersection:
-                clusters_edges.append((i, j, 1))
-                clusters_edges.append((j, i, 1))
-            elif has_intersection:
-                clusters_edges.append((i, j, 0.5))
-                clusters_edges.append((j, i, 0.5))
-
-    # Compute Maximum Spanning Tree
-    if len(clusters_edges) == 0:
-        return clusters, []
-    else:
-        row, col, weights = zip(*clusters_edges)
-        n_clusters = len(clusters)
-        graph = csr_matrix((weights, (row, col)), shape=(n_clusters, n_clusters))
-        junc_tree = minimum_spanning_tree(graph)
-        row, col = junc_tree.nonzero()
-        edges = [(row[i], col[i]) for i in range(len(row))]
-        return clusters, edges
-
-
-def get_mol_fragment(mol, fragment_atoms):
-    """
-    Returns a fragment of a molecule given ids of atoms in that fragment
-    :param mol: (rdkit.Chem.Molecule) The molecule of interest
-    :param fragment_atoms: (int list) ids of atoms of interest
-    :return:
-    """
-    smiles = Chem.MolFragmentToSmiles(mol, fragment_atoms, kekuleSmiles=True)
-    new_mol = Chem.MolFromSmiles(smiles)
-    return new_mol
-
-
-def __get_mol_fragment_smiles(mol):
-    if mol is None:
-        return []
-    nodes, _ = decomposition_into_tree(mol)
-    return [Chem.MolFragmentToSmiles(mol, f) for f in nodes]
-
-
-def generate_fragments_vocab(molecule_list, output_file=None):
-    """
-    Generate the list of all possible fragments given a set of molecules.
-    This can be useful to build the vocabulary of fragments before doing some ML.
-
-    :param molecule_list: (rdkit.Chem.Molecule list) the list of molecules of interest
-    :param output_file:
-    :return:
-    """
-    res = set()
-    frags = Parallel(n_jobs=-1, verbose=True)(delayed(__get_mol_fragment_smiles)(mol) for mol in molecule_list)
-    for el in frags:
-        res.update(el)
-    print('A vocab of {} elements has been generated'.format(len(res)))
-    res = sorted(res, key=lambda x: len(x))
-    if output_file:
-        with open(output_file, 'w') as fd:
-            fd.write('\n'.join(res))
-    else:
-        print('\n'.join(res))
-    return res
-
-
 class MoleculeTransformer(TransformerMixin):
     """
     This class is abstract all children should implement fit and transform
     """
-
     def __init__(self):
-        super(TransformerMixin, self).__init__()
+        super(MoleculeTransformer, self).__init__()
 
-    @staticmethod
-    def to_mol(s, addHs=False, explicitOnly=False):
+    def fit(self, X):
+        return self
+
+    @classmethod
+    def to_mol(clc, mol, addHs=False, ordered=True, explicitOnly=False):
+        """Convert the input into a Chem.Mol with implicit hydrogens
+
+        Parameters
+        ----------
+        mol: str or rdkit.Chem.Mol
+            SMILES of a molecule or a molecule
+        addHs: bool, optional, default=False
+            Whether the implicit hydrogens should be added the molecule.
+        ordered: bool, optional, default=False
+            Whether the atom should be ordered for graph conv.
+        explicitOnly: bool, optional, default=False
+            Whether the explicit hydrogen are included in the output molecule
+
+        Returns
+        -------
+        mol: rdkit.Chem.Molecule
+            the molecule if some conversion have been made.
+            If the conversion fails None is returned so make sure that you handle this case on your own.
+
+        Raises
+        ------
+        ValueError
+            if the input is neither a CHem.Mol neither a string
         """
-        Convert the input into a Chem.Mol with implicit or explicit hydrogens
-        :param s: the input, is expected to be a SMILES or a SMARTS
-        :param addHs: specify if the implicit and explicit hydrogens should be added or not, default False.
-        :param explicitOnly: specify if explicit hydrogen are included or not
-        :return: the molecule if some conversion have been made. If the conversion fails None is returned so
-                 please handle the case where the conversion fails in your code:
-        :exception ValueError if the input is neither a CHem.Mol neither a string
-        """
-        if not isinstance(s, (str, Chem.Mol)):
+        if not isinstance(mol, (str, Chem.Mol)):
             raise ValueError("Input should be a CHem.Mol or a string")
+        if isinstance(mol, str):
+            mol = Chem.MolFromSmiles(mol)
+        if ordered:
+            new_order = Chem.rdmolfiles.CanonicalRankAtoms(mol)
+            mol = RenumberAtoms(mol, new_order)
+        if addHs and (mol is not None):
+            mol = Chem.AddHs(mol, explicitOnly=explicitOnly)
+        return mol
 
-        if isinstance(s, str):
-            res = Chem.MolFromSmiles(s)
-        else:
-            res = s
+    def _transform(self, mol):
+        """
+        Compute features for a single molecule.
+        """
+        raise NotImplementedError('Missing implementation of _transform.')
 
-        if addHs and (res is not None):
-            res = Chem.AddHs(res, explicitOnly=explicitOnly)
-        return res
+    def transform(self, mols, as_numpy=False, **kwargs):
+        """
+        Compute the features of a molecule
+
+        Args:
+        -----
+            mols: a list containing smiles
+            addH: a bool to specify if hydrogen atom should be added
+
+        Returns:
+        --------
+            features: the list of features
+
+        """
+        features = []
+        for i, mol in enumerate(mols):
+            feat = []
+            try:
+                mol = self.to_mol(mol, **kwargs)
+                if mol:
+                    feat = self._transform(mol)
+            except:
+                pass
+            features.append(feat)
+        if as_numpy:
+            return np.array(features)
+        return features
+
+    def __call__(self, mols, **kwargs):
+        """
+        Calculate features for molecules.
+        Parameters
+        ----------
+        mols : iterable
+                RDKit Mol objects.
+        """
+        return self.transform(mols, **kwargs)
 
 
 class SequenceTransformer:
@@ -226,210 +254,166 @@ class SequenceTransformer:
         return final_res
 
 
-class MolecularGraphTransformer(MoleculeTransformer):
+class AdjGraphTransformer(MoleculeTransformer):
+    """Transform a molecule into an adjacency matrix of atom, and a tensor od feature
+    for each atom.
+
+    Parameters
+    ----------
+    max_n_atoms: Maximum number of atom, to set the size of the graph.
+        Use default value None, to allow graph with different size that 
+        will be packed together later
+    with_bond: bool, optional, default=False
+        whether to return bond feature too
+    explicit_H: bool, optional, default=False
+        Whethet to consider hydrogen atoms explicitely
+    chirality: bool, optional, default=True
+        Use chirality as a feature.
+    max_valence: int, optional, default=4
+        Maximum number of neighbor for each atom
+
     """
-    Transform a rdkit molecule or a smile into a graph structure
+
+    def __init__(self, max_n_atoms=None, with_bond=False, explicit_H=False, chirality=True, max_valence=4):
+        self.max_valence = max_valence
+        self.max_n_atoms = max_n_atoms # if this is not set, packing of graph would be expected later
+        self.n_atom_feat = 0
+        self.n_bond_feat = 0
+        self.explicit_H = explicit_H
+        self.use_chirality = chirality
+        self.with_bond = with_bond
+        self._set_num_features()
+
+    def _set_num_features(self):
+        """Compute the number of features for each atom and bond
+        """
+        self.n_atom_feat = 0
+        # add atom type required
+        self.n_atom_feat += len(ATOM_LIST) + 1
+        # add atom degree
+        self.n_atom_feat += len(ATOM_DEGREE_LIST) + 1
+        # add valence implicit
+        self.n_atom_feat += len(IMPLICIT_VALENCE) + 1
+        # aromatic, formal charge, radical electrons, in_ring
+        self.n_atom_feat += 4
+        # hybridation_list
+        self.n_atom_feat += len(HYBRIDATION_LIST) + 1
+        # number of hydrogen
+        if not self.explicit_H:
+            self.n_atom_feat += len(ATOM_NUM_H) + 1
+        # chirality
+        if self.use_chirality:
+            self.n_atom_feat += 3
+
+        # do the same thing but with bond now
+        # start with bond types
+        self.n_bond_feat += len(BOND_TYPES) + 1
+        # bond is conjugated, in rings
+        self.n_bond_feat += 2
+
+    def transform(self, mols):
+        """Transform a batch of N molecules or smiles into a graph and 
+
+        Parameters
+        ----------
+        mols: (str or rdkit.Chem.Mol) iterable
+            The molecules to be converted
+
+        Returns
+        -------
+        features: tuple list
+            A list of tuple (G, x), where G is an adjacency matrix and x is the atom features
+
+        """
+        features = []
+        mol_list = []
+        for i, mol in enumerate(mols):
+            feat = np.array([])
+            try:
+                mol = self.to_mol(mol, addHs=self.explicit_H)
+                if mol:
+                    if self.max_n_atoms and self.max_n_atoms < mol.GetNumAtoms():
+                        warnings.warn("Max number of atoms is not enough, Updating to {}".format(mol.GetNumAtoms()))
+                        self.max_n_atoms = mol.GetNumAtoms()
+                    mol_list.append(mol)
+            except:
+                pass
+
+        for mol in mol_list:
+            feat = self._transform(mol)
+            features.append(feat)
+
+        return features
+
+    def _transform(self, mol):
+        # then for each atom, we would have one neighbor at each of its valence state
+        if self.with_bond:
+            bond_matrix = np.zeros(
+                (self.max_n_atoms, self.n_bond_feat * self.max_valence)).astype(np.uint8)
+            # type of bond for each of its neighbor respecting max valence
+
+        n_atoms = self.max_n_atoms or mol.GetNumAtoms()
+        adj_matrix = np.zeros((n_atoms, n_atoms), dtype=np.uint8)
+        atom_arrays = []
+        for a_idx in range(0, mol.GetNumAtoms()):
+            atom = mol.GetAtomWithIdx(a_idx)
+            atom_arrays.append(get_atom_features(atom))
+            adj_matrix[a_idx, a_idx] = 1 # add self loop
+            for n_idx, neighbor in enumerate(atom.GetNeighbors()):
+                adj_matrix[neighbor.GetIdx(), a_idx] = 1
+                adj_matrix[a_idx, neighbor.GetIdx()] = 1
+                if self.with_bond:
+                    bond = mol.GetBondBetweenAtoms(a_idx, neighbor.GetIdx())
+                    bond_feat = get_edge_features(bond)
+                    bond_matrix[a_idx][(self.n_bond_feat * n_idx):(self.n_bond_feat) * (n_idx + 1)] = bond_feat
+
+        atom_matrix = np.zeros(
+            (n_atoms, self.n_atom_feat)).astype(np.uint8)
+        for idx, atom_array in enumerate(atom_arrays):
+            atom_matrix[idx, :] = atom_array
+        
+        if self.with_bond:
+            atom_matrix = np.concatenate(
+                [atom_matrix, bond_matrix], axis=1).astype(np.uint8)
+        return (adj_matrix.astype(np.uint8), atom_matrix.astype(np.uint8))
+
+
+class DGLGraphTransformer(AdjGraphTransformer):
     """
-    # label all elements in the vocab from 1 to the vocab size
-    mol_element_to_int = dict(zip(MOL_ALPHABET, 1 + np.arange(len(MOL_ALPHABET))))
-    vocab_size = len(mol_element_to_int)
-    nb_max_neighbors = 10 * 2  # the maximum valence of an atom is . We double by two because of the edges
-    unknown_atom_int = 0
-    padding_idx = -1
+    Graph feature extraction using DGL
 
-    # print(mol_element_to_int)
+    """
+    def __init__(self, explicit_H=False, chirality=True):
+        super(DGLGraphTransformer, self).__init__(max_n_atoms=None, with_bond=False, explicit_H=explicit_H, chirality=chirality)
 
-    @staticmethod
-    def get_node_type(variable):
-        """This return the correct int representation value from the atom or bond dictionary
-        :param variable, atom or bond type
-        """
-        if variable in ATOM_ALPHABET:
-            return MolecularGraphTransformer.mol_element_to_int[variable]
-        elif variable in BOND_ALPHABET:
-            return MolecularGraphTransformer.mol_element_to_int[variable]
-        else:
-            return MolecularGraphTransformer.unknown_atom_int
 
-    def __init__(self, returnTensor=True, mode=1):
-        """
-        This transformer help to transform a sdf or smiles version of a molecule into a graph
-        :param returnTensor: whether or not we should return tensors (from pytorch) by opposition to arrays (from numpy).
-                             default, True
-        :param mode: the pooling_mode specify how the graph is outputted. Each pooling_mode is described below:
-                     1 - the output is a pair of (nodes_type, neighbors_indexes) ,
-                         where nodes_type is a 1-D array or tensor which contains the type of all atoms or bonds,
-                         and neighbor_indexes is a matrix which indicate the indexes of the neighbors atoms
-                         or bonds in the nodes_types. This matrix has 20 rows and rows which doesn't have has many
-                         neighbors are filled  with -1 at the empty places.
-                     2 - the output is a pair of (formula, adjacency matrix) where,
-                         formula is a vector which positions correspond to an atom and the content is the number of that
-                         atom in the molecule,
-                         adjacency matrix,
-
-        """
-        super(MolecularGraphTransformer, self).__init__()
-        self.returnTensor = returnTensor
-        self.mode = mode
-        self.vocab = MolecularGraphTransformer.mol_element_to_int
-
-    def __get_repr1(self, mol: Chem.Mol):
-        # list of adjacency
-        nodes_type, neighbors_indexes = [], []
+    def _transform(self, mol):
+        atom_feats = []
+        bond_feats = []
         n_atoms = mol.GetNumAtoms()
-        for atom in mol.GetAtoms():
-            symbol = atom.GetSymbol()
-            bonds = atom.GetBonds()
-            nodes_type.append(MolecularGraphTransformer.get_node_type(symbol))
-            neighbors = sum([[n_atoms + bond.GetIdx(),
-                              bond.GetOtherAtom(atom).GetIdx()]
-                             for bond in bonds], [])
-            neighbors_indexes.append(neighbors)
+        n_bonds = mol.GetNumBonds()
+        graph = DGLGraph()
 
-        # bonds as nodes of the graph and connected atoms as neighbors
-        for bond in mol.GetBonds():
-            symbol = bond.GetBondType()
-            nodes_type.append(MolecularGraphTransformer.get_node_type(symbol))
-            neighbors_indexes.append([bond.GetBeginAtom().GetIdx(), bond.GetEndAtom().GetIdx()])
+        for a_idx in range(0, n_atoms):
+            atom = mol.GetAtomWithIdx(a_idx)
+            atom_feats.append(get_atom_features(atom))
+        graph.add_nodes(n_atoms)
 
-        nodes_type = np.array(nodes_type)
-        # padding the edges with -1 for a size up to self.nb_max_neighbors
-        neighbors_indexes[-1] += [self.padding_idx] * (self.nb_max_neighbors - len(neighbors_indexes[-1]))
-        neighbors_indexes = np.array(list(zip_longest(*neighbors_indexes, fillvalue=self.padding_idx))).T
+        bond_src = []
+        bond_dst = []
+        for i, bond in enumerate(mol.GetBonds()):
+            begin_idx = bond.GetBeginAtom().GetIdx()
+            end_idx = bond.GetEndAtom().GetIdx()
+            features = get_edge_features(bond)
+            bond_src.append(begin_idx)
+            bond_dst.append(end_idx)
+            bond_feats.append(features)
+            # set up the reverse direction
+            bond_src.append(end_idx)
+            bond_dst.append(begin_idx)
+            bond_feats.append(features)
+        graph.add_edges(bond_src, bond_dst)
 
-        if self.returnTensor:
-            nodes_type = torch.from_numpy(nodes_type)
-            neighbors_indexes = torch.from_numpy(neighbors_indexes)
-
-        return nodes_type, neighbors_indexes
-
-    def __get_repr2(self, mol: Chem.Mol):
-        n_atoms = mol.GetNumAtoms()
-        nodes_type = np.zeros(n_atoms)
-        formula = np.zeros(len(periodic_elements), dtype=np.float32)
-        adjancency_matrix = np.zeros((n_atoms, n_atoms), dtype=np.int64)
-        for i, atom in enumerate(mol.GetAtoms()):
-            symbol = atom.GetSymbol()
-            print(symbol, end=' ')
-            bonds = atom.GetBonds()
-            formula[MAPPING_ATOM_TO_INT[symbol]] += 1
-            nodes_type[i] = MAPPING_ATOM_TO_INT[symbol]
-            idx1 = atom.GetIdx()
-            for bond in bonds:
-                bond_type = bond.GetBondType()
-                idx2 = bond.GetOtherAtom(atom).GetIdx()
-                adjancency_matrix[idx1, idx2] = MAPPING_BOND_TO_INT[bond_type]
-
-        sorted_nodes_idx = np.argsort(nodes_type)
-        adjancency_matrix = adjancency_matrix[sorted_nodes_idx]
-        adjancency_matrix = adjancency_matrix[:, sorted_nodes_idx]
-        adjancency_matrix = adjancency_matrix[np.triu_indices_from(adjancency_matrix, k=1)]
-        # # sanity_check:
-        # for i in range(n_atoms):
-        #     for j in range(0, i+1):
-        #         assert adjancency_matrix[i, j] == adjancency_matrix[j, i]
-
-        if self.returnTensor:
-            formula = torch.from_numpy(formula)
-            adjancency_matrix = torch.from_numpy(adjancency_matrix)
-
-        return formula, adjancency_matrix
-
-    def __transform(self, x):
-        if isinstance(x, str):
-            res = self.to_mol(x)
-        elif isinstance(x, Chem.Mol):
-            res = x
-        else:
-            raise Exception('Unhandle type')
-        if self.mode == 1:
-            return self.__get_repr1(res)
-        elif self.mode == 2:
-            return self.__get_repr2(res)
-
-    def transform(self, inputs):
-        return [self.__transform(el) for el in inputs]
-
-
-class MolecularTreeDecompositionTransformer(MoleculeTransformer):
-    """
-    Transform a rdkit molecule object to a tree structure which nodes are different functionnal groups
-    """
-    padding_idx = -1
-
-    def __init__(self, vocab, returnTensor=True, mode=1):
-        """
-        This transformer help to transform a sdf or smiles version of a molecule into a graph
-        :param returnTensor: whether or not we should return tensors (from pytorch) by opposition to arrays (from numpy).
-                             default, True
-        :param mode: the pooling_mode specify how the graph is outputted. Each pooling_mode is described below:
-                     1 - the output is a pair of (nodes_type, neighbors_indexes) ,
-                         where nodes_type is a 1-D array or tensor which contains the type of all atoms or bonds,
-                         and neighbor_indexes is a matrix which indicate the indexes of the neighbors atoms
-                         or bonds in the nodes_types. This matrix has 20 rows and rows which doesn't have has many
-                         neighbors are filled  with -1 at the empty places.
-                     2 - the output is a pair of (formula, adjacency matrix) where,
-                         formula is a vector which positions correspond to an atom and the content is the number of that
-                         atom in the molecule,
-                         adjacency matrix,
-
-        """
-        super(MolecularTreeDecompositionTransformer, self).__init__()
-        self.vocab = dict(zip(vocab, 1 + np.arange(len(vocab))))
-        self.returnTensor = returnTensor
-        self.mode = mode
-        self.nb_max_neighbors = 0
-        self.vocab_size = len(self.vocab) + 1
-
-    def __get_repr1(self, mol: Chem.Mol):
-        nodes, edges = decomposition_into_tree(mol)
-        nodes_type = np.array([self.vocab.get(Chem.MolFragmentToSmiles(mol, f), 0) for f in nodes])
-        neighbors_indexes = [[] for _ in range(len(nodes))]
-        for node1, node2 in edges:
-            neighbors_indexes[node1].append(node2)
-            neighbors_indexes[node2].append(node1)
-
-        # padding the edges with -1 for a size up to self.nb_max_neighbors
-        neighbors_indexes[-1] += [self.padding_idx] * (self.nb_max_neighbors - len(neighbors_indexes[-1]))
-        neighbors_indexes = np.array(list(zip_longest(*neighbors_indexes, fillvalue=self.padding_idx))).T
-
-        if self.returnTensor:
-            nodes_type = torch.from_numpy(nodes_type)
-            neighbors_indexes = torch.from_numpy(neighbors_indexes)
-
-        return nodes_type, neighbors_indexes
-
-    def __get_repr2(self, mol: Chem.Mol):
-        nodes, edges = decomposition_into_tree(mol)
-        nodes_type = np.array([self.vocab.get(Chem.MolFragmentToSmiles(mol, f), 0) for f in nodes])
-        n_nodes = len(nodes)
-        formula = np.zeros(self.vocab_size, dtype=np.float32)
-        for i in nodes_type:
-            formula[i] += 1.0
-
-        adjancency_matrix = np.zeros((n_nodes, n_nodes), dtype=np.int64)
-        for i, j in edges:
-            adjancency_matrix[i, j] = 1
-            adjancency_matrix[j, i] = 1
-
-        sorted_nodes_idx = np.argsort(nodes_type)
-        adjancency_matrix = adjancency_matrix[sorted_nodes_idx]
-        adjancency_matrix = adjancency_matrix[:, sorted_nodes_idx]
-        adjancency_matrix = adjancency_matrix[np.triu_indices_from(adjancency_matrix, k=1)]
-
-        if self.returnTensor:
-            formula = torch.from_numpy(formula)
-            adjancency_matrix = torch.from_numpy(adjancency_matrix)
-
-        return formula, adjancency_matrix
-
-    def __transform(self, mol):
-        if self.mode == 1:
-            return self.__get_repr1(mol)
-        elif self.mode == 2:
-            return self.__get_repr2(mol)
-
-    def transform(self, inputs):
-        mols = [self.to_mol(x) for x in inputs]
-        self.nb_max_neighbors = max([mol.GetNumAtoms() for mol in mols])
-        return [self.__transform(mol) for mol in mols]
+        graph.ndata["hv"] = totensor(np.asarray(atom_feats), gpu=torch.cuda.is_available())
+        graph.edata["he"] = totensor(np.asarray(bond_feats), gpu=torch.cuda.is_available())
+        return graph

@@ -42,6 +42,7 @@ class MetaLearnerRegression(Model):
         self.writer = None
         self.train_step = 0
         self.test_step = 0
+        self.is_eval = False
 
     def _compute_aux_return_loss(self, y_preds, y_tests):
         loss = torch.mean(torch.stack([mse_loss(y_pred, y_test) 
@@ -69,6 +70,9 @@ class MetaLearnerRegression(Model):
 
     def fit(self, meta_train, meta_valid, n_epochs=100, steps_per_epoch=100,
             log_filename=None, checkpoint_filename=None, tboard_folder=None):
+        if hasattr(self.model, 'is_eval'):
+            self.model.is_eval = False
+        self.is_eval = False
         self.steps_per_epoch = steps_per_epoch
         callbacks = [EarlyStopping(patience=5, verbose=False),
                      ReduceLROnPlateau(patience=5, factor=1/2, min_lr=1e-6, verbose=True),
@@ -119,6 +123,9 @@ class MetaLearnerRegression(Model):
         self.writer.add_figure(tag=tag, figure=plt.gcf(), close=True, global_step=step)
 
     def evaluate(self, metatest, metrics=[mse_loss], tboard_folder=None):
+        if hasattr(self.model, 'is_eval'):
+            self.model.is_eval = True
+        self.eval = True
         assert len(metrics) >= 1, "There should be at least one valid metric in the list of metrics "
         if tboard_folder is not None:
             print('here.....\n')
@@ -132,7 +139,7 @@ class MetaLearnerRegression(Model):
             y_tests = batch[1]
             for episode, y_test, y_pred in zip(episodes, y_tests, y_preds):
                 if self.model.return_var:
-                    (y_pred_mean, y_pred_std) = y_pred
+                    y_pred_mean, y_pred_std = y_pred
                 else:
                     y_pred_mean = y_pred
                 ep_idx = episode['idx']

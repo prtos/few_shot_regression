@@ -5,98 +5,34 @@
 # Input is specified a folder in which the datasets live.
 
 import os
+import sys
 import ast
 import json
 import pickle
 import traceback
-from expts_utils import *
+import argparse
+from sklearn.model_selection import ParameterGrid
+from expts_utils import run_experiment, load_nested_params
 from metalearn.utils.metric import mse, vse, pcc, r2
 
 
-def load_nested_params(fd):
-    """
-    This function allows to convert a string which represents a hyperparameter configuration into a dict.
-    It is required only if the string represent a nested dict in which case sagemaker store it the following way:
-    hyperparameters = {str(k): str(v) for (k, v) in estimator.hyperparameters().items()}
-    json.dump(hyperparameters)
-    """
-    if hasattr(fd, 'read'):
-        res = json.load(fd)
-    elif isinstance(fd, str) and ((fd.startswith('{') and fd.endswith('}')) or (fd.startswith('[') and fd.endswith(']'))):
-        res = ast.literal_eval(fd)
-    else:
-        res = fd
-    if isinstance(res, dict):
-        res = {k: (load_nested_params(v)
-                   if ((fd.startswith('{') and fd.endswith('}')) or
-                        (fd.startswith('[') and fd.endswith(']')))
-                   else v)
-               for k, v in res.items()}
-    return res
-
-def run_experiment(model_name, model_params, dataset_name, dataset_params,
-                   fit_params, out_path, ckp_path, inp_path=None, refit=True):
-    all_params = locals()
-    del all_params['out_path'], all_params['ckp_path'], all_params['inp_path'], all_params['refit']
-    model = get_model(model_name, model_params)
-    meta_train, meta_test = get_dataset_partitions(dataset_name, dataset_params, ds_folder=inp_path)
-
-    out_prefix = get_outfname_prefix(all_params)
-    ckp_fname = "{}/{}_ckp.ckp".format(ckp_path, out_prefix)
-    result_fname = "{}/{}_res.csv".format(out_path, out_prefix),
-    log_fname = "{}/{}_log.log".format(out_path, out_prefix)
-    tboard = "{}/{}".format(out_path, out_prefix)
-
-    if os.path.exists(ckp_fname):
-        try:
-            model.load(ckp_fname)
-        except:
-            pass
-    fit_params.update(dict(log_filename=log_fname,
-                           checkpoint_filename=ckp_fname,
-                           tboard_folder=tboard))
-    fit_and_eval(model, meta_train, meta_test, fit_params, result_fname, refit=refit)
-
-
-def fit_and_eval(model, meta_train, meta_test, fit_params, result_fname, refit=False):
-    if refit and model.is_fitted:
-        pass
-    else:
-        model.fit(meta_train, **fit_params)
-
-    scores = model.evaluate(meta_test, metrics=[mse, vse, r2, pcc])
-    with open(result_fname, "w") as outfile:
-        results = save_stats(scores, outfile)
-        print(results)
-
-
 # The function to execute the training.
-def main():
-    # These are the paths to where SageMaker mounts interesting things in your container.
-    prefix = '/opt/ml/'
-    # for local test uncomment the following
-    # prefix = './local_test/test_dir/'
-
-    data_path = prefix + 'input/data'
-    output_path = os.path.join(prefix, 'output')
-    model_path = os.path.join(prefix, 'model')
-    param_path = os.path.join(prefix, 'input/config/hyperparameters.json')
-
+def main(config_file, input_path, output_path):
     print('Starting the training.')
     try:
         # Read in any hyperparameters that the user passed with the training job
         # Depending on how you set the hyperparameters
-        with open(param_path, 'r') as tc:
-            trainingParams = load_nested_params(tc)
-            print(trainingParams)
-
-        # This algorithm has a single channel of input data called training.
-        # Since we run in File mode, the input files are copied to the directory specified here.
-        channel_name = 'training'
-        input_path = os.path.join(data_path, channel_name)
+        with open(config_file, 'r') as tc:
+            temp = json.load(tc)
+            hp_id = int(temp['id'])
+            config_file = temp['config_file']
+            with open(config_file, 'r') as fd:
+                config = json.load(fd)
+            training_params = ParameterGrid(config)[hp_id]
+            print(training_params)
 
         # the function below does all the data loading, run, validate and test the algo
-        run_experiment(**trainingParams, out_path=output_path, ckp_path=model_path, inp_path=input_path, refit=True)
+        run_experiment(**training_params, out_path=output_path, inp_path=input_path)
 
     except Exception as e:
         # Write out an error file. This will be returned as the failureReason in the
@@ -111,6 +47,25 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # These are the paths where SageMaker mounts interesting things in your container.
+    # by default we assume that only one channel of input data will be used and its name will be training.
+    prefix = '/opt/ml/'
+    output_path = os.path.join(prefix, 'model')
+    config_file = os.path.join(prefix, 'input/config/hyperparameters.json')
+    input_path = os.path.join(prefix, 'input/data/training')
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-p', '--config_file', type=str, default=config_file,
+                    help="""The name/path of the config file (in json format) that contains all the 
+                            parameters for the experiment. This config file should be at the same 
+                            location as the current train file""")
+    parser.add_argument('-i', '--input_path', type=str, default=input_path,
+                        help="""location that contains the train files.""")
+    parser.add_argument('-o', '--output_path', type=str, default=output_path,
+                        help="""location for saving the training results (model artifacts and output files).
+                                If not specified, results are stored in the folder "results" at the same level as  .""")
+
+    args = parser.parse_args()
+    main(config_file=args.config_file, input_path=args.input_path, output_path=args.output_path)
     # A zero exit code causes the job to be marked a Succeeded.
     sys.exit(0)

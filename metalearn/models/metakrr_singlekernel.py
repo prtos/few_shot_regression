@@ -1,5 +1,5 @@
 import torch
-from torch.nn import MSELoss
+from torch.nn import MSELoss, Parameter, ParameterDict
 from torch.nn.functional import mse_loss
 from torch.optim import Adam
 from pytoune.framework import Model
@@ -10,36 +10,49 @@ from .utils import reset_BN_stats, to_unit
 
 
 class MetaKrrSingleKernelNetwork(MetaNetwork):
-    def __init__(self, feature_extractor_params, l2=0.1, regularize_w_pairs=False, 
+
+    def __init__(self, feature_extractor_params, l2=0.1, gamma=0.1, kernel='linear',
                  regularize_phi=False, do_cv=False):
         """
         In the constructor we instantiate an lstm module
         """
         super(MetaKrrSingleKernelNetwork, self).__init__()
         self.feature_extractor = FeaturesExtractorFactory()(**feature_extractor_params)
-
-        self.l2 = torch.FloatTensor([l2])
-        self.l2.requires_grad_(False)
-        if torch.cuda.is_available():
-            self.l2 = self.l2.cuda()
+        self.kernel = kernel
         self.do_cv = do_cv
-        self.regularize_w_pairs = regularize_w_pairs
         self.regularize_phi = regularize_phi
+
+        if not do_cv:
+            module_device = next(self.feature_extractor.parameters()).device
+            self.l2 = Parameter(torch.FloatTensor([l2], device=module_device))
+            if kernel == 'rbf':
+                self.kernel_params = ParameterDict(
+                    dict(gamma=Parameter(torch.FloatTensor([gamma], device=module_device))))
+            elif kernel == 'sm':
+                #todo: Need to finish this
+                self.kernel_params = ParameterDict(
+                    dict(gamma=Parameter(torch.FloatTensor([gamma], device=module_device))))
+            else:
+                self.kernel_params = dict()
         self.phis_norms = []
-        self.w_trn_tst_diff = []
 
     def __forward(self, episode):
-
         # training part of the episode
         self.feature_extractor.train()
         x_train, y_train = episode['Dtrain']
         phis = self.feature_extractor(x_train)
         if self.do_cv:
             l2s = torch.logspace(-4, 1, 10)
-            gammas = torch.logspace(-4, 1, 10)
-            learner = KrrLearnerCV(l2s, gammas, dual=False)
+            kernels_params = dict()
+            if self.kernel == 'rbf':
+                kernels_params = dict(gamma = torch.logspace(-4, 1, 10))
+            elif self.kernel == 'sm':
+                raise NotImplementedError
+            else:
+                raise NotImplementedError
+            learner = KrrLearnerCV(l2s, self.kernel, dual=False, **kernels_params)
         else:
-            learner = KrrLearner(self.l2, dual=False)
+            learner = KrrLearner(self.l2, self.kernel, dual=False, **self.kernel_params)
         learner.fit(phis, y_train)
 
         # Testing part of the episode
@@ -49,21 +62,11 @@ class MetaKrrSingleKernelNetwork(MetaNetwork):
         bsize = 64
         res = torch.cat([learner(self.feature_extractor(x_test[i:i+bsize])) for i in range(0, n, bsize)])
 
-        if self.training:
-            # training part of the episode
-            self.feature_extractor.train()
-            x_train, y_train = episode['Dtest']
-            phis = self.feature_extractor(x_train)
-            learner2 = KrrLearner(self.l2, dual=False)
-            learner2.fit(phis, y_train)
-            self.w_trn_tst_diff.append(torch.mean(torch.norm(learner.w - learner2.w, dim=0)))
-
         self.phis_norms.append(torch.norm(phis, dim=1))
         return res
 
     def forward(self, episodes):
         self.phis_norms = []
-        self.w_trn_tst_diff = []
         res = [self.__forward(episode) for episode in episodes]
         return res
 
@@ -75,10 +78,7 @@ class MetaKrrSingleKernelLearner(MetaLearnerRegression):
 
     def _compute_aux_return_loss(self, y_preds, y_tests):
         res = dict()
-        if self.model.regularize_w_pairs and self.model.training:
-            loss = torch.mean(torch.stack(y_preds))
-        else:
-            loss = torch.mean(torch.stack([mse_loss(y_pred, y_test) 
+        loss = torch.mean(torch.stack([mse_loss(y_pred, y_test) 
                     for y_pred, y_test in zip(y_preds, y_tests)]))
 
         res.update(dict(mse=loss))
@@ -86,11 +86,6 @@ class MetaKrrSingleKernelLearner(MetaLearnerRegression):
             x = torch.mean(torch.cat(self.model.phis_norms))
             res.update(dict(phis_norm=x))
             if self.model.regularize_phi:
-                loss = loss + x
-
-            x = torch.mean(torch.stack(self.model.w_trn_tst_diff))
-            res.update(dict(diff_w_trn_tst=x))
-            if self.model.regularize_w_pairs:
                 loss = loss + x
 
         return loss, res

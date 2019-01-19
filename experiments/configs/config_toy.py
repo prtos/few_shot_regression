@@ -26,7 +26,7 @@ hp_grid_perspectron = dict(
         input_dim=[1],
         target_dim=[1],
         pooling_mode=['mean'],
-        is_latent_discrete=[True],   # , False],
+        is_latent_discrete=[False],   # , False],
         latent_space_dim=[25, 64],
         feature_extractor_params=features_extractor_params,
     ))),
@@ -68,6 +68,7 @@ grid_metakrr_sk = dict(
     model_params=list(ParameterGrid(dict(
         l2=[0.1],
         lr=[0.001],
+        kernel=['linear'],
         regularize_w_pairs=[False],
         regularize_phi=[False],
         do_cv=[True],
