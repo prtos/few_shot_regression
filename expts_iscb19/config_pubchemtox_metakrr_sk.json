@@ -1,0 +1,45 @@
+[
+  {
+    "dataset_name": [
+      "bindingdb"
+    ],
+    "dataset_params": [
+      {
+        "batch_size": 32,
+        "max_examples_per_episode": 10,
+        "use_graph_for_mol": false
+      }
+    ],
+    "fit_params": [
+      {
+        "n_epochs": 100,
+        "steps_per_epoch": 250
+      }
+    ],
+    "model_name": [
+      "metakrr_sk"
+    ],
+    "model_params": [
+      {
+        "feature_extractor_params": {
+          "arch": "cnn",
+          "cnn_sizes": [
+            512,
+            512,
+            512,
+            512
+          ],
+          "dilatation_rate": 2,
+          "embedding_size": 20,
+          "kernel_size": 2,
+          "normalize_features": false,
+          "pooling_len": 1,
+          "use_bn": false,
+          "vocab_size": 151
+        },
+        "l2": 0.1,
+        "lr": 0.001
+      }
+    ]
+  }
+]

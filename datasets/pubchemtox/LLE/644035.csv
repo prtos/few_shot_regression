@@ -1,0 +1,22 @@
+Inhibition of human carbonic anhydrase 2 esterase activity using 4-nitrophenylacetate as substrate
+CCOC1=CC2=C(C=C1)N=C(S2)S(=O)(=O)N,5
+CC(=O)NC1=NN=C(S1)S(=O)(=O)N,7.76
+C1=CC=C(C=C1)S(=O)(=O)N,5.83
+C1=CC=C2C(=C1)C(=NO2)CS(=N)(=O)O,4.59
+C(C1=C(C(=C(C(=C1Br)Br)O)O)Br)C2=C(C(=C(C(=C2Br)Br)O)O)Br,-2.66
+C1CCC(=O)C(C1)CC2=C(C(=C(C(=C2Br)Br)O)O)Br,1.22
+C1=C(C(=C(C(=C1Br)O)O)Br)CC2=C(C(=C(C(=C2Br)Br)O)O)Br,-1.91
+COC1=C(C(=C(C(=C1)CC2CCCCC2O)Br)Br)OC,1.62
+CC1CCCCC1O,4.65
+CC1CCCCC1=O,4.6
+COC1=C(C(=C(C(=C1)CC2CCCCC2OC(=O)C3=CC(=CC(=C3)[N+](=O)[O-])[N+](=O)[O-])Br)Br)OC,-0.52
+COC1=C(C(=C(C(=C1)CC2CCCCC2=O)Br)Br)OC,0.63
+COC1=C(C(=C(C(=C1Br)CO)Br)Br)OC,0.59
+CCCC1CCCCC1O,3.69
+CC(=O)OCC1=C(C(=C(C(=C1Br)Br)OC(=O)C)OC(=O)C)Br,0.84
+COC1=C(C(=C(C(=C1Br)CC2CCCCC2=O)Br)Br)OC,-0.13
+COC1=C(C(=CC(=C1)CC2CCCCC2=O)Br)OC,1.42
+COC1=C(C(=CC(=C1)CC2CCCCC2O)Br)OC,2.4
+C1=CC=C(C(=C1)S(=O)(=O)N)Br,4.96
+COC1=C(C(=CC(=C1)CC2CCCCC2O)Br)OC,2.4
+COC1=C(C(=C(C(=C1)CC2CCCCC2O)Br)Br)OC,1.64

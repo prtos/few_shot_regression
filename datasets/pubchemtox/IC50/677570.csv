@@ -1,0 +1,24 @@
+Antitrypanosomal activity against bloodstream form of Trypanosoma brucei brucei Lister 427 clone 221a
+C1=C(C=C(C=C1C(F)(F)F)NC(=O)NCCCN2C=NC(=N2)[N+](=O)[O-])C(F)(F)F,1000
+C1=CC2=C(C(=C1)S(=O)(=O)NCCCN3C=NC(=N3)[N+](=O)[O-])N=CC=C2,10000
+C1=CC(=CC(=C1)C(F)(F)F)C(=O)NCCCN2C=NC(=N2)[N+](=O)[O-],10000
+C1=C(C=C(C=C1C(F)(F)F)C(F)(F)F)C(=O)NCCCN2C=NC(=N2)[N+](=O)[O-],10000
+C1CN(CCC1CC2=CC=CC=C2)C(=O)CN3C=NC(=N3)[N+](=O)[O-],10000
+C1=CC(=CC=C1C(F)(F)F)S(=O)(=O)NCCN2C=NC(=N2)[N+](=O)[O-],10000
+C1=CC(=CC=C1C(F)(F)F)S(=O)(=O)NCCCN2C=NC(=N2)[N+](=O)[O-],3400
+CC1=CC=C(C=C1)S(=O)(=O)NCCCN2C=NC(=N2)[N+](=O)[O-],4000
+C1=C(C=C(C=C1C(F)(F)F)S(=O)(=O)NCCCN2C=NC(=N2)[N+](=O)[O-])C(F)(F)F,6600
+C1=CC=C2C(=C1)C=CC(=N2)C(=O)NCCCN3C=NC(=N3)[N+](=O)[O-],10000
+C1=CC=C2C(=C1)C=CC(=N2)C(=O)NCCCCN3C=NC(=N3)[N+](=O)[O-],10000
+C1=CC(=NC=C1C(=O)NCCCN2C=NC(=N2)[N+](=O)[O-])C(F)(F)F,7900
+C1=CC=C(C=C1)C2=CC=C(C=C2)C(=O)NCCCN3C=NC(=N3)[N+](=O)[O-],300
+C1=C(C=C(C=C1C(F)(F)F)S(=O)(=O)NCCN2C=NC(=N2)[N+](=O)[O-])C(F)(F)F,7900
+C1=CC=C(C=C1)C2=CC=C(C=C2)S(=O)(=O)NCCCN3C=NC(=N3)[N+](=O)[O-],500
+C1=CC(=CC=C1C(=O)NCCN2C=NC(=N2)[N+](=O)[O-])C(F)(F)F,1300
+C1=CC(=CC=C1C(=O)NCCCCN2C=NC(=N2)[N+](=O)[O-])C(F)(F)F,900
+C1=CC=C(C=C1)CNC(=O)CN2C=NC(=N2)[N+](=O)[O-],10000
+C1=CC(=CC=C1C(=O)NCCCCN2C=NC(=N2)[N+](=O)[O-])OC(F)(F)F,3600
+C1=CC=C2C(=C1)N=CC(=N2)C(=O)NCCCN3C=NC(=N3)[N+](=O)[O-],10000
+C1=CC(=CC=C1CNC(=O)CN2C=NC(=N2)[N+](=O)[O-])C(F)(F)F,8500
+C1=CC(=C(C=C1C(F)(F)F)S(=O)(=O)NCCCN2C=NC(=N2)[N+](=O)[O-])C(F)(F)F,10000
+C1=C(SC(=C1)Cl)S(=O)(=O)NCCCN2C=NC(=N2)[N+](=O)[O-],2300

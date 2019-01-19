@@ -1,0 +1,22 @@
+BindingDB_Patents: Biological Assay. Kinase reaction buffer for p38alpha HTRF assays consists of 50 mM Tris-pH 7.5, 5 mM MgCl2, 0.1 mg/mL BSA, 100 uM Na3VO4 and 0.5 mM DTT. HTRF Detection Buffer:HTRF detection buffer contains 100 mM HEPES-pH 7.5, 100 mM NaCl, 0.1% BSA, 0.05% Tween-20, and 10 mM EDTA. Serial Dilution of Compounds: Compounds were dissolved in 100% DMSO and serially diluted (3 fold, 10 point) in a polypropylene 96-well microtiter plate (drug plate). The final starting concentration of compounds in the p38alpha enzymatic assays was 1 uM. Columns 6 and 12 (HI controls and LO controls respectively) in the drug plate were reserved as controls and contained only DMSO.Kinase Reaction: The p38alpha kinase reactions were carried out in a polypropylene 96-well black round bottom assay plate in total volume of 30 uL kinase reaction buffer.
+CC1=CC=CC=C1C2=C3C=CC(=NC3=CN=N2)NC4=C(C=C(C=C4)F)F,18.35
+CC1=C(C=CC(=C1)S(=O)(=O)C)C2=C3C=CC(=NC3=CN=N2)NC4=C(C=C(C=C4)F)F,9.98
+CC1=C(C=CC=N1)C2=C3C=CC(=NC3=CN=N2)NC4=C(C=C(C=C4)F)F,14.03
+CC1=C(C=CC(=C1)S(=O)(=O)C)C2=C3C=CC(=NC3=CN=N2)NC4=CC=C(C=C4)F,9.7
+C1=CC(=C(C=C1F)F)C2=C3C=CC(=NC3=CN=N2)NC4=C(C=C(C=C4)F)F,18.78
+C1COCCN1C(=O)C2=CC=CC(=C2)C3=C4C=CC(=NC4=CN=N3)NC5=C(C=C(C=C5)F)F,9.16
+CN1C=C(C=N1)C2=C3C=CC(=NC3=CN=N2)NC4=C(C=C(C=C4)F)F,12.04
+C1=CC(=C(C=C1F)F)NC2=NC3=CN=NC(=C3C=C2)C4=CNN=C4,10.65
+CC1=C(C(=NN1)C)C2=C3C=CC(=NC3=CN=N2)NC4=C(C=C(C=C4)F)F,11.08
+CC1=C(C=NN1)C2=C3C=CC(=NC3=CN=N2)NC4=C(C=C(C=C4)F)F,11.29
+CC1=C(C(=NO1)C)C2=C3C=CC(=NC3=CN=N2)NC4=C(C=C(C=C4)F)F,10.62
+C1COCCN1C2=C3C=CC(=NC3=CN=N2)NC4=C(C=C(C=C4)F)F,13.29
+CC1=CC=CC=C1C2=C3C=CC(=NC3=CN=N2)OC4=C(C=C(C=C4)F)F,20.25
+CC1=C(C=C(C=C1)C(=O)N)C2=C3C=CC(=NC3=CN=N2)OC4=C(C=C(C=C4)F)F,10.47
+CC1=C(C=CC(=C1)S(=O)(=O)C)C2=C3C=CC(=NC3=CN=N2)OC4=C(C=C(C=C4)F)F,10.12
+C1=CC(=C(C=C1F)F)OC2=NC3=CN=NC(=C3C=C2)C4=CNN=C4,10.83
+CC1=CC=CC=C1C2=C3C=CC(=NC3=CN=N2)OC4=CC=C(C=C4)F,18.88
+CC1=C(C=C(C=C1)C(=O)N)C2=C3C=CC(=NC3=CN=N2)OC4=CC=C(C=C4)F,9.8
+CC1=C(C(=NO1)C)C2=C3C=CC(=NC3=CN=N2)OC4=C(C=C(C=C4)F)F,11.07
+CC1=CC=CC=C1C2=C3C=CC(=NC3=CN=N2)OC4=C(C=C(C=C4)F)C,14.14
+CC1=C(C=C(C=C1)C(=O)N)C2=C3C=CC(=NC3=CN=N2)OC4=C(C=C(C=C4)F)C,7.01

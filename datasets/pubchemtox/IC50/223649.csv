@@ -1,0 +1,24 @@
+In vitro cytotoxicity in Human ovary tumor cells
+CC(=C1C=CC(=O)C=C1)NNC2=CC=C(C=C2)[N+](=O)[O-],6
+C1=CC=C(C=C1)C(=NNC2=C(C=C(C=C2)[N+](=O)[O-])[N+](=O)[O-])C3=CC=CC=C3,10
+C1=CC=C2C(=C1)C3=C4C(=C2NNC5=C(C=C(C=C5)[N+](=O)[O-])[N+](=O)[O-])C=CC=C4N=N3,5
+C1=CC=C2C(=C1)C(=NNC3=C(C=C(C=C3)[N+](=O)[O-])[N+](=O)[O-])C4=C(C2=O)C(=C(C=C4)N)N,6
+CC(=O)C1=CC=CC2=C1C(=O)C3=CC(=O)C=CC3=C2NNC4=C(C=C(C=C4)[N+](=O)[O-])[N+](=O)[O-],0.4
+CC(=O)OC1=CC=CC2=C1C3=NN(C(=O)C4=C3C(=CC=C4)C2=O)C5=CC=CC=C5,10
+CC(=O)C1=CC2=C(C=C1)C(=NNC3=C(C=C(C=C3)[N+](=O)[O-])[N+](=O)[O-])C4=C(C2=O)C(=CC=C4)C(=O)C,0.3
+C1=CC=C2C(=C1)C(=C3C=CC(=O)C(=O)C3=C2O)NNC4=C(C=C(C=C4)[N+](=O)[O-])[N+](=O)[O-],10
+CC(=O)C1=CC2=C(C=C1)C3=C(C2=NNC4=C(C=C(C=C4)[N+](=O)[O-])[N+](=O)[O-])C=CC(=C3)C(=O)C,0.9
+C1=CC=C2C(=C1)C(=NNC3=C(C=C(C=C3)[N+](=O)[O-])[N+](=O)[O-])C4=CC=CC=C4S2=O,10
+C1=CC=C(C=C1)CN(C2=C(C=C(C=C2)[N+](=O)[O-])[N+](=O)[O-])N=C3C4=CC=CC=C4OC5=CC=CC=C53,10
+C1=CC=C2C(=C1)C3=CC=CC4=C3C2=NN(C4=O)C5=CC=CC=C5[N+](=O)[O-],5
+C1=CC(=C(C=C1[N+](=O)[O-])[N+](=O)[O-])NNC2=C3C=C(C=CC3=C4C2=CC(=O)C=C4)O,0.08
+CC(=O)NC1=CC=C(C=C1)C(=NNC2=C(C=C(C=C2)[N+](=O)[O-])[N+](=O)[O-])C3=CC=C(C=C3)NC(=O)C,10
+C1=CC=C2C(=C1)C(=NNC3=C(C=C(C=C3)[N+](=O)[O-])[N+](=O)[O-])C4=CC=CC=C4O2,0.05
+C1=CC=C(C=C1)NNC(=C2C=CC(=O)C=C2)C3=CC=C(C=C3)O,6.2
+C1=CC=C(C(=C1)C(=NNC2=C(C=C(C=C2)[N+](=O)[O-])[N+](=O)[O-])C3=CC=C(C=C3)N)N,2
+CC(=O)C1=CC=C(C=C1)C(=NNC2=C(C=C(C=C2)[N+](=O)[O-])[N+](=O)[O-])C3=CC=C(C=C3)C(=O)C,10
+C1=CC2=C(C=C1N)C(=C3C=CC(=CC3=C2N=NC4=C(C=C(C=C4)[N+](=O)[O-])[N+](=O)[O-])N)NNC5=C(C=C(C=C5)[N+](=O)[O-])[N+](=O)[O-],5
+C1=CC(=C(C=C1[N+](=O)[O-])[N+](=O)[O-])NNC(=C2C=CC(=O)C=C2O)C3=C(C=C(C=C3)O)O,0.03
+COC1=CC(=C(C=C1)C(=C2C=CC(=CC2=O)OC)NNC3=C(C=C(C=C3)[N+](=O)[O-])[N+](=O)[O-])O,5
+C1=CC=C(C(=C1)C(=C2C=CC=CC2=O)NNC3=C(C=C(C=C3)[N+](=O)[O-])[N+](=O)[O-])O,5
+C1=CC=C(C=C1)C(=C2C=CC(=O)C=C2)NNC3=C(C=C(C=C3)[N+](=O)[O-])[N+](=O)[O-],0.3

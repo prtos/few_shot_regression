@@ -1,0 +1,23 @@
+BindingDB_Patents: Fluorometric Plate Assay. To determine the efficacy of various synthesized PAI-1 inhibitor compounds, a fluorometric plate assay was carried out to measure the half maximal inhibitory concentration (IC50) of these compounds on recombinant active human PAI-1 in vitro. An IC50 is a measure of the effectiveness of a compound in inhibiting biological or biochemical function. Stated another way, IC50 represents the concentration of a drug that is required for 50% inhibition in vitro. The IC50 of various compounds was measured using a fluorometric plate assay as set out below, and the results are shown in Table 3.Recombinant active human PAI-1 (Molecular Innovations) (final 1 nM) was incubated for 15 min at 23 C. with increasing concentrations of each compound in 100 mM NaCl, 40 mM HEPES, 0.005% Tween-20, 10% DMSO, pH 7.8. Alternately, the assay has been carried out using low concentrations of DMSO (about 0.1% DMSO or less) in the buffer. In various aspects, the invention does not require a solvent, like DMSO.
+C1=C(C=C(C(=C1O)O)O)C(=O)OCC2C(C(C(C(O2)OC(=O)C3=CC(=C(C(=C3)O)O)O)OC(=O)C4=CC(=C(C(=C4)O)O)O)OC(=O)C5=CC(=C(C(=C5)O)O)O)OC(=O)C6=CC(=C(C(=C6)O)O)O,3.93
+C1=C(C=C(C(=C1O)O)O)C(=O)OCC2C(C(C(C(O2)OC(=O)C3=CC(=C(C(=C3)O)O)O)OC(=O)C4=CC(=C(C(=C4)O)O)O)OC(=O)C5=CC(=C(C(=C5)O)O)O)OC(=O)C6=CC(=C(C(=C6)O)O)O,3.93
+C1=C(C=C(C(=C1O)O)O)C(=O)OCC2C(C(C(C(O2)OC(=O)C3=CC(=C(C(=C3)O)O)O)OC(=O)C4=CC(=C(C(=C4)O)O)O)OC(=O)C5=CC(=C(C(=C5)O)O)O)OC(=O)C6=CC(=C(C(=C6)O)O)O,3.93
+CCN(CCN(CC)S(=O)(=O)C1=CC(=C(C=C1)O)O)S(=O)(=O)C2=CC(=C(C=C2)O)O,3.55
+C1=CC=C(C(=C1)OC(=O)C2=CC(=C(C(=C2)O)O)O)OC(=O)C3=CC(=C(C(=C3)O)O)O,2.29
+C1=C(C=C(C(=C1O)O)O)C(=O)OCC2C(C(C(C(O2)OC(=O)C3=CC(=C(C(=C3)O)O)O)OC(=O)C4=CC(=C(C(=C4)O)O)O)OC(=O)C5=CC(=C(C(=C5)O)O)O)OC(=O)C6=CC(=C(C(=C6)O)O)O,3.93
+C1=C(C=C(C(=C1O)O)O)C(=O)OCCOC(=O)C2=CC(=C(C(=C2)O)O)O,4.69
+C1CCC(C(C1)OC(=O)C2=CC(=C(C(=C2)O)O)O)OC(=O)C3=CC(=C(C(=C3)O)O)O,3.38
+C1CCC(C(C1)OC(=O)C2=CC(=C(C(=C2)O)O)O)OC(=O)C3=CC(=C(C(=C3)O)O)O,2.76
+C1=C(C=C(C(=C1O)O)O)C(=O)OCCOCCOC(=O)C2=CC(=C(C(=C2)O)O)O,2.7
+C1=C(C=C(C(=C1O)O)O)C(=O)OCCCOC(=O)C2=CC(=C(C(=C2)O)O)O,3.31
+C1=CC(=C(C=C1O)O)C(=O)OCCOC(=O)C2=C(C=C(C=C2)O)O,2.32
+C1CN(CCN1C(=O)C2=CC(=C(C(=C2)O)O)O)C(=O)C3=CC(=C(C(=C3)O)O)O,3.89
+C1CC(CC(C1)OC(=O)C2=CC(=C(C(=C2)O)O)O)OC(=O)C3=CC(=C(C(=C3)O)O)O,4.53
+C1CC(CCC1OC(=O)C2=CC(=C(C(=C2)O)O)O)OC(=O)C3=CC(=C(C(=C3)O)O)O,4.4
+C1=CC(=C(C=C1S(=O)(=O)NNS(=O)(=O)C2=CC(=C(C=C2)O)O)O)O,6.74
+CN(N(C)S(=O)(=O)C1=CC(=C(C=C1)O)O)S(=O)(=O)C2=CC(=C(C=C2)O)O,3.77
+C1CCN(N(C1)S(=O)(=O)C2=CC(=C(C=C2)O)O)S(=O)(=O)C3=CC(=C(C=C3)O)O,4.59
+C1=CC(=CC(=C1)OC(=O)C2=CC(=C(C(=C2)O)O)O)C(=O)OCCOC(=O)C3=CC(=CC=C3)OC(=O)C4=CC(=C(C(=C4)O)O)O,-0.28
+CC(C)(COC(=O)C1=CC(=C(C(=C1)O)O)O)COC(=O)C2=CC(=C(C(=C2)O)O)O,1.67
+CC(C)(C)OC(=O)NCC(COC(=O)C1=CC(=C(C(=C1)O)O)O)OC(=O)C2=CC(=C(C(=C2)O)O)O,4.62
+C1=C(C=C(C(=C1O)O)O)C(=O)OCC2C(C(C(C(O2)OC(=O)C3=CC(=C(C(=C3)O)O)O)OC(=O)C4=CC(=C(C(=C4)O)O)O)OC(=O)C5=CC(=C(C(=C5)O)O)O)OC(=O)C6=CC(=C(C(=C6)O)O)O,3.93

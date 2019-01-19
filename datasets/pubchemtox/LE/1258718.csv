@@ -1,0 +1,25 @@
+BindingDB_Patents: NMR Spectroscopy Assay. NMR spectroscopy validation of lead compounds. In embodiments of the present invention, and during development thereof, NMR spectroscopy: saturation transfer difference (STD), competition STD, and WaterLOGSY experiments to validate binding of compounds to menin. STD provides a reliable method, based on principles vastly different form fluorescence that is commonly used for drug screening (e.g. by pharmaceutical companies). The principle of the STD experiment is based on the transfer of magnetization from a protein to a small molecule. Such a transfer occurs only when the ligand-protein contact is direct, and can be detected when the ligand is in fast exchange between bound and unbound state (Mayer & Meyer J Am Chem Soc., 2001. 123(25): p. 6108-17., herein incorporated by reference in its entirety). The difference spectrum of the ligand recorded with and without protein saturation is analyzed.
+CCC1=CC2=C(N=CN=C2S1)N3CCN(CC3)C(=O)C4=CC=CC=C4,0.27
+CCC1=CC2=C(N=CN=C2S1)N3CCN(CC3)C(=O)C4=CC=CO4,0.28
+CC1(CN=C(S1)N2CCN(CC2)C3=C4C5=C(CCCC5)SC4=NC=N3)C,0.3
+CC1=C(SC2=NC=NC(=C12)NC3CCN(CC3)CC4=CC=CC=C4)C,0.28
+CCCC1=CC2=C(N=CN=C2S1)N3CCN(CC3)C4=NCC(S4)(C)C,0.35
+CCC1=CC2=C(N=CN=C2S1)N3CCN(CC3)C4=NCC(S4)(C)C,0.34
+CCC1=CC2=C(N=CN=C2S1)N3CCN(CC3)CC4=CC=C(C=C4)Cl,0.25
+CCC1=CC2=C(N=CN=C2S1)N3CCN(CC3)CC(=O)N4CCOCC4,0.25
+CCC1=CC2=C(N=CN=C2S1)N3CCN(CC3)C4=NN=C(S4)C(F)(F)F,0.31
+CC(C)C1=CC2=C(N=CN=C2S1)N3CCN(CC3)C4=NCC(S4)(C)C,0.34
+CC(C)C1=CC2=C(N=CN=C2S1)N3CCN(CC3)C4=NN=C(S4)C(F)(F)F,0.28
+CCC1=CC2=C(N=CN=C2S1)N3CCN(CC3)CC(=O)N4CCN(CC4)C,0.24
+CC1(CN=C(S1)N2CCN(CC2)C3=C4C=C(SC4=NC=N3)CC5=CC=CC=C5)C,0.25
+CC1(CN=C(S1)N2CCN(CC2)C3=C4C=C(SC4=NC=N3)Br)C,0.32
+CC1=C(SC2=NC=NC(=C12)N3CCCN(CC3)CC4=CC=C(C=C4)OC)C,0.24
+CCC1=CC2=C(N=CN=C2S1)N3CCCN(CC3)CC(=O)N4CCCC4,0.27
+CC(C)C1=CC2=C(N=CN=C2S1)N3CCCN(CC3)C4=NCC(S4)(C)C,0.24
+CCC1=CC2=C(N=CN=C2S1)N3CCCN(CC3)C4=NCC(S4)(C)C,0.28
+C1CC2=C(C1)SC3=NC=NC(=C23)NC4CCN(CC4)CC5=CC=CC=C5,0.26
+CC1CCC2=C(C1)SC3=NC=NC(=C23)NC4CCN(CC4)CC5=CC=CC=C5,0.23
+CCC1=CC2=C(N=CN=C2S1)NC3CCN(CC3)CC4=CC=CC=C4,0.32
+CCC1=CC2=C(N=CN=C2S1)NCC3CCN(CC3)CC4=CC=CC(=C4)C,0.22
+CCC1=CC2=C(N=CN=C2S1)NCC3CCN(CC3)CC4=CC=C(C=C4)F,0.27
+CCC1=CC2=C(N=CN=C2S1)NCCN(CC)CC3=CC=CC=C3,0.26

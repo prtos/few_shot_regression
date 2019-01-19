@@ -1,0 +1,115 @@
+{
+  "model_name": [
+    "deep_prior"
+  ],
+  "model_params": [
+    {
+      "beta_kl": 0.1,
+      "cotraining": true,
+      "feature_extractor_params": {
+        "arch": "fc",
+        "hidden_sizes": [
+          32,
+          32
+        ],
+        "input_size": 1,
+        "normalize_features": false
+      },
+      "fusion_layer_size": 128,
+      "fusion_nb_layer": 6,
+      "input_dim": 1,
+      "lr": 0.001,
+      "pretraining": true,
+      "task_encoder_params": {
+        "latent_space_dim": 128,
+        "pooling_mode": "mean",
+        "target_dim": 1
+      }
+    },
+    {
+      "beta_kl": 0.1,
+      "cotraining": true,
+      "feature_extractor_params": {
+        "arch": "fc",
+        "hidden_sizes": [
+          32,
+          32
+        ],
+        "input_size": 1,
+        "normalize_features": false
+      },
+      "fusion_layer_size": 128,
+      "fusion_nb_layer": 6,
+      "input_dim": 1,
+      "lr": 0.001,
+      "pretraining": false,
+      "task_encoder_params": {
+        "latent_space_dim": 128,
+        "pooling_mode": "mean",
+        "target_dim": 1
+      }
+    },
+    {
+      "beta_kl": 0.1,
+      "cotraining": false,
+      "feature_extractor_params": {
+        "arch": "fc",
+        "hidden_sizes": [
+          32,
+          32
+        ],
+        "input_size": 1,
+        "normalize_features": false
+      },
+      "fusion_layer_size": 128,
+      "fusion_nb_layer": 6,
+      "input_dim": 1,
+      "lr": 0.001,
+      "pretraining": true,
+      "task_encoder_params": {
+        "latent_space_dim": 128,
+        "pooling_mode": "mean",
+        "target_dim": 1
+      }
+    },
+    {
+      "beta_kl": 0.1,
+      "cotraining": false,
+      "feature_extractor_params": {
+        "arch": "fc",
+        "hidden_sizes": [
+          32,
+          32
+        ],
+        "input_size": 1,
+        "normalize_features": false
+      },
+      "fusion_layer_size": 128,
+      "fusion_nb_layer": 6,
+      "input_dim": 1,
+      "lr": 0.001,
+      "pretraining": false,
+      "task_encoder_params": {
+        "latent_space_dim": 128,
+        "pooling_mode": "mean",
+        "target_dim": 1
+      }
+    }
+  ],
+  "dataset_name": [
+    "easytoy"
+  ],
+  "dataset_params": [
+    {
+      "max_examples_per_episode": 10,
+      "batch_size": 32,
+      "max_tasks": null
+    }
+  ],
+  "fit_params": [
+    {
+      "n_epochs": 100,
+      "steps_per_epoch": 500
+    }
+  ]
+}
