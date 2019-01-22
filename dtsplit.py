@@ -49,10 +49,10 @@ def pubchemdist(path, outfile, ext):
     labels, data = zip(*dir2size.items())
     percent = np.array(data)*100 / np.sum(data)
     colors = sns.husl_palette(len(labels), s=.8, l=0.7)
-    fig, ax = plt.subplots(figsize=(5, 4), subplot_kw=dict(aspect="equal"))
+    fig, ax = plt.subplots(figsize=(6, 4), subplot_kw=dict(aspect="equal"))
     explode = [0.002]*len(labels)
     wedges, texts = ax.pie(data, wedgeprops=dict(width=0.3, linewidth=5), startangle=40, colors=colors, explode=explode)
-    kw = dict(xycoords='data', textcoords='data', arrowprops=dict(arrowstyle="-"), zorder=0, va="center", size=8)
+    kw = dict(xycoords='data', textcoords='data', arrowprops=dict(arrowstyle="-"), zorder=0, va="center", size=12)
 
     for i, p in enumerate(wedges):
         ang = (p.theta2 - p.theta1)/2.0 + p.theta1 # middle of the arrow
@@ -61,9 +61,8 @@ def pubchemdist(path, outfile, ext):
         horizontalalignment = {-1: "right", 1: "left"}[int(np.sign(x))]
         connectionstyle = "angle,angleA=0,angleB={}".format(ang)
         kw["arrowprops"].update({"connectionstyle": connectionstyle})
-        ax.annotate(labels[i]+ ": {:.2f}%".format(percent[i]), xy=(x, y), xytext=(1.2*np.sign(x), 1.3*y),
+        ax.annotate(labels[i]+ ": {:.2f}%".format(percent[i]), xy=(x, y), xytext=(1.1*np.sign(x), 1.3*y),
                      horizontalalignment=horizontalalignment, **kw)
-    plt.tight_layout()
     fig.savefig(outfile, dpi=600)
 
 if __name__ == '__main__':
