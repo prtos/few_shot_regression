@@ -1,48 +1,65 @@
 import torch
+import math
 from torch.nn.functional import mse_loss
 
 
-def compute_kernel(x, y, kernel='linear', gamma=1):
+def compute_kernel(x, y, kernel='linear', gamma=None, 
+                    mixture_ws=None, means=None, gammas=None):
     if kernel.lower() == 'linear':
         K = torch.mm(x, y.t())
     elif kernel.lower() == 'rbf':
+        assert gamma is not None
         x_i = x.unsqueeze(1)
         y_j = y.unsqueeze(0)
         xmy = ((x_i - y_j) ** 2).sum(2)
-        K = torch.exp(-gamma * xmy)
+        K = torch.exp(-1* gamma * xmy)
+    elif kernel.lower() == 'sm':
+        assert mixture_ws is not None
+        assert means is not None
+        assert gammas is not None
+        x_i = x.unsqueeze(1)
+        y_j = y.unsqueeze(0)
+        d = (x_i - y_j)
+        d = d.unsqueeze(0).expand(means.size(0), *d.shape)
+        mixture_ws = mixture_ws.reshape(*mixture_ws.shape, 1, 1)
+        means = means.reshape(*means.shape, 1, 1, 1)
+        gammas = gammas.reshape(*gammas.shape, 1, 1, 1)
+        temp = torch.cos(2*math.pi*d*means) * torch.exp(-2*(math.pi**2)*(d** 2)*gammas)
+        K = (mixture_ws * temp.sum(dim=3)).sum(dim=0)      
     else:
         raise Exception('Unhandled kernel name')
     return K
 
-def compute_rbf_kernels(x, y, gammas):
+def compute_rbf_kernels(x, y, gamma):
     x_i = x.unsqueeze(1)
     y_j = y.unsqueeze(0)
     x_minus_y = ((x_i - y_j) ** 2).sum(2)
-    x_minus_y = x_minus_y.unsqueeze(0).expand(gammas.shape[-1], *x_minus_y.shape)
-    Ks = torch.exp(-gammas.reshape(gammas.shape[0], 1, 1) * x_minus_y)
+    x_minus_y = x_minus_y.unsqueeze(0).expand(gamma.shape[-1], *x_minus_y.shape)
+    Ks = torch.exp(-gamma.reshape(gamma.shape[0], 1, 1) * x_minus_y)
     return Ks
 
 
 class KrrLearner(torch.nn.Module):
 
-    def __init__(self, l2, gamma=0, kernel='linear', dual=True):
+    def __init__(self, l2, kernel='linear', dual=True, **kernel_params):
         super(KrrLearner, self).__init__()
         self.l2 = l2
         self.alpha = None
         self.phis_train = None
         self.dual = dual
         self.kernel = kernel
-        self.gamma = gamma
+        self.kernel_params = kernel_params
 
     def fit(self, phis, y):
         batch_size_train = phis.size(0)
-        K = compute_kernel(phis, phis, gamma=self.gamma, kernel=self.kernel)
+        K = compute_kernel(phis, phis, kernel=self.kernel, **self.kernel_params)
         I = torch.eye(batch_size_train, dtype=K.dtype)
 
         try:
             tmp = torch.inverse(K + self.l2 * I)
         except:
-            raise Exception("Inversion problem")
+            tmp = torch.inverse(K + I)
+            print("Inversion problem")
         self.alpha = torch.mm(tmp, y)
         self.phis_train = phis
         if not self.dual:
@@ -50,13 +67,17 @@ class KrrLearner(torch.nn.Module):
         return self
 
     def forward(self, phis):
-        K = compute_kernel(phis, self.phis_train, gamma=self.gamma, kernel=self.kernel)
+        K = compute_kernel(phis, self.phis_train, kernel=self.kernel, **self.kernel_params)
         return torch.mm(K, self.alpha)
 
 
-def cv_and_best_hp(X, y, gammas, l2s):
-    n, k = X.shape[0], gammas.shape[0]
-    Ks = torch.cat(torch.unbind(compute_rbf_kernels(X, X, gammas), dim=0), dim=0)
+def cv_and_best_hp(X, y, kernel, l2s, **kernels_params):
+    n, k = X.shape[0], l2s.shape[0]
+    if kernel == 'linear':
+        Ks = compute_kernel(X, X, kernel='linear').unsqueeze(0).expand(k, n ,n)
+    else:
+        Ks = compute_rbf_kernels(X, X, **kernels_params)
+    Ks = torch.cat(torch.unbind(Ks, dim=0), dim=0)
     
     temp = torch.arange(0, k*n, n).view(-1, 1, 1)
     train_row_idx = (torch.eye(n, n)==0).nonzero()[:, 1].view(n, n-1)
@@ -84,8 +105,9 @@ def cv_and_best_hp(X, y, gammas, l2s):
     loss = loss.reshape(k, n).mean(dim=1)
     
     best_idx = torch.argmin(loss)
-    scores = dict(l2=l2s, gamma=gammas, score=loss)
-    return gammas[best_idx], l2s[best_idx], scores
+    scores = dict(l2=l2s, score=loss, **kernels_params)
+    best_kernel_params = {key: values[best_idx] for key, values in kernels_params.items()}
+    return l2s[best_idx], best_kernel_params, scores
     
 
 def cv_and_best_hp_loopy(X, y, gammas, l2s):
@@ -124,15 +146,30 @@ def cv_and_best_hp_loopy(X, y, gammas, l2s):
     return loss
 
 
+def generate_grid(x, y):
+   grid = torch.stack([x.repeat(y.size(0)), y.repeat(x.size(0),1).t().contiguous().view(-1)],1)
+   return grid
+
 class KrrLearnerCV(KrrLearner):
     
-    def __init__(self, l2s, gammas, dual=True):
-        super(KrrLearnerCV, self).__init__(0, 0, kernel='rbf', dual=dual)
-        self.l2s = l2s.unsqueeze(0).expand(gammas.shape[0], -1).reshape(-1)
-        self.gammas = gammas.unsqueeze(1).expand(-1, l2s.shape[0]).reshape(-1)
+    def __init__(self, l2s, kernel='linear', dual=True, **kernels_params):
+        super(KrrLearnerCV, self).__init__(0, kernel=kernel, dual=dual)
+        assert l2s is not None
+        if kernel == 'linear':
+            self.l2s = l2s.reshape(-1)
+            self.kernels_params = dict()
+        elif kernel == 'rbf':
+            temp = generate_grid(l2s, kernels_params['gamma'])
+            self.l2s, gammas = temp.t()
+            self.kernels_params = dict(gamma=gammas)
+        elif kernel == 'sm':
+            raise NotImplementedError
+        else: 
+            raise NotImplementedError
+
         self.scores = None
 
     def fit(self, phis, y):
-        self.l2, self.gamma, self.scores = cv_and_best_hp(phis, y, self.gammas, self.l2s)
+        self.l2, self.kernel_params, self.scores = cv_and_best_hp(phis, y, self.kernel, self.l2s, **self.kernels_params)
         super(KrrLearnerCV, self).fit(phis, y)
         return self

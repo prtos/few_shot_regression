@@ -1,0 +1,25 @@
+Compound was tested for calcium channel agonistic activity, causing a 50% increase of the maximum contractile response on guinea pig left atrium.
+CC1=C(C(C(=C(N1)C)[N+](=O)[O-])C2=CC=CC=N2)C(=O)OC(C)C,9670
+CC1=C(C(C(=C(N1)C)[N+](=O)[O-])C2=CC=NC=C2)C(=O)OC(C)C,8050
+CC1=C(C(C(=C(N1)C)[N+](=O)[O-])C2=CN=CC=C2)C(=O)OC(C)C,28500
+CC1=C(C(C(=C(N1)C)[N+](=O)[O-])C2=CC=NC=C2)C(=O)OC3CCCC3,4250
+CC1=C(C(C(=C(N1)C)[N+](=O)[O-])C2=CC=NC=C2)C(=O)OCC(C)C,8510
+CCOC(=O)C1=C(NC(=C(C1C2=CC=CC=N2)[N+](=O)[O-])C)C,22800
+CC1=C(C(C(=C(N1)C)[N+](=O)[O-])C2=CC=CC=N2)C(=O)OC(C)(C)C,1.81e+06
+CC1=C(C(C(=C(N1)C)[N+](=O)[O-])C2=CC=NC=C2)C(=O)OC,48500
+CCOC(=O)C1=C(NC(=C(C1C2=CC=NC=C2)[N+](=O)[O-])C)C,6460
+CC1=C(C(C(=C(N1)C)[N+](=O)[O-])C2=CN=CC=C2)C(=O)OCCOC,49400
+CC1=C(C(C(=C(N1)C)[N+](=O)[O-])C2=CC=NC=C2)C(=O)OCCOC,37700
+CC1=C(C(C(=C(N1)C)[N+](=O)[O-])C2=CN=CC=C2)C(=O)OCC(C)C,1740
+CC1=C(C(C(=C(N1)C)[N+](=O)[O-])C2=CC=CC=N2)C(=O)OC3CCCCC3,3700
+CC1=C(C(C(=C(N1)C)[N+](=O)[O-])C2=CN=CC=C2)C(=O)OC3CCCCC3,2760
+CC1=C(C(C(=C(N1)C)[N+](=O)[O-])C2=CN=CC=C2)C(=O)OC3CCCC3,3280
+CC1=C(C(C(=C(N1)C)[N+](=O)[O-])C2=CC=CC=N2)C(=O)OCC(C)C,9100
+CC1=C(C(C(=C(N1)C)[N+](=O)[O-])C2=CN=CC=C2)C(=O)OC,70000
+CCOC(=O)C1=C(NC(=C(C1C2=CN=CC=C2)[N+](=O)[O-])C)C,8840
+CC1=C(C(C(=C(N1)C)[N+](=O)[O-])C2=CC=NC=C2)C(=O)OC3CCCCC3,4940
+CC1=C(C(C(=C(N1)C)[N+](=O)[O-])C2=CN=CC=C2)C(=O)OC(C)(C)C,14600
+CC1=C(C(C(=C(N1)C)[N+](=O)[O-])C2=CC=NC=C2)C(=O)OC(C)(C)C,2820
+CC1=C(C(C(=C(N1)C)[N+](=O)[O-])C2=CC=CC=N2)C(=O)OC3CCCC3,19800
+CC1=C(C(C(=C(N1)C)[N+](=O)[O-])C2=CC=CC=N2)C(=O)OCCOC,9700
+CC1=C(C(C(=C(N1)C)[N+](=O)[O-])C2=CC=CC=C2C(F)(F)F)C(=O)OC,770

@@ -1,0 +1,22 @@
+Inhibition of Mycobacterium tuberculosis pantothenate synthetase expressed in Escherichia coli BL21 (DE3)
+C1CN(CC2=C1C(=C(S2)NC(=O)C3=CC=C(O3)[N+](=O)[O-])C(=O)N)C(=S)NC4=CC=C(C=C4)Cl,0.2
+C1CN(CC2=C1C(=C(S2)NC(=O)C3=CC=C(O3)[N+](=O)[O-])C(=O)N)C(=S)NC4=CC=C(C=C4)[N+](=O)[O-],0.18
+C1CN(CC2=C1C(=C(S2)NC(=O)C3=CC=C(O3)[N+](=O)[O-])C(=O)N)C(=O)NC4=CC=C(C=C4)[N+](=O)[O-],0.18
+C1CN(CC2=C1C(=C(S2)NC(=O)C3=CC=C(O3)[N+](=O)[O-])C(=O)N)S(=O)(=O)C4=CC=C(C=C4)F,0.2
+C1CN(CC2=C1C(=C(S2)NC(=O)C3=CC=C(O3)[N+](=O)[O-])C(=O)N)C(=O)NCC4=CC=CC=C4,0.2
+C1CN(CC2=C1C(=C(S2)NC(=O)C3=CC=C(S3)[N+](=O)[O-])C(=O)N)C(=S)NCC4=CC=CC=C4,0.2
+COC1=CC=C(C=C1)NC(=O)N2CCC3=C(C2)SC(=C3C(=O)N)NC(=O)C4=CC=C(S4)[N+](=O)[O-],0.19
+COC1=CC=C(C=C1)NC(=O)N2CCC3=C(C2)SC(=C3C(=O)N)NC(=O)C4=CC=C(O4)[N+](=O)[O-],0.19
+COC1=CC=C(C=C1)S(=O)(=O)N2CCC3=C(C2)SC(=C3C(=O)N)NC(=O)C4=CC=C(O4)[N+](=O)[O-],0.19
+C1CN(CC2=C1C(=C(S2)NC(=O)C3=CC=C(S3)[N+](=O)[O-])C(=O)N)C(=O)NCC4=CC=CC=C4,0.2
+C1CN(CC2=C1C(=C(S2)NC(=O)C3=CC=C(S3)[N+](=O)[O-])C(=O)N)C(=S)NC4=CC=C(C=C4)F,0.21
+C1CN(CC2=C1C(=C(S2)NC(=O)C3=CC=C(S3)[N+](=O)[O-])C(=O)N)C(=S)NC4=CC=C(C=C4)[N+](=O)[O-],0.2
+C1CN(CC2=C1C(=C(S2)NC(=O)C3=CC=C(O3)[N+](=O)[O-])C(=O)N)C(=S)NC4=CC=C(C=C4)F,0.19
+C1CN(CC2=C1C(=C(S2)NC(=O)C3=CC=C(S3)[N+](=O)[O-])C(=O)N)S(=O)(=O)C4=CC=C(C=C4)Br,0.2
+COC1=CC=C(C=C1)S(=O)(=O)N2CCC3=C(C2)SC(=C3C(=O)N)NC(=O)C4=CC=C(S4)[N+](=O)[O-],0.19
+C1CN(CC2=C1C(=C(S2)NC(=O)C3=CC=C(S3)[N+](=O)[O-])C(=O)N)C(=O)NC4=CC=C(C=C4)Cl,0.21
+C1CN(CC2=C1C(=C(S2)NC(=O)C3=CC=C(S3)[N+](=O)[O-])C(=O)N)C(=O)NC4=CC=C(C=C4)[N+](=O)[O-],0.2
+C1CN(CC2=C1C(=C(S2)NC(=O)C3=CC=C(O3)[N+](=O)[O-])C(=O)N)C(=S)NCC4=CC=CC=C4,0.2
+C1CN(CC2=C1C(=C(S2)NC(=O)C3=CC=C(S3)[N+](=O)[O-])C(=O)N)C(=S)NC4=CC=C(C=C4)Cl,0.22
+C1CN(CC2=C1C(=C(S2)NC(=O)C3=CC=C(S3)[N+](=O)[O-])C(=O)N)S(=O)(=O)C4=CC=C(C=C4)F,0.2
+C1CN(CC2=C1C(=C(S2)NC(=O)C3=CC=C(S3)[N+](=O)[O-])C(=O)N)S(=O)(=O)C4=CC=C(C=C4)[N+](=O)[O-],0.2

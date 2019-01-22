@@ -1,0 +1,23 @@
+Cytotoxicity against AA8 cell and IC50 values were determined as drug concentration required to inhibit cell protein to 50%.
+CN(CCCl)CCCl,2000
+C[N+]1(CCC2=C(C1)C=CC(=C2)[N+](=O)[O-])CCCl.[Cl-],8.7e+06
+C[N+](CCCl)(CCCl)CC1=CC(=CC=C1)[N+](=O)[O-].[Cl-],2.09e+07
+CC1=C(C(=CC=C1)C[N+](C)(CCCl)CCCl)[N+](=O)[O-].[Cl-],3e+06
+C[N+](CCCl)(CCCl)CC1=CC=CC=C1[N+](=O)[O-].[Cl-],2.7e+06
+C[N+](CCBr)(CCBr)CC1=CC=CC=C1[N+](=O)[O-].[Br-],1.46e+07
+CC(C[N+](C)(CC1=CC=CC=C1[N+](=O)[O-])CC(C)Cl)Cl.[Cl-],1.48e+07
+C[N+](CCCl)(CCCl)CC1=C(C=C(C=C1)OC)[N+](=O)[O-].[Cl-],7.76e+06
+C[N+](CCCl)(CCCl)CC1=C(C=CC(=C1)OC)[N+](=O)[O-].[Cl-],8.81e+06
+C[N+](CCCl)(CCCl)CC1=C(C(=CC=C1)OC)[N+](=O)[O-].[Cl-],1.05e+07
+CC1=CC(=C(C=C1)[N+](=O)[O-])C[N+](C)(CCCl)CCCl.[Cl-],690000
+C[N+](CCCl)(CCCl)CC1=CC=C(C=C1)[N+](=O)[O-].[Cl-],6.14e+06
+C[N+]1(CCC2=C(C1)C(=CC=C2)[N+](=O)[O-])CCCl.[Cl-],7.22e+06
+CC1=CC(=C(C=C1)C[N+](C)(CCCl)CCCl)[N+](=O)[O-].[Cl-],3.3e+06
+C[N+]1(CCC2=C(C1)C=C(C=C2)[N+](=O)[O-])CCCl.[Cl-],1.09e+07
+C[N+](CCCl)(CCCl)CC1=CC=CC2=C1C(=CC=C2)[N+](=O)[O-].[Cl-],1.38e+06
+C[N+](CCCl)(CCCl)CC1=CC=CC2=C1C=CC=C2[N+](=O)[O-].[Cl-],5.25e+06
+C[N+](CCCl)(CCCl)CC1=CC=C(C=C1)S(=O)(=O)C.[Cl-],1.35e+07
+C[N+](CCCl)(CCCl)CC1=CC(=CC(=C1)[N+](=O)[O-])[N+](=O)[O-].[Cl-],130000
+CC(CN(C)CC(C)Cl)Cl,30000
+CC[N+](C)(CC)CC1=CC=CC=C1[N+](=O)[O-].[Cl-],3.2e+06
+CN(CCBr)CCBr,2500

@@ -4,12 +4,12 @@ from torch.nn import Linear, Sequential, Hardtanh, Tanh, ReLU, Sigmoid, Paramete
 from torch.nn.functional import mse_loss, log_softmax, nll_loss
 from torch.optim import Adam
 from pytoune.framework import Model
-from perspectron_eai.base.attention import StandardSelfAttention
+from metalearn.models.attention import StandardSelfAttention
 from tensorboardX import SummaryWriter
 from pytoune.framework.callbacks import CSVLogger, EarlyStopping, ModelCheckpoint, ReduceLROnPlateau, \
     BestModelRestore, TensorBoardLogger
 from metalearn.models.utils import to_unit
-from metalearn.models.base import MetaLearnerRegression
+from metalearn.models.base import MetaLearnerRegression, FeaturesExtractorFactory
 
 
 # debug in command-line with: import pdb; pdb.set_trace()
@@ -64,33 +64,38 @@ class DatasetFeatureExtractor(torch.nn.Module):
 
 
 class PerspectronEncoderNetwork(torch.nn.Module):
-    def __init__(self, feature_extractor, latent_space_dim, input_dim=None, target_dim=1, pooling_mode='mean',
+    def __init__(self, feature_extractor_params, latent_space_dim, input_dim=None, target_dim=1, pooling_mode='mean',
                  is_latent_discrete=True, n_discrete_states=10):
         super(PerspectronEncoderNetwork, self).__init__()
+
+        if isinstance(feature_extractor_params, torch.nn.Module):
+            feature_extractor = feature_extractor_params
+        elif feature_extractor_params is None:
+            feature_extractor = None
+        elif isinstance(feature_extractor, dict):
+            feature_extractor = FeaturesExtractorFactory()(**feature_extractor_params)
+            input_size = feature_extractor.output_dim
+        else:
+            raise Exception('Wrong parameter type')
+
         assert pooling_mode in ['mean', 'max']
         ls_dim = latent_space_dim
         z_dim = (ls_dim * n_discrete_states) if is_latent_discrete else ls_dim
         self.data_feature_extractor = DatasetFeatureExtractor(feature_extractor=feature_extractor,
             latent_space_dim=ls_dim, input_dim=input_dim, target_dim=target_dim, pooling_mode=pooling_mode)
         self.latent_space_dim = ls_dim
-        self.is_latent_discrete = is_latent_discrete             
+        self.is_latent_discrete = is_latent_discrete
         self.n_discrete_states = n_discrete_states
-        self.writer = None
         self.output_dim = z_dim
 
         if self.is_latent_discrete:
-            self.logit_encoder = Linear(ls_dim, ls_dim)
-            self.logit_prior = torch.ones((l  s_dim, n_discrete_states))/n_discrete_states
+            self.logit_encoder = Linear(ls_dim, ls_dim*n_discrete_states)
+            self.logit_prior = torch.ones((ls_dim, n_discrete_states))/n_discrete_states
         else:
             self.mu_encoder = Linear(ls_dim, ls_dim)
             self.std_encoder = Sequential(Linear(ls_dim, ls_dim), Sigmoid())
             self.mu_prior = Parameter(torch.zeros(ls_dim))
             self.std_prior = Parameter(torch.ones(ls_dim))
-
-        self.step = 0
-
-    def set_writer(self, writer):
-        self.writer = writer
 
     def forward(self, batch_of_episodes):
         n = len(batch_of_episodes)
@@ -174,8 +179,9 @@ def acc_from_agreement_matrix(agreement_matrix):
 
 
 class PerspectronEncoderLearner(MetaLearnerRegression):
-    def __init__(self, *args, optimizer='adam', lr=0.001, weight_decay=0.0, **kwargs):
-        network = PerspectronEncoderNetwork(*args, **kwargs)
+    def __init__(self, *args, network=None, optimizer='adam', lr=0.001, weight_decay=0.0, **kwargs):
+        if network is None:
+            network = PerspectronEncoderNetwork(*args, **kwargs)
         super(PerspectronEncoderLearner, self).__init__(network, optimizer, lr, weight_decay)
 
     def _compute_aux_return_loss(self, y_outs, y_true=None):

@@ -14,9 +14,7 @@ class Regressor(ClonableModule):
         super(Regressor, self).__init__()
         self.feature_extractor = feature_extractor
         self.out_dim = output_dim
-        output_layer = Linear(self.feature_extractor.output_dim, output_dim)
-
-        self.net = Sequential(self.feature_extractor, output_layer)
+        self.net = Sequential(feature_extractor, Linear(feature_extractor.output_dim, output_dim))
 
     def forward(self, x):
         # print(x.size())
@@ -47,8 +45,8 @@ class MAMLNetwork(MetaNetwork):
 
     def __forward(self, episode):
         x_train, y_train = episode['Dtrain']
-        x_test = episode['Dtest']
-        x_train.volatile = False
+        x_test, _ = episode['Dtest']
+        # x_train.volatile = False
         learner_network = self.base_learner.clone()
 
         initial_params = OrderedDict((name, param - 0.0) for (name, param) in self.base_learner.named_parameters())
@@ -64,14 +62,9 @@ class MAMLNetwork(MetaNetwork):
                                       zip(learner_network.named_parameters(), grads))
             set_params(learner_network, new_weights)
 
-        n = x_test.size(0)
-        batch_size = 512
-        if n > batch_size:
-            outs = [learner_network(x_test[i:i + batch_size])
-                    for i in range(0, n, batch_size)]
-            res = torch.cat(outs)
-        else:
-            res = learner_network(x_test)
+        n = len(x_test)
+        bsize = 10        
+        res = torch.cat([learner_network(x_test[i:i+bsize]) for i in range(0, n, bsize)])
         return res
 
     def forward(self, episodes):

@@ -1,0 +1,21 @@
+Antiviral activity against HIV1 3B infected human TZM-bl cells assessed as inhibition of viral replication by luciferase reporter assay
+CC1=CN(C(=O)NC1=O)C2CC(C(O2)CO)N=[N+]=[N-],2.8
+CCC(C)C(C(=O)NC(CCC(=O)O)C(=O)NC(CCC(=O)O)C(=O)NC(CO)C(=O)NC(CCC(=O)N)C(=O)NC(CC(=O)N)C(=O)NC(CCC(=O)N)C(=O)NC(CCC(=O)N)C(=O)NC(CCC(=O)O)C(=O)NC(CCCCN)C(=O)NC(CC(=O)N)C(=O)NC(CCC(=O)O)C(=O)NC(CCC(=O)N)C(=O)NC(CCC(=O)O)C(=O)NC(CC(C)C)C(=O)NC(CC(C)C)C(=O)NC(CCC(=O)O)C(=O)NC(CC(C)C)C(=O)NC(CC(=O)O)C(=O)NC(CCCCN)C(=O)NC(CC1=CNC2=CC=CC=C21)C(=O)NC(C)C(=O)NC(CO)C(=O)NC(CC(C)C)C(=O)NC(CC3=CNC4=CC=CC=C43)C(=O)NC(CC(=O)N)C(=O)NC(CC5=CNC6=CC=CC=C65)C(=O)NC(CC7=CC=CC=C7)C(=O)N)NC(=O)C(CC(C)C)NC(=O)C(CO)NC(=O)C(CC8=CN=CN8)NC(=O)C(C(C)CC)NC(=O)C(CC(C)C)NC(=O)C(CO)NC(=O)C(C(C)O)NC(=O)C(CC9=CC=C(C=C9)O)NC(=O)C,98.8
+CC1=C(C(=C2C(=C1)C(=C(C(=O)C2=CNCCS(=O)(=O)[O-])O)C(C)C)O)C3=C(C=C4C(=C3O)C(=CNCCS(=O)(=O)[O-])C(=O)C(=C4C(C)C)O)C.[Na+].[Na+],1240
+CC1=C(C(=C2C(=C1)C(=C(C(=O)C2=CNC(CC3=CC=CC=C3)C(=O)[O-])O)C(C)C)O)C4=C(C=C5C(=C4O)C(=CNC(CC6=CC=CC=C6)C(=O)[O-])C(=O)C(=C5C(C)C)O)C.[Na+].[Na+],1770
+CC1=C(C(=C2C(=C1)C(=C(C(=O)C2=CNC(CO)C(=O)[O-])O)C(C)C)O)C3=C(C=C4C(=C3O)C(=CNC(CO)C(=O)[O-])C(=O)C(=C4C(C)C)O)C.[Na+].[Na+],2880
+CC1=C(C(=C2C(=C1)C(=C(C(=O)C2=CNC(CC3=CN=CN3)C(=O)[O-])O)C(C)C)O)C4=C(C=C5C(=C4O)C(=CNC(CC6=CN=CN6)C(=O)[O-])C(=O)C(=C5C(C)C)O)C.[Na+].[Na+],1580
+CC1=C(C(=C2C(=C1)C(=C(C(=O)C2=CNC(C3=CC=CC=C3)C(=O)[O-])O)C(C)C)O)C4=C(C=C5C(=C4O)C(=CNC(C6=CC=CC=C6)C(=O)[O-])C(=O)C(=C5C(C)C)O)C.[Na+].[Na+],1450
+CC1=C(C(=C2C(=C1)C(=C(C(=O)C2=CNCCCCC(=O)[O-])O)C(C)C)O)C3=C(C=C4C(=C3O)C(=CNCCCCC(=O)[O-])C(=O)C(=C4C(C)C)O)C.[Na+].[Na+],1710
+CC1=C(C(=C2C(=C1)C(=C(C(=O)C2=CNC(C3=CC=C(C=C3)Cl)C(=O)[O-])O)C(C)C)O)C4=C(C=C5C(=C4O)C(=CNC(C6=CC=C(C=C6)Cl)C(=O)[O-])C(=O)C(=C5C(C)C)O)C.[Na+].[Na+],1280
+CC1=C(C(=C2C(=C1)C(=C(C(=O)C2=CNC(CC3=CC=C(C=C3)O)C(=O)[O-])O)C(C)C)O)C4=C(C=C5C(=C4O)C(=CNC(CC6=CC=C(C=C6)O)C(=O)[O-])C(=O)C(=C5C(C)C)O)C.[Na+].[Na+],1620
+CC1=C(C(=C2C(=C1)C(=C(C(=O)C2=CNC(CC(C)C)C(=O)[O-])O)C(C)C)O)C3=C(C=C4C(=C3O)C(=CNC(CC(C)C)C(=O)[O-])C(=O)C(=C4C(C)C)O)C.[Na+].[Na+],1370
+CC1=C(C(=C2C(=C1)C(=C(C(=O)C2=CNC(C(C)C)C(=O)[O-])O)C(C)C)O)C3=C(C=C4C(=C3O)C(=CNC(C(C)C)C(=O)[O-])C(=O)C(=C4C(C)C)O)C.[Na+].[Na+],1140
+CC1=C(C(=C2C(=C1)C(=C(C(=O)C2=CNC(CS)C(=O)[O-])O)C(C)C)O)C3=C(C=C4C(=C3O)C(=CNC(CS)C(=O)[O-])C(=O)C(=C4C(C)C)O)C.[Na+].[Na+],3730
+CC1=C(C(=C2C(=C1)C(=C(C(=O)C2=CNC(CC3=CNC4=CC=CC=C43)C(=O)[O-])O)C(C)C)O)C5=C(C=C6C(=C5O)C(=CNC(CC7=CNC8=CC=CC=C87)C(=O)[O-])C(=O)C(=C6C(C)C)O)C.[Na+].[Na+],990
+CCC(C)C(C(=O)[O-])NC=C1C2=C(C(=C(C=C2C(=C(C1=O)O)C(C)C)C)C3=C(C=C4C(=C3O)C(=CNC(C(C)CC)C(=O)[O-])C(=O)C(=C4C(C)C)O)C)O.[Na+].[Na+],1120
+CC1=C(C(=C2C(=C1)C(=C(C(=O)C2=CNCCCCCCCC(=O)[O-])O)C(C)C)O)C3=C(C=C4C(=C3O)C(=CNCCCCCCCC(=O)[O-])C(=O)C(=C4C(C)C)O)C.[Na+].[Na+],2840
+CC1=C(C(=C2C(=C1)C(=C(C(=O)C2=CNC(C3=CC=C(C=C3)O)C(=O)[O-])O)C(C)C)O)C4=C(C=C5C(=C4O)C(=CNC(C6=CC=C(C=C6)O)C(=O)[O-])C(=O)C(=C5C(C)C)O)C.[Na+].[Na+],1340
+CC1=C(C(=C2C(=C1)C(=C(C(=O)C2=CNC(C)C(=O)[O-])O)C(C)C)O)C3=C(C=C4C(=C3O)C(=CNC(C)C(=O)[O-])C(=O)C(=C4C(C)C)O)C.[Na+].[Na+],1220
+CC1=C(C(=C2C(=C1)C(=C(C(=O)C2=CNC(C)(C)C(=O)[O-])O)C(C)C)O)C3=C(C=C4C(=C3O)C(=CNC(C)(C)C(=O)[O-])C(=O)C(=C4C(C)C)O)C.[Na+].[Na+],1390
+CC1=C(C(=C2C(=C1)C(=C(C(=O)C2=CNCCCCCC(=O)[O-])O)C(C)C)O)C3=C(C=C4C(=C3O)C(=CNCCCCCC(=O)[O-])C(=O)C(=C4C(C)C)O)C.[Na+].[Na+],2090

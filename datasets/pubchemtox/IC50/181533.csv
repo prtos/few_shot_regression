@@ -1,0 +1,25 @@
+Antihypertensive activity when administered orally to spontaneously hypertensive rats
+CC1=C(C(N(C(=O)N1)C(=O)N)C2=CC(=CC=C2)[N+](=O)[O-])C(=O)OC(C)C,12
+CC1=C(C(N(C(=O)N1)C(=O)NC)C2=CC(=CC=C2)[N+](=O)[O-])C(=O)OC(C)C,16
+CC1=C(C(N(C(=O)N1)C(=O)N)C2=CC(=CC=C2)Br)C(=O)OC(C)C,55
+CC1=C(C(N(C(=O)N1)C(=O)N)C2=CC=CC=C2Cl)C(=O)OC(C)C,34
+CC1=C(C(N(C(=O)N1)C(=O)N)C2=CC(=CC=C2)Cl)C(=O)OC(C)C,40
+CC1=C(C(N(C(=O)N1)C(=O)N)C2=CC=CC=C2C(F)(F)F)C(=O)OC(C)C,44
+CC1=C(C(N(C(=O)N1)C(=O)N)C2=CC=CC3N2N=CO3)C(=O)OC(C)C,82
+CC1=C(C(N(C(=O)N1)C(=O)N)C2=C(C(=CC=C2)Cl)Cl)C(=O)OC(C)C,43
+CC1=C(C(N(C(=O)N1)C(=O)N)C2=C(C=CC=C2Cl)Cl)C(=O)OC(C)C,83
+CC1=C(C(N(C(=O)N1)C(=O)N)C2=CC=CC=C2Br)C(=O)OC(C)C,31
+CC1=C(C(N(C(=O)N1)C(=O)N)C2=CC=CC=C2[N+](=O)[O-])C(=O)OC(C)C,20
+CC1=C(C(N(C(=O)N1)C(=O)N)C2=CC(=CC=C2)C(F)(F)F)C(=O)OC(C)C,1670
+CCOC(=O)C1=C(NC(=O)N(C1C2=CC(=CC=C2)[N+](=O)[O-])C(=O)N)C,39
+CC1=C(C(N(C(=O)N1)C(=O)N)C2=CC(=CC=C2)[N+](=O)[O-])C(=O)OC,880
+CC1=C(C(N(C(=O)N1)C(=O)NC(C)C)C2=CC(=CC=C2)[N+](=O)[O-])C(=O)OC(C)C,60
+CC1=C(C(N(C(=O)N1)CCN(C)CC2=CC=CC=C2)C3=CC(=CC=C3)[N+](=O)[O-])C(=O)OC(C)C,2
+CC1=C(C(NC(=O)N1)C2=CC(=CC=C2)[N+](=O)[O-])C(=O)OC(C)C,1580
+CC1=C(C(N(C(=O)N1)C(=O)N(C)C)C2=CC(=CC=C2)[N+](=O)[O-])C(=O)OC(C)C,3200
+CC1=C(C(N(C(=O)N1)C(=O)NCC2=CC=CC=C2)C3=CC(=CC=C3)[N+](=O)[O-])C(=O)OC(C)C,3
+CCNC(=O)N1C(C(=C(NC1=O)C)C(=O)OC(C)C)C2=CC(=CC=C2)[N+](=O)[O-],13
+CC1=C(C(C(=C(N1)C)C(=O)OC)C2=CC=CC=C2[N+](=O)[O-])C(=O)OC,2.5
+CCOC(=O)C1=C(NC(=C(C1C2=CC=CC=C2Cl)C(=O)OC)C)COCCN,2.5
+CC1=C(C(N(C(=O)N1)C(=O)N)C2=CC(=CC=C2)[N+](=O)[O-])C(=O)OC(C)C,8.5
+CC1=C(C(N(C(=O)N1)C(=O)N)C2=CC(=CC=C2)[N+](=O)[O-])C(=O)OC(C)C,3790

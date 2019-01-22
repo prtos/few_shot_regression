@@ -1,0 +1,24 @@
+Inhibitory concentration against human cystolic isozyme II of Carbonic anhydrase
+C1=CC(=CC=C1CCN)S(=O)(=O)N,0.58
+C1=CC(=CC=C1NC2=NC(=NC=C2)N)S(=O)(=O)N,0.53
+C1=C(C(=CC(=C1Cl)S(=O)(=O)N)S(=O)(=O)N)N,0.6
+C1=CC(=CC=C1C(=O)O)S(=O)(=O)N,0.64
+C1=CC(=CC=C1CCO)S(=O)(=O)N,0.58
+C1=CC(=CC=C1CO)S(=O)(=O)N,0.6
+C1=CC=C(C(=C1)N)S(=O)(=O)N,0.69
+C1=CC(=C(C=C1S(=O)(=O)N)I)N,0.66
+C1=CC(=C(C=C1S(=O)(=O)N)Br)N,0.71
+C1=CC(=C(C=C1S(=O)(=O)N)F)N,0.63
+C1=C(C(=CC(=C1N)S(=O)(=O)N)S(=O)(=O)N)C(F)(F)F,0.46
+C1=CC(=CC=C1CN)S(=O)(=O)N,0.61
+C1=CC(=C(C=C1S(=O)(=O)N)Cl)N,0.71
+C1=CC(=CC=C1NN)S(=O)(=O)N,0.81
+C1=CC(=CC=C1N)S(=O)(=O)N,0.7
+CC1=CC=C(C=C1)S(=O)(=O)N,0.77
+C1=CC(=CC=C1[N+](=O)[O-])S(=O)(=O)N,0.67
+COC(=O)C1=CC=CC=C1S(=O)(=O)N,0.4
+C1=CC(=CC(=C1)S(=O)(=O)N)[N+](=O)[O-],0.67
+C1=CC=C(C(=C1)NN)S(=O)(=O)N,0.81
+C1=CC(=CC=C1SC#N)S(=O)(=O)N,0.57
+C1=CC2=C(C=C1[N+](=O)[O-])SC(=N2)S(=O)(=O)N,0.56
+C1=CC(=CC=C1NNC(=S)N)S(=O)(=O)N,0.6

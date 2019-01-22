@@ -1,0 +1,23 @@
+Potency to displace [3H]IMI binding to Nicotinic acetylcholine receptor from Drosophila head membranes
+CN1CCCC1C2=CN=CC=C2,2000
+C1CC2C(CC1N2)C3=CN=C(C=C3)Cl,220
+C1CN(C(=N1)N)CC2=CN=C(C=C2)Cl,800
+C1=CC(=NC=C1CN2C=CSC2=N)Cl,100
+C1=CN=CC(=C1N=[N+]=[N-])CN2C=CSC2=N,30000
+C1=CSC(=N)N1CC2=CC(=C(N=C2)Cl)N=[N+]=[N-],750
+C1=CSC(=N)N1CC2=CN=C(C=C2N=[N+]=[N-])Cl,3200
+C1=CSC(=N[N+](=O)[O-])N1CC2=CC(=C(N=C2)Cl)N=[N+]=[N-],3.9
+C1=CC(=NC=C1CN2C=CSC2=N[N+](=O)[O-])Cl,0.35
+C1=CN(C(=N1)N[N+](=O)[O-])CC2=CN=C(C=C2N=[N+]=[N-])Cl,460
+C1=CN(C(=N1)N[N+](=O)[O-])CC2=CC(=C(N=C2)Cl)N=[N+]=[N-],13
+C1=CC(=NC=C1CN2C=CN=C2N[N+](=O)[O-])Cl,0.85
+C1CN(C(=N1)N)CC2=CC(=C(N=C2)Cl)N=[N+]=[N-],5700
+C1=CSC(=N)N1CC2=CC(=CN=C2)N=[N+]=[N-],7200
+C1=CN=CC(=C1N=[N+]=[N-])CN2C=CN=C2N[N+](=O)[O-],3600
+C1=CC(=NC=C1CN2C=CSC2=NC#N)Cl,1.4
+C1=CN(C(=C[N+](=O)[O-])N1)CC2=CC(=C(N=C2)Cl)N=[N+]=[N-],0.72
+C1=CC(=NC=C1CN2C=CNC2=C[N+](=O)[O-])Cl,0.12
+C1=CSC(=NC#N)N1CC2=CC(=C(N=C2)Cl)N=[N+]=[N-],28
+C1CN(C(=N1)N[N+](=O)[O-])CC2=CC(=C(N=C2)Cl)N=[N+]=[N-],24
+C1=CN(C(=N1)N[N+](=O)[O-])CC2=CC(=CN=C2)N=[N+]=[N-],540
+C1CN(C(=N1)N[N+](=O)[O-])CC2=CN=C(C=C2)Cl,2.2

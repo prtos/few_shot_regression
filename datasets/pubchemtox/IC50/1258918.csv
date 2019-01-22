@@ -1,0 +1,27 @@
+BindingDB_Patents: Fluorometric Enzymatic Assay. Selectivity of compound 55, compound 63, compound 48, compound 57, compound 88 toward caspase-1 (pro-inflammatory group), caspase-5 (group I), caspase-9 (group II) and caspase-3 and caspase-7 (group III) was evaluated by using fluorometric methods using the Caspase-1, -3, -5, -7, -9 Inhibitor Drug Screening Kit (Catalog #: K151-100, K153-100, K155-100/K157-100, K159-100 respectively, BioVision). Briefly, using instructions of the manufacturer, a wide range of different concentrations of the compound: 3333, 1000, 333, 100, 33, 10, 3, and 1 nM (final concentration) was added directly to the reaction mixtures containing the substrate and the enzyme in a final volume of 10 ul. After a 30-minute incubation at 37 C., the liberation of AFC was measured as an endpoint assay using the Flexstation3 (Molecular Devices) with an excitation wavelength of 400 nm and an emission wavelength of 505 nm. The level of inhibition of caspase-1, -3, -5, -7, -9 activity was determined by comparison.
+CC(C)C(C(=O)NC(CC(=O)O)C=CS(=O)(=O)C)NC(=O)OCC1=CC=CC=C1,3330
+CC(C)C(C(=O)O)NC(=O)C(C1=CC=CC=C1)NC(=O)C(CC(=O)OC(C)(C)C)NC(=O)OCC2=CC=CC=C2,3330
+CC(C)(C)OC(=O)CC(C=CS(=O)(=O)C)N,3330
+CC(C)(C)OC(=O)CC(C=CS(=O)(=O)C1=CC=CC=C1)NC(=O)OC(C)(C)C,3330
+CC(C)(C)OC(=O)CC(C=CS(=O)(=O)C1=CC=CC=C1)N,3330
+CC(C)C(C(=O)NC(CC(=O)O)C=C(S(=O)(=O)C)Cl)NC(=O)C(CC1=NC2=CC=CC=C2C=C1)NC(=O)C(CC(=O)O)NC(=O)OCC3=CC=CC=C3,3330
+CC1=CC=C(C=C1)S(=O)(=O)NC(CC2=NC3=CC=CC=C3C=C2)C(=O)NC(C(C)C)C(=O)NC(CC(=O)O)C=C(S(=O)(=O)C)Cl,3330
+CC(C)C(C(=O)NC(CC(=O)OC)C=CS(=O)(=O)C)NC(=O)C(C1CC2=CC=CC=C2C1)NC(=O)C(CC(=O)OC)NC(=O)OCC3=CC=CC=C3,3000
+CC(C)C(C(=O)NC(CC(=O)O)C=CS(=O)(=O)C)NC(=O)C(C1=CC=CC=C1)NC(=O)C(CC(=O)O)NC(=O)OCC2=CC=CC=C2,2000
+CC(C)C(C(=O)NC(CC(=O)O)C=CS(=O)(=O)C)NC(=O)C(CC1=NC2=CC=CC=C2C=C1)NC(=O)C(CC(=O)O)NC(=O)OCC3=CC=CC=C3,10000
+CC(C)C(C(=O)NC(CC(=O)O)C=CS(=O)(=O)C)NC(=O)C(C1CC2=CC=CC=C2C1)NC(=O)C(CC(=O)O)NC(=O)OCC3=CC=CC=C3,900
+CC(C)C(C(=O)NC(CC(=O)O)C=CS(=O)(=O)C)NC(=O)C(CCC(=O)O)NC(=O)C(CC(=O)O)NC(=O)OCC1=CC=CC=C1,1400
+CC(C)C(C(=O)NC(CC(=O)O)C=CS(=O)(=O)C1=CC=CC=C1)NC(=O)C(CC2=NC3=CC=CC=C3C=C2)NC(=O)C(CC(=O)O)NC(=O)OCC4=CC=CC=C4,3330
+CC(C)C(C(=O)NC(CC(=O)O)C=CS(=O)(=O)OC1=CC=CC=C1)NC(=O)C(CC2=NC3=CC=CC=C3C=C2)NC(=O)C(CC(=O)O)NC(=O)OCC4=CC=CC=C4,1200
+CC(C)C(C(=O)NC(CC(=O)OC(C)(C)C)C=CS(=O)(=O)N1CCOCC1)NC(=O)C(CC2=NC3=CC=CC=C3C=C2)NC(=O)C(CC(=O)OC(C)(C)C)NC(=O)OCC4=CC=CC=C4,3330
+CC(C)C(C(=O)NC(CC(=O)O)C=CS(=O)(=O)C(C)C)NC(=O)C(C1CC2=CC=CC=C2C1)NC(=O)C(CC(=O)O)NC(=O)OCC3=CC=CC=C3,3330
+CC(C)C(C(=O)NC(CC(=O)O)C=CS(=O)(=O)C1=CC=CC=C1)NC(=O)C(C2=CC=CC=C2)NC(=O)C(CC(=O)O)NC(=O)OCC3=CC=CC=C3,3330
+CC(C)C(C(=O)NC(CC(=O)O)C=CS(=O)(=O)C1=CC=CC=C1)NC(=O)C(CC2=NC3=CC=CC=C3C=C2)NC(=O)C(CC(=O)O)NC(=O)OCC4=CC=CC=C4,3330
+CC(C)C(C(=O)NC(CC(=O)O)C=CS(=O)(=O)C)NC(=O)C(CC1=NC2=CC=CC=C2C=C1)NC(=O)C(CC(=O)O)NC(=O)OCC3=CC=CC=C3,10000
+CC(C)C(C(=O)NC(CC(=O)O)C=CS(=O)(=O)C)NC(=O)C(CC1=CC=C(C=C1)O)NC(=O)C(CC(=O)O)NC(=O)OCC2=CC=CC=C2,3330
+CC(C)C(C(=O)NC(CC(=O)O)C=CS(=O)(=O)C)NC(=O)C(CCC(=O)O)NC(=O)C(CC1=CC=C(C=C1)O)NC(=O)OCC2=CC=CC=C2,500
+CC(C)C(C(=O)NC(CC(=O)O)C=CS(=O)(=O)C1=CC=CC=C1)NC(=O)C(CC2=CC=CC=N2)NC(=O)C(CC(=O)O)NC(=O)OCC3=CC=CC=C3,3330
+CC(C)C(C(=O)NC(CC(=O)O)C=CS(=O)(=O)C)NC(=O)C(CC1=CNC2=CC=CC=C21)NC(=O)C(CC(=O)O)NC(=O)OCC3=CC=CC=C3,700
+CS(=O)(=O)C=CC(CC(=O)O)N,3330
+CC(C)C(C(=O)NC(C)C(=O)NC(CC(=O)O)C=CS(=O)(=O)C1=CC=CC=C1)NC(=O)C(CC2=CC=C(C=C2)O)NC(=O)OCC3=CC=CC=C3,1300
+CC(C)C(C(=O)NC(CC(=O)OC)C=CS(=O)(=O)C)NC(=O)C(C1=CC=CC=C1)NC(=O)C(CC(=O)OC)NC(=O)OCC2=CC=CC=C2,3330

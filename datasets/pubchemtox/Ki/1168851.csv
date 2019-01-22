@@ -1,0 +1,21 @@
+Inhibition of human recombinant carbonic anhydrase 1 preincubated for 15 mins by stopped flow CO2 hydration method
+CC(=O)NC1=NN=C(S1)S(=O)(=O)N,250
+CC1=CC=C(C=C1)S(=O)(=O)NC(=O)NC2=CC=C(C=C2)S(=O)(=O)N,7
+CC1=CC=C(C=C1)S(=O)(=O)NC(=O)NC2=CN=C(C=C2)S(=O)(=O)N,245
+C1=CC=C(C=C1)S(=O)(=O)NC(=O)NC2=CN=C(C=C2)S(=O)(=O)N,72.8
+CC1=CC=CC=C1S(=O)(=O)NC(=O)NC2=CN=C(C=C2)S(=O)(=O)N,206
+C1=CC(=CC=C1S(=O)(=O)NC(=O)NC2=CN=C(C=C2)S(=O)(=O)N)Cl,86.5
+C1=CC(=CC=C1F)S(=O)(=O)NC(=O)NC2=CN=C(C=C2)S(=O)(=O)N,81.3
+C1=CC=C(C(=C1)S(=O)(=O)NC(=O)NC2=CN=C(C=C2)S(=O)(=O)N)Cl,57.6
+C1=CC=C(C=C1)S(=O)(=O)NC(=O)NCCC2=CC=C(C=C2)S(=O)(=O)N,21.6
+CC1=CC=C(C=C1)S(=O)(=O)NC(=O)NCCC2=CC=C(C=C2)S(=O)(=O)N,67.1
+CC1=CC=CC=C1S(=O)(=O)NC(=O)NCCC2=CC=C(C=C2)S(=O)(=O)N,64.2
+C1=CC(=CC=C1CCNC(=O)NS(=O)(=O)C2=CC=C(C=C2)Cl)S(=O)(=O)N,57.8
+C1=CC(=CC=C1CCNC(=O)NS(=O)(=O)C2=CC=C(C=C2)F)S(=O)(=O)N,82.6
+C1=CC=C(C(=C1)S(=O)(=O)NC(=O)NCCC2=CC=C(C=C2)S(=O)(=O)N)Cl,52.8
+CC1=CC(=O)OC2=C1C=CC(=C2)NC(=O)NS(=O)(=O)C3=CC=CC=C3,10000
+CC1=CC=C(C=C1)S(=O)(=O)NC(=O)NC2=CC3=C(C=C2)C(=CC(=O)O3)C,10000
+CC1=CC=CC=C1S(=O)(=O)NC(=O)NC2=CC3=C(C=C2)C(=CC(=O)O3)C,4970
+CC1=CC(=O)OC2=C1C=CC(=C2)NC(=O)NS(=O)(=O)C3=CC=C(C=C3)Cl,5735
+CC1=CC(=O)OC2=C1C=CC(=C2)NC(=O)NS(=O)(=O)C3=CC=C(C=C3)F,10000
+CC1=CC(=O)OC2=C1C=CC(=C2)NC(=O)NS(=O)(=O)C3=CC=CC=C3Cl,2380

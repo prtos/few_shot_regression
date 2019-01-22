@@ -125,7 +125,11 @@ class DeepPriorNetwork(MetaNetwork):
         out_layer = Linear(fnet.output_dim, 2)
         self.fusion_net = Sequential(fnet, out_layer)
         self.beta_kl = beta_kl
-        self.meta_training = True
+        self.is_eval = True
+    
+    @property
+    def return_var(self):
+        return True
 
     def _forward(self, episode, task_repr_params, z_sampling=False, z_identical_samples=False):
         x_test, _ = episode['Dtest']
@@ -136,16 +140,6 @@ class DeepPriorNetwork(MetaNetwork):
         y_mean, y_std = torch.split(outs, 1, dim=1)
         y_std = std_activation(y_std)
         return y_mean, y_std
-
-    def eval_pass(self, episode, n_rep=10):
-        if self.task_repr_extractor:
-            tasks_repr_params = self.task_repr_extractor([episode])[0]
-        else:
-            temp = torch.stack([episode['task_descr']])
-            tasks_repr_params = (temp, torch.zeros_like(temp))
-        task_repr_params = tasks_repr_params[0][0], tasks_repr_params[1][0]
-        return [self._forward(episode, task_repr_params, z_sampling=True, z_identical_samples=True)
-                for _ in range(n_rep)]
 
     def forward(self, episodes):
         if self.task_repr_extractor:
@@ -169,21 +163,21 @@ class DeepPriorNetwork(MetaNetwork):
 
         res = [self._forward(episode, task_repr_params)
                for episode, task_repr_params in zip(episodes, zip(*tasks_repr_params_train))]
-               
-        return res, tasks_repr_params
-
-    def meta_train(self):
-        self.meta_training = True
-
-    def meta_eval(self):
-        self.meta_training = False
+        if self.is_eval:   
+            means, stds = list(zip(*res))
+            # return (torch.stack(means, dim=0), torch.stack(stds, dim=0))
+            return res
+        else:
+            return res, tasks_repr_params
 
 
 class DeepPriorLearner(MetaLearnerRegression):
-    def __init__(self, *args, optimizer='adam', lr=0.001, cotraining=False, weight_decay=0.0, **kwargs):
+    def __init__(self, *args, optimizer='adam', lr=0.001, weight_decay=0.0, cotraining=False, pretraining=False, **kwargs):
         network = DeepPriorNetwork(*args, **kwargs)
         super(DeepPriorLearner, self).__init__(network, optimizer, lr, weight_decay)
+        self.lr = lr
         self.cotraining = cotraining
+        self.pretraining = pretraining
 
     def _compute_aux_return_loss(self, y_preds, y_tests):
         y_preds_per_task, tasks_repr_params = y_preds
@@ -221,112 +215,12 @@ class DeepPriorLearner(MetaLearnerRegression):
                         
         return loss, scalars
 
-    # def train_test_split(self, dataset, test_size):
-    #     return dataset.train_test_split(test_size=test_size)
 
-    # def fit(self, metatrain, *args, pretrain=False, valid_size=0.25, n_epochs=100, steps_per_epoch=100,
-    #         batch_size=32, log_filename=None, checkpoint_filename=None, tboard_folder=None, **kwargs):
-    #     fit_params = locals()
-    #     meta_train, meta_valid = metatrain.train_test_split(test_size=valid_size)
-    #     meta_valid.train()
-    #     meta_train.train()
-    #     print("Number of train steps:", len(meta_train))
-    #     print("Number of valid steps:", len(meta_valid))
-
-    #     callbacks = [# EarlyStopping(patience=10, verbose=False),)
-    #                  ReduceLROnPlateau(patience=0, factor=1/2., min_lr=1e-6),
-    #                  BestModelRestore()]
-    #     if log_filename:
-    #         callbacks += [CSVLogger(log_filename, batch_granularity=False, separator='\t')]
-    #     if checkpoint_filename:
-    #         callbacks += [ModelCheckpoint(checkpoint_filename, monitor='val_loss', save_best_only=True,
-    #                                       temporary_filename=checkpoint_filename+'temp')]
-
-    #     if tboard_folder is not None:
-    #         print('here.....\n')
-    #         self.writer = SummaryWriter(tboard_folder)
-    #         # init_params = {k: v for k, v in self.init_params.items() if isinstance(v, (int, float, str, list, dict))}
-    #         # fit_params = {k: v for k, v in fit_params.items() if isinstance(v, (int, float, str, list, dict))}
-    #         # self.writer.add_text('deep_prior/model_params', json.dumps(init_params, indent=2), 0)
-    #         # self.writer.add_text('deep_prior/fit_params', json.dumps(fit_params, indent=2), 0)
-
-    #     if pretrain:
-    #         p = PerspectronEncoderLearner(network=self.model.task_repr_extractor, lr=self.lr)
-    #         p.fit(meta_train, valid_size=valid_size, n_epochs=n_epochs,
-    #               steps_per_epoch=steps_per_epoch, tboard_folder=tboard_folder, early_stop=True)
-    #         # if not self.cotraining:
-    #         #     self.optimizer = Adam((p for name, p in self.model.named_parameters()
-    #         #                            if 'task_repr_extractor' not in name), weight_decay=1e-6, lr=self.lr)
-    #         # else:
-    #         self.optimizer = Adam([
-    #             dict(params=(p for name, p in self.model.named_parameters()
-    #                          if 'task_repr_extractor' in name), lr=self.lr/10.0),
-    #             dict(params=(p for name, p in self.model.named_parameters()
-    #                          if 'task_repr_extractor' not in name), lr=self.lr)
-    #         ], weight_decay=1e-6)
-
-    #     self.fit_generator(meta_train, meta_valid,
-    #                        epochs=n_epochs,
-    #                        steps_per_epoch=steps_per_epoch,
-    #                        validation_steps=None,
-    #                        callbacks=callbacks,
-    #                        verbose=True)
-    #     self.is_fitted = True
-    #     return self
-
-    # def plot_harmonics(self, episode, step, tag=''):
-    #     batch_preds_per_z = self.model.eval_pass(episode)
-    #     plt.figure(dpi=60)
-    #     x_train, y_train = episode['Dtrain']
-    #     x_test, y_test = episode['Dtest']
-    #     x_test = to_numpy_vec(x_test)
-    #     x_order = np.argsort(x_test)
-    #     x_test = x_test[x_order]
-    #     y_test = to_numpy_vec(y_test)[x_order]
-    #     plt.plot(to_numpy_vec(x_train), to_numpy_vec(y_train), 'ro')
-    #     plt.plot(x_test, y_test, '-')
-    #     for y_mean, y_var in batch_preds_per_z:
-    #         y_pred = to_numpy_vec(y_mean)[x_order]
-    #         plt.plot(x_test, y_pred, '-')
-    #         if y_var is not None:
-    #             y_var = to_numpy_vec(y_var)[x_order]
-    #             plt.fill_between(x_test, y_pred - y_var, y_pred + y_var)
-
-    #     self.writer.add_figure(tag=tag, figure=plt.gcf(), close=True, global_step=step)
-
-    # def evaluate(self, metatest, metrics=[mse_loss], tboard_folder=None):
-    #     assert len(metrics) >= 1, "There should be at least one valid metric in the list of metrics "
-    #     if tboard_folder is not None:
-    #         print('here.....\n')
-    #         self.writer = SummaryWriter(tboard_folder)
-    #     metrics_per_dataset = {metric.__name__: {} for metric in metrics}
-    #     metrics_per_dataset["size"] = dict()
-    #     it = 0
-    #     for batch in metatest:
-    #         episodes = batch[0]
-    #         y_preds, _, _, _ = self.model(episodes)
-    #         y_tests = batch[1]
-    #         for episode, y_test, (y_pred_mean, y_pred_std) in zip(episodes, y_tests, y_preds):
-    #             ep_idx = episode['idx']
-    #             is_one_dim_input = (episode['Dtrain'][0].size(1) == 1)
-    #             if is_one_dim_input and np.random.binomial(1, 0.1, 1)[0] == 1 and it <= 5000:
-    #                 it += 1
-    #                 self.plot_harmonics(episode, tag='test'+str(ep_idx), step=it)
-    #             ep_name_is_new = (ep_idx not in metrics_per_dataset["size"])
-    #             for metric in metrics:
-    #                 m_value = to_unit(metric(y_pred_mean, y_test))
-    #                 if ep_name_is_new:
-    #                     metrics_per_dataset[metric.__name__][ep_idx] = [m_value]
-    #                 else:
-    #                     metrics_per_dataset[metric.__name__][ep_idx].append(m_value)
-    #             metrics_per_dataset['size'][ep_idx] = y_test.size(0)
-
-    #     return metrics_per_dataset
-
-    # def load(self, checkpoint_filename):
-    #     self.load_weights(checkpoint_filename)
-    #     self.is_fitted = True
-
+    def fit(self, *args, **kwargs):
+        if self.pretraining:
+            p = PerspectronEncoderLearner(network=self.model.task_repr_extractor, lr=self.lr)
+            p.fit(*args, **kwargs)
+        super(DeepPriorLearner, self).fit(*args, **kwargs)
 
 if __name__ == '__main__':
     pass
