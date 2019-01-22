@@ -47,7 +47,7 @@ class MANNNetwork(MetaNetwork):
         self.controller_size = controller_size
         self.nb_reads = nb_reads
 
-        self.controller = LSTM(self.feature_extractor.output_dim+1, self.controller_size)
+        self.controller = LSTM(self.feature_extractor.output_dim + 1, self.controller_size)
         self.controller_to_key = Sequential(Linear(self.controller_size, memory_shape[1]), Tanh())
         self.controller_to_sigma = Sequential(Linear(self.controller_size, 1), Sigmoid())
         self.gamma = Parameter(torch.FloatTensor([0.95]), requires_grad=True)
@@ -98,15 +98,10 @@ class MANNNetwork(MetaNetwork):
 
         learner = LearnerWithMemory(self.feature_extractor, self.controller, self.controller_to_key,
                                     self.output_layer, self.gamma, M_tm1, y_last)
-        x_test = episode['Dtest']
-        n = x_test.size(0)
-        batch_size = 512
-        if n > batch_size:
-            outs = [learner(x_test[i:i + batch_size])
-                    for i in range(0, n, batch_size)]
-            res = torch.cat(outs)
-        else:
-            res = learner(x_test)
+        x_test, _ = episode['Dtest']
+        n = len(x_test)
+        bsize = 10
+        res = torch.cat([learner(x_test[i:i+bsize]) for i in range(0, n, bsize)])
         return res
 
     def forward(self, episodes):

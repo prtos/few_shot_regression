@@ -1,16 +1,41 @@
 import torch
 import warnings
 import numpy as np
+from collections import OrderedDict
 from itertools import zip_longest, product
 from sklearn.base import TransformerMixin
 from rdkit import Chem
 from joblib import delayed, Parallel
 from scipy.sparse import csr_matrix
 from scipy.sparse.csgraph import minimum_spanning_tree
+from rdkit import Chem
+from rdkit.Chem import rdMolDescriptors
 from rdkit.Chem.rdmolops import RDKFingerprint, RenumberAtoms
+from rdkit.Chem.rdMolDescriptors import GetHashedAtomPairFingerprintAsBitVect, \
+    GetHashedTopologicalTorsionFingerprintAsBitVect, Properties, GetMACCSKeysFingerprint
+from rdkit.Chem.AllChem import GetMorganFingerprintAsBitVect, GetErGFingerprint
+from rdkit.Chem.EState.Fingerprinter import FingerprintMol
+from rdkit.Chem.QED import properties, qed
+from rdkit.Avalon.pyAvalonTools import GetAvalonFP, GetAvalonCountFP
+from rdkit.DataStructs.cDataStructs import ExplicitBitVect
 from dgl import DGLGraph
 from .constants import *
 
+
+def explicit_bit_vect_to_array(bitvector):
+    """Convert a bit vector into an array
+
+    Parameters
+    ----------
+    bitvector: rdkit.DataStructs.cDataStructs
+        The struct of interest
+
+    Returns
+    -------
+    res: np.ndarray
+        array of binary elements
+    """
+    return np.array(list(map(int, bitvector.ToBitString())))
 
 def one_of_k_encoding(val, allowed_choices):
     """Converts a single value to a one-hot vector.
@@ -192,12 +217,9 @@ class MoleculeTransformer(TransformerMixin):
         features = []
         for i, mol in enumerate(mols):
             feat = []
-            try:
-                mol = self.to_mol(mol, **kwargs)
-                if mol:
-                    feat = self._transform(mol)
-            except:
-                pass
+            mol = self.to_mol(mol, **kwargs)
+            if mol:
+                feat = self._transform(mol)
             features.append(feat)
         if as_numpy:
             return np.array(features)
@@ -417,3 +439,95 @@ class DGLGraphTransformer(AdjGraphTransformer):
         graph.ndata["hv"] = totensor(np.asarray(atom_feats), gpu=torch.cuda.is_available())
         graph.edata["he"] = totensor(np.asarray(bond_feats), gpu=torch.cuda.is_available())
         return graph
+
+
+class FingerprintsTransformer(MoleculeTransformer):
+    """Molecule transformer into molecular fingerprint
+
+    Parameters
+    ----------
+    kind : {'global_properties', 'atom_pair', 'topological_torsion', 'morgan_circular',
+        'estate', 'avalon_bit', 'avalon_count', 'erg', 'rdkit', 'maccs'}, optional, default='global_properties'
+        Name of the fingerprinting technique used
+    length: int
+        Length of the fingerprint to use
+
+    Attributes
+    ----------
+    kind : str
+        Name of the fingerprinting technique used
+    length : int
+        Length of the fingerprint to use
+    fpfun : function
+        function to call to compute the fingerprint
+    """
+    mapping = OrderedDict(
+        global_properties=lambda x, params: augmented_mol_properties(x),
+        # physiochemical=lambda x: GetBPFingerprint(x),
+        atom_pair=lambda x, params: GetHashedAtomPairFingerprintAsBitVect(
+            x, **params),
+        topological_torsion=lambda x, params: GetHashedTopologicalTorsionFingerprintAsBitVect(
+            x, **params),
+        morgan_circular=lambda x, params: GetMorganFingerprintAsBitVect(
+            x, 2, **params),
+        estate=lambda x, params: FingerprintMol(x)[0],
+        avalon_bit=lambda x, params: GetAvalonFP(x, **params),
+        avalon_count=lambda x, params: GetAvalonCountFP(x, **params),
+        erg=lambda x, params: GetErGFingerprint(x),
+        rdkit=lambda x, params: RDKFingerprint(x, **params),
+        maccs=lambda x, params: GetMACCSKeysFingerprint(x)
+    )
+
+    def __init__(self, kind='global_properties', length=2000):
+        super(FingerprintsTransformer, self).__init__()
+        if not (isinstance(kind, str) and (kind in FingerprintsTransformer.mapping)):
+            raise ValueError("Argument kind must be in: " +
+                             ', '.join(FingerprintsTransformer.mapping.keys()))
+        self.kind = kind
+        self.length = length
+        self.fpfun = self.mapping.get(kind, None)
+        if not self.fpfun:
+            raise ValueError("Fingerprint {} is not offered".format(kind))
+        self._params = {}
+        self._params.update(
+            {('fpSize' if kind == 'rdkit' else 'nBits'): length})
+
+    def _transform(self, mol):
+        """Transform a molecule into a fingerprint vector
+
+        Parameters
+        ----------
+        mol: str or rdkit.Chem.Mol
+            The smiles of the molecule of interest or the molecule itself
+        Returns
+        -------
+        fp : np.ndarray
+            The computed fingerprint
+        """
+        if mol is None:
+            warnings.warn("None value received for argument mol")
+            fp = np.zeros(self.length)
+        else:
+            fp = self.fpfun(mol, self._params)
+        if isinstance(fp, ExplicitBitVect):
+            fp = explicit_bit_vect_to_array(fp)
+        else:
+            fp = np.array(list(fp))
+        return fp
+   
+
+    def transform(self, mols):
+        """Transform a batch of molecule into a fingerprint vectors
+
+        Parameters
+        ----------
+        X: (str or rdkit.Chem.Mol) list
+            The list of smiles or molecule
+
+        Returns
+        -------
+        fp : 2d np.ndarray
+            The computed fingerprint vectors
+        """
+        res = np.array(super(FingerprintsTransformer, self).transform(mols, as_numpy=True))
+        return res

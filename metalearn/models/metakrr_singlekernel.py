@@ -52,14 +52,16 @@ class MetaKrrSingleKernelNetwork(MetaNetwork):
                 raise NotImplementedError
             learner = KrrLearnerCV(l2s, self.kernel, dual=False, **kernels_params)
         else:
-            learner = KrrLearner(self.l2, self.kernel, dual=False, **self.kernel_params)
+            l2 = torch.clamp(self.l2, min=1e-3)
+            kp = {k: torch.clamp(self.kernel_params[k], min=1e-6) for k in self.kernel_params}
+            learner = KrrLearner(l2, self.kernel, dual=False, **kp)
         learner.fit(phis, y_train)
 
         # Testing part of the episode
         self.feature_extractor.eval()
         x_test, _ = episode['Dtest']
         n = len(x_test)
-        bsize = 64
+        bsize = 10
         res = torch.cat([learner(self.feature_extractor(x_test[i:i+bsize])) for i in range(0, n, bsize)])
 
         self.phis_norms.append(torch.norm(phis, dim=1))
@@ -87,7 +89,8 @@ class MetaKrrSingleKernelLearner(MetaLearnerRegression):
             res.update(dict(phis_norm=x))
             if self.model.regularize_phi:
                 loss = loss + x
-
+        res.update(dict(l2=self.model.l2))
+        res.update({k: self.model.kernel_params[k] for k in self.model.kernel_params})
         return loss, res
 
 if __name__ == '__main__':

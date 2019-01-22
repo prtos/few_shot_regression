@@ -58,7 +58,8 @@ class KrrLearner(torch.nn.Module):
         try:
             tmp = torch.inverse(K + self.l2 * I)
         except:
-            raise Exception("Inversion problem")
+            tmp = torch.inverse(K + I)
+            print("Inversion problem")
         self.alpha = torch.mm(tmp, y)
         self.phis_train = phis
         if not self.dual:

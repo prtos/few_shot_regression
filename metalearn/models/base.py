@@ -74,8 +74,8 @@ class MetaLearnerRegression(Model):
             self.model.is_eval = False
         self.is_eval = False
         self.steps_per_epoch = steps_per_epoch
-        callbacks = [EarlyStopping(patience=5, verbose=False),
-                     ReduceLROnPlateau(patience=5, factor=1/2, min_lr=1e-6, verbose=True),
+        callbacks = [EarlyStopping(patience=4, verbose=False),
+                     ReduceLROnPlateau(patience=2, factor=1/2, min_lr=1e-6, verbose=True),
                      BestModelRestore()]
         if log_filename:
             callbacks += [CSVLogger(log_filename, batch_granularity=False, separator='\t')]

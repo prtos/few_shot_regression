@@ -56,7 +56,7 @@ class MhcDataset(MetaRegressionDataset):
     def episode_loader(self, filename):
         data = np.loadtxt(filename, dtype=str, )
         x, y = data[:, 0], data[:, 1].astype(float).reshape((-1, 1))
-        return x, y
+        return x, y, None
 
     def get_sampling_weights(self):
         episode_sizes = np.log2([len(self.episode_loader(f)[0]) for f in self.tasks_filenames])
@@ -64,25 +64,28 @@ class MhcDataset(MetaRegressionDataset):
 
 
 class ChemblDataset(MetaRegressionDataset):
-    def __init__(self, *args, use_gcnn=True, **kwargs):
+    def __init__(self, *args, use_graph=True, **kwargs):
         super(ChemblDataset, self).__init__(*args, **kwargs)
         y_epsilon = 1e-7
-        if use_gcnn:
+        if use_graph:
             transformer = DGLGraphTransformer()
         else:
             transformer = SequenceTransformer(SMILES_ALPHABET, returnTensor=True)
         prot_transformer = SequenceTransformer(AMINO_ACID_ALPHABET)
-        x_transformer = lambda x: transformer.transform(x)
-        y_transformer = lambda y: torch.FloatTensor(np.log(y + y_epsilon))
-        task_descr_transformer = lambda z: None if z is None else prot_transformer.transform([z])[0] 
+        self.x_transformer = lambda x: transformer.transform(x)
+        self.y_transformer = lambda y: torch.FloatTensor(np.log(y + y_epsilon))
+        self.task_descr_transformer = lambda z: None if z is None else prot_transformer.transform([z])[0] 
 
     def episode_loader(self, filename):
         with open(filename, 'r') as f_in:
             f_in.readline() # reand and neglect the first line
             protein = f_in.readline()[:-1].upper()
-        data = pd.read_csv(filename, header=None, skiprows=2, delim_whitespace=True).values
+        data = pd.read_csv(filename, header=None, skiprows=2, delim_whitespace=True)
+        data = data.values
         x, y = data[:, 1], data[:, 2].astype('float').reshape((-1, 1))
-        return x, y, protein
+        scaler = MinMaxScaler()
+        y = scaler.fit_transform(y).astype('float32')
+        return x, y, None
 
     def get_sampling_weights(self):
         episode_sizes = np.array([len(self.episode_loader(f)[0]) for f in self.tasks_filenames])
@@ -133,11 +136,25 @@ def __get_partitions(dataset_cls, episode_files, batch_size, test_files=None,
     valid = dataset_cls(valid_files, **kwargs)
     test = dataset_cls(test_files, is_test=True, **kwargs)
     collate = lambda x: list(zip(*x))
+    # def collate(x):
+    #     # print(x)
+    #     print(len(x[0]))
+    #     print(x[0])
+    #     exit(222)
+    #     return list(zip(*x))
     train = DataLoader(train, batch_size=batch_size, collate_fn=collate, 
-                 sampler=WeightedRandomSampler(np.log(train.task_sizes()), len(train)))
+                    sampler=WeightedRandomSampler(np.log(train.task_sizes()), len(train)))
     test = DataLoader(test, batch_size=batch_size, collate_fn=collate)
     valid = DataLoader(valid, batch_size=batch_size, collate_fn=collate)
     return train, valid, test
+    # if 'raw_inputs' in kwargs and kwargs['raw_inputs']:
+    #     return train, valid, test
+    # else:
+    #     train = DataLoader(train, batch_size=batch_size, collate_fn=collate, 
+    #                 sampler=WeightedRandomSampler(np.log(train.task_sizes()), len(train)))
+    #     test = DataLoader(test, batch_size=batch_size, collate_fn=collate)
+    #     valid = DataLoader(valid, batch_size=batch_size, collate_fn=collate)
+    #     return train, valid, test
 
 
 def load_dataset(dataset_name, ds_folder=None, max_tasks=None, fold=None, **kwargs):

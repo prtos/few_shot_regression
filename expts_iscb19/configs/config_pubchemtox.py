@@ -1,33 +1,53 @@
 from sklearn.model_selection import ParameterGrid
-from metalearn.feature_extraction.transformers import SMILES_ALPHABET, MOL_ALPHABET, AMINO_ACID_ALPHABET
+from metalearn.feature_extraction.transformers import SMILES_ALPHABET, MOL_ALPHABET, AMINO_ACID_ALPHABET, DGLGraphTransformer
 
-use_graph_for_mol = False
+transformer_ = DGLGraphTransformer()
+dataset_name = 'pubchemtox'
+test = False
 
-shared_params = dict(
-    dataset_name=['pubchemtox'],
-    dataset_params=[dict(use_graph_for_mol=use_graph_for_mol, max_examples_per_episode=10, batch_size=32)],
-    fit_params=[dict(n_epochs=100, steps_per_epoch=250)],
-)
+if test:
+    shared_params_graph = dict(
+        dataset_name=[dataset_name],
+        dataset_params=[dict(use_graph=True, max_examples_per_episode=10, batch_size=32, max_tasks=100)],
+        fit_params=[dict(n_epochs=1, steps_per_epoch=5)],
+    )
 
-if use_graph_for_mol:
-    features_extractor_params = list(ParameterGrid(dict(
-        arch=['gcnn'],
-        vocab_size=[1+len(MOL_ALPHABET)],
-        embedding_size=[50],
-        kernel_sizes=[[512 for _ in range(4)]],
-        output_size=[1024],
-        normalize_features=[False])))
+    shared_params_smiles = dict(
+        dataset_name=[dataset_name],
+        dataset_params=[dict(use_graph=False, max_examples_per_episode=10, batch_size=32, max_tasks=100)],
+        fit_params=[dict(n_epochs=1, steps_per_epoch=5)],
+    )
 else:
-    features_extractor_params = list(ParameterGrid(dict(
-        arch=['cnn'],
-        vocab_size=[1+len(SMILES_ALPHABET)],
-        embedding_size=[20],
-        cnn_sizes=[[512 for _ in range(4)]],
-        kernel_size=[2],
-        dilatation_rate=[2],
-        pooling_len=[1],
-        use_bn=[False],
-        normalize_features=[False])))
+    shared_params_graph = dict(
+        dataset_name=[dataset_name],
+        dataset_params=[dict(use_graph=True, max_examples_per_episode=10, batch_size=32)],
+        fit_params=[dict(n_epochs=100, steps_per_epoch=500)],
+    )
+
+    shared_params_smiles = dict(
+        dataset_name=[dataset_name],
+        dataset_params=[dict(use_graph=False, max_examples_per_episode=10, batch_size=32)],
+        fit_params=[dict(n_epochs=100, steps_per_epoch=500)],
+    )
+
+features_extractor_params_graph = list(ParameterGrid(dict(
+    arch=['gcnn'],
+    implementation_name=['attn', 'gcn'], 
+    atom_dim=[transformer_.n_atom_feat], 
+    bond_dim=[transformer_.n_bond_feat],
+    hidden_size=[256], 
+    readout_size=[32],)))
+
+features_extractor_params_smiles = list(ParameterGrid(dict(
+    arch=['cnn'],
+    vocab_size=[1+len(SMILES_ALPHABET)],
+    embedding_size=[20],
+    cnn_sizes=[[256 for _ in range(2)]],
+    kernel_size=[2],
+    dilatation_rate=[2],
+    pooling_len=[1],
+    use_bn=[False],
+    normalize_features=[False])))
 
 
 task_descr_extractor_params = list(ParameterGrid(dict(
@@ -42,34 +62,63 @@ task_descr_extractor_params = list(ParameterGrid(dict(
     normalize_features=[False])))
 
 
-grid_metakrr_sk = dict(
-    model_name=['metakrr_sk'],
+def f_metakrr_sk(graph): 
+    return dict(
+        model_name=['metakrr_sk'],
+        model_params=list(ParameterGrid(dict(
+            l2=[0.1],
+            lr=[0.001],
+            do_cv=[True, False],
+            kernel=['linear', 'rbf'],
+            feature_extractor_params=features_extractor_params_graph if graph else features_extractor_params_smiles,
+        ))),
+        **(shared_params_graph if graph else shared_params_smiles)
+    )
+
+
+def f_maml(graph):
+    return dict(
+        model_name=['maml'],
+        model_params=list(ParameterGrid(dict(
+            lr_learner=[0.01],
+            n_epochs_learner=[1, 3],
+            feature_extractor_params=features_extractor_params_graph if graph else features_extractor_params_smiles,
+        ))),
+        **(shared_params_graph if graph else shared_params_smiles)
+    )
+
+
+def f_mann(graph): 
+    return dict(
+        model_name=['mann'],
+        model_params=list(ParameterGrid(dict(
+            memory_shape=[(128, 40), (64, 40)],
+            controller_size=[200, 100],
+            feature_extractor_params=features_extractor_params_graph if graph else features_extractor_params_smiles,
+        ))),
+        **(shared_params_graph if graph else shared_params_smiles)
+    )
+
+import copy
+s_copy = copy.deepcopy(shared_params_graph)
+s_copy['dataset_params'][0].update(dict(raw_inputs=True))
+fingerprint = dict(
+    model_name=['fingerprint'],
     model_params=list(ParameterGrid(dict(
-        l2=[0.1],
-        lr=[0.001],
-        feature_extractor_params=features_extractor_params,
+        algo=['rf'],
+        fp=['morgan_circular'],
     ))),
-    **shared_params
+    **s_copy
 )
 
-
-grid_maml = dict(
-    model_name=['maml'],
-    model_params=list(ParameterGrid(dict(
-        lr_learner=[0.01],
-        n_epochs_learner=[1, 3],
-        feature_extractor_params=features_extractor_params,
-    ))),
-    **shared_params
-)
-
-
-grid_mann = dict(
-    model_name=['mann'],
-    model_params=list(ParameterGrid(dict(
-        memory_shape=[(128, 40), (64, 40)],
-        controller_size=[200, 100],
-        feature_extractor_params=features_extractor_params,
-    ))),
-    **shared_params
-)
+if test:
+    metakrr_sk = f_metakrr_sk(False)
+    maml = f_maml(False)
+    mann = f_mann(False)
+else:
+    metakrr_sk = f_metakrr_sk(False)
+    maml = f_maml(False)
+    mann = f_mann(False)
+    # metakrr_sk = [f_metakrr_sk(True), f_metakrr_sk(False)]
+    # maml = [f_maml(True), f_maml(False)]
+    # mann = [f_mann(True), f_mann(False)]

@@ -41,14 +41,25 @@ def set_params(module, new_params, prefix=''):
     :param prefix: default '', otherwise the name of the module
     :return:
     """
-    module._parameters = OrderedDict((name, new_params[prefix + ('.' if prefix else '') + name])
-                                     for name, _ in module._parameters.items())
+    # print(new_params.keys())
+    # print('-------------------------------------------')
+    # print(module._parameters)
+    # print(list(module.named_parameters()))
+    # print([prefix + ('.' if prefix != '' else '') + name for name in module._parameters.keys()])
+    # exit(876)
+    module._parameters = OrderedDict((name, new_params[prefix + ('.' if prefix != '' else '') + name])
+                                     for name, _ in module.named_parameters())
+    # for name in module._parameters.keys():
+    #     print(prefix + ('.' if prefix else '') + name)
+
+    # exit(345)
+    # print(
+    #     OrderedDict((name, new_params[prefix + ('.' if prefix else '') + name]) 
+    #         for name, _ in module._parameters.items())
+    # # )
     for mname, submodule in module.named_children():
         submodule_prefix = prefix + ('.' if prefix else '') + mname
         set_params(submodule, new_params, submodule_prefix)
-
-
-
 
 
 def reset_BN_stats(module):
@@ -60,7 +71,6 @@ def reset_BN_stats(module):
     for module in module.modules():
         if isinstance(module, (torch.nn.BatchNorm1d, torch.nn.BatchNorm2d, torch.nn.BatchNorm3d))\
                 and module.track_running_stats:
-            # pass
             module.running_mean = torch.zeros_like(module.running_mean)
             module.running_var = torch.ones_like(module.running_var)
 

@@ -1,3 +1,5 @@
+from metalearn.models.factory import ModelFactory
+
 class ConfigFactory:
     def __init__(self):
         super(ConfigFactory, self).__init__()
@@ -17,10 +19,10 @@ class ConfigFactory:
             raise Exception("Dataset {} is not found".format(dataset_name))
 
         cfg_content = vars(cfg)
+
         algo_params = {
-            cfg_content[var_name]['model_name'][0]: cfg_content[var_name] 
+            var_name: cfg_content[var_name] 
             for var_name in cfg_content 
-            if isinstance(cfg_content[var_name], dict) and 
-            'model_name' in cfg_content[var_name]
+            if var_name in list(ModelFactory.name_map.keys())
             }
         return algo_params

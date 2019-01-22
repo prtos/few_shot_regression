@@ -2,6 +2,10 @@
 /home/prtos/workspace/code/phd/few_shot_regression/metalearn
 /home/prtos/workspace/code/phd/few_shot_regression/install.sh
 /home/prtos/workspace/code/phd/few_shot_regression/setup.py
-/home/prtos/workspace/code/phd/few_shot_regression/expts_icsb19/config.json
-/home/prtos/workspace/code/phd/few_shot_regression/expts_icsb19/expts_utils.py
-/home/prtos/workspace/code/phd/few_shot_regression/expts_icsb19/train
+/home/prtos/workspace/code/phd/few_shot_regression/expts_iscb19/config_krr.json
+/home/prtos/workspace/code/phd/few_shot_regression/expts_iscb19/config_mann.json
+/home/prtos/workspace/code/phd/few_shot_regression/expts_iscb19/config_maml.json
+/home/prtos/workspace/code/phd/few_shot_regression/expts_iscb19/config_fp.json
+/home/prtos/workspace/code/phd/few_shot_regression/expts_iscb19/config_s2s.json
+/home/prtos/workspace/code/phd/few_shot_regression/expts_iscb19/expts_utils.py
+/home/prtos/workspace/code/phd/few_shot_regression/expts_iscb19/train

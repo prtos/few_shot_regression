@@ -28,6 +28,8 @@ import pickle
 import sys
 import traceback
 import argparse
+import torch
+import numpy as np
 from sklearn.model_selection import ParameterGrid
 from expts_utils import run_experiment
 
@@ -61,8 +63,9 @@ def main(config_file, input_path, output_path):
         # A non-zero exit code causes the training job to be marked as Failed.
         sys.exit(255)
 
-
 if __name__ == '__main__':
+    np.random.seed(42)
+    torch.manual_seed(42)
     # These are the paths where SageMaker mounts interesting things in your container.
     # by default we assume that only one channel of input data will be used and its name will be training.
     prefix = '/opt/ml/'
