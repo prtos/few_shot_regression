@@ -172,6 +172,37 @@ class MetaQSARdatatset(MetaRegressionDataset):
         return self.tasks_filenames
 
 
+class PubChemdatatset(MetaRegressionDataset):
+    def __init__(self, *args, **kwargs):
+        super(MetaQSARdatatset, self).__init__(*args, **kwargs)
+        y_epsilon = 1e-7
+        self.x_transformer = featurize_smiles
+        self.y_transformer = lambda y: y
+
+    def __getitem__(self, ind):
+        filename = self.tasks_filenames[ind % len(self.tasks_filenames)]
+        taskname = self.file2tasks.get(filename)
+        if taskname:
+            return self.get_task(filename)
+        with open(filename, 'r') as f_in:
+            protein = f_in.readline().split()[0].upper()
+            # measurement = f_in.readline()
+        data = pd.read_csv(filename, header=None, skiprows=1,
+                           delim_whitespace=True).values
+        #print(data[:10, 0])
+        x, y = data[:, 1], data[:, 2].astype('float').reshape((-1, 1))
+        x, inds = self.x_transformer(x)
+        y = self.y_transformer(y)
+        y = y[inds, :]
+        self.dataset[protein] = to_numpy_dataset(x, y)
+        self.file2tasks[filename] = protein
+        return self.dataset[protein]
+
+    def get_task_list(self):
+        return self.tasks_filenames
+
+
+
 def __get_partitions(dscls, episode_files, test_size=0.25, valid_size=0.25, **kwargs):
     train_files, test_files = train_test_split(
         episode_files, test_size=test_size)

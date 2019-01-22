@@ -1,0 +1,24 @@
+#!/usr/bin/env python
+import os
+import json
+import sys
+import traceback
+from metalearn.low_data import deepchem_utils
+def train():
+    # These are the paths to where SageMaker mounts interesting things the container.
+    prefix = '/opt/ml/'
+    model_path = os.path.join(prefix, 'model')
+    param_path = os.path.join(prefix, 'input/config/hyperparameters.json')
+    params = {}
+    try:
+        with open(param_path, 'r') as tc:
+            params = json.load(tc)
+            print("Launching with {}".format(params))
+    except:
+        pass
+    deepchem_utils.run_model(params, output=model_path, data_path=None)
+
+
+
+if __name__ == '__main__':
+    train()
