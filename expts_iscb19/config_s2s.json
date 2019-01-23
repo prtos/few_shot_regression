@@ -1,0 +1,168 @@
+[
+  {
+    "dataset_name": [
+      "pubchemtox"
+    ],
+    "dataset_params": [
+      {
+        "batch_size": 32,
+        "max_examples_per_episode": 10,
+        "use_graph": true
+      }
+    ],
+    "fit_params": [
+      {
+        "n_epochs": 100,
+        "steps_per_epoch": 500
+      }
+    ],
+    "model_name": [
+      "seqtoseq"
+    ],
+    "model_params": [
+      {
+        "decoder_layers": 2,
+        "dropout": 0.1,
+        "embedding_dim": 256,
+        "encoder_layers": 2
+      }
+    ]
+  },
+  {
+    "dataset_name": [
+      "chembl"
+    ],
+    "dataset_params": [
+      {
+        "batch_size": 32,
+        "max_examples_per_episode": 10,
+        "use_graph": true
+      }
+    ],
+    "fit_params": [
+      {
+        "n_epochs": 100,
+        "steps_per_epoch": 500
+      }
+    ],
+    "model_name": [
+      "seqtoseq"
+    ],
+    "model_params": [
+      {
+        "decoder_layers": 2,
+        "dropout": 0.1,
+        "embedding_dim": 256,
+        "encoder_layers": 2
+      }
+    ]
+  },
+  {
+    "dataset_name": [
+      "mhc"
+    ],
+    "dataset_params": [
+      {
+        "batch_size": 32,
+        "fold": 0,
+        "max_examples_per_episode": 10,
+        "max_tasks": null
+      },
+      {
+        "batch_size": 32,
+        "fold": 1,
+        "max_examples_per_episode": 10,
+        "max_tasks": null
+      },
+      {
+        "batch_size": 32,
+        "fold": 2,
+        "max_examples_per_episode": 10,
+        "max_tasks": null
+      },
+      {
+        "batch_size": 32,
+        "fold": 3,
+        "max_examples_per_episode": 10,
+        "max_tasks": null
+      },
+      {
+        "batch_size": 32,
+        "fold": 4,
+        "max_examples_per_episode": 10,
+        "max_tasks": null
+      },
+      {
+        "batch_size": 32,
+        "fold": 5,
+        "max_examples_per_episode": 10,
+        "max_tasks": null
+      },
+      {
+        "batch_size": 32,
+        "fold": 6,
+        "max_examples_per_episode": 10,
+        "max_tasks": null
+      },
+      {
+        "batch_size": 32,
+        "fold": 7,
+        "max_examples_per_episode": 10,
+        "max_tasks": null
+      },
+      {
+        "batch_size": 32,
+        "fold": 8,
+        "max_examples_per_episode": 10,
+        "max_tasks": null
+      },
+      {
+        "batch_size": 32,
+        "fold": 9,
+        "max_examples_per_episode": 10,
+        "max_tasks": null
+      },
+      {
+        "batch_size": 32,
+        "fold": 10,
+        "max_examples_per_episode": 10,
+        "max_tasks": null
+      },
+      {
+        "batch_size": 32,
+        "fold": 11,
+        "max_examples_per_episode": 10,
+        "max_tasks": null
+      },
+      {
+        "batch_size": 32,
+        "fold": 12,
+        "max_examples_per_episode": 10,
+        "max_tasks": null
+      },
+      {
+        "batch_size": 32,
+        "fold": 13,
+        "max_examples_per_episode": 10,
+        "max_tasks": null
+      }
+    ],
+    "fit_params": [
+      {
+        "n_epochs": 100,
+        "steps_per_epoch": 500
+      }
+    ],
+    "model_name": [
+      "seqtoseq"
+    ],
+    "model_params": [
+      {
+        "decoder_layers": 2,
+        "dropout": 0.1,
+        "embedding_dim": 256,
+        "encoder_layers": 2
+      }
+    ]
+  }
+]
