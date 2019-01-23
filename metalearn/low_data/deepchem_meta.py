@@ -15,7 +15,7 @@ from deepchem.data import pad_batch
 from deepchem.data import NumpyDataset
 from deepchem.models.tf_new_models.graph_topology import merge_dicts
 from deepchem.nn import model_ops
-from data_loader import SupportGenerator, EpisodeGenerator
+from metalearn.low_data.data_loader import SupportGenerator, EpisodeGenerator
 from collections import defaultdict as ddict
 from tensorboardX import SummaryWriter
 
@@ -285,7 +285,7 @@ class MetaGraphRegressor(Model):
             for taskind in test_tasks:
                 task = task2name[taskind]
                 mean_task_scores[metkey][task] = np.mean(
-                    np.array(task_scores[task]))
+                    np.array(task_scores[metkey][task]))
                 std_task_scores[metkey][task] = np.std(
-                    np.array(task_scores[task]))
+                    np.array(task_scores[metkey][task]))
         return mean_task_scores, std_task_scores

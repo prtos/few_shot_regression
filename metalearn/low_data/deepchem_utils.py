@@ -7,12 +7,12 @@ from __future__ import unicode_literals
 
 import numpy as np
 import deepchem as dc
-import tensorflow as tf
-from deepchem_meta import MetaGraphRegressor
-from data_loader import load_dataset
+from metalearn.low_data.deepchem_meta import MetaGraphRegressor
+from metalearn.low_data.data_loader import load_dataset
+import pickle
+import os
 
-
-def get_model(name='lstm', test_size=10, train_size=10, max_depth=3, lr=1e-3, tboard='.logs/', n_feat=75):
+def get_model(name='lstm', test_size=10, train_size=10, max_depth=3, lr=1e-4, tboard='.logs/', n_feat=75):
     """
         Builds an return a regressor model, extending the work of 
         See https://arxiv.org/pdf/1606.04080v1.pdf.
@@ -55,22 +55,29 @@ def get_model(name='lstm', test_size=10, train_size=10, max_depth=3, lr=1e-3, tb
         learning_rate=lr)
     return model
 
-
-if __name__ == '__main__':
-    nb_epochs = 50
-    n_train_trials = 100
-    n_eval_trials = 10
-    log_every = 30
-    max_tasks = 100
-    model = get_model('siamese', test_size=5, train_size=5, tboard="./logs/siamese")
+def run_model(params, output, data_path):
+    dtname = params.get('dataset', 'metaqsar')
+    nb_epochs = int(params.get('epoch', 10))
+    n_train_trials = int(params.get('train_episodes', 100))
+    n_eval_trials = int(params.get('test_episodes', 100))
+    log_every = int(params.get('log_every', 100))
+    test_size = int(params.get('test_size', 5))
+    train_size = int(params.get('train_size', 5))
+    name = params.get('name', 'lstm')
+    tboard = os.path.join(output, "logs/{}".format(name))
+    max_tasks = int(params.get('max_tasks', 0))
+    min_size = int(params.get('min_size', 0))
+    if not max_tasks:
+        max_tasks = None
+    model = get_model(test_size=test_size, train_size=train_size, tboard=tboard)
     metrics = dict(
         r2=dc.metrics.Metric(dc.metrics.pearson_r2_score,
                              mode="regression", verbose=False),
         rms=dc.metrics.Metric(dc.metrics.rms_score,
                               mode="regression", verbose=False)
     )
-    np.random.seed(42)
-    train, test = load_dataset('metaqsar', max_tasks=max_tasks)
+
+    train, test = load_dataset(dtname, max_tasks=max_tasks, min_size=min_size)
     model.fit(train,
               nb_epochs=nb_epochs,
               n_episodes_per_epoch=n_train_trials,
@@ -78,6 +85,11 @@ if __name__ == '__main__':
     # this contains the mean score per task using n_eval_trials
     mean_scores, std_scores = model.evaluate(
         test, metrics, n_trials=n_eval_trials)
+
+
+    with open(os.path.join(output, "score_{}_{}_{}_{}.pkl".format(name, dtname, train_size, test_size)), 'wb') as out_file:
+        pickle.dump({'score':mean_scores, 'std':std_scores}, out_file, protocol=4)
+
     for name in metrics.keys():
         print('==> Using metric {}'.format(name))
         # Train support model on train
@@ -85,3 +97,7 @@ if __name__ == '__main__':
         print("\t", mean_scores[name])
         print("\tStandard Deviations on evaluation dataset")
         print("\t", std_scores[name])
+
+
+if __name__ == '__main__':
+    run_model({'max_tasks':100, 'dataset':'metaqsar', 'train_size':5, 'test_size':5}, './', None)

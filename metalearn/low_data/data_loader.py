@@ -11,19 +11,23 @@ import deepchem as dc
 import logging
 import pandas as pd
 from deepchem.data import NumpyDataset
-from os.path import dirname, realpath, join
+from os import path
 from os import listdir
 from sklearn.model_selection import train_test_split
 from rdkit.Chem import rdmolfiles
 from rdkit.Chem import rdmolops
 from rdkit import Chem
+import json
 
 logger = logging.getLogger(__name__)
-DATASETS_ROOT = join(dirname(dirname(dirname(realpath(__file__)))), 'datasets')
+DATASETS_ROOT = path.join(path.dirname(path.dirname(
+    path.dirname(path.realpath(__file__)))), 'datasets')
 
-def count_lines(filename, offset):
+
+def count_lines(filename, offset=1):
     nlines = sum(1 for i in open(filename, 'rb') if i.strip())
     return nlines - offset
+
 
 def to_numpy_dataset(X, y, w=None, ids=None):
     """Converts dataset to numpy dataset."""
@@ -49,7 +53,7 @@ def featurize_smiles(arr):
 
 
 class MetaRegressionDataset:
-    def __init__(self, tasks_filenames, x_transformer=None, y_transformer=None, seed=42):
+    def __init__(self, tasks_filenames, x_transformer=None, y_transformer=None, seed=42, root_folder=DATASETS_ROOT):
         super(MetaRegressionDataset, self).__init__()
         self.tasks_filenames = tasks_filenames[:]
         self.x_transformer = x_transformer
@@ -57,6 +61,7 @@ class MetaRegressionDataset:
         self.rgn = np.random.RandomState(seed)
         self.file2tasks = {}
         self.dataset = {}
+        self.root_folder = root_folder
 
     def get_sampling_weights(self):
         episode_sizes = np.array([len(self.get_task(t))
@@ -181,18 +186,18 @@ class PubChemdatatset(MetaQSARdatatset):
         taskname = self.file2tasks.get(filename)
         if taskname:
             return self.get_task(filename)
-        with open(filename, 'r') as f_in:
-            protein = f_in.readline().split()[0].upper()
+        dirname, fname =  path.split(path.normpath(filename))
+        taskname = path.join(dirname.strip(self.root_folder), fname)
             # measurement = f_in.readline()
         data = pd.read_csv(filename, header=None, skiprows=1).values
         #print(data[:10, 0])
-        x, y = data[:, 0], data[:,1].astype('float').reshape((-1, 1))
+        x, y = data[:, 0], data[:, 1].astype('float').reshape((-1, 1))
         x, inds = self.x_transformer(x)
         y = self.y_transformer(y)
         y = y[inds, :]
-        self.dataset[protein] = to_numpy_dataset(x, y)
-        self.file2tasks[filename] = protein
-        return self.dataset[protein]
+        self.dataset[taskname] = to_numpy_dataset(x, y)
+        self.file2tasks[filename] = taskname
+        return self.dataset[taskname]
 
 
 def __get_partitions(episode_files, test_size, **kwargs):
@@ -212,19 +217,20 @@ def load_dataset(dataset_name, ds_folder=None, max_tasks=None, test_size=0.25, m
         raise Exception(f"Unhandled dataset. The name of \
             the dataset should be one of those: {list(maps.keys())}")
     folder, ext, dscls = maps[dataset_name]
-    ds_folder = join((ds_folder or DATASETS_ROOT), folder)
-    jfile = os.path.join(ds_folder, folder+".json")
-    if os.path.exists(jfile):
-        dt = json.load(open(jfile)) 
-        train_files =  dt['Dtrain']
-        test_files = dt['Dtest']
+    ds_folder = path.join(DATASETS_ROOT, (ds_folder or ''), folder)
+    jfile = path.join(ds_folder, folder+".json")
+    if path.exists(jfile):
+        dt = json.load(open(jfile))
+        train_files = [path.join(DATASETS_ROOT, x) for x in dt['Dtrain']]
+        test_files = [path.join(DATASETS_ROOT, x) for x in dt['Dtest']]
     else:
-        files = [join(ds_folder, x) for x in listdir(ds_folder)
-             if x.endswith(ext)][:max_tasks]
-        train_files, test_files = __get_partitions(files, test_size=test_size, **kwargs)
-    if min_size: # I am allowed to do this since the number of sample with less than 20 
-        train_files = [f for f in train_files if count_lines(f)> min_size]
-        test_files = [f for f in test_files if count_lines(f)> min_size]
+        files = [os.path.join(par, f) for par, _, fn in os.walk(
+            os.path.expanduser(ds_folder)) for f in fn if f.endswith(ext)][:max_tasks]
+        train_files, test_files = __get_partitions(
+            files, test_size=test_size, **kwargs)
+    if min_size:  # I am allowed to do this since the number of sample with less than 20
+        train_files = [f for f in train_files if count_lines(f) > min_size]
+        test_files = [f for f in test_files if count_lines(f) > min_size]
     train = dscls(train_files, **kwargs)
     test = dscls(test_files, **kwargs)
     return train, test
