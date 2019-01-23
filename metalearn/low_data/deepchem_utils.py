@@ -12,7 +12,7 @@ from deepchem_meta import MetaGraphRegressor
 from data_loader import load_dataset
 
 
-def get_model(name='lstm', test_size=10, train_size=10, max_depth=3, lr=1e-4, tboard='.logs/', n_feat=75):
+def get_model(name='lstm', test_size=10, train_size=10, max_depth=3, lr=1e-3, tboard='.logs/', n_feat=75):
     """
         Builds an return a regressor model, extending the work of 
         See https://arxiv.org/pdf/1606.04080v1.pdf.
@@ -69,8 +69,8 @@ if __name__ == '__main__':
         rms=dc.metrics.Metric(dc.metrics.rms_score,
                               mode="regression", verbose=False)
     )
-
-    train, valid, test = load_dataset('metaqsar', max_tasks=max_tasks)
+    np.random.seed(42)
+    train, test = load_dataset('metaqsar', max_tasks=max_tasks)
     model.fit(train,
               nb_epochs=nb_epochs,
               n_episodes_per_epoch=n_train_trials,

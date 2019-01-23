@@ -48,10 +48,15 @@ def count(path, ext, outfile, offset, std_dev, nbins):
     files = [os.path.join(par, f) for par, _, fn in os.walk(
         os.path.expanduser(path)) for f in fn if f.endswith(ext)]
     size_dist = np.asarray([get_lines(f, offset) for f in files])
+    # idx = np.argpartition(size_dist, 3)
+    # idx = np.unique(size_dist[idx])
+    # for i in idx:
+    #     print(i, np.sum(size_dist==i))
     if std_dev:
         med = np.mean(size_dist)
         std = np.std(size_dist)
         size_dist = size_dist[(size_dist - med - std_dev*std)<0]
+    print(len(size_dist))
     sns.set_style('ticks')
     plt.hist(size_dist, bins=nbins)
     plt.xlabel('Number of compounds')

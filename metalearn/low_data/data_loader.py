@@ -21,6 +21,9 @@ from rdkit import Chem
 logger = logging.getLogger(__name__)
 DATASETS_ROOT = join(dirname(dirname(dirname(realpath(__file__)))), 'datasets')
 
+def count_lines(filename, offset):
+    nlines = sum(1 for i in open(filename, 'rb') if i.strip())
+    return nlines - offset
 
 def to_numpy_dataset(X, y, w=None, ids=None):
     """Converts dataset to numpy dataset."""
@@ -145,7 +148,6 @@ class MetaRegressionDataset:
 class MetaQSARdatatset(MetaRegressionDataset):
     def __init__(self, *args, **kwargs):
         super(MetaQSARdatatset, self).__init__(*args, **kwargs)
-        y_epsilon = 1e-7
         self.x_transformer = featurize_smiles
         self.y_transformer = lambda y: y
 
@@ -172,12 +174,7 @@ class MetaQSARdatatset(MetaRegressionDataset):
         return self.tasks_filenames
 
 
-class PubChemdatatset(MetaRegressionDataset):
-    def __init__(self, *args, **kwargs):
-        super(MetaQSARdatatset, self).__init__(*args, **kwargs)
-        y_epsilon = 1e-7
-        self.x_transformer = featurize_smiles
-        self.y_transformer = lambda y: y
+class PubChemdatatset(MetaQSARdatatset):
 
     def __getitem__(self, ind):
         filename = self.tasks_filenames[ind % len(self.tasks_filenames)]
@@ -187,10 +184,9 @@ class PubChemdatatset(MetaRegressionDataset):
         with open(filename, 'r') as f_in:
             protein = f_in.readline().split()[0].upper()
             # measurement = f_in.readline()
-        data = pd.read_csv(filename, header=None, skiprows=1,
-                           delim_whitespace=True).values
+        data = pd.read_csv(filename, header=None, skiprows=1).values
         #print(data[:10, 0])
-        x, y = data[:, 1], data[:, 2].astype('float').reshape((-1, 1))
+        x, y = data[:, 0], data[:,1].astype('float').reshape((-1, 1))
         x, inds = self.x_transformer(x)
         y = self.y_transformer(y)
         y = y[inds, :]
@@ -198,37 +194,40 @@ class PubChemdatatset(MetaRegressionDataset):
         self.file2tasks[filename] = protein
         return self.dataset[protein]
 
-    def get_task_list(self):
-        return self.tasks_filenames
 
-
-
-def __get_partitions(dscls, episode_files, test_size=0.25, valid_size=0.25, **kwargs):
+def __get_partitions(episode_files, test_size, **kwargs):
     train_files, test_files = train_test_split(
         episode_files, test_size=test_size)
-    train_files, valid_files = train_test_split(
-        train_files, test_size=valid_size)
     # get, train, valid, test data
-    train = dscls(train_files, **kwargs)
-    valid = dscls(valid_files, **kwargs)
-    test = dscls(test_files, **kwargs)
-    return train, valid, test
+    return train_files, test_files
 
 
-def load_dataset(dataset_name, ds_folder=None, max_tasks=None, **kwargs):
+def load_dataset(dataset_name, ds_folder=None, max_tasks=None, test_size=0.25, min_size=10, **kwargs):
     maps = dict(
-        metaqsar=('metaqsar', '.tsv', MetaQSARdatatset)
-    )
+        metaqsar=('chembl', '.tsv', MetaQSARdatatset),
+        pubchem=('pubchemtox', '.csv', PubChemdatatset)
 
+    )
     if dataset_name not in maps:
         raise Exception(f"Unhandled dataset. The name of \
             the dataset should be one of those: {list(maps.keys())}")
     folder, ext, dscls = maps[dataset_name]
-    if ds_folder is None:
-        ds_folder = join(DATASETS_ROOT, folder)
-    files = [join(ds_folder, x) for x in listdir(ds_folder)
+    ds_folder = join((ds_folder or DATASETS_ROOT), folder)
+    jfile = os.path.join(ds_folder, folder+".json")
+    if os.path.exists(jfile):
+        dt = json.load(open(jfile)) 
+        train_files =  dt['Dtrain']
+        test_files = dt['Dtest']
+    else:
+        files = [join(ds_folder, x) for x in listdir(ds_folder)
              if x.endswith(ext)][:max_tasks]
-    return __get_partitions(dscls, files, **kwargs)
+        train_files, test_files = __get_partitions(files, test_size=test_size, **kwargs)
+    if min_size: # I am allowed to do this since the number of sample with less than 20 
+        train_files = [f for f in train_files if count_lines(f)> min_size]
+        test_files = [f for f in test_files if count_lines(f)> min_size]
+    train = dscls(train_files, **kwargs)
+    test = dscls(test_files, **kwargs)
+    return train, test
 
 
 class EpisodeGenerator(object):
