@@ -41,4 +41,5 @@ if __name__ == '__main__':
     main(['pubchemtox', 'chembl', 'mhc'], ['maml'], 'config_maml.json')
     main(['pubchemtox', 'chembl'], ['fingerprint'], 'config_fp.json')
     main(['pubchemtox', 'chembl', 'mhc'], ['metakrr_sk'], 'config_krr.json')
-    # main(['pubchemtox', 'chembl', 'mhc'], ['seq2seq'], 'config_s2s.json')
+    main(['pubchemtox', 'chembl', 'mhc'], ['seqtoseq'], 'config_s2s.json')
+    # main(['mhc'], ['seqtoseq'], 'config_s2s.json')

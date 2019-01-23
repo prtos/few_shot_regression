@@ -1,134 +1,136 @@
 import torch
 import numpy as np
 import torch.nn.functional as F
+import deepchem as dc
+import deepchem.models.tensorgraph.optimizers as dcopt
+import logging
+from torch.nn.utils.rnn import pack_padded_sequence
 from torch import nn
 from torch.optim import Adam
 from pytoune.framework import Model
+from sklearn.model_selection import GridSearchCV
 from .base import MetaLearnerRegression, FeaturesExtractorFactory, MetaNetwork
 from .krr import KrrLearner, KrrLearnerCV
 from .utils import reset_BN_stats, to_unit
+from .fp_learner import algos_classes, algos_grid
 
-SOS_token = 0
-EOS_token = 1
+logger = logging.getLogger('deepchem.models.tensorgraph.tensor_graph')
+logger.setLevel(logging.DEBUG)
+# Add a console handler
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+formatter = logging.Formatter(
+    '%(asctime)s - %(message)s')
+ch.setFormatter(formatter)
+logger.addHandler(ch)
 
-class EncoderRNN(nn.Module):
-    def __init__(self, input_size, hidden_size):
-        super(EncoderRNN, self).__init__()
-        self.hidden_size = hidden_size
-
-        self.embedding = nn.Embedding(input_size, hidden_size)
-        self.gru = nn.GRU(hidden_size, hidden_size)
-
-    def forward(self, input, hidden):
-        embedded = self.embedding(input).view(1, 1, -1)
-        output = embedded
-        output, hidden = self.gru(output, hidden)
-        return output, hidden
-
-    def initHidden(self):
-        return torch.zeros(1, 1, self.hidden_size, device=device)
+def generate_sequences(data, epochs):
+    for i in range(epochs):
+        for s in data:
+            yield (s, s)
 
 
-class AttnDecoderRNN(nn.Module):
-    def __init__(self, hidden_size, output_size, dropout_p=0.1, max_length=MAX_LENGTH):
-        super(AttnDecoderRNN, self).__init__()
-        self.hidden_size = hidden_size
-        self.output_size = output_size
-        self.dropout_p = dropout_p
-        self.max_length = max_length
+MAX_LENGTH = 300
 
-        self.embedding = nn.Embedding(self.output_size, self.hidden_size)
-        self.attn = nn.Linear(self.hidden_size * 2, self.max_length)
-        self.attn_combine = nn.Linear(self.hidden_size * 2, self.hidden_size)
-        self.dropout = nn.Dropout(self.dropout_p)
-        self.gru = nn.GRU(self.hidden_size, self.hidden_size)
-        self.out = nn.Linear(self.hidden_size, self.output_size)
+def train_seqtoseq(train_data, embedding_dimension, tokens, max_length, encoder_layers=1, 
+                 decoder_layers=1, dropout=0.1, tb_folder='fingerprint', 
+                 batch_size=32, n_epochs=100, steps_per_epoch=None):
+        train_generator = generate_sequences(train_data, n_epochs)
+        model = dc.models.SeqToSeq(tokens, tokens, max_length,
+                                    encoder_layers=encoder_layers,
+                                    decoder_layers=decoder_layers,
+                                    embedding_dimension=embedding_dimension,
+                                    batch_size=batch_size,
+                                    verbose=True,
+                                    tensorboard=True, 
+                                    tensorboard_log_frequency=1,
+                                    model_dir=tb_folder)
+        if steps_per_epoch is None:
+            steps_per_epoch = len(train_data)/model.batch_size 
 
-    def forward(self, input, hidden, encoder_outputs):
-        embedded = self.embedding(input).view(1, 1, -1)
-        embedded = self.dropout(embedded)
+        model.set_optimizer(
+            dcopt.Adam(learning_rate=dcopt.ExponentialDecay(0.004, 0.95, steps_per_epoch)))
+        model.fit_sequences(train_generator, checkpoint_interval=steps_per_epoch)
+        return model
 
-        attn_weights = F.softmax(
-            self.attn(torch.cat((embedded[0], hidden[0]), 1)), dim=1)
-        attn_applied = torch.bmm(attn_weights.unsqueeze(0),
-                                 encoder_outputs.unsqueeze(0))
+def filter_long(x, y):
+    res = list(zip(*[(a, b) for a, b in zip(x, y) if len(a) <= MAX_LENGTH]))
+    return np.array(res[0]), np.array((res[1]))
 
-        output = torch.cat((embedded[0], attn_applied[0]), 1)
-        output = self.attn_combine(output).unsqueeze(0)
+def fit_and_eval(model_seq2seq, episode, algo):
+    x_train, y_train = filter_long(*episode['Dtrain'])
+    x_train = model_seq2seq.predict_embeddings(x_train)
+    x_test, y_test = filter_long(*episode['Dtest'])
+    x_test = model_seq2seq.predict_embeddings(x_test)
+    train_size = len(x_train)
+    model_cls = algos_classes[algo]
+    param_grid = algos_grid[algo]
+    model = model_cls(**param_grid)
+    if algo in ["gb", "rf"]:
+        model = model_cls(**param_grid)
+    else:
+        model = GridSearchCV(model_cls(), param_grid, cv=train_size, refit=True, n_jobs=-1)
+    model.fit(x_train, y_train.ravel())
+    return y_test, model.predict(x_test)
+        
 
-        output = F.relu(output)
-        output, hidden = self.gru(output, hidden)
+class Seq2SeqLearner:
+    def __init__(self, embedding_dim, encoder_layers=1, decoder_layers=1, dropout=0.0, algo='gb'):
+        self.embedding_dim=embedding_dim
+        self.encoder_layers=encoder_layers
+        self.decoder_layers=decoder_layers
+        self.dropout=dropout
+        self.algo = algo
 
-        output = F.log_softmax(self.out(output[0]), dim=1)
-        return output, hidden, attn_weights
-
-    def initHidden(self):
-        return torch.zeros(1, 1, self.hidden_size, device=device)
-
-
-class SeqtoseqFPNetwork(MetaNetwork):
-    def __init__(self, vocab_size, hidden_size, teacher_forcing_ratio, dropout_p=0.1):
-        super(SeqtoseqFPNetwork, self).__init__()
-        self.encoder = EncoderRNN(vocab_size, hidden_size)
-        self.decoder = AttnDecoderRNN(hidden_size, vocab_size, dropout_p=dropout_p)
-        self.teacher_forcing_ratio = teacher_forcing_ratio
-
-    def forward(self, sequences):
-
-        inputs = [ep['Dtrain'][0] for ep in episodes]
-        for ei in range(input_length):
-            encoder_output, encoder_hidden = self.encoder(
-                input_tensor[ei], encoder_hidden)
-            encoder_outputs[ei] = encoder_output[0, 0]
-
-        decoder_input = torch.tensor([[SOS_token]], device=device)
-
-        decoder_hidden = encoder_hidden
-
-        use_teacher_forcing = True if np.random.rand() < self.teacher_forcing_ratio else False
-
-        if use_teacher_forcing:
-            # Teacher forcing: Feed the target as the next input
-            for di in range(target_length):
-                decoder_output, decoder_hidden, decoder_attention = self.decoder(
-                    decoder_input, decoder_hidden, encoder_outputs)
-                loss += criterion(decoder_output, target_tensor[di])
-                decoder_input = target_tensor[di]  # Teacher forcing
-
-        else:
-            # Without teacher forcing: use its own predictions as the next input
-            for di in range(target_length):
-                decoder_output, decoder_hidden, decoder_attention = self.decoder(
-                    decoder_input, decoder_hidden, encoder_outputs)
-                topv, topi = decoder_output.topk(1)
-                decoder_input = topi.squeeze().detach()  # detach from history as input
-
-                loss += criterion(decoder_output, target_tensor[di])
-                if decoder_input.item() == EOS_token:
-                    break
-
-    
+    def fit(self, meta_train, meta_valid, n_epochs=100, steps_per_epoch=100,
+            log_filename=None, checkpoint_filename=None, tboard_folder=None):
+        train_seqs = list(set(
+                         sum([meta_train.dataset.episode_loader(f)[0].tolist()
+                              for f in meta_train.dataset.tasks_filenames], 
+                              [])))                              
+        train_seqs = [el for el in train_seqs if len(el) <= MAX_LENGTH]
+        valid_seqs = list(set(
+                         sum([meta_valid.dataset.episode_loader(f)[0].tolist()
+                              for f in meta_valid.dataset.tasks_filenames], 
+                              [])))
+        valid_seqs = [el for el in valid_seqs if len(el) <= MAX_LENGTH]
+        
+        if len(train_seqs) < 1e54:
+            train_seqs += valid_seqs
+        tokens = list(set("".join(train_seqs)))
+        max_length = min(max([len(el) for el in train_seqs]), MAX_LENGTH)
+        print(f"Train size {len(train_seqs)}")
+        print(f"Valid size {len(valid_seqs)}")
 
 
+        self.model = train_seqtoseq(train_seqs, self.embedding_dim, tokens, max_length, 
+            encoder_layers=self.encoder_layers, decoder_layers=self.decoder_layers, 
+            dropout=self.dropout, tb_folder=tboard_folder, 
+            batch_size=meta_train.batch_size, n_epochs=n_epochs)
 
-class MetaKrrSingleKernelLearner(MetaLearnerRegression):
-    def __init__(self, *args, optimizer='adam', lr=0.001, weight_decay=0.0, **kwargs):
-        network = MetaKrrSingleKernelNetwork(*args, **kwargs)
-        super(MetaKrrSingleKernelLearner, self).__init__(network, optimizer, lr, weight_decay)
+        predicted = self.model.predict_from_sequences(valid_seqs)
+        acc = sum([''.join(p) == s for s,p in zip(valid_seqs, predicted)])
+        acc = 1.0*acc/len(valid_seqs)
+        print('Valid performance', acc)
+            
+    def evaluate(self, metatest, metrics=[F.mse_loss], **kwargs):
+        metatest.dataset.raw_inputs = True
+        assert len(metrics) >= 1, "There should be at least one valid metric in the list of metrics "
+        metrics_per_dataset = {metric.__name__: {} for metric in metrics}
+        metrics_per_dataset["size"] = dict()
+        for episodes in metatest:
+            for (episode, _) in zip(*episodes):
+                y_test, y_pred = fit_and_eval(self.model, episode, self.algo)
+                y_pred = torch.Tensor(y_pred.flatten())
+                y_test = torch.Tensor(y_test.flatten())
+                ep_idx = episode['idx']
+                ep_name_is_new = (ep_idx not in metrics_per_dataset["size"])
+                for metric in metrics:
+                    m_value = to_unit(metric(y_pred, y_test))
+                    if ep_name_is_new:
+                        metrics_per_dataset[metric.__name__][ep_idx] = [m_value]
+                    else:
+                        metrics_per_dataset[metric.__name__][ep_idx].append(m_value)
+                metrics_per_dataset['size'][ep_idx] = y_test.size(0)
 
-    def _compute_aux_return_loss(self, y_preds, y_tests):
-        res = dict()
-        loss = torch.mean(torch.stack([mse_loss(y_pred, y_test) 
-                    for y_pred, y_test in zip(y_preds, y_tests)]))
-
-        res.update(dict(mse=loss))
-        if self.model.training:
-            x = torch.mean(torch.cat(self.model.phis_norms))
-            res.update(dict(phis_norm=x))
-            if self.model.regularize_phi:
-                loss = loss + x
-
-        return loss, res
-
-if __name__ == '__main__':
-    pass
+        return metrics_per_dataset

@@ -12,7 +12,7 @@ from .utils import reset_BN_stats, to_unit
 class MetaKrrSingleKernelNetwork(MetaNetwork):
 
     def __init__(self, feature_extractor_params, l2=0.1, gamma=0.1, kernel='linear',
-                 regularize_phi=False, do_cv=False):
+                 regularize_phi=False, do_cv=False, device='cuda'):
         """
         In the constructor we instantiate an lstm module
         """
@@ -21,17 +21,17 @@ class MetaKrrSingleKernelNetwork(MetaNetwork):
         self.kernel = kernel
         self.do_cv = do_cv
         self.regularize_phi = regularize_phi
+        self.device = device
 
         if not do_cv:
-            module_device = next(self.feature_extractor.parameters()).device
-            self.l2 = Parameter(torch.FloatTensor([l2], device=module_device))
+            self.l2 = Parameter(torch.FloatTensor([l2], device=device))
             if kernel == 'rbf':
                 self.kernel_params = ParameterDict(
-                    dict(gamma=Parameter(torch.FloatTensor([gamma], device=module_device))))
+                    dict(gamma=Parameter(torch.FloatTensor([gamma], device=device))))
             elif kernel == 'sm':
                 #todo: Need to finish this
                 self.kernel_params = ParameterDict(
-                    dict(gamma=Parameter(torch.FloatTensor([gamma], device=module_device))))
+                    dict(gamma=Parameter(torch.FloatTensor([gamma], device=device))))
             else:
                 self.kernel_params = dict()
         self.phis_norms = []
@@ -42,10 +42,11 @@ class MetaKrrSingleKernelNetwork(MetaNetwork):
         x_train, y_train = episode['Dtrain']
         phis = self.feature_extractor(x_train)
         if self.do_cv:
-            l2s = torch.logspace(-4, 1, 10)
-            kernels_params = dict()
-            if self.kernel == 'rbf':
-                kernels_params = dict(gamma = torch.logspace(-4, 1, 10))
+            l2s = torch.logspace(-4, 1, 10, device=self.device)
+            if self.kernel == 'linear':
+                kernels_params = dict()
+            elif self.kernel == 'rbf':
+                kernels_params = dict(gamma = torch.logspace(-4, 1, 10, device=self.device))
             elif self.kernel == 'sm':
                 raise NotImplementedError
             else:
@@ -65,6 +66,9 @@ class MetaKrrSingleKernelNetwork(MetaNetwork):
         res = torch.cat([learner(self.feature_extractor(x_test[i:i+bsize])) for i in range(0, n, bsize)])
 
         self.phis_norms.append(torch.norm(phis, dim=1))
+        if self.do_cv:
+            self.l2 = learner.l2
+            self.kernel_params = learner.kernel_params
         return res
 
     def forward(self, episodes):
@@ -75,8 +79,10 @@ class MetaKrrSingleKernelNetwork(MetaNetwork):
 
 class MetaKrrSingleKernelLearner(MetaLearnerRegression):
     def __init__(self, *args, optimizer='adam', lr=0.001, weight_decay=0.0, **kwargs):
-        network = MetaKrrSingleKernelNetwork(*args, **kwargs)
-        super(MetaKrrSingleKernelLearner, self).__init__(network, optimizer, lr, weight_decay)
+        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        network = MetaKrrSingleKernelNetwork(*args, **kwargs, device=device)
+        super(MetaKrrSingleKernelLearner, self).__init__(network, optimizer, lr, 
+                                                        weight_decay)
 
     def _compute_aux_return_loss(self, y_preds, y_tests):
         res = dict()

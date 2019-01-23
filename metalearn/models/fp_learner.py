@@ -55,7 +55,6 @@ def fit_and_eval(episode, algo='rf', fp='morgan_circular'):
     train_size = len(x_train)
     model_cls = algos_classes[algo]
     param_grid = algos_grid[algo]
-    model = model_cls(**param_grid)
     if algo in ["gb", "rf"]:
         model = model_cls(**param_grid)
     else:
@@ -73,23 +72,27 @@ class FPLearner:
         pass
 
     def evaluate(self, metatest, metrics=[mse_loss], **kwargs):
-        
+        metatest.dataset.raw_inputs = True
         assert len(metrics) >= 1, "There should be at least one valid metric in the list of metrics "
         metrics_per_dataset = {metric.__name__: {} for metric in metrics}
         metrics_per_dataset["size"] = dict()
         for episodes in metatest:
             for (episode, _) in zip(*episodes):
                 y_test, y_pred = fit_and_eval(episode, self.algo, self.fp)
+
                 y_pred = torch.Tensor(y_pred.flatten())
                 y_test = torch.Tensor(y_test.flatten())
                 ep_idx = episode['idx']
                 ep_name_is_new = (ep_idx not in metrics_per_dataset["size"])
                 for metric in metrics:
                     m_value = to_unit(metric(y_pred, y_test))
+                    print(metric.__name__, m_value)
                     if ep_name_is_new:
                         metrics_per_dataset[metric.__name__][ep_idx] = [m_value]
                     else:
                         metrics_per_dataset[metric.__name__][ep_idx].append(m_value)
                 metrics_per_dataset['size'][ep_idx] = y_test.size(0)
+
+            exit(322)
 
         return metrics_per_dataset

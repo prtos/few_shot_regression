@@ -61,3 +61,14 @@ fingerprint = dict(
     ))),
     **s_copy
 )
+
+seqtoseq = dict(
+    model_name=['seqtoseq'],
+    model_params=list(ParameterGrid(dict(
+        embedding_dim=[256], 
+        encoder_layers=[2], 
+        decoder_layers=[2], 
+        dropout=[0.1],
+    ))),
+    **shared_params
+)

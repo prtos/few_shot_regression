@@ -73,7 +73,7 @@ class ChemblDataset(MetaRegressionDataset):
             transformer = SequenceTransformer(SMILES_ALPHABET, returnTensor=True)
         prot_transformer = SequenceTransformer(AMINO_ACID_ALPHABET)
         self.x_transformer = lambda x: transformer.transform(x)
-        self.y_transformer = lambda y: torch.FloatTensor(np.log(y + y_epsilon))
+        self.y_transformer = lambda y: torch.FloatTensor(y)
         self.task_descr_transformer = lambda z: None if z is None else prot_transformer.transform([z])[0] 
 
     def episode_loader(self, filename):
@@ -136,25 +136,11 @@ def __get_partitions(dataset_cls, episode_files, batch_size, test_files=None,
     valid = dataset_cls(valid_files, **kwargs)
     test = dataset_cls(test_files, is_test=True, **kwargs)
     collate = lambda x: list(zip(*x))
-    # def collate(x):
-    #     # print(x)
-    #     print(len(x[0]))
-    #     print(x[0])
-    #     exit(222)
-    #     return list(zip(*x))
     train = DataLoader(train, batch_size=batch_size, collate_fn=collate, 
                     sampler=WeightedRandomSampler(np.log(train.task_sizes()), len(train)))
     test = DataLoader(test, batch_size=batch_size, collate_fn=collate)
     valid = DataLoader(valid, batch_size=batch_size, collate_fn=collate)
     return train, valid, test
-    # if 'raw_inputs' in kwargs and kwargs['raw_inputs']:
-    #     return train, valid, test
-    # else:
-    #     train = DataLoader(train, batch_size=batch_size, collate_fn=collate, 
-    #                 sampler=WeightedRandomSampler(np.log(train.task_sizes()), len(train)))
-    #     test = DataLoader(test, batch_size=batch_size, collate_fn=collate)
-    #     valid = DataLoader(valid, batch_size=batch_size, collate_fn=collate)
-    #     return train, valid, test
 
 
 def load_dataset(dataset_name, ds_folder=None, max_tasks=None, fold=None, **kwargs):
