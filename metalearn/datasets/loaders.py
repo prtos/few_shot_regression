@@ -1,10 +1,12 @@
+
+import os 
 import torch
 import pickle
+import json
 import numpy as np
 import pandas as pd
 from glob import glob
-from os.path import dirname, realpath, join
-from os import listdir
+from os.path import dirname, realpath, join, exists
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from metalearn.datasets.metadataset import MetaRegressionDataset
@@ -50,12 +52,15 @@ class MhcDataset(MetaRegressionDataset):
 
         x_transformer = SequenceTransformer(AMINO_ACID_ALPHABET)
         self.x_transformer = lambda x: x_transformer.transform(x)
-        self.y_transformer = lambda y: torch.FloatTensor(np.log(y))
+        self.y_transformer = lambda y: torch.FloatTensor(y)
         self.task_descriptor_transformer = None
+        self.max_test_examples = 10000
 
     def episode_loader(self, filename):
         data = np.loadtxt(filename, dtype=str, )
         x, y = data[:, 0], data[:, 1].astype(float).reshape((-1, 1))
+        scaler = MinMaxScaler()
+        y = scaler.fit_transform(y).astype('float32')
         return x, y, None
 
     def get_sampling_weights(self):
@@ -75,6 +80,7 @@ class ChemblDataset(MetaRegressionDataset):
         self.x_transformer = lambda x: transformer.transform(x)
         self.y_transformer = lambda y: torch.FloatTensor(y)
         self.task_descr_transformer = lambda z: None if z is None else prot_transformer.transform([z])[0] 
+        self.max_test_examples = 500
 
     def episode_loader(self, filename):
         with open(filename, 'r') as f_in:
@@ -150,13 +156,13 @@ def load_dataset(dataset_name, ds_folder=None, max_tasks=None, fold=None, **kwar
     maps = dict(
         pubchemtox=dict(files=[join(ds_folder, x) for x in glob(f"{ds_folder}/*/*.csv")], 
                      dscls=PubchemToxDataset),
-        mhc=dict(files=[join(ds_folder, x) for x in listdir(ds_folder)], 
+        mhc=dict(files=[join(ds_folder, x) for x in os.listdir(ds_folder)], 
                      dscls=MhcDataset),
-        easytoy=dict(files=[join(ds_folder, x) for x in listdir(ds_folder) if x.endswith('.csv')], 
+        easytoy=dict(files=[join(ds_folder, x) for x in os.listdir(ds_folder) if x.endswith('.csv')], 
                      dscls=HarmonicsDataset),
-        tox21=dict(files=[join(ds_folder, x) for x in listdir(ds_folder) if x.endswith('.smiles')], 
+        tox21=dict(files=[join(ds_folder, x) for x in os.listdir(ds_folder) if x.endswith('.smiles')], 
                      dscls=Tox21Dataset),
-        chembl=dict(files=[join(ds_folder, x) for x in listdir(ds_folder) if x.endswith('.tsv')], 
+        chembl=dict(files=[join(ds_folder, x) for x in os.listdir(ds_folder) if x.endswith('.tsv')], 
                      dscls=ChemblDataset),
     )
 
@@ -170,16 +176,23 @@ def load_dataset(dataset_name, ds_folder=None, max_tasks=None, fold=None, **kwar
         test_files = [episode_files[fold]]
         del episode_files[fold]
 
+    splitting_file = join(ds_folder, dataset_name+'.json')
+    if exists(splitting_file):
+        with open(splitting_file) as fd:
+            temp = json.load(fd)
+        episode_files = [join(dirname(ds_folder), f) for f in temp['Dtrain']]
+        test_files = [join(dirname(ds_folder), f) for f in temp['Dtest']]
+
     return __get_partitions(dataset_cls, episode_files, test_files=test_files, **kwargs)
 
 
 if __name__ == '__main__':
     from time import time
     t = time()
-    ds = load_dataset('mhc')
-    for meta_train, meta_valid, meta_test in ds:
-        for episodes in meta_train:
-            for ep in episodes:
-                print(ep[0])
-                exit()
+    ds = load_dataset('pubchemtox', batch_size=32, max_examples_per_episode=10 )
+    meta_train, meta_valid, meta_test = ds
+    for episodes in meta_train:
+        for ep in episodes:
+            print(ep[0])
+            exit()
     print("time", time()-t)

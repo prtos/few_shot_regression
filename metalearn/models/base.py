@@ -74,7 +74,7 @@ class MetaLearnerRegression(Model):
             self.model.is_eval = False
         self.is_eval = False
         self.steps_per_epoch = steps_per_epoch
-        callbacks = [EarlyStopping(patience=4, verbose=False),
+        callbacks = [EarlyStopping(patience=10, verbose=False),
                      ReduceLROnPlateau(patience=2, factor=1/2, min_lr=1e-6, verbose=True),
                      BestModelRestore()]
         if log_filename:
@@ -132,6 +132,7 @@ class MetaLearnerRegression(Model):
             self.writer = SummaryWriter(tboard_folder)
         metrics_per_dataset = {metric.__name__: {} for metric in metrics}
         metrics_per_dataset["size"] = dict()
+        metrics_per_dataset["name"] = dict()
         it = 0
         for batch in metatest:
             episodes = batch[0]
@@ -155,6 +156,7 @@ class MetaLearnerRegression(Model):
                     else:
                         metrics_per_dataset[metric.__name__][ep_idx].append(m_value)
                 metrics_per_dataset['size'][ep_idx] = y_test.size(0)
+                metrics_per_dataset['name'][ep_idx] = metatest.dataset.tasks_filenames[ep_idx]
 
         return metrics_per_dataset
 

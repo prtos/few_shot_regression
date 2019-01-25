@@ -147,8 +147,8 @@ def cv_and_best_hp_loopy(X, y, gammas, l2s):
 
 
 def generate_grid(x, y):
-   grid = torch.stack([x.repeat(y.size(0)), y.repeat(x.size(0),1).t().contiguous().view(-1)],1)
-   return grid
+    grid = torch.stack([x.repeat(y.size(0)), y.repeat(x.size(0),1).t().contiguous().view(-1)],1)
+    return grid
 
 class KrrLearnerCV(KrrLearner):
     

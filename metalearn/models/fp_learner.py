@@ -26,8 +26,8 @@ algos_classes = dict(kr=KernelRidge, gb=GradientBoostingRegressor, rf=RandomFore
 # Hyperparamters to explore for each algorithm
 algos_grid = {'kr': [{"kernel": ['rbf'], "alpha": np.logspace(-3, 2, 6), "gamma": np.logspace(-3, 2, 6)},
                      {"kernel": ['linear'], "alpha": np.logspace(-3, 2, 6)}],
-              'gb': {"n_estimators": 400},
-              'rf': {"n_estimators": 400, 'n_jobs': -1}}
+              'gb': {"n_estimators": 100},
+              'rf': {"n_estimators": 100, 'n_jobs': -1}}
 
 
 def transform_and_filter(x, y, fp):
@@ -76,6 +76,7 @@ class FPLearner:
         assert len(metrics) >= 1, "There should be at least one valid metric in the list of metrics "
         metrics_per_dataset = {metric.__name__: {} for metric in metrics}
         metrics_per_dataset["size"] = dict()
+        metrics_per_dataset["name"] = dict()
         for episodes in metatest:
             for (episode, _) in zip(*episodes):
                 y_test, y_pred = fit_and_eval(episode, self.algo, self.fp)
@@ -86,13 +87,11 @@ class FPLearner:
                 ep_name_is_new = (ep_idx not in metrics_per_dataset["size"])
                 for metric in metrics:
                     m_value = to_unit(metric(y_pred, y_test))
-                    print(metric.__name__, m_value)
                     if ep_name_is_new:
                         metrics_per_dataset[metric.__name__][ep_idx] = [m_value]
                     else:
                         metrics_per_dataset[metric.__name__][ep_idx].append(m_value)
                 metrics_per_dataset['size'][ep_idx] = y_test.size(0)
-
-            exit(322)
+                metrics_per_dataset['name'][ep_idx] = metatest.dataset.tasks_filenames[ep_idx]
 
         return metrics_per_dataset

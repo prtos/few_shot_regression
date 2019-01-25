@@ -12,7 +12,7 @@ features_extractor_params = list(ParameterGrid(dict(
     arch=['cnn'],
     vocab_size=[1+len(AMINO_ACID_ALPHABET)],
     embedding_size=[20],
-    cnn_sizes=[[256 for _ in range(2)]],
+    cnn_sizes=[[256 for _ in range(3)]],
     kernel_size=[2],
     dilatation_rate=[2],
     pooling_len=[1],
@@ -24,6 +24,7 @@ metakrr_sk = dict(
         l2=[0.1],
         lr=[0.001],
         kernel=['rbf', 'linear'],
+        fixe_hps=[True, False],
         do_cv=[True, False],
         feature_extractor_params=features_extractor_params,
     ))),
@@ -34,7 +35,7 @@ maml = dict(
     model_name=['maml'],
     model_params=list(ParameterGrid(dict(
         lr_learner=[0.01],
-        n_epochs_learner=[1, 3],
+        n_epochs_learner=[1],
         feature_extractor_params=features_extractor_params,
     ))),
     **shared_params
@@ -43,8 +44,8 @@ maml = dict(
 mann = dict(
     model_name=['mann'],
     model_params=list(ParameterGrid(dict(
-        memory_shape=[(128, 40), (64, 40)],
-        controller_size=[200, 100],
+        memory_shape=[(64, 40)],
+        controller_size=[100],
         feature_extractor_params=features_extractor_params,
     ))),
     **shared_params

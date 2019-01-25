@@ -8,7 +8,7 @@ from torch.nn.utils.rnn import pack_padded_sequence
 from torch import nn
 from torch.optim import Adam
 from pytoune.framework import Model
-from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import GridSearchCV, train_test_split
 from .base import MetaLearnerRegression, FeaturesExtractorFactory, MetaNetwork
 from .krr import KrrLearner, KrrLearnerCV
 from .utils import reset_BN_stats, to_unit
@@ -25,9 +25,16 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 def generate_sequences(data, epochs):
-    for i in range(epochs):
-        for s in data:
-            yield (s, s)
+    n = len(data)
+    if n < 10000:
+        for i in range(epochs):
+            for s in data:
+                yield (s, s)
+    else:
+        k = 10000
+        for j in range(0, n, k):
+            for s in data[j:j+k]:
+                yield (s, s)
 
 
 MAX_LENGTH = 300
@@ -84,31 +91,26 @@ class Seq2SeqLearner:
 
     def fit(self, meta_train, meta_valid, n_epochs=100, steps_per_epoch=100,
             log_filename=None, checkpoint_filename=None, tboard_folder=None):
-        train_seqs = list(set(
-                         sum([meta_train.dataset.episode_loader(f)[0].tolist()
-                              for f in meta_train.dataset.tasks_filenames], 
-                              [])))                              
-        train_seqs = [el for el in train_seqs if len(el) <= MAX_LENGTH]
-        valid_seqs = list(set(
-                         sum([meta_valid.dataset.episode_loader(f)[0].tolist()
-                              for f in meta_valid.dataset.tasks_filenames], 
-                              [])))
-        valid_seqs = [el for el in valid_seqs if len(el) <= MAX_LENGTH]
+        seqs = list(set(
+                    sum(([meta_train.dataset.episode_loader(f)[0].tolist()
+                        for f in meta_train.dataset.tasks_filenames] + 
+                        [meta_valid.dataset.episode_loader(f)[0].tolist()
+                        for f in meta_valid.dataset.tasks_filenames]),
+                        [])))                              
+        seqs = [el for el in seqs if len(el) <= MAX_LENGTH]
+        train_seqs, valid_seqs = train_test_split(seqs, test_size=0.1)
         
-        if len(train_seqs) < 1e54:
-            train_seqs += valid_seqs
         tokens = list(set("".join(train_seqs)))
-        max_length = min(max([len(el) for el in train_seqs]), MAX_LENGTH)
+        max_length = min(max([len(el) for el in seqs]), MAX_LENGTH)
         print(f"Train size {len(train_seqs)}")
         print(f"Valid size {len(valid_seqs)}")
-
 
         self.model = train_seqtoseq(train_seqs, self.embedding_dim, tokens, max_length, 
             encoder_layers=self.encoder_layers, decoder_layers=self.decoder_layers, 
             dropout=self.dropout, tb_folder=tboard_folder, 
             batch_size=meta_train.batch_size, n_epochs=n_epochs)
 
-        predicted = self.model.predict_from_sequences(valid_seqs)
+        predicted = self.model.predict_from_sequences(valid_seqs, beam_width=1)
         acc = sum([''.join(p) == s for s,p in zip(valid_seqs, predicted)])
         acc = 1.0*acc/len(valid_seqs)
         print('Valid performance', acc)
@@ -118,6 +120,7 @@ class Seq2SeqLearner:
         assert len(metrics) >= 1, "There should be at least one valid metric in the list of metrics "
         metrics_per_dataset = {metric.__name__: {} for metric in metrics}
         metrics_per_dataset["size"] = dict()
+        metrics_per_dataset["name"] = dict()
         for episodes in metatest:
             for (episode, _) in zip(*episodes):
                 y_test, y_pred = fit_and_eval(self.model, episode, self.algo)
@@ -132,5 +135,6 @@ class Seq2SeqLearner:
                     else:
                         metrics_per_dataset[metric.__name__][ep_idx].append(m_value)
                 metrics_per_dataset['size'][ep_idx] = y_test.size(0)
+                metrics_per_dataset['name'][ep_idx] = metatest.dataset.tasks_filenames[ep_idx]
 
         return metrics_per_dataset

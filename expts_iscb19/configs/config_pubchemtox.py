@@ -42,7 +42,7 @@ features_extractor_params_smiles = list(ParameterGrid(dict(
     arch=['cnn'],
     vocab_size=[1+len(SMILES_ALPHABET)],
     embedding_size=[20],
-    cnn_sizes=[[256 for _ in range(2)]],
+    cnn_sizes=[[512 for _ in range(2)]],
     kernel_size=[2],
     dilatation_rate=[2],
     pooling_len=[1],
@@ -54,7 +54,7 @@ task_descr_extractor_params = list(ParameterGrid(dict(
     arch=['cnn'],
     vocab_size=[1 + len(AMINO_ACID_ALPHABET)],
     embedding_size=[20],
-    cnn_sizes=[[256 for _ in range(2)]],
+    cnn_sizes=[[512 for _ in range(2)]],
     kernel_size=[5],
     dilatation_rate=[2],
     pooling_len=[1],
@@ -69,6 +69,7 @@ def f_metakrr_sk(graph):
             l2=[0.1],
             lr=[0.001],
             do_cv=[True, False],
+            fixe_hps=[True, False],
             kernel=['linear', 'rbf'],
             feature_extractor_params=features_extractor_params_graph if graph else features_extractor_params_smiles,
         ))),
@@ -81,7 +82,7 @@ def f_maml(graph):
         model_name=['maml'],
         model_params=list(ParameterGrid(dict(
             lr_learner=[0.01],
-            n_epochs_learner=[1, 3],
+            n_epochs_learner=[1],
             feature_extractor_params=features_extractor_params_graph if graph else features_extractor_params_smiles,
         ))),
         **(shared_params_graph if graph else shared_params_smiles)
@@ -92,8 +93,8 @@ def f_mann(graph):
     return dict(
         model_name=['mann'],
         model_params=list(ParameterGrid(dict(
-            memory_shape=[(128, 40), (64, 40)],
-            controller_size=[200, 100],
+            memory_shape=[(64, 40)],
+            controller_size=[100],
             feature_extractor_params=features_extractor_params_graph if graph else features_extractor_params_smiles,
         ))),
         **(shared_params_graph if graph else shared_params_smiles)
