@@ -28,27 +28,27 @@ class MetaKrrSingleKernelNetwork(MetaNetwork):
         if (not fixe_hps) and (not do_cv):
             self.l2 = Parameter(torch.FloatTensor([l2], device=device))
         else:
-            self.l2 = torch.FloatTensor([l2], device=device)
+            self.l2 = torch.FloatTensor([l2]).to(device)
             if do_cv and fixe_hps:
-                self.l2s = torch.FloatTensor([l2], device=device)
+                self.l2s = torch.FloatTensor([l2]).to(device)
             
         if not do_cv:
             if fixe_hps:
                 if kernel == 'rbf':
-                    self.kernel_params = dict(gamma=torch.FloatTensor([gamma], device=device))                  
+                    self.kernel_params = dict(gamma=torch.FloatTensor([gamma]).to(device))                  
                 elif kernel == 'sm':
                     #todo: Need to finish this
-                    self.kernel_params = dict(gamma=torch.FloatTensor([gamma], device=device))   
+                    self.kernel_params = dict(gamma=torch.FloatTensor([gamma]).to(device))
                 else:
                     self.kernel_params = dict()
             else:
                 if kernel == 'rbf':
                     self.kernel_params = ParameterDict(
-                        dict(gamma=Parameter(torch.FloatTensor([gamma], device=device))))                 
+                        dict(gamma=Parameter(torch.FloatTensor([gamma]).to(device))))                 
                 elif kernel == 'sm':
                     #todo: Need to finish this
                     self.kernel_params = ParameterDict(
-                        dict(gamma=Parameter(torch.FloatTensor([gamma], device=device))))
+                        dict(gamma=Parameter(torch.FloatTensor([gamma]).to(device))))                 
                 else:
                     self.kernel_params = dict()
         self.phis_norms = []
@@ -57,16 +57,16 @@ class MetaKrrSingleKernelNetwork(MetaNetwork):
         # training part of the episode
         self.feature_extractor.train()
         x_train, y_train = episode['Dtrain']
-        print('x, y', x_train.device, y_train.device)
+        #print('x, y', x_train.device, y_train.device)
         phis = self.feature_extractor(x_train)
-        print('phis', phis.device)
+        print('phis', phis.is_cuda)
         if self.do_cv:
             l2s = torch.logspace(-4, 1, 10, device=self.device) if not self.fixe_hps else self.l2s
-            print('l2s', l2s.device)
+            print('l2s', l2s.is_cuda)
             if self.kernel == 'linear':
                 kernels_params = dict()
             elif self.kernel == 'rbf':
-                kernels_params = dict(gamma = torch.logspace(-4, 1, 10, device=self.device))
+                kernels_params = dict(gamma = torch.logspace(-4, 1, 10).to(device))
             elif self.kernel == 'sm':
                 raise NotImplementedError
             else:
@@ -75,10 +75,10 @@ class MetaKrrSingleKernelNetwork(MetaNetwork):
         else:
             l2 = torch.clamp(self.l2, min=1e-3)
             kp = {k: torch.clamp(self.kernel_params[k], min=1e-6) for k in self.kernel_params}
-            print(l2, l2.device)
-            print(kp, kp['gamma'].device)
-            print(self.l2, self.l2.device)
-            print(self.kernel_params, self.kernel_params['gamma'].device)
+            print(l2, l2.is_cuda)
+            print(kp, kp['gamma'].is_cuda)
+            print(self.l2, self.l2.is_cuda)
+            print(self.kernel_params, self.kernel_params['gamma'].is_cuda)
             learner = KrrLearner(l2, self.kernel, dual=False, **kp)
 
         learner.fit(phis, y_train)
