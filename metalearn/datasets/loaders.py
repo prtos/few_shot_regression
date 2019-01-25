@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from metalearn.datasets.metadataset import MetaRegressionDataset
 from metalearn.feature_extraction import SequenceTransformer, DGLGraphTransformer
-from metalearn.feature_extraction.constants import AMINO_ACID_ALPHABET, SMILES_ALPHABET
+from metalearn.feature_extraction.constants import AMINO_ACID_ALPHABET, SMILES_ALPHABET, ATOM_LIST 
 from torch.utils.data import DataLoader, WeightedRandomSampler
 from contextlib import contextmanager
 from inspect import currentframe, getouterframes
@@ -55,6 +55,7 @@ class MhcDataset(MetaRegressionDataset):
         self.y_transformer = lambda y: torch.FloatTensor(y)
         self.task_descriptor_transformer = None
         self.max_test_examples = 10000
+        self.vocab = AMINO_ACID_ALPHABET
 
     def episode_loader(self, filename):
         data = np.loadtxt(filename, dtype=str, )
@@ -81,7 +82,8 @@ class ChemblDataset(MetaRegressionDataset):
         self.y_transformer = lambda y: torch.FloatTensor(y)
         self.task_descr_transformer = lambda z: None if z is None else prot_transformer.transform([z])[0] 
         self.max_test_examples = 500
-
+        self.vocab = SMILES_ALPHABET if not use_graph else ATOM_LIST 
+        
     def episode_loader(self, filename):
         with open(filename, 'r') as f_in:
             f_in.readline() # reand and neglect the first line
@@ -190,9 +192,16 @@ if __name__ == '__main__':
     from time import time
     t = time()
     ds = load_dataset('pubchemtox', batch_size=32, max_examples_per_episode=10 )
-    meta_train, meta_valid, meta_test = ds
-    for episodes in meta_train:
-        for ep in episodes:
-            print(ep[0])
-            exit()
+    train, valid, test = ds
+    all_files = train.dataset.tasks_filenames + valid.dataset.tasks_filenames + test.dataset.tasks_filenames
+    # for f in all_files:
+    #     x, y, _ = sum([len(train.dataset.episode_loader(f)[0]) > 100 for f in all_files], 0)
+    #     print(len(x))
+    lens_0 = [len(train.dataset.episode_loader(f)[0]) for f in all_files]
+    lens = lens_0[:]
+    print(f'sans filtre {len(lens)} {sum(lens)}')
+    lens = [l>50 for l in lens_0]
+    print(f'avec filtre 50 {len(lens)} {sum(lens)}')
+    lens = [l>100 for l in lens_0]
+    print(f'avec filtre 100 {len(lens)} {sum(lens)}')
     print("time", time()-t)

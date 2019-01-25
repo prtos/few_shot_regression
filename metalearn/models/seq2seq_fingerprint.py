@@ -24,20 +24,20 @@ formatter = logging.Formatter(
 ch.setFormatter(formatter)
 logger.addHandler(ch)
 
+
+MAX_LENGTH = 300
+THRESHOLD_SIZE = 10000
+
 def generate_sequences(data, epochs):
     n = len(data)
-    if n < 10000:
+    if n < THRESHOLD_SIZE:
         for i in range(epochs):
             for s in data:
                 yield (s, s)
     else:
-        k = 10000
-        for j in range(0, n, k):
-            for s in data[j:j+k]:
+        for j in range(0, n, THRESHOLD_SIZE):
+            for s in data[j:j+THRESHOLD_SIZE]:
                 yield (s, s)
-
-
-MAX_LENGTH = 300
 
 def train_seqtoseq(train_data, embedding_dimension, tokens, max_length, encoder_layers=1, 
                  decoder_layers=1, dropout=0.1, tb_folder='fingerprint', 
@@ -53,10 +53,10 @@ def train_seqtoseq(train_data, embedding_dimension, tokens, max_length, encoder_
                                     tensorboard_log_frequency=1,
                                     model_dir=tb_folder)
         if steps_per_epoch is None:
-            steps_per_epoch = len(train_data)/model.batch_size 
+            steps_per_epoch = min(len(train_data), THRESHOLD_SIZE)/model.batch_size 
 
         model.set_optimizer(
-            dcopt.Adam(learning_rate=dcopt.ExponentialDecay(0.004, 0.95, steps_per_epoch)))
+            dcopt.Adam(learning_rate=dcopt.ExponentialDecay(0.001, 0.95, steps_per_epoch)))
         model.fit_sequences(train_generator, checkpoint_interval=steps_per_epoch)
         return model
 
@@ -65,10 +65,14 @@ def filter_long(x, y):
     return np.array(res[0]), np.array((res[1]))
 
 def fit_and_eval(model_seq2seq, episode, algo):
-    x_train, y_train = filter_long(*episode['Dtrain'])
-    x_train = model_seq2seq.predict_embeddings(x_train)
-    x_test, y_test = filter_long(*episode['Dtest'])
-    x_test = model_seq2seq.predict_embeddings(x_test)
+    try:
+        x_train, y_train = filter_long(*episode['Dtrain'])
+        x_train = model_seq2seq.predict_embeddings(x_train)
+        x_test, y_test = filter_long(*episode['Dtest'])
+        x_test = model_seq2seq.predict_embeddings(x_test)
+    except:
+        return None, None
+
     train_size = len(x_train)
     model_cls = algos_classes[algo]
     param_grid = algos_grid[algo]
@@ -98,10 +102,14 @@ class Seq2SeqLearner:
                         for f in meta_valid.dataset.tasks_filenames]),
                         [])))                              
         seqs = [el for el in seqs if len(el) <= MAX_LENGTH]
+        max_length = min(max([len(el) for el in seqs]), MAX_LENGTH)       
+
         train_seqs, valid_seqs = train_test_split(seqs, test_size=0.1)
+        if hasattr('meta_train.dataset', 'vocab'):
+            tokens = meta_train.dataset.vocab
+        else:
+            tokens = list(set("".join(seqs)))
         
-        tokens = list(set("".join(train_seqs)))
-        max_length = min(max([len(el) for el in seqs]), MAX_LENGTH)
         print(f"Train size {len(train_seqs)}")
         print(f"Valid size {len(valid_seqs)}")
 
@@ -124,17 +132,18 @@ class Seq2SeqLearner:
         for episodes in metatest:
             for (episode, _) in zip(*episodes):
                 y_test, y_pred = fit_and_eval(self.model, episode, self.algo)
-                y_pred = torch.Tensor(y_pred.flatten())
-                y_test = torch.Tensor(y_test.flatten())
-                ep_idx = episode['idx']
-                ep_name_is_new = (ep_idx not in metrics_per_dataset["size"])
-                for metric in metrics:
-                    m_value = to_unit(metric(y_pred, y_test))
-                    if ep_name_is_new:
-                        metrics_per_dataset[metric.__name__][ep_idx] = [m_value]
-                    else:
-                        metrics_per_dataset[metric.__name__][ep_idx].append(m_value)
-                metrics_per_dataset['size'][ep_idx] = y_test.size(0)
-                metrics_per_dataset['name'][ep_idx] = metatest.dataset.tasks_filenames[ep_idx]
+                if y_test is not None:
+                    y_pred = torch.Tensor(y_pred.flatten())
+                    y_test = torch.Tensor(y_test.flatten())
+                    ep_idx = episode['idx']
+                    ep_name_is_new = (ep_idx not in metrics_per_dataset["size"])
+                    for metric in metrics:
+                        m_value = to_unit(metric(y_pred, y_test))
+                        if ep_name_is_new:
+                            metrics_per_dataset[metric.__name__][ep_idx] = [m_value]
+                        else:
+                            metrics_per_dataset[metric.__name__][ep_idx].append(m_value)
+                    metrics_per_dataset['size'][ep_idx] = y_test.size(0)
+                    metrics_per_dataset['name'][ep_idx] = metatest.dataset.tasks_filenames[ep_idx]
 
         return metrics_per_dataset
