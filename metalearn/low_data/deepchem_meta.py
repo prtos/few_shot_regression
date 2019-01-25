@@ -276,7 +276,7 @@ class MetaGraphRegressor(Model):
             task2name[taskind] = task
             for metkey, metric in metric_dict.items():
                 task_scores[metkey][task].append(
-                    metric.compute_metric(task_dataset.y, y_pred, task_dataset.w))
+                    metric(task_dataset.y, y_pred, task_dataset.w))
 
         # Join information for all tasks.
         mean_task_scores = ddict(dict)

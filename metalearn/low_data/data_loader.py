@@ -6,6 +6,7 @@ from __future__ import division
 from __future__ import unicode_literals
 
 import time
+import os
 import numpy as np
 import deepchem as dc
 import logging
@@ -17,6 +18,7 @@ from sklearn.model_selection import train_test_split
 from rdkit.Chem import rdmolfiles
 from rdkit.Chem import rdmolops
 from rdkit import Chem
+from sklearn.preprocessing import MinMaxScaler
 import json
 
 logger = logging.getLogger(__name__)
@@ -32,6 +34,10 @@ def count_lines(filename, offset=1):
 def to_numpy_dataset(X, y, w=None, ids=None):
     """Converts dataset to numpy dataset."""
     return dc.data.NumpyDataset(X, y, w, ids)
+
+def min_max_transformer(dt):
+    scaler = MinMaxScaler()
+    return scaler.fit_transform(dt).astype('float32')
 
 
 def featurize_smiles(arr):
@@ -150,11 +156,11 @@ class MetaRegressionDataset:
         return list(zip(supports, tests))
 
 
-class MetaQSARdatatset(MetaRegressionDataset):
+class MetaQsarDataset(MetaRegressionDataset):
     def __init__(self, *args, **kwargs):
-        super(MetaQSARdatatset, self).__init__(*args, **kwargs)
+        super(MetaQsarDataset, self).__init__(*args, **kwargs)
         self.x_transformer = featurize_smiles
-        self.y_transformer = lambda y: y
+        self.y_transformer = min_max_transformer
 
     def __getitem__(self, ind):
         filename = self.tasks_filenames[ind % len(self.tasks_filenames)]
@@ -179,7 +185,7 @@ class MetaQSARdatatset(MetaRegressionDataset):
         return self.tasks_filenames
 
 
-class PubChemdatatset(MetaQSARdatatset):
+class PubChemDataset(MetaQsarDataset):
 
     def __getitem__(self, ind):
         filename = self.tasks_filenames[ind % len(self.tasks_filenames)]
@@ -187,7 +193,7 @@ class PubChemdatatset(MetaQSARdatatset):
         if taskname:
             return self.get_task(filename)
         dirname, fname =  path.split(path.normpath(filename))
-        taskname = path.join(dirname.strip(self.root_folder), fname)
+        taskname = path.join(path.basename(dirname), fname)
             # measurement = f_in.readline()
         data = pd.read_csv(filename, header=None, skiprows=1).values
         #print(data[:10, 0])
@@ -209,8 +215,8 @@ def __get_partitions(episode_files, test_size, **kwargs):
 
 def load_dataset(dataset_name, ds_folder=None, max_tasks=None, test_size=0.25, min_size=10, **kwargs):
     maps = dict(
-        metaqsar=('chembl', '.tsv', MetaQSARdatatset),
-        pubchem=('pubchemtox', '.csv', PubChemdatatset)
+        metaqsar=('chembl', '.tsv', MetaQsarDataset),
+        pubchem=('pubchemtox', '.csv', PubChemDataset)
 
     )
     if dataset_name not in maps:
@@ -219,7 +225,7 @@ def load_dataset(dataset_name, ds_folder=None, max_tasks=None, test_size=0.25, m
     folder, ext, dscls = maps[dataset_name]
     ds_folder = path.join(DATASETS_ROOT, (ds_folder or ''), folder)
     jfile = path.join(ds_folder, folder+".json")
-    if path.exists(jfile):
+    if path.exists(jfile) and max_tasks is None:
         dt = json.load(open(jfile))
         train_files = [path.join(DATASETS_ROOT, x) for x in dt['Dtrain']]
         test_files = [path.join(DATASETS_ROOT, x) for x in dt['Dtest']]

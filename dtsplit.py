@@ -56,7 +56,6 @@ def count(path, ext, outfile, offset, std_dev, nbins):
         med = np.mean(size_dist)
         std = np.std(size_dist)
         size_dist = size_dist[(size_dist - med - std_dev*std)<0]
-    print(len(size_dist))
     sns.set_style('ticks')
     plt.hist(size_dist, bins=nbins)
     plt.xlabel('Number of compounds')
