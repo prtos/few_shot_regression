@@ -330,8 +330,9 @@ class AdjGraphTransformer(MoleculeTransformer):
         # do the same thing but with bond now
         # start with bond types
         self.n_bond_feat += len(BOND_TYPES) + 1
-        # bond is conjugated, in rings
-        self.n_bond_feat += 2
+        # bond is conjugated, in rings, stereo
+        # please note that stereo is not one hot
+        self.n_bond_feat += 3
 
     def transform(self, mols):
         """Transform a batch of N molecules or smiles into a graph and 

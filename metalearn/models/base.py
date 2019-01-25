@@ -144,7 +144,8 @@ class MetaLearnerRegression(Model):
                 else:
                     y_pred_mean = y_pred
                 ep_idx = episode['idx']
-                is_one_dim_input = (episode['Dtrain'][0].size(1) == 1)
+                one_sample = episode['Dtrain'][0]
+                is_one_dim_input = not isinstance(one_sample, (list, tuple)) and (one_sample.size(1) == 1)
                 if is_one_dim_input and np.random.binomial(1, 0.1, 1)[0] == 1 and it <= 5000:
                     it += 1
                     self.plot_harmonics(episode, tag='test'+str(ep_idx), step=it)

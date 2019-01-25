@@ -156,7 +156,7 @@ class DuvenaudNMP(NMPLayer):
     as in Gilmer and al. or not even in the provided code written in autograd
     So, I am following the gilmer and al. specs"""
 
-    def __init__(self, atom_dim, bond_dim, out_dim, readout_dim, max_degree=4, **kwargs):
+    def __init__(self, atom_dim, bond_dim, out_dim, readout_dim, max_degree=5, **kwargs):
         super(DuvenaudNMP, self).__init__(atom_dim, readout_dim, pooling="sum")
         self.n_update = 1
         if isinstance(out_dim, list):
@@ -173,7 +173,8 @@ class DuvenaudNMP(NMPLayer):
                 atom_dim+bond_dim, hdim, max_degree, **msg_kwargs))
             self.mpn_updt.append(DuvenaudUpdate(
                 hdim, readout_dim, **updt_kwargs))
-        self.W_o = nn.Linear(atom_dim, readout_dim, bias=False)
+            atom_dim = hdim
+        self.W_o = nn.Linear(self.in_size, readout_dim, bias=False)
 
     def forward(self, batch_G):
         G = self.pack_graph(batch_G)
