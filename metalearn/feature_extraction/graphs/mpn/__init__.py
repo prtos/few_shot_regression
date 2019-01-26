@@ -142,6 +142,11 @@ class BattagliaNMP(NMPLayer):
                 atom_dim+hdim, hdim, x_dim, **updt_kwargs))
             atom_dim = hdim
 
+    def gather(self, G, xkey="h"):
+        # we need to unpack the graph here
+        phis = dgl.sum_nodes(G, xkey)
+        return phis
+
     def forward(self, batch_G):
         G = self.pack_graph(batch_G)
         n_nodes = G.number_of_nodes()
@@ -175,6 +180,13 @@ class DuvenaudNMP(NMPLayer):
                 hdim, readout_dim, **updt_kwargs))
             atom_dim = hdim
         self.W_o = nn.Linear(self.in_size, readout_dim, bias=False)
+
+
+    def gather(self, G, xkey="rd"):
+        # we need to unpack the graph here
+        phis = dgl.sum_nodes(G, xkey)
+        return phis
+
 
     def forward(self, batch_G):
         G = self.pack_graph(batch_G)
