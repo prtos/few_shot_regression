@@ -131,6 +131,6 @@ else:
     metakrr_sk = f_metakrr_sk(False)
     maml = f_maml(False)
     mann = f_mann(False)
-    # metakrr_sk = [f_metakrr_sk(True), f_metakrr_sk(False)]
-    # maml = [f_maml(True), f_maml(False)]
-    # mann = [f_mann(True), f_mann(False)]
+    # metakrr_sk = [f_metakrr_sk(False), f_metakrr_sk(False)]
+    # maml = [f_maml(False), f_maml(False)]
+    # mann = [f_mann(False), f_mann(False)]

@@ -3,8 +3,8 @@ from metalearn.feature_extraction.transformers import AMINO_ACID_ALPHABET
 
 shared_params = dict(
     dataset_name=['mhc'],
-    dataset_params=list(ParameterGrid(dict(max_examples_per_episode=[10], 
-                    batch_size=[32], fold=range(14), max_tasks=[None]))),
+    dataset_params=list(ParameterGrid(dict(max_examples_per_episode=[5, 10, 20, 30, 40, 50], 
+                    batch_size=[32], fold=range(4), max_tasks=[None]))),
     fit_params=[dict(n_epochs=100, steps_per_epoch=500)],
 )
 

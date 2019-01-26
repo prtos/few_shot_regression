@@ -40,6 +40,7 @@ if __name__ == '__main__':
     main(['pubchemtox', 'chembl', 'mhc'], ['mann'], 'config_mann.json')
     main(['pubchemtox', 'chembl', 'mhc'], ['maml'], 'config_maml.json')
     main(['pubchemtox', 'chembl'], ['fingerprint'], 'config_fp.json')
-    main(['pubchemtox', 'chembl', 'mhc'], ['metakrr_sk'], 'config_krr.json')
+    # main(['pubchemtox', 'chembl', 'mhc'], ['metakrr_sk'], 'config_krr.json')
+    main(['mhc'], ['metakrr_sk'], 'config_krr_len_expts.json')
     main(['pubchemtox', 'chembl', 'mhc'], ['seqtoseq'], 'config_s2s.json')
     # main(['mhc'], ['seqtoseq'], 'config_s2s.json')

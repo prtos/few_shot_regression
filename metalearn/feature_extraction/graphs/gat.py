@@ -139,6 +139,9 @@ class GATLayer(nn.Module):
 
     def gather(self, G):
         # lazy programming 101
+        print('G.batch_size', G.batch_size)
+        print('DGL.sum_nodes', dgl.sum_nodes(G, 'h'))
+        
         glist = dgl.unbatch(G)
         phis = torch.squeeze(torch.stack(
             [self.pooling(g.ndata["h"].unsqueeze(0)) for g in glist], dim=0), dim=1)
