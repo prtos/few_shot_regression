@@ -138,10 +138,12 @@ class GATLayer(nn.Module):
         return self.out_size
 
     def gather(self, G):
-        # lazy programming 101
-        glist = dgl.unbatch(G)
-        phis = torch.squeeze(torch.stack(
-            [self.pooling(g.ndata["h"].unsqueeze(0)) for g in glist], dim=0), dim=1)
+        # we need to unpack the graph here
+        phis = dgl.sum_nodes(G, 'h')
+        #glist = dgl.unbatch(G)
+        #phis = torch.squeeze(torch.stack(
+        #    [self.pooling(g.ndata["h"].unsqueeze(0)) for g in glist], dim=0), dim=1)
+        # then set it back again to normal size
         return phis
 
     def forward(self, batch_G):

@@ -38,9 +38,10 @@ class GCNLayer(nn.Module):
 
     def gather(self, G):
         # we need to unpack the graph here
-        glist = dgl.unbatch(G)
-        phis = torch.squeeze(torch.stack(
-            [self.pooling(g.ndata["h"].unsqueeze(0)) for g in glist], dim=0), dim=1)
+        phis = dgl.sum_nodes(G, 'h')
+        #glist = dgl.unbatch(G)
+        #phis = torch.squeeze(torch.stack(
+        #    [self.pooling(g.ndata["h"].unsqueeze(0)) for g in glist], dim=0), dim=1)
         # then set it back again to normal size
         phis = phis.view(-1, self.out_size)
         return phis
