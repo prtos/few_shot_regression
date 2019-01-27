@@ -5,148 +5,84 @@
     ],
     "dataset_params": [
       {
-        "batch_size": 32,
+        "batch_size": 64,
         "fold": 0,
-        "max_examples_per_episode": 5,
-        "max_tasks": null
+        "max_examples_per_episode": 5
       },
       {
-        "batch_size": 32,
-        "fold": 0,
-        "max_examples_per_episode": 10,
-        "max_tasks": null
+        "batch_size": 64,
+        "fold": 1,
+        "max_examples_per_episode": 5
       },
       {
-        "batch_size": 32,
-        "fold": 0,
-        "max_examples_per_episode": 20,
-        "max_tasks": null
+        "batch_size": 64,
+        "fold": 2,
+        "max_examples_per_episode": 5
       },
       {
-        "batch_size": 32,
-        "fold": 0,
-        "max_examples_per_episode": 30,
-        "max_tasks": null
+        "batch_size": 64,
+        "fold": 3,
+        "max_examples_per_episode": 5
       },
       {
         "batch_size": 32,
         "fold": 0,
-        "max_examples_per_episode": 40,
-        "max_tasks": null
+        "max_examples_per_episode": 10
       },
       {
         "batch_size": 32,
+        "fold": 1,
+        "max_examples_per_episode": 10
+      },
+      {
+        "batch_size": 32,
+        "fold": 2,
+        "max_examples_per_episode": 10
+      },
+      {
+        "batch_size": 32,
+        "fold": 3,
+        "max_examples_per_episode": 10
+      },
+      {
+        "batch_size": 16,
         "fold": 0,
-        "max_examples_per_episode": 50,
-        "max_tasks": null
+        "max_examples_per_episode": 20
       },
       {
-        "batch_size": 32,
+        "batch_size": 16,
         "fold": 1,
-        "max_examples_per_episode": 5,
-        "max_tasks": null
+        "max_examples_per_episode": 20
       },
       {
-        "batch_size": 32,
+        "batch_size": 16,
+        "fold": 2,
+        "max_examples_per_episode": 20
+      },
+      {
+        "batch_size": 16,
+        "fold": 3,
+        "max_examples_per_episode": 20
+      },
+      {
+        "batch_size": 8,
+        "fold": 0,
+        "max_examples_per_episode": 40
+      },
+      {
+        "batch_size": 8,
         "fold": 1,
-        "max_examples_per_episode": 10,
-        "max_tasks": null
+        "max_examples_per_episode": 40
       },
       {
-        "batch_size": 32,
-        "fold": 1,
-        "max_examples_per_episode": 20,
-        "max_tasks": null
-      },
-      {
-        "batch_size": 32,
-        "fold": 1,
-        "max_examples_per_episode": 30,
-        "max_tasks": null
-      },
-      {
-        "batch_size": 32,
-        "fold": 1,
-        "max_examples_per_episode": 40,
-        "max_tasks": null
-      },
-      {
-        "batch_size": 32,
-        "fold": 1,
-        "max_examples_per_episode": 50,
-        "max_tasks": null
-      },
-      {
-        "batch_size": 32,
+        "batch_size": 8,
         "fold": 2,
-        "max_examples_per_episode": 5,
-        "max_tasks": null
+        "max_examples_per_episode": 40
       },
       {
-        "batch_size": 32,
-        "fold": 2,
-        "max_examples_per_episode": 10,
-        "max_tasks": null
-      },
-      {
-        "batch_size": 32,
-        "fold": 2,
-        "max_examples_per_episode": 20,
-        "max_tasks": null
-      },
-      {
-        "batch_size": 32,
-        "fold": 2,
-        "max_examples_per_episode": 30,
-        "max_tasks": null
-      },
-      {
-        "batch_size": 32,
-        "fold": 2,
-        "max_examples_per_episode": 40,
-        "max_tasks": null
-      },
-      {
-        "batch_size": 32,
-        "fold": 2,
-        "max_examples_per_episode": 50,
-        "max_tasks": null
-      },
-      {
-        "batch_size": 32,
+        "batch_size": 8,
         "fold": 3,
-        "max_examples_per_episode": 5,
-        "max_tasks": null
-      },
-      {
-        "batch_size": 32,
-        "fold": 3,
-        "max_examples_per_episode": 10,
-        "max_tasks": null
-      },
-      {
-        "batch_size": 32,
-        "fold": 3,
-        "max_examples_per_episode": 20,
-        "max_tasks": null
-      },
-      {
-        "batch_size": 32,
-        "fold": 3,
-        "max_examples_per_episode": 30,
-        "max_tasks": null
-      },
-      {
-        "batch_size": 32,
-        "fold": 3,
-        "max_examples_per_episode": 40,
-        "max_tasks": null
-      },
-      {
-        "batch_size": 32,
-        "fold": 3,
-        "max_examples_per_episode": 50,
-        "max_tasks": null
+        "max_examples_per_episode": 40
       }
     ],
     "fit_params": [
@@ -160,90 +96,6 @@
     ],
     "model_params": [
       {
-        "do_cv": true,
-        "feature_extractor_params": {
-          "arch": "cnn",
-          "cnn_sizes": [
-            256,
-            256,
-            256
-          ],
-          "dilatation_rate": 2,
-          "embedding_size": 20,
-          "kernel_size": 2,
-          "normalize_features": false,
-          "pooling_len": 1,
-          "vocab_size": 25
-        },
-        "fixe_hps": true,
-        "kernel": "rbf",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": true,
-        "feature_extractor_params": {
-          "arch": "cnn",
-          "cnn_sizes": [
-            256,
-            256,
-            256
-          ],
-          "dilatation_rate": 2,
-          "embedding_size": 20,
-          "kernel_size": 2,
-          "normalize_features": false,
-          "pooling_len": 1,
-          "vocab_size": 25
-        },
-        "fixe_hps": true,
-        "kernel": "linear",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": true,
-        "feature_extractor_params": {
-          "arch": "cnn",
-          "cnn_sizes": [
-            256,
-            256,
-            256
-          ],
-          "dilatation_rate": 2,
-          "embedding_size": 20,
-          "kernel_size": 2,
-          "normalize_features": false,
-          "pooling_len": 1,
-          "vocab_size": 25
-        },
-        "fixe_hps": false,
-        "kernel": "rbf",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": true,
-        "feature_extractor_params": {
-          "arch": "cnn",
-          "cnn_sizes": [
-            256,
-            256,
-            256
-          ],
-          "dilatation_rate": 2,
-          "embedding_size": 20,
-          "kernel_size": 2,
-          "normalize_features": false,
-          "pooling_len": 1,
-          "vocab_size": 25
-        },
-        "fixe_hps": false,
-        "kernel": "linear",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
         "do_cv": false,
         "feature_extractor_params": {
           "arch": "cnn",
@@ -260,69 +112,6 @@
           "vocab_size": 25
         },
         "fixe_hps": true,
-        "kernel": "rbf",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": false,
-        "feature_extractor_params": {
-          "arch": "cnn",
-          "cnn_sizes": [
-            256,
-            256,
-            256
-          ],
-          "dilatation_rate": 2,
-          "embedding_size": 20,
-          "kernel_size": 2,
-          "normalize_features": false,
-          "pooling_len": 1,
-          "vocab_size": 25
-        },
-        "fixe_hps": true,
-        "kernel": "linear",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": false,
-        "feature_extractor_params": {
-          "arch": "cnn",
-          "cnn_sizes": [
-            256,
-            256,
-            256
-          ],
-          "dilatation_rate": 2,
-          "embedding_size": 20,
-          "kernel_size": 2,
-          "normalize_features": false,
-          "pooling_len": 1,
-          "vocab_size": 25
-        },
-        "fixe_hps": false,
-        "kernel": "rbf",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": false,
-        "feature_extractor_params": {
-          "arch": "cnn",
-          "cnn_sizes": [
-            256,
-            256,
-            256
-          ],
-          "dilatation_rate": 2,
-          "embedding_size": 20,
-          "kernel_size": 2,
-          "normalize_features": false,
-          "pooling_len": 1,
-          "vocab_size": 25
-        },
-        "fixe_hps": false,
         "kernel": "linear",
         "l2": 0.1,
         "lr": 0.001

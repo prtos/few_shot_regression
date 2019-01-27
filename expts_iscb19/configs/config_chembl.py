@@ -1,9 +1,9 @@
 from sklearn.model_selection import ParameterGrid
-from metalearn.feature_extraction.transformers import SMILES_ALPHABET, MOL_ALPHABET, AMINO_ACID_ALPHABET, DGLGraphTransformer
+from metalearn.feature_extraction.transformers import SMILES_ALPHABET, MOL_ALPHABET, AMINO_ACID_ALPHABET, AdjGraphTransformer
 
-transformer_ = DGLGraphTransformer()
+transformer_ = AdjGraphTransformer()
 dataset_name = 'chembl'
-test = False
+test = True
 
 if test:
     shared_params_graph = dict(
@@ -32,11 +32,9 @@ else:
 
 features_extractor_params_graph = list(ParameterGrid(dict(
     arch=['gcnn'],
-    implementation_name=['attn', 'gcn'], 
-    atom_dim=[transformer_.n_atom_feat], 
-    bond_dim=[transformer_.n_bond_feat],
-    hidden_size=[512], 
-    readout_size=[32],)))
+    in_size=[transformer_.n_atom_feat], 
+    layer_sizes=[[512 for _ in range(2)]], 
+    )))
 
 features_extractor_params_smiles = list(ParameterGrid(dict(
     arch=['cnn'],
@@ -68,8 +66,8 @@ def f_metakrr_sk(graph):
         model_params=list(ParameterGrid(dict(
             l2=[0.1],
             lr=[0.001],
-            do_cv=[True, False],
-            fixe_hps=[True, False],
+            do_cv=[False],
+            fixe_hps=[True],
             kernel=['linear', 'rbf'],
             feature_extractor_params=features_extractor_params_graph if graph else features_extractor_params_smiles,
         ))),
@@ -106,7 +104,7 @@ s_copy['dataset_params'][0].update(dict(raw_inputs=True))
 fingerprint = dict(
     model_name=['fingerprint'],
     model_params=list(ParameterGrid(dict(
-        algo=['rf'],
+        algo=['kr'],
         fp=['morgan_circular'],
     ))),
     **s_copy
@@ -124,13 +122,10 @@ seqtoseq = dict(
 )
 
 if test:
-    metakrr_sk = f_metakrr_sk(False)
-    maml = f_maml(False)
-    mann = f_mann(False)
+    metakrr_sk = f_metakrr_sk(True)
+    maml = f_maml(True)
+    mann = f_mann(True)
 else:
     metakrr_sk = f_metakrr_sk(False)
     maml = f_maml(False)
     mann = f_mann(False)
-    # metakrr_sk = [f_metakrr_sk(False), f_metakrr_sk(False)]
-    # maml = [f_maml(False), f_maml(False)]
-    # mann = [f_mann(False), f_mann(False)]

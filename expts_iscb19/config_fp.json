@@ -22,7 +22,7 @@
     ],
     "model_params": [
       {
-        "algo": "rf",
+        "algo": "kr",
         "fp": "morgan_circular"
       }
     ]
@@ -50,7 +50,7 @@
     ],
     "model_params": [
       {
-        "algo": "rf",
+        "algo": "kr",
         "fp": "morgan_circular"
       }
     ]

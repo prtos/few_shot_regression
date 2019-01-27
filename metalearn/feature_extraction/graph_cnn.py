@@ -1,60 +1,56 @@
 from torch.nn import ReLU, Embedding, ModuleList, BatchNorm1d
-from metalearn.feature_extraction.common_modules import *
 import torch.nn.functional as F
+from torch import nn
 from rdkit import Chem
 from itertools import zip_longest
 import numpy as np
-from metalearn.feature_extraction.common_modules import *
-from metalearn.feature_extraction.graphs import GATLayer, BattagliaNMP, DuvenaudNMP, DTNN, GCNLayer
+from metalearn.feature_extraction.common_modules import ClonableModule
+from .gcn_layers import GraphConvLayer
 
 
 class GraphCnnFeaturesExtractor(ClonableModule):
-    def __init__(self, implementation_name, atom_dim, bond_dim, hidden_size, block_size=3, readout_size=32):
+    def __init__(self, in_size, layer_sizes=[64], 
+                 name="GCNN", **kwargs):
         super(GraphCnnFeaturesExtractor, self).__init__()
-        # GAT anf GCN need to be stacked by layers, otherwise
-        self.is_module = False
-        if implementation_name not in ['bmpn', 'dmpn']:
-            self.is_module = True
-            if isinstance(hidden_size, int):
-                hidden_size = [hidden_size]
-            self.net = ModuleList()
-            for hdim in hidden_size:
-                if implementation_name == "attn":
-                    self.net.append(
-                        GATLayer(atom_dim, hdim, block_size, dropout=0.1, mode="avg"))
-                else:
-                    self.net.append(GCNLayer(atom_dim, hdim))
-                atom_dim = hdim
-        elif implementation_name == "bmpn":
-            self.net = BattagliaNMP(atom_dim, bond_dim, hidden_size)
-        elif implementation_name == "dmpn":
-            self.net = DuvenaudNMP(
-                atom_dim, bond_dim, hidden_size, readout_size)
-        # removed the dtnn layers, because it can be it has too many parameters
-        # and was actually designed for coulomb matrices
-        # elif implementation_name =="dtnn":
-        #    self.net = DTNN(atom_dim, bond_dim, hidden_size, readout_size, readout_size*2)
-        else:
-            raise ValueError(
-                "Unknown implementation name : {}".format(implementation_name))
+        self.name = name
+        self.in_size = in_size
+        self.conv_layers = nn.ModuleList()
+        self.pack_batch = True
+        self.layer_sizes = layer_sizes
+
+        for ksize in layer_sizes:
+            gc_params = {}
+            if isinstance(ksize, (tuple, list)) and len(ksize)==2: # so i can customize later
+                ksize, gc_params = ksize
+            gc = GraphConvLayer(G_size=None, in_size=in_size, 
+                        kernel_size=ksize, pack_batch=self.pack_batch, **gc_params)
+            self.conv_layers.append(gc) 
+            in_size = ksize
+
+    def find_node_per_mol(self, G):
+        return [g.shape[0] for g in G]
 
     def forward(self, input_x):
-        if not self.is_module:
-            return self.net(input_x)[1]
-        G = input_x
-        for layer in self.net:
-            G, h = layer(G)
+        G, x = zip(*input_x)
+        h = x
+        n_per_mol = self.find_node_per_mol(G)
+        print(type(input_x))
+        print(type(G), len(G))
+        print(type(h), len(h))
+        for i, cv_layer in enumerate(self.conv_layers):
+            print(i)
+            G, h = cv_layer(G, h)
+        # h is batch_size, G_size, kernel_size
+        # we sum on the graph dimension before going to the fully connected layers
+        h = cv_layer.gather(h, nodes_per_mol=n_per_mol) # h is now batch_size, kernel_size
         return h
 
     @property
     def output_dim(self):
-        nmp = self.net
-        if self.is_module:
-            nmp = self.net[-1]
-        if hasattr(nmp, 'out_features'):  # should always be there though
-            return nmp.out_features
-        elif hasattr(nmp, 'output_dim'):
-            return nmp.output_dim
-        else:
-            raise Exception(
-                'The graph must provide a method to know the output dimension')
+        res = self.layer_sizes[-1]
+        if isinstance(res, int):
+            return res
+        if isinstance(res, (tuple, list)) and len(res)==2:
+            return res[0]
+        raise Exception('Impossible to find the size of the output dim')
+            

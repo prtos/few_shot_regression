@@ -1,8 +1,37 @@
 import torch
+import torch.nn as nn
 from torch.nn.functional import normalize
 from torch.nn import Linear, Module, Sequential
+from torch.autograd import Variable
+from torch.nn.parameter import Parameter
 
 
+class GlobalMaxPool(nn.Module):
+    # see stackoverflow
+    # https://stats.stackexchange.com/questions/257321/what-is-global-max-pooling-layer-and-what-is-its-advantage-over-maxpooling-layer
+    def __init__(self, dim=1):
+        super(GlobalMaxPool, self).__init__()
+        self.dim = dim
+
+    def forward(self, x):
+        return torch.max(x, dim=self.dim)[0]
+
+class GlobalAvgPool(nn.Module):
+    def __init__(self, dim=1):
+        super(GlobalAvgPool, self).__init__()
+        self.dim = dim
+
+    def forward(self, x):
+        return torch.mean(x, dim=self.dim)
+
+class GlobalSumPool(nn.Module):
+    def __init__(self, dim=1):
+        super(GlobalSumPool, self).__init__()
+        self.dim = dim
+
+    def forward(self, x):
+        return torch.sum(x, dim=self.dim)
+        
 class GaussianDropout(torch.nn.Module):
     def __init__(self, alpha=1.0):
         super(GaussianDropout, self).__init__()
@@ -110,3 +139,18 @@ class ResidualBlockMaker(Module):
         out += residual
         out = self.relu(out)
         return out
+
+def to_sparse(x):
+    """ converts dense tensor x to sparse format """
+    x_typename = torch.typename(x).split('.')[-1]
+    sparse_tensortype = getattr(torch.sparse, x_typename)
+
+    indices = torch.nonzero(x)
+    if len(indices.shape) == 0:  # if all elements are zeros
+        return sparse_tensortype(*x.shape)
+    indices = indices.t()
+    values = x[tuple(indices[i] for i in range(indices.shape[0]))]
+    return sparse_tensortype(indices, values, x.size())
+
+activation_map = {'tanh': nn.Tanh(), 'relu':nn.ReLU(), 'sigmoid':nn.Sigmoid()}
+pooling_map = {"max": GlobalMaxPool(), "avg": GlobalAvgPool(), "sum": GlobalSumPool()}

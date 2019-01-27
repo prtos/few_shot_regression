@@ -1,10 +1,16 @@
 from sklearn.model_selection import ParameterGrid
 from metalearn.feature_extraction.transformers import AMINO_ACID_ALPHABET
 
+def gen_dataset_params():
+    return [dict(max_examples_per_episode=m, 
+                    batch_size=int(32*10/m), fold=f)
+            for m in [5, 10, 20, 40] for f in range(4)]
+
 shared_params = dict(
     dataset_name=['mhc'],
-    dataset_params=list(ParameterGrid(dict(max_examples_per_episode=[5, 10, 20, 30, 40, 50], 
-                    batch_size=[32], fold=range(4), max_tasks=[None]))),
+    # dataset_params=list(ParameterGrid(dict(max_examples_per_episode=[10], 
+    #                 batch_size=[32], fold=rangedataset_params=(14)))),
+    dataset_params=gen_dataset_params(),
     fit_params=[dict(n_epochs=100, steps_per_epoch=500)],
 )
 
@@ -23,9 +29,9 @@ metakrr_sk = dict(
     model_params=list(ParameterGrid(dict(
         l2=[0.1],
         lr=[0.001],
-        kernel=['rbf', 'linear'],
-        fixe_hps=[True, False],
-        do_cv=[True, False],
+        kernel=['linear'],
+        fixe_hps=[True],
+        do_cv=[False],
         feature_extractor_params=features_extractor_params,
     ))),
     **shared_params

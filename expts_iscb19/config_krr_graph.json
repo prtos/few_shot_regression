@@ -7,13 +7,14 @@
       {
         "batch_size": 32,
         "max_examples_per_episode": 10,
+        "max_tasks": 100,
         "use_graph": true
       }
     ],
     "fit_params": [
       {
-        "n_epochs": 100,
-        "steps_per_epoch": 500
+        "n_epochs": 1,
+        "steps_per_epoch": 5
       }
     ],
     "model_name": [
@@ -24,11 +25,11 @@
         "do_cv": true,
         "feature_extractor_params": {
           "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 256,
-          "implementation_name": "attn",
-          "readout_size": 32
+          "in_size": 79,
+          "layer_sizes": [
+            512,
+            512
+          ]
         },
         "fixe_hps": true,
         "kernel": "linear",
@@ -39,11 +40,11 @@
         "do_cv": true,
         "feature_extractor_params": {
           "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 256,
-          "implementation_name": "attn",
-          "readout_size": 32
+          "in_size": 79,
+          "layer_sizes": [
+            512,
+            512
+          ]
         },
         "fixe_hps": true,
         "kernel": "rbf",
@@ -54,11 +55,11 @@
         "do_cv": true,
         "feature_extractor_params": {
           "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 256,
-          "implementation_name": "attn",
-          "readout_size": 32
+          "in_size": 79,
+          "layer_sizes": [
+            512,
+            512
+          ]
         },
         "fixe_hps": false,
         "kernel": "linear",
@@ -69,71 +70,11 @@
         "do_cv": true,
         "feature_extractor_params": {
           "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 256,
-          "implementation_name": "attn",
-          "readout_size": 32
-        },
-        "fixe_hps": false,
-        "kernel": "rbf",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": true,
-        "feature_extractor_params": {
-          "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 256,
-          "implementation_name": "gcn",
-          "readout_size": 32
-        },
-        "fixe_hps": true,
-        "kernel": "linear",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": true,
-        "feature_extractor_params": {
-          "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 256,
-          "implementation_name": "gcn",
-          "readout_size": 32
-        },
-        "fixe_hps": true,
-        "kernel": "rbf",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": true,
-        "feature_extractor_params": {
-          "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 256,
-          "implementation_name": "gcn",
-          "readout_size": 32
-        },
-        "fixe_hps": false,
-        "kernel": "linear",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": true,
-        "feature_extractor_params": {
-          "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 256,
-          "implementation_name": "gcn",
-          "readout_size": 32
+          "in_size": 79,
+          "layer_sizes": [
+            512,
+            512
+          ]
         },
         "fixe_hps": false,
         "kernel": "rbf",
@@ -144,11 +85,11 @@
         "do_cv": false,
         "feature_extractor_params": {
           "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 256,
-          "implementation_name": "attn",
-          "readout_size": 32
+          "in_size": 79,
+          "layer_sizes": [
+            512,
+            512
+          ]
         },
         "fixe_hps": true,
         "kernel": "linear",
@@ -159,71 +100,11 @@
         "do_cv": false,
         "feature_extractor_params": {
           "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 256,
-          "implementation_name": "attn",
-          "readout_size": 32
-        },
-        "fixe_hps": true,
-        "kernel": "rbf",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": false,
-        "feature_extractor_params": {
-          "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 256,
-          "implementation_name": "attn",
-          "readout_size": 32
-        },
-        "fixe_hps": false,
-        "kernel": "linear",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": false,
-        "feature_extractor_params": {
-          "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 256,
-          "implementation_name": "attn",
-          "readout_size": 32
-        },
-        "fixe_hps": false,
-        "kernel": "rbf",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": false,
-        "feature_extractor_params": {
-          "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 256,
-          "implementation_name": "gcn",
-          "readout_size": 32
-        },
-        "fixe_hps": true,
-        "kernel": "linear",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": false,
-        "feature_extractor_params": {
-          "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 256,
-          "implementation_name": "gcn",
-          "readout_size": 32
+          "in_size": 79,
+          "layer_sizes": [
+            512,
+            512
+          ]
         },
         "fixe_hps": true,
         "kernel": "rbf",
@@ -234,11 +115,11 @@
         "do_cv": false,
         "feature_extractor_params": {
           "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 256,
-          "implementation_name": "gcn",
-          "readout_size": 32
+          "in_size": 79,
+          "layer_sizes": [
+            512,
+            512
+          ]
         },
         "fixe_hps": false,
         "kernel": "linear",
@@ -249,11 +130,11 @@
         "do_cv": false,
         "feature_extractor_params": {
           "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 256,
-          "implementation_name": "gcn",
-          "readout_size": 32
+          "in_size": 79,
+          "layer_sizes": [
+            512,
+            512
+          ]
         },
         "fixe_hps": false,
         "kernel": "rbf",
@@ -270,13 +151,14 @@
       {
         "batch_size": 32,
         "max_examples_per_episode": 10,
+        "max_tasks": 100,
         "use_graph": true
       }
     ],
     "fit_params": [
       {
-        "n_epochs": 100,
-        "steps_per_epoch": 500
+        "n_epochs": 1,
+        "steps_per_epoch": 5
       }
     ],
     "model_name": [
@@ -284,134 +166,14 @@
     ],
     "model_params": [
       {
-        "do_cv": true,
-        "feature_extractor_params": {
-          "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 512,
-          "implementation_name": "attn",
-          "readout_size": 32
-        },
-        "fixe_hps": true,
-        "kernel": "linear",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": true,
-        "feature_extractor_params": {
-          "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 512,
-          "implementation_name": "attn",
-          "readout_size": 32
-        },
-        "fixe_hps": true,
-        "kernel": "rbf",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": true,
-        "feature_extractor_params": {
-          "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 512,
-          "implementation_name": "attn",
-          "readout_size": 32
-        },
-        "fixe_hps": false,
-        "kernel": "linear",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": true,
-        "feature_extractor_params": {
-          "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 512,
-          "implementation_name": "attn",
-          "readout_size": 32
-        },
-        "fixe_hps": false,
-        "kernel": "rbf",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": true,
-        "feature_extractor_params": {
-          "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 512,
-          "implementation_name": "gcn",
-          "readout_size": 32
-        },
-        "fixe_hps": true,
-        "kernel": "linear",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": true,
-        "feature_extractor_params": {
-          "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 512,
-          "implementation_name": "gcn",
-          "readout_size": 32
-        },
-        "fixe_hps": true,
-        "kernel": "rbf",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": true,
-        "feature_extractor_params": {
-          "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 512,
-          "implementation_name": "gcn",
-          "readout_size": 32
-        },
-        "fixe_hps": false,
-        "kernel": "linear",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": true,
-        "feature_extractor_params": {
-          "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 512,
-          "implementation_name": "gcn",
-          "readout_size": 32
-        },
-        "fixe_hps": false,
-        "kernel": "rbf",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
         "do_cv": false,
         "feature_extractor_params": {
           "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 512,
-          "implementation_name": "attn",
-          "readout_size": 32
+          "in_size": 79,
+          "layer_sizes": [
+            512,
+            512
+          ]
         },
         "fixe_hps": true,
         "kernel": "linear",
@@ -422,103 +184,13 @@
         "do_cv": false,
         "feature_extractor_params": {
           "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 512,
-          "implementation_name": "attn",
-          "readout_size": 32
+          "in_size": 79,
+          "layer_sizes": [
+            512,
+            512
+          ]
         },
         "fixe_hps": true,
-        "kernel": "rbf",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": false,
-        "feature_extractor_params": {
-          "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 512,
-          "implementation_name": "attn",
-          "readout_size": 32
-        },
-        "fixe_hps": false,
-        "kernel": "linear",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": false,
-        "feature_extractor_params": {
-          "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 512,
-          "implementation_name": "attn",
-          "readout_size": 32
-        },
-        "fixe_hps": false,
-        "kernel": "rbf",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": false,
-        "feature_extractor_params": {
-          "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 512,
-          "implementation_name": "gcn",
-          "readout_size": 32
-        },
-        "fixe_hps": true,
-        "kernel": "linear",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": false,
-        "feature_extractor_params": {
-          "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 512,
-          "implementation_name": "gcn",
-          "readout_size": 32
-        },
-        "fixe_hps": true,
-        "kernel": "rbf",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": false,
-        "feature_extractor_params": {
-          "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 512,
-          "implementation_name": "gcn",
-          "readout_size": 32
-        },
-        "fixe_hps": false,
-        "kernel": "linear",
-        "l2": 0.1,
-        "lr": 0.001
-      },
-      {
-        "do_cv": false,
-        "feature_extractor_params": {
-          "arch": "gcnn",
-          "atom_dim": 79,
-          "bond_dim": 8,
-          "hidden_size": 512,
-          "implementation_name": "gcn",
-          "readout_size": 32
-        },
-        "fixe_hps": false,
         "kernel": "rbf",
         "l2": 0.1,
         "lr": 0.001

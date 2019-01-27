@@ -56,6 +56,7 @@ class MetaKrrSingleKernelNetwork(MetaNetwork):
         # training part of the episode
         self.feature_extractor.train()
         x_train, y_train = episode['Dtrain']
+        m = len(x_train)
         phis = self.feature_extractor(x_train)
         if self.do_cv:
             l2s = torch.logspace(-4, 1, 10).to(self.device) if not self.fixe_hps else self.l2s
@@ -69,7 +70,8 @@ class MetaKrrSingleKernelNetwork(MetaNetwork):
                 raise NotImplementedError
             learner = KrrLearnerCV(l2s, self.kernel, dual=False, **kernels_params)
         else:
-            l2 = torch.clamp(self.l2, min=1e-3)
+            # l2 = torch.clamp(self.l2, min=1e-3)
+            l2 = torch.FloatTensor([1.0/m]).to(self.device) #todo: need to remove this after expts
             kp = {k: torch.clamp(self.kernel_params[k], min=1e-6) for k in self.kernel_params}
             learner = KrrLearner(l2, self.kernel, dual=False, **kp)
 

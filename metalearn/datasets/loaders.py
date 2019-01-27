@@ -10,7 +10,7 @@ from os.path import dirname, realpath, join, exists
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from metalearn.datasets.metadataset import MetaRegressionDataset
-from metalearn.feature_extraction import SequenceTransformer, DGLGraphTransformer
+from metalearn.feature_extraction import SequenceTransformer, AdjGraphTransformer
 from metalearn.feature_extraction.constants import AMINO_ACID_ALPHABET, SMILES_ALPHABET, ATOM_LIST 
 from torch.utils.data import DataLoader, WeightedRandomSampler
 from contextlib import contextmanager
@@ -74,7 +74,7 @@ class ChemblDataset(MetaRegressionDataset):
         super(ChemblDataset, self).__init__(*args, **kwargs)
         y_epsilon = 1e-7
         if use_graph:
-            transformer = DGLGraphTransformer()
+            transformer = AdjGraphTransformer()
         else:
             transformer = SequenceTransformer(SMILES_ALPHABET, returnTensor=True)
         prot_transformer = SequenceTransformer(AMINO_ACID_ALPHABET)
