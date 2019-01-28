@@ -407,7 +407,7 @@ class AdjGraphTransformer(MoleculeTransformer):
         if self.with_bond:
             atom_matrix = np.concatenate(
                 [atom_matrix, bond_matrix], axis=1).astype(np.uint8)
-        return (normalize_adj(adj_matrix.astype(np.uint8)), atom_matrix.astype(np.float32))
+        return (totensor(normalize_adj(adj_matrix.astype(np.uint8))), totensor(atom_matrix.astype(np.float32)))
 
 
 class FingerprintsTransformer(MoleculeTransformer):

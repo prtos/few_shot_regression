@@ -73,7 +73,8 @@ class ChemblDataset(MetaRegressionDataset):
     def __init__(self, *args, use_graph=True, **kwargs):
         super(ChemblDataset, self).__init__(*args, **kwargs)
         y_epsilon = 1e-7
-        if use_graph:
+        self.use_graph = use_graph
+        if self.use_graph:
             transformer = AdjGraphTransformer()
         else:
             transformer = SequenceTransformer(SMILES_ALPHABET, returnTensor=True)
@@ -83,7 +84,30 @@ class ChemblDataset(MetaRegressionDataset):
         self.task_descr_transformer = lambda z: None if z is None else prot_transformer.transform([z])[0] 
         self.max_test_examples = 500
         self.vocab = SMILES_ALPHABET if not use_graph else ATOM_LIST 
-        
+
+    def _episode(self, xtrain, ytrain, xtest, ytest, task_descriptor=None, idx=None):
+        if not self.use_graph:
+            return super(ChemblDataset, self)._episode(xtrain, ytrain, xtest, ytest, task_descriptor, idx)
+        ntrain = len(xtrain)
+        temp = self.x_transformer(np.concatenate([xtrain, xtest]))
+        G, feat = zip(*temp)
+        temp = [(self.cuda_tensor(G[i]), self.cuda_tensor(feat[i])) for i in range(len(G))]
+        xtrain, xtest = temp[:ntrain], temp[ntrain:]
+        temp = self.y_transformer(np.concatenate([ytrain, ytest]))
+        ytrain, ytest = temp[:ntrain], temp[ntrain:]
+
+        if task_descriptor is not None:
+            task_descriptor = self.task_descriptor_transformer(task_descriptor)
+            td = dict(task_descr = self.cuda_tensor(task_descriptor))
+        else:
+            td=dict()
+
+        return (dict(Dtrain=(xtrain, self.cuda_tensor(ytrain)),
+                     Dtest=(xtest, self.cuda_tensor(ytest)),
+                     idx=idx,
+                     **td),
+                self.cuda_tensor(ytest))
+
     def episode_loader(self, filename):
         with open(filename, 'r') as f_in:
             f_in.readline() # reand and neglect the first line

@@ -34,11 +34,7 @@ class GraphCnnFeaturesExtractor(ClonableModule):
         G, x = zip(*input_x)
         h = x
         n_per_mol = self.find_node_per_mol(G)
-        print(type(input_x))
-        print(type(G), len(G))
-        print(type(h), len(h))
         for i, cv_layer in enumerate(self.conv_layers):
-            print(i)
             G, h = cv_layer(G, h)
         # h is batch_size, G_size, kernel_size
         # we sum on the graph dimension before going to the fully connected layers

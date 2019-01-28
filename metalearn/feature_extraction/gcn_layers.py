@@ -22,7 +22,6 @@ def pack_graph(batch_G, batch_x, return_sparse=False, fill_missing=0):
         This tuple represent a new arbitrary graph and the corresponding atom feature matrix.
         new_batch_G has size (N, N), with $N = \sum_i n_i$, while new_batch_x has size (N,d)
     """
-    print("Pack graph got ", type(batch_x), len(batch_x), type(batch_x[0]))
     out_x = torch.cat(tuple(batch_x), dim=0)
     n_neigb = out_x.shape[0]
     out_G = torch.zeros((n_neigb, n_neigb))
@@ -53,7 +52,7 @@ class GraphConvLayer(nn.Module):
         self.dropout = nn.Dropout(p=dropout)
         self.b_norm = nn.BatchNorm1d(kernel_size)
         self.activation = activation_map[activation]
-        self.use_sparse = kwargs.get("sparse", False)
+        self.use_sparse = kwargs.get("sparse", True)
         self.pack_batch = pack_batch
         self.pooling = pooling_map[pooling] # on purpose so we can raise an error
 
@@ -91,10 +90,13 @@ class GraphConvLayer(nn.Module):
         if not self.pack_batch and isinstance(G, (list, tuple)):
             G = torch.stack(G)
             x = torch.stack(x)
-        if not isinstance(G, torch.Tensor) and self.pack_batch:
-            G, h = pack_graph(G, x, self.use_sparse)
-            G_size = h.shape[0]
-            h = torch.mm(G, h).unsqueeze(0) # support sparse here for G
+        if self.pack_batch:
+            if not isinstance(G, torch.Tensor): 
+                G, x = pack_graph(G, x, self.use_sparse)
+            if x.shape[0] == 1:
+                x = x.squeeze(0)
+            G_size = x.shape[0]
+            h = torch.mm(G, x).unsqueeze(0) # support sparse here for G
             # we add the batch dimension again
         else: # expect a batch here
             G = G.view(-1, G.shape[-2], G.shape[-1]) # ensure that batch dim is there
