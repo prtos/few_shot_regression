@@ -24,7 +24,7 @@ def pack_graph(batch_G, batch_x, return_sparse=False, fill_missing=0):
     """
     out_x = torch.cat(tuple(batch_x), dim=0)
     n_neigb = out_x.shape[0]
-    out_G = torch.zeros((n_neigb, n_neigb))
+    out_G = batch_G[0].new_zeros((n_neigb, n_neigb))
     cur_ind = 0
     n_per_mol = [] # should return this eventually
     for g in batch_G:
@@ -103,7 +103,7 @@ class GraphConvLayer(nn.Module):
             h = x.view(-1, x.shape[-2], x.shape[-1])
             h = torch.bmm(G, h) # batch_size, G_size, in_size
             G_size = h.shape[1]
-        
+
         h = self._forward(h)
         h = h.view(-1, G_size, self.kernel_size) # then set it back again to normal size
         return G, h 
