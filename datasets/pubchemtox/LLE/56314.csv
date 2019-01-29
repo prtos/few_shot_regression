@@ -1,0 +1,21 @@
+Inhibitory activity against Dihydrofolate reductase from Toxoplasma gondii was evaluated using 90 uM dihydrofolic acid as substrate
+CC1=C2C(=NC(=NC2=NC=C1CC3=C(C=CC(=C3)OC)OC)N)N,5.34
+CC1=C(C=CC2=C1C(=NC(=N2)N)N)CNC3=CC(=C(C(=C3)OC)OC)OC,5.22
+CCOC1=CC(=CC(=C1N2C=CC=C2)OCC)CC3=CN=C(N=C3N)N,3.2
+CCC1=C(C(=NC(=N1)N)N)C2=CC(=C(C=C2)N(C)CC3=CC=CC=C3)[N+](=O)[O-],3.31
+CCC1=C(C(=NC(=N1)N)N)C2=CC(=C(C=C2)Cl)[N+](=O)[O-],5.25
+CCC1=C(C(=NC(=N1)N)N)C2=CC(=C(C=C2)NCC3=CC=CC=C3)[N+](=O)[O-],4.35
+CCC1=C(C(=NC(=N1)N)N)C2=CC(=C(C=C2)NCC3=CC=C(C=C3)C(=O)N4CCCCC4)[N+](=O)[O-],3.15
+CCC1=C(C(=NC(=N1)N)N)C2=CC(=C(C=C2)NCC3=CC=C(C=C3)C(=O)O)[N+](=O)[O-],5.74
+CCC1=C(C(=NC(=N1)N)N)C2=CC(=C(C=C2)NCC3=CC=C(C=C3)C(=O)NC(CCC(=O)O)C(=O)O)[N+](=O)[O-],5.96
+CCC1=C(C(=NC(=N1)N)N)C2=CC(=C(C=C2)NCC3=CC=C(C=C3)C(=O)NC(CCC(=O)OCC)C(=O)OCC)[N+](=O)[O-],4.75
+CCC1=C(C(=NC(=N1)N)N)C2=CC(=C(C=C2)NCC3=CC=C(C=C3)C(=O)N(C)C)[N+](=O)[O-],5.31
+CCC1=C(C(=NC(=N1)N)N)C2=CC(=C(C=C2)NCC3=CC=C(C=C3)C(=O)N)[N+](=O)[O-],6.06
+CCC1=C(C(=NC(=N1)N)N)C2=CC(=C(C=C2)NCC3=CC=C(C=C3)C(=O)NC)[N+](=O)[O-],5.79
+CCC1=C(C(=NC(=N1)N)N)C2=CC(=C(C=C2)NCC3=CC=C(C=C3)S(=O)(=O)N)[N+](=O)[O-],6.16
+CCC1=C(C(=NC(=N1)N)N)C2=CC(=C(C=C2)NCC3=CC=C(C=C3)C4OCCO4)[N+](=O)[O-],4.76
+CCC1=C(C(=NC(=N1)N)N)C2=CC(=C(C=C2)N(C)CC3=CC=C(C=C3)C(=O)NC)[N+](=O)[O-],5.2
+CCC1=C(C(=NC(=N1)N)N)C2=CC(=C(C=C2)N(C)CC3=CC=C(C=C3)C(=O)O)[N+](=O)[O-],5.15
+CCC1=C(C(=NC(=N1)N)N)C2=CC(=C(C=C2)N(C)CC3=CC=C(C=C3)C4=NC(CO4)(C)C)[N+](=O)[O-],3.61
+CN(CC1=CN=C2C(=N1)C(=NC(=N2)N)N)C3=CC=C(C=C3)C(=O)NC(CCC(=O)O)C(=O)O,8.74
+CC1=CN(C(=O)NC1=O)CCC2CC(C(O2)COP(=O)(O)O)O,7.18

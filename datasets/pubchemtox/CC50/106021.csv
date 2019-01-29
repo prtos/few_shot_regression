@@ -1,0 +1,21 @@
+Tested for cytotoxicity towards human MRC-5 cells
+C1=CC=C(C=C1)CNC(=O)CN2C=CN=C2[N+](=O)[O-],50000
+CC1CS(=O)(=O)CCN1N=CC2=CC=C(O2)[N+](=O)[O-],50000
+C1C(S[As](S1)C2=CC=C(C=C2)NC3=NC(=NC(=N3)N)N)CO,12500
+C1=CC=C2C=C(C=CC2=C1)CC(=O)NNC(=O)C3=CC=C(O3)[N+](=O)[O-],4000
+C1=CC=C(C=C1)C(=O)NNC(=O)C2=CC=C(O2)[N+](=O)[O-],17000
+C1=CC=C(C=C1)CC(=O)NNC(=O)C2=CC=C(O2)[N+](=O)[O-],2000
+COC(=O)C1=CC=C(O1)[N+](=O)[O-],32000
+C1=CC=C2C=C(C=CC2=C1)C(=O)NNC(=O)C3=CC=C(O3)[N+](=O)[O-],2000
+C1=CC=C2C(=C1)C=CC=C2S(=O)(=O)NNC(=O)C3=CC=C(O3)[N+](=O)[O-],750
+CC(C)(C)OC(=O)NC1=CC2=C(C=C1)C=C(C=C2)C(=O)NNC(=O)C3=CC=C(O3)[N+](=O)[O-],2000
+C1=CC=C2C(=C1)C=CC=C2C(=O)NNC(=O)C3=CC=C(O3)[N+](=O)[O-],1000
+C1=CC=C2C=C(C=CC2=C1)S(=O)(=O)NNC(=O)C3=CC=C(O3)[N+](=O)[O-],18000
+C1=CC=C(C=C1)S(=O)(=O)NNC(=O)C2=CC=C(O2)[N+](=O)[O-],4000
+C1=C(OC(=C1)[N+](=O)[O-])C(=O)NNC(=O)C2=CC=C(O2)[N+](=O)[O-],4000
+CC(C)(C)OC(=O)NNC(=O)C1=CC=C(O1)[N+](=O)[O-],12000
+C1=C(OC(=C1)[N+](=O)[O-])C(=O)NN,9000
+CC(C)(C)OC(=O)NC(C1=CC=CC=C1)C(=O)NNC(=O)C2=CC=C(O2)[N+](=O)[O-],6000
+C1=C(OC(=C1)[N+](=O)[O-])C(=O)O,32000
+C1=CC=C(C=C1)C(C(=O)NNC(=O)C2=CC=C(O2)[N+](=O)[O-])N.Cl,14000
+C1=CC2=C(C=CC(=C2)N)C=C1C(=O)NNC(=O)C3=CC=C(O3)[N+](=O)[O-].Cl,770

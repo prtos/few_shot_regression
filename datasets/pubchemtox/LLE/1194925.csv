@@ -1,0 +1,23 @@
+Inhibition of human recombinant carbonic anhydrase 1 expressed in Escherichia coli pre-incubated for 15 mins by stopped-flow CO2 hydration assay
+CC(=O)NC1=NN=C(S1)S(=O)(=O)N,7.93
+CN(C)CCNC(=S)[S-].[K+],5.44
+C(CNC(=S)[S-])CO.[K+],5.14
+C(CCO)CNC(=S)[S-].[K+],4.94
+C(CCNC(=S)[S-])CCO.[Na+],5.13
+C1CN2CCC1C(C2)NC(=S)[S-].[Na+],4.29
+C1CN2CCC1C(C2)NC(=S)[S-].[Na+],4.6
+C1CN2CCC1C(C2)NC(=S)[S-].[Na+],4.19
+C1CCN(CC1)C(=S)[S-].[K+],3.66
+C1CC(CN(C1)C(=S)[S-])O.[Na+],4.4
+C1CCN(C(C1)C(=O)[O-])C(=S)[S-].[Na+].[Na+],3.75
+C1CC(CN(C1)C(=S)[S-])C(=O)[O-].[Na+].[Na+],4.28
+C1CC(CN(C1)C(=S)[S-])C(=O)[O-].[Na+].[Na+],4.04
+C1CC(CN(C1)C(=S)[S-])C(=O)[O-].[Na+].[Na+],4.7
+C1CN(CCC1C(=O)[O-])C(=S)[S-].[Na+].[Na+],4.35
+CC(=O)NC1CCCN(C1)C(=S)[S-].[K+],4.34
+CC(C)(C)C(=O)NC1CCCN(C1)C(=S)[S-].[K+],2.92
+CC1COCCN1C(=S)[S-].[Na+],4.27
+C1COCC(N1C(=S)[S-])C(=O)[O-].[Na+].[Na+],5.74
+C1CCC(CC1)NC(=O)CN2CCN(CC2)C(=S)[S-].[Na+],3.48
+C1=CC=C(C=C1)CCNC(=S)[S-].[Na+],2.98
+C1=CC(=CC=C1CCNC(=S)[S-])S(=O)(=O)N.[Na+],4.91

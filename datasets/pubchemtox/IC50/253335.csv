@@ -1,0 +1,22 @@
+Compound was tested for cytotoxicity in Vero cells
+CC1=CC2=C(C=C1C)[N+](=O)C(=C(N2[O-])C)C(=O)OC,62.5
+COCCC1=C([N+](=O)C2=CC(=C(C=C2N1[O-])Cl)Cl)C(=O)OC,4.5
+CC1=CC2=C(C=C1)N(C(=C([N+]2=O)C(=O)OC)C)[O-],62.5
+CC1=C([N+](=O)C2=C(N1[O-])C=CC(=C2)OC)C(=O)OC,52.58
+CC1=C([N+](=O)C2=CC=CC=C2N1[O-])C(=O)OC,10
+COC(=O)C1=C(N(C2=CC(=C(C=C2[N+]1=O)Cl)Cl)[O-])CC=C,5.8
+CC1=C([N+](=O)C2=CC(=C(C=C2N1[O-])Cl)Cl)C(=O)OC,1.68
+CC1=C([N+](=O)C2=CC(=C(C=C2N1[O-])F)F)C(=O)OC,1.48
+CCC1=C([N+](=O)C2=C(N1[O-])C=C(C(=C2)C)C)C(=O)OC,62.5
+CC1=CC2=C(C=C1)N(C(=C([N+]2=O)C(=O)OC)CC3=CC=CC=C3)[O-],56.05
+COC1=CC2=C(C=C1)N(C(=C([N+]2=O)C(=O)OC)CC3=CC=CC=C3)[O-],62.5
+CCC1=C([N+](=O)C2=C(N1[O-])C=CC(=C2)C)C(=O)OC,62.5
+COC(=O)C1=C(N(C2=CC=CC=C2[N+]1=O)[O-])CC3=CC=CC=C3,47
+CCC1=C([N+](=O)C2=CC(=C(C=C2N1[O-])Cl)Cl)C(=O)OCC(=O)OCC,1.22
+COC(=O)C1=C(N(C2=C([N+]1=O)C=C(C=C2)Cl)[O-])CC3=CC=CC=C3,7.6
+CCC1=C([N+](=O)C2=C(N1[O-])C=CC(=C2)OC)C(=O)OC,39.95
+CCC1=C([N+](=O)C2=CC=CC=C2N1[O-])C(=O)OC,47
+CCC1=C([N+](=O)C2=C(N1[O-])C=CC(=C2)Cl)C(=O)OC,10
+CCC1=C([N+](=O)C2=CC(=C(C=C2N1[O-])Cl)Cl)C(=O)OC,4
+CCC1=C([N+](=O)C2=CC(=C(C=C2N1[O-])F)F)C(=O)OC,1.2
+CCC1=C([N+](=O)C2=C(N1[O-])C=CC(=C2)Cl)C(=O)OCC(=O)OCC,1.89

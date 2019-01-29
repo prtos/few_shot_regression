@@ -1,0 +1,24 @@
+Antibacterial activity against Staphylococcus aureus CCM 4516/08 after 24 hrs by microdilution broth method
+CC1(C(N2C(S1)C(C2=O)NC(=O)CC3=CC=CC=C3)C(=O)O)C,980
+C1=CC(=C(C=C1[N+](=O)[O-])C(=O)NC2=CC(=CC(=C2)C(F)(F)F)C(F)(F)F)O,3900
+C1=CC(=CC(=C1)I)NC(=O)C2=C(C=C(C=C2)[N+](=O)[O-])O,3900
+C1=CC(=CC(=C1)Br)NC(=O)C2=C(C=C(C=C2)[N+](=O)[O-])O,3900
+C1=CC(=CC(=C1)Cl)NC(=O)C2=C(C=C(C=C2)[N+](=O)[O-])O,7810
+C1=CC(=CC(=C1)F)NC(=O)C2=C(C=C(C=C2)[N+](=O)[O-])O,15620
+C1=CC(=C(C=C1NC(=O)C2=C(C=C(C=C2)[N+](=O)[O-])O)Cl)Cl,3900
+C1=CC(=CC(=C1)NC(=O)C2=C(C=C(C=C2)[N+](=O)[O-])O)C(F)(F)F,3900
+C1=CC(=CC=C1C(F)(F)F)NC(=O)C2=C(C=C(C=C2)[N+](=O)[O-])O,7810
+C1=CC(=C(C=C1NC(=O)C2=C(C=C(C=C2)[N+](=O)[O-])O)C(F)(F)F)[N+](=O)[O-],7810
+C1=CC(=CC(=C1)[N+](=O)[O-])NC(=O)C2=C(C=C(C=C2)[N+](=O)[O-])O,62500
+C1=CC(=CC=C1NC(=O)C2=C(C=C(C=C2)[N+](=O)[O-])O)[N+](=O)[O-],62500
+C1=CC(=C(C=C1[N+](=O)[O-])O)C(=O)NC2=CC(=CC(=C2)C(F)(F)F)C(F)(F)F,1950
+C1=CC(=CC(=C1)I)NC(=O)C2=C(C=CC(=C2)[N+](=O)[O-])O,31250
+C1=CC(=CC(=C1)Br)NC(=O)C2=C(C=CC(=C2)[N+](=O)[O-])O,31250
+C1=CC(=CC(=C1)Cl)NC(=O)C2=C(C=CC(=C2)[N+](=O)[O-])O,31250
+C1=CC(=CC(=C1)F)NC(=O)C2=C(C=CC(=C2)[N+](=O)[O-])O,125000
+C1=CC(=C(C=C1NC(=O)C2=C(C=CC(=C2)[N+](=O)[O-])O)Cl)Cl,31250
+C1=CC(=CC(=C1)NC(=O)C2=C(C=CC(=C2)[N+](=O)[O-])O)C(F)(F)F,31250
+C1=CC(=CC=C1C(F)(F)F)NC(=O)C2=C(C=CC(=C2)[N+](=O)[O-])O,31250
+C1=CC(=C(C=C1NC(=O)C2=C(C=CC(=C2)[N+](=O)[O-])O)C(F)(F)F)[N+](=O)[O-],62500
+C1=CC(=CC(=C1)[N+](=O)[O-])NC(=O)C2=C(C=CC(=C2)[N+](=O)[O-])O,500000
+C1=CC(=CC=C1NC(=O)C2=C(C=CC(=C2)[N+](=O)[O-])O)[N+](=O)[O-],250000

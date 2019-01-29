@@ -1,0 +1,1 @@
+[{"name":["lstm"], "epoch":[100], "train_episodes":[2500], "test_episodes":[20], "train_size":[5], "test_size":[5], "dataset":["metaqsar", "pubchem"]}, {"name":["lstm"], "epoch":[100], "train_episodes":[2500], "test_episodes":[20], "train_size":[10], "test_size":[10], "min_size":[20], "dataset":["pubchem"]} ]

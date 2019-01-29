@@ -1,0 +1,23 @@
+Potency to displace [3H]nicotine binding to Nicotinic acetylcholine receptor alpha4-beta2 immuno-isolated from M10 cells
+CN1CCCC1C2=CN=CC=C2,0.99
+C1CC2C(CC1N2)C3=CN=C(C=C3)Cl,1.07
+C1CN(C(=N1)N)CC2=CN=C(C=C2)Cl,0.84
+C1=CC(=NC=C1CN2C=CSC2=N)Cl,0.92
+C1=CN=CC(=C1N=[N+]=[N-])CN2C=CSC2=N,0.52
+C1=CSC(=N)N1CC2=CC(=C(N=C2)Cl)N=[N+]=[N-],0.75
+C1=CSC(=N)N1CC2=CN=C(C=C2N=[N+]=[N-])Cl,0.56
+C1=CSC(=N[N+](=O)[O-])N1CC2=CC(=C(N=C2)Cl)N=[N+]=[N-],0.46
+C1=CC(=NC=C1CN2C=CSC2=N[N+](=O)[O-])Cl,0.54
+C1=CN(C(=N1)N[N+](=O)[O-])CC2=CN=C(C=C2N=[N+]=[N-])Cl,0.33
+C1=CN(C(=N1)N[N+](=O)[O-])CC2=CC(=C(N=C2)Cl)N=[N+]=[N-],0.45
+C1=CC(=NC=C1CN2C=CN=C2N[N+](=O)[O-])Cl,0.51
+C1CN(C(=N1)N)CC2=CC(=C(N=C2)Cl)N=[N+]=[N-],0.69
+C1=CSC(=N)N1CC2=CC(=CN=C2)N=[N+]=[N-],0.69
+C1=CN=CC(=C1N=[N+]=[N-])CN2C=CN=C2N[N+](=O)[O-],0.29
+C1=CC(=NC=C1CN2C=CSC2=NC#N)Cl,0.59
+C1=CN(C(=C[N+](=O)[O-])N1)CC2=CC(=C(N=C2)Cl)N=[N+]=[N-],0.51
+C1=CC(=NC=C1CN2C=CNC2=C[N+](=O)[O-])Cl,0.58
+C1=CSC(=NC#N)N1CC2=CC(=C(N=C2)Cl)N=[N+]=[N-],0.5
+C1CN(C(=N1)N[N+](=O)[O-])CC2=CC(=C(N=C2)Cl)N=[N+]=[N-],0.44
+C1=CN(C(=N1)N[N+](=O)[O-])CC2=CC(=CN=C2)N=[N+]=[N-],0.38
+C1CN(C(=N1)N[N+](=O)[O-])CC2=CN=C(C=C2)Cl,0.49

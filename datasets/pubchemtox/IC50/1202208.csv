@@ -1,0 +1,24 @@
+Inhibition of hexahistidine-tagged full length human recombinant ARTD1 expressed in Escherichia coli BL21(DE3) assessed as Inhibition of ADP-ribosyltransferase activity incubated for 15 mins using biotin-NAD+ by chemiluminescence detection based assay
+C1=CC(=CC(=C1)NC(=O)C=CC(=O)O)C(=O)N,4400
+C1=CC(=CC(=C1)NC(=O)C=CC(=O)O)C(=O)N,3600
+C1=CC(=CC(=C1)NC(=O)CCC(=O)O)C(=O)N,700
+COC1=CC(=CC(=C1)NC(=O)C=CC(=O)O)C(=O)N,20000
+CC1=C(C=C(C=C1)C(=O)N)NC(=O)C=CC(=O)O,20000
+COC1=C(C=C(C=C1)C(=O)N)NC(=O)C=CC(=O)O,20000
+C1=CC(=CC=C1C(=O)N)NC(=O)C=CC(=O)O,20000
+CC(=CC(=O)O)C(=O)NC1=CC=CC(=C1)C(=O)N,8900
+CC(=CC(=O)NC1=CC=CC(=C1)C(=O)N)C(=O)O,2400
+COC(CC(=O)O)C(=O)NC1=CC=CC(=C1)C(=O)N,7300
+CC(C)(CC(=O)NC1=CC=CC(=C1)C(=O)N)C(=O)O,9400
+C1C(C1C(=O)O)C(=O)NC2=CC=CC(=C2)C(=O)N,5600
+C1CC(=C(C1)C(=O)O)C(=O)NC2=CC=CC(=C2)C(=O)N,200
+CC1=C(C(=O)N(C1=O)C2=CC=CC(=C2)C(=O)N)C,10500
+C1=CC(=CC(=C1)NC(=O)CCCC(=O)O)C(=O)N,3700
+CNC(=O)C=CC(=O)NC1=CC=CC(=C1)C(=O)N,9700
+CNC(=O)C=CC(=O)NC1=CC=CC(=C1)C(=O)N,400
+C1CCN(C1)C(=O)C=CC(=O)NC2=CC=CC(=C2)C(=O)N,600
+CCN(CC)C(=O)C=CC(=O)NC1=CC=CC(=C1)C(=O)N,800
+COC(=O)C=CC(=O)NC1=CC=CC(=C1)C(=O)N,4400
+CC(=O)CCC(=O)NC1=CC=CC(=C1)C(=O)N,1100
+CC(=O)CCCC(=O)NC1=CC=CC(=C1)C(=O)N,1100
+C1CC(=O)CC1C(=O)NC2=CC=CC(=C2)C(=O)N,700

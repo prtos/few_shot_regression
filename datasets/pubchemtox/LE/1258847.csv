@@ -1,0 +1,23 @@
+BindingDB_Patents: FRET-Based Binding Assay. Assay protocol: Compounds were evaluated on an in-vitro binding assay developed based on the technology described in the patent WO 98/55873. This assay was developed from hA2A receptor that was fused at its amino terminal domain to Green Fluorescent Protein (GFP) and stably expressed in HEK cells. The probe used is a dyed ligand derived from the non-selective CGS15943. For the FRET-binding experiment, HEK GFP-A2A stable cell line was seeded onto poly-D-lysine precoated black-walled 96-well plates in normal growth media (0.7 105 cells per well). After 24 hours of culture at 37 degrees  C., the cell media was removed and cells were washed. The tested compounds were applied on cells by the FLIPRTETRA(R) (Molecular Devices(R)) and incubated for 10 minutes prior to addition of the dyed probe. When a drug interacts with the receptor, the FRET signal measured by the variation of GFP fluorescence at 510 nm is disrupted. The time curves of ligand binding were recorded during 1000 seconds.
+C1CCCN(CC1)C(=O)C2=CC=C(C=C2)C(=O)C3=CN=C4N3C=C(C=C4)F,0.4
+CN1C2=C(C=CC(=C2)C(=O)N3CCCC3COC)C(=N1)C4=CN=C5N4C=C(C=C5)C#N,0.38
+C1CCCN(CC1)C(=O)C2=CC3=C(C=C2)C(=NO3)C4=CN=C5N4C=C(C=C5)F,0.41
+CCN(C1CCCCC1)C(=O)C2=CC=C(C=C2)C(=O)C3=CN=C4N3C=C(C=C4)[N+]#[C-],0.31
+CCN(C1CCCCC1)C(=O)C2=CC=C(C=C2)C(=O)C3=CN=C4N3C=C(C=C4)Br,0.33
+CCN(C1CCCCC1)C(=O)C2=CN=C(C=C2)C(=O)C3=CN=C4N3C=CC=C4,0.32
+CCN(C1CCCCC1)C(=O)C2=C(C=C(C=C2)C(=O)C3=CN=C4N3C=C(C=C4)F)Cl,0.34
+C1CCCN(CC1)C(=O)C2=CC(=C(C=C2)C(=O)C3=CN=C4N3C=C(C=C4)F)N,0.34
+C1CCC(CC1)N(C2CCCCC2)C(=O)C3=CC=C(C=C3)C(=O)C4=CN=C5N4C=CC=C5,0.29
+CCN(C1=CC=CC=C1)C(=O)C2=CC=C(C=C2)C(=O)C3=CN=C4N3C=CC=C4,0.33
+C1CC2=CC=CC=C2N(C1)C(=O)C3=CC=C(C=C3)C(=O)C4=CN=C5N4C=CC=C5,0.32
+CN1C2=C(C=CC(=C2)C(=O)N3CCCCCC3)C(=N1)C4=CN=C5N4C=C(C=C5)F,0.4
+CN1C2=C(C=CC(=C2)C(=O)N3CCCCCC3)C(=N1)C4=CN=C5N4C=C(C=C5)C(F)(F)F,0.29
+CN1C2=C(C=CC(=C2)C(=O)N3CCCCCCC3)C(=N1)C4=CN=C5N4C=C(C=C5)F,0.39
+C1CCCN(CC1)C(=O)C2=CC3=C(C=C2)C(=NN3CC4=CC=CC=C4)C5=CN=C6N5C=C(C=C6)F,0.29
+CN1CCN(CC1)C(=O)N2C3=C(C=CC(=C3)C(=O)N4CCCCCC4)C(=N2)C5=CN=C6N5C=C(C=C6)F,0.24
+[C-]#[N+]C1=CN2C(=NC=C2C3=NOC4=C3C=CC(=C4)C(=O)N5CCOCC5)C=C1,0.33
+CCN(C1CCCCC1)C(=O)C2=CC3=C(C=C2)N=C(O3)C4=CN=C5N4C=CC=C5,0.31
+C1CCCN(CC1)C(=O)C2=CC3=C(C=C2)N(N=N3)C4=CN=C5N4C=C(C=C5)F,0.35
+C1CCCN(CC1)C(=O)C2=CC3=C(C=C2)C(=CN3)C4=CN=C5N4C=C(C=C5)F,0.32
+C1CCCN(CC1)C(=O)C2=CC3=C(C=C2)C(=NC(=N3)N)C4=CN=C5N4C=C(C=C5)F,0.32
+CCN(C1CCCCC1)C(=O)C2=CC=C(C=C2)C(=O)C3=CN=C4N3N=C(C=C4)Cl,0.3

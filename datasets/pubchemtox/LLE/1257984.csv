@@ -1,0 +1,16 @@
+BindingDB_Patents: MSA assay. Measurement of kinase activity was carried out using an MSA assay kit (QuickScout Screening Assist Kit, Carna Biosciences, Inc.). Assay buffer (20 mM HEPES, 0.01% Triton X-100, 2 mM dithiothreitol, pH 7.5) was used to prepare a substrate mixture solution comprising 4 microM of a kinase-reaction substrate (FITC-labeled MCM2 peptide), 40 mM MgCl2, and 20 microM ATP. The enzyme supplied in the kit (human Cdc7/human ASK complex protein) was diluted in the assay buffer so as to be at 7 nM, thereby preparing an enzyme solution. The stock solution of each test compound was diluted in DMSO to prepare diluted DMSO solutions of 10 concentrations (0.00003 mM, 0.0001 mM, 0.0003 mM, 0.001 mM, 0.003 mM, 0.01 mM, 0.03 mM, 0.1 mM, 0.3 mM, 1 mM), each of which was further diluted 25 times in the assay buffer to make a drug solution (a solution containing 4% DMSO).
+C1=CC=C(C=C1)N=C2C(C(=O)C(=CC3=CNC4=C3C=CC=N4)O2)C(=O)O,5.7
+CCOC(=O)C1=C(OC(=CC2=CNC3=C2C=CC=N3)C1=O)N4CCCCCC4,5.04
+CCOC(=O)C1C(=O)C(=CC2=CNC3=C2C=CC=N3)OC1=NC4=CC5=C(C=C4)C=NN5,5.74
+CCOC(=O)C1=C(OC(=CC2=CNC3=C2C=CC=N3)C1=O)N4CCC(CC4)C,4.99
+CCOC(=O)C1C(=NC2=C(C=C(C=C2)OCCO)F)C=C(C1=O)CC3=CNC4=C3C=CC=N4,5.1
+CN(C)CCOC(=O)C1C(=O)C(=CC2=CNC3=C2C=CC=N3)OC1=NC4=C(C=C(C=C4)F)F,5.32
+CCOC(=O)C1=C(OC(=CC2=CNC3=C2C=CC=N3)C1=O)N4CCC5=CC=CC=C5C4,4.94
+CCOC(=O)C1C(=O)C(=CC2=CNC3=C2C=CC=N3)OC1=NC4=C(C=C(C=C4)CN(C)C)C,4.62
+CCOC(=O)C1C(=O)C(=CC2=CNC3=C2C=CC=N3)OC1=NN4CCOCC4,7.82
+CC1=C(C=CC(=C1)OCCO)N=C2C(C(=O)C(=CC3=CNC4=C3C=CC=N4)O2)C(=O)OC(C)C,5.34
+C1CCCC(CC1)N=C2CC(=O)C(=CC3=CNC4=C3C=CC=N4)O2,4.97
+C1C(=O)C(=CC2=CNC3=C2C=CC=N3)OC1=NC4=CC5=C(C=C4)NN=C5,6.66
+CCOC(=O)C1=C(OC(=CC2=CNC3=C2C=CC=N3)C1=O)N4CCC5=C(C4)C=C(C=C5)OC,4.95
+CC(C)OC(=O)C1C(=O)C(=CC2=CNC3=C2C=CC=N3)OC1=NN4CCOCC4,7.02
+CCOC(=O)C1C(=O)C(=CC2=CNC3=C2C=CC=N3)OC1=NN4CCN(CC4)CC(F)(F)F,6.12

@@ -1,0 +1,22 @@
+Antiplasmodial activity against chloroquine-sensitive Plasmodium falciparum D10 assessed as inhibition of parasite LDH activity after 72 hrs by spectrophotometry
+CCN(CC)CCCC(C)NC1=C2C=CC(=CC2=NC=C1)Cl,25
+CN(C)CCCOC1=NO[N+](=C1C2=CC=CC=C2)[O-],5000
+CN(C)CCCOC1=NO[N+](=C1S(=O)(=O)C2=CC=CC=C2)[O-],5000
+CCN(CC)CC1=C(C=CC(=C1)NC2=C3C=CC(=CC3=NC=C2)Cl)O.Cl,12
+C1CN(CCN1)CCO[N+](=O)[O-].[N+](=O)(O)[O-],5000
+CCN(CCCCC(CO[N+](=O)[O-])O[N+](=O)[O-])CC1=C(C=CC(=C1)NC2=C3C=CC(=CC3=NC=C2)Cl)O,38
+C1=CC(=C(C=C1NC2=C3C=CC(=CC3=NC=C2)Cl)CNCCCO[N+](=O)[O-])O.Cl,27
+C1CNCCC1CCO[N+](=O)[O-].[N+](=O)(O)[O-],5000
+C1CN(CCN1CCCO[N+](=O)[O-])CC2=C(C=CC(=C2)NC3=C4C=CC(=CC4=NC=C3)Cl)O.Cl,18
+C(CN)CO[N+](=O)[O-],5000
+CCNCCCCCCO[N+](=O)[O-].[N+](=O)(O)[O-],5000
+C1CN(CCN1CCO[N+](=O)[O-])CC2=C(C=CC(=C2)NC3=C4C=CC(=CC4=NC=C3)Cl)O.Cl,55
+C1CNCCC1CO[N+](=O)[O-].[N+](=O)(O)[O-],5000
+C1CN(CCN1)CCCO[N+](=O)[O-].[N+](=O)(O)[O-],5000
+CCNCCCCC(CO[N+](=O)[O-])O[N+](=O)[O-].[N+](=O)(O)[O-],5000
+CCN(CCOC1=NO[N+](=C1S(=O)(=O)C2=CC=CC=C2)[O-])CC3=C(C=CC(=C3)NC4=C5C=CC(=CC5=NC=C4)Cl)O.Cl.Cl.Cl,46
+CCN(CCCCCCO[N+](=O)[O-])CC1=C(C=CC(=C1)NC2=C3C=CC(=CC3=NC=C2)Cl)O.Cl.Cl.Cl,31
+C1CN(CCC1CO[N+](=O)[O-])CC2=C(C=CC(=C2)NC3=C4C=CC(=CC4=NC=C3)Cl)O.Cl.Cl.Cl,19
+C1CN(CCC1CCO[N+](=O)[O-])CC2=C(C=CC(=C2)NC3=C4C=CC(=CC4=NC=C3)Cl)O.Cl.Cl.Cl,19
+CCN(CCOC1=NO[N+](=C1C2=CC=CC=C2)[O-])CC3=C(C=CC(=C3)NC4=C5C=CC(=CC5=NC=C4)Cl)O.Cl.Cl.Cl,23
+CCN(CCCO[N+](=O)[O-])CC1=C(C=CC(=C1)NC2=C3C=CC(=CC3=NC=C2)Cl)O.Cl.Cl.Cl,27

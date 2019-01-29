@@ -1,0 +1,23 @@
+Agonist activity at recombinant His6-tagged THR-beta (unknown origin) expressed in Escherichia coli BL21(DE3) co-expressing RXR preincubated for 30 mins assessed as biotin-GRIP1 peptide recruitment by HTRF assay
+CC(C)C1=C(C=CC(=C1)OC2=C(C=C(C=C2Cl)CC(=O)O)Cl)O,0.45
+CC1=CC(=CC(=C1CC2=CC(=C(C=C2)O)C(C)C)C)OCC(=O)O,0.44
+C1=CC(=C(C=C1OC2=C(C=C(C=C2I)CC(C(=O)O)N)I)I)O,0.46
+CC1=CC(=CC(=C1OC2=NNC(=O)C(=C2)C(C)C)C)CC(=O)O,0.3
+CC1=C(C(=CC(=C1)CC(=O)O)Cl)OC2=NNC(=O)C(=C2)C(C)C,0.31
+CC(C)C1=CC(=NNC1=O)OC2=C(C=C(C=C2Cl)CC(=O)O)Cl,0.33
+CC(C)C1=CC(=NNC1=O)OC2=C(C=C(C=C2Br)CC(=O)O)Br,0.38
+CC(C)C1=CC(=NNC1=O)OC2=C(C=C(C=C2Br)CCC(=O)O)Br,0.35
+CC(C)C1=CC(=NN(C1=O)C)OC2=C(C=C(C=C2Cl)CC(=O)O)Cl,0.35
+CC(C)C1=CC(=NNC1=O)OC2=C(C=C(C=C2Cl)NCC(=O)O)Cl,0.35
+CC(C)C1=CC(=NNC1=O)OC2=C(C=C(C=C2Cl)NC(=O)C(=O)O)Cl,0.38
+CC(C)C1=CC(=NNC1=O)CC2=C(C=C(C=C2Cl)CC(=O)O)Cl,0.33
+CC(C)C1=CC(=NNC1=O)CC2=C(C=C(C=C2Br)CC(=O)O)Br,0.37
+CC(C)C1=CC(=NNC1=O)SC2=C(C=C(C=C2Cl)CC(=O)O)Cl,0.34
+CC(C)C1=CC(=NNC1=O)S(=O)C2=C(C=C(C=C2Cl)CC(=O)O)Cl,0.29
+CC(C)C1=CC(=NNC1=O)S(=O)(=O)C2=C(C=C(C=C2Cl)CC(=O)O)Cl,0.28
+CC(C)C1=CC(=NNC1=O)OC2=C(C=C(C=C2Cl)N3C(=O)NC(=O)C(=N3)C#N)Cl,0.31
+CC(C)C1=CC(=NNC1=O)CC2=C(C=C(C=C2Cl)N3C(=O)NC(=O)C(=N3)C#N)Cl,0.31
+CC(C)C1=CC(=NN(C1=O)C)OC2=C(C=C(C=C2Cl)N3C(=O)NC(=O)C(=N3)C#N)Cl,0.34
+CC(C)C1=CC(=NN(C1=O)C)CC2=C(C=C(C=C2Cl)N3C(=O)NC(=O)C(=N3)C#N)Cl,0.31
+CC(C)C1=CC(=NNC1=O)OC2=C(C=C(C=C2Cl)N3C(=O)NC(=O)C=N3)Cl,0.35
+CC(C)C1=CC(=NNC1=O)CC2=C(C=C(C=C2Cl)N3C(=O)NC(=O)C=N3)Cl,0.36

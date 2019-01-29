@@ -1,0 +1,27 @@
+Antibacterial activity against methicillin-resistant Staphylococcus aureus after 18 to 20 hrs by microbroth dilution method
+C1CC1N2C=C(C(=O)C3=CC(=C(C=C32)N4CCNCC4)F)C(=O)O,0.25
+CC(=O)NCC1CN(C(=O)O1)C2=CC(=C(C=C2)N3CCOCC3)F,1
+CC1C2C(C(=O)N2C(=C1SC3CC(NC3)C(=O)N(C)C)C(=O)O)C(C)O,16
+CC1C(C(CC(O1)OC2C(C(C(OC2OC3=C4C=C5C=C3OC6=C(C=C(C=C6)C(C(C(=O)NC(C(=O)NC5C(=O)NC7C8=CC(=C(C=C8)O)C9=C(C=C(C=C9C(NC(=O)C(C(C1=CC(=C(O4)C=C1)Cl)O)NC7=O)C(=O)O)O)O)CC(=O)N)NC(=O)C(CC(C)C)NC)O)Cl)CO)O)O)(C)N)O,2
+C1C(C(C(C(C1N)OC2C(C(C(C(O2)CO)O)N)O)O)OC3C(CC(C(O3)CN)O)N)N,32
+COC1=CC=CC=C1NS(=O)(=O)C2=C(C=C(C=C2)[N+](=O)[O-])[N+](=O)[O-],8
+C#CCN(CC1=CC=CC=C1)S(=O)(=O)C2=C(C=C(C=C2)[N+](=O)[O-])[N+](=O)[O-],4
+C1=CC=C(C=C1)CN(CCCO)S(=O)(=O)C2=C(C=C(C=C2)[N+](=O)[O-])[N+](=O)[O-],8
+COC1=CC=C(C=C1)CN(CC#C)S(=O)(=O)C2=C(C=C(C=C2)[N+](=O)[O-])[N+](=O)[O-],8
+CN(C1=CC=CC=C1OC)S(=O)(=O)C2=C(C=C(C=C2)[N+](=O)[O-])[N+](=O)[O-],16
+CCN(C1=CC=CC=C1OC)S(=O)(=O)C2=C(C=C(C=C2)[N+](=O)[O-])[N+](=O)[O-],8
+CCCN(C1=CC=CC=C1OC)S(=O)(=O)C2=C(C=C(C=C2)[N+](=O)[O-])[N+](=O)[O-],32
+CCCCN(C1=CC=CC=C1OC)S(=O)(=O)C2=C(C=C(C=C2)[N+](=O)[O-])[N+](=O)[O-],32
+COC1=CC=CC=C1N(CC=C)S(=O)(=O)C2=C(C=C(C=C2)[N+](=O)[O-])[N+](=O)[O-],4
+COC1=CC=CC=C1N(CC#C)S(=O)(=O)C2=C(C=C(C=C2)[N+](=O)[O-])[N+](=O)[O-],8
+COC1=CC=CC=C1N(CC2=CC=CC=C2)S(=O)(=O)C3=C(C=C(C=C3)[N+](=O)[O-])[N+](=O)[O-],32
+COC1=CC=CC(=C1)NS(=O)(=O)C2=C(C=C(C=C2)[N+](=O)[O-])[N+](=O)[O-],32
+CN(C1=CC(=CC=C1)OC)S(=O)(=O)C2=C(C=C(C=C2)[N+](=O)[O-])[N+](=O)[O-],4
+CCN(C1=CC(=CC=C1)OC)S(=O)(=O)C2=C(C=C(C=C2)[N+](=O)[O-])[N+](=O)[O-],8
+COC1=CC=CC(=C1)N(CC=C)S(=O)(=O)C2=C(C=C(C=C2)[N+](=O)[O-])[N+](=O)[O-],8
+COC1=CC=CC(=C1)N(CC#C)S(=O)(=O)C2=C(C=C(C=C2)[N+](=O)[O-])[N+](=O)[O-],4
+CN(CC#C)S(=O)(=O)C1=C(C=C(C=C1)[N+](=O)[O-])[N+](=O)[O-],8
+CCN(CC#C)S(=O)(=O)C1=C(C=C(C=C1)[N+](=O)[O-])[N+](=O)[O-],16
+COC1=CC=CC=C1CN(CCCN(CC2=CC=CC=C2)S(=O)(=O)C3=C(C=C(C=C3)[N+](=O)[O-])[N+](=O)[O-])S(=O)(=O)C4=C(C=C(C=C4)[N+](=O)[O-])[N+](=O)[O-],32
+COC1=CC=C(C=C1)CN(CCCN(CC2=CC=CC=C2)S(=O)(=O)C3=C(C=C(C=C3)[N+](=O)[O-])[N+](=O)[O-])S(=O)(=O)C4=C(C=C(C=C4)[N+](=O)[O-])[N+](=O)[O-],32
+COC1=CC(=C(C=C1)CN(CCCN(CC2=CC=CC=C2)S(=O)(=O)C3=C(C=C(C=C3)[N+](=O)[O-])[N+](=O)[O-])S(=O)(=O)C4=C(C=C(C=C4)[N+](=O)[O-])[N+](=O)[O-])OC,32

@@ -1,0 +1,26 @@
+Cytotoxicity against human MT4 cells after 5 days by MTT assay
+CC[N+]1=CC=C(C=C1)C2=CC=NC=C2.F[P-](F)(F)(F)(F)F,281000
+CCC[N+]1=CC=C(C=C1)C2=CC=NC=C2.F[P-](F)(F)(F)(F)F,363400
+C1=CN=CC=C1C2=CC=[N+](C=C2)CCCN.F[P-](F)(F)(F)(F)F,346400
+C1=CN=CC=C1C2=CC=[N+](C=C2)CCBr.F[P-](F)(F)(F)(F)F,79200
+C=C[N+]1=CC=C(C=C1)C2=CC=NC=C2.F[P-](F)(F)(F)(F)F,15900
+C[N+]1=CC=C(C=C1)C2=CC=[N+](C=C2)C.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F,25200
+C1=C[N+](=CC=C1C2=CC=[N+](C=C2)CCCN)CCCN.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F,3300
+C1=C[N+](=CC=C1C2=CC=[N+](C=C2)CCBr)CCBr.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F,20600
+C[N+]1=CC=C(C=C1)C2=CC=[N+](C=C2)CBr.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F,5100
+C[N+]1=CC=C(C=C1)C2=CC=[N+](C=C2)C=C.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F,26100
+C=C[N+]1=CC=C(C=C1)C2=CC=[N+](C=C2)CC3=CC=CC=C3.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F,2700
+C1=CC=C(C=C1)C[N+]2=CC=C(C=C2)C3=CC=[N+](C=C3)CCCN.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F,900
+CC[N+]1=CC=C(C=C1)C2=CC=[N+](C=C2)CC3=CC=C(C=C3)CBr.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F,900
+C=C[N+]1=CC=C(C=C1)C2=CC=[N+](C=C2)CCC3=CC=C(C=C3)[N+](=O)[O-].F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F,400
+C1=C[N+](=CC=C1C2=CC=[N+](C=C2)C3=CC(=CC(=C3)CO)CO)C4=CC(=CC(=C4)CO)CO.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F,2700
+C1=C[N+](=CC=C1C2=CC=[N+](C=C2)C3=CC(=CC(=C3)CBr)CBr)C4=CC(=CC(=C4)CBr)CBr.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F,148500
+C1=CC(=C(C=C1[N+](=O)[O-])[N+](=O)[O-])[N+]2=CC=C(C=C2)C3=CC=[N+](C=C3)C4=C(C=C(C=C4)[N+](=O)[O-])[N+](=O)[O-].F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F,107400
+C[N+]1=CC=C(C=C1)C2=CC=[N+](C=C2)C3=CC(=CC(=C3)[N+]4=CC=C(C=C4)C5=CC=[N+](C=C5)C)[N+]6=CC=C(C=C6)C7=CC=[N+](C=C7)C.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F,151500
+CC[N+]1=CC=C(C=C1)C2=CC=[N+](C=C2)CC3=CC(=CC(=C3)CO)C[N+]4=CC=C(C=C4)C5=CC=[N+](C=C5)CC.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F,10600
+CC[N+]1=CC=C(C=C1)C2=CC=[N+](C=C2)CC3=CC(=CC(=C3)C[N+]4=CC=C(C=C4)C5=CC=[N+](C=C5)CC)C[N+]6=CC=C(C=C6)C7=CC=[N+](C=C7)CC.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F,81100
+C=C[N+]1=CC=C(C=C1)C2=CC=[N+](C=C2)CC3=CC(=CC(=C3)C[N+]4=CC=C(C=C4)C5=CC=[N+](C=C5)C=C)C[N+]6=CC=C(C=C6)C7=CC=[N+](C=C7)C=C.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F,33400
+C1=C[N+](=CC=C1C2=CC=[N+](C=C2)CC3=CC(=CC(=C3)C[N+]4=CC=C(C=C4)C5=CC=[N+](C=C5)CCO)C[N+]6=CC=C(C=C6)C7=CC=[N+](C=C7)CCO)CCO.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F,104200
+CC[N+]1=CC=C(C=C1)C2=CC=[N+](C=C2)CC3=CC(=CC(=C3)[N+]4=CC=C(C=C4)C5=CC=[N+](C=C5)C6=CC(=CC(=C6)C[N+]7=CC=C(C=C7)C8=CC=[N+](C=C8)CC)C[N+]9=CC=C(C=C9)C1=CC=[N+](C=C1)CC)C[N+]1=CC=C(C=C1)C1=CC=[N+](C=C1)CC.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F,49000
+CC[N+]1=CC=C(C=C1)C2=CC=[N+](C=C2)CC3=CC(=CC(=C3)CC4=CC=C(C=C4)C5=CC=[N+](C=C5)CC6=CC(=CC(=C6)C[N+]7=CC=C(C=C7)C8=CC=[N+](C=C8)CC9=CC(=CC(=C9)C[N+]1=CC=C(C=C1)C1=CC=[N+](C=C1)CC)C[N+]1=CC=C(C=C1)C1=CC=[N+](C=C1)CC)C[N+]1=CC=C(C=C1)C1=CC=[N+](C=C1)CC1=CC(=CC(=C1)C[N+]1=CC=C(C=C1)C1=CC=[N+](C=C1)CC)C[N+]1=CC=C(C=C1)C1=CC=[N+](C=C1)CC)C[N+]1=CC=C(C=C1)C1=CC=[N+](C=C1)CC.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F,19700
+CC[N+]1=CC=C(C=C1)C2=CC=[N+](C=C2)CC3=CC(=CC(=C3)C[N+]4=CC=C(C=C4)C5=CC=[N+](C=C5)CC6=CC(=CC(=C6)[N+]7=CC=C(C=C7)C8=CC=[N+](C=C8)C9=CC(=CC(=C9)C[N+]1=CC=C(C=C1)C1=CC=[N+](C=C1)CC1=CC(=CC(=C1)C[N+]1=CC=C(C=C1)C1=CC=[N+](C=C1)CC)C[N+]1=CC=C(C=C1)C1=CC=[N+](C=C1)CC)C[N+]1=CC=C(C=C1)C1=CC=[N+](C=C1)CC1=CC(=CC(=C1)C[N+]1=CC=C(C=C1)C1=CC=[N+](C=C1)CC)C[N+]1=CC=C(C=C1)C1=CC=[N+](C=C1)CC)C[N+]1=CC=C(C=C1)C1=CC=[N+](C=C1)CC1=CC(=CC(=C1)C[N+]1=CC=C(C=C1)C1=CC=[N+](C=C1)CC)C[N+]1=CC=C(C=C1)C1=CC=[N+](C=C1)CC)C[N+]1=CC=C(C=C1)C1=CC=[N+](C=C1)CC.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F.F[P-](F)(F)(F)(F)F,18600

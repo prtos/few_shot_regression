@@ -1,0 +1,25 @@
+Cytotoxicity against human THP1 cells after 72 hrs by propidium iodide-based flow cytometry
+CC1=NC=C(N1CCO)[N+](=O)[O-],1.46e+06
+CC1=NC=C(N1C)[N+](=O)[O-],1.771e+06
+CN1C=NC=C1[N+](=O)[O-],1.966e+06
+CN1C=NC(=C1[N+](=O)[O-])CS(=O)(=O)C2=CC=CC=C2,888000
+CC1=CC=C(C=C1)S(=O)(=O)CC2=C(N(C=N2)C)[N+](=O)[O-],846000
+CN1C=NC(=C1[N+](=O)[O-])CS(=O)(=O)C2=CC=C(C=C2)Cl,174000
+CN1C=NC(=C1[N+](=O)[O-])CS(=O)(=O)C2=CC=C(C=C2)Br,694000
+CN1C=NC(=C1[N+](=O)[O-])CS(=O)(=O)C2=CC=C(C=C2)F,835000
+CC1=NC(=C(N1C)[N+](=O)[O-])CS(=O)(=O)C2=CC=CC=C2,846000
+CC1=CC=C(C=C1)S(=O)(=O)CC2=C(N(C(=N2)C)C)[N+](=O)[O-],242000
+CC1=NC(=C(N1C)[N+](=O)[O-])CS(=O)(=O)C2=CC=C(C=C2)Cl,68000
+CC1=NC(=C(N1C)[N+](=O)[O-])CS(=O)(=O)C2=CC=C(C=C2)Br,326000
+CC1=NC(=C(N1C)[N+](=O)[O-])CS(=O)(=O)C2=CC=C(C=C2)F,797000
+CC1=NC(=C(N1CCO)[N+](=O)[O-])CS(=O)(=O)C2=CC=CC=C2,768000
+CC1=CC=C(C=C1)S(=O)(=O)CC2=C(N(C(=N2)C)CCO)[N+](=O)[O-],59000
+CC1=NC(=C(N1CCO)[N+](=O)[O-])CS(=O)(=O)C2=CC=C(C=C2)Cl,578000
+CC1=NC(=C(N1CCO)[N+](=O)[O-])CS(=O)(=O)C2=CC=C(C=C2)Br,124000
+CC1=NC(=C(N1CCO)[N+](=O)[O-])CS(=O)(=O)C2=CC=C(C=C2)F,728000
+CC1=NC=C(N1CC(C)O)[N+](=O)[O-],1.35e+06
+CC1=NC(=C(N1CC(C)O)[N+](=O)[O-])CS(=O)(=O)C2=CC=CC=C2,418000
+CC1=CC=C(C=C1)S(=O)(=O)CC2=C(N(C(=N2)C)CC(C)O)[N+](=O)[O-],707000
+CC1=NC(=C(N1CC(C)O)[N+](=O)[O-])CS(=O)(=O)C2=CC=C(C=C2)Cl,688000
+CC1=NC(=C(N1CC(C)O)[N+](=O)[O-])CS(=O)(=O)C2=CC=C(C=C2)Br,126000
+CC1=NC(=C(N1CC(C)O)[N+](=O)[O-])CS(=O)(=O)C2=CC=C(C=C2)F,699000
