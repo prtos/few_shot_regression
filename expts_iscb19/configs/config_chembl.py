@@ -9,13 +9,13 @@ if test:
     shared_params_graph = dict(
         dataset_name=[dataset_name],
         dataset_params=[dict(use_graph=True, max_examples_per_episode=10, batch_size=32, max_tasks=100)],
-        fit_params=[dict(n_epochs=1, steps_per_epoch=5)],
+        fit_params=[dict(n_epochs=100, steps_per_epoch=500)],
     )
 
     shared_params_smiles = dict(
         dataset_name=[dataset_name],
         dataset_params=[dict(use_graph=False, max_examples_per_episode=10, batch_size=32, max_tasks=100)],
-        fit_params=[dict(n_epochs=1, steps_per_epoch=5)],
+        fit_params=[dict(n_epochs=100, steps_per_epoch=500)],
     )
 else:
     shared_params_graph = dict(

@@ -13,8 +13,8 @@
     ],
     "fit_params": [
       {
-        "n_epochs": 1,
-        "steps_per_epoch": 5
+        "n_epochs": 100,
+        "steps_per_epoch": 500
       }
     ],
     "model_name": [
@@ -157,8 +157,8 @@
     ],
     "fit_params": [
       {
-        "n_epochs": 1,
-        "steps_per_epoch": 5
+        "n_epochs": 100,
+        "steps_per_epoch": 500
       }
     ],
     "model_name": [
