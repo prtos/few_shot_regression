@@ -1,6 +1,7 @@
 import torch
 import warnings
 import numpy as np
+import scipy.sparse as ss
 from collections import OrderedDict
 from itertools import zip_longest, product
 from sklearn.base import TransformerMixin
@@ -18,9 +19,17 @@ from rdkit.Chem.EState.Fingerprinter import FingerprintMol
 from rdkit.Chem.QED import properties, qed
 from rdkit.Avalon.pyAvalonTools import GetAvalonFP, GetAvalonCountFP
 from rdkit.DataStructs.cDataStructs import ExplicitBitVect
-from dgl import DGLGraph
 from .constants import *
 
+
+def normalize_adj(adj):
+    adj = adj + ss.eye(adj.shape[0])
+    adj = ss.coo_matrix(adj)
+    rowsum = np.array(adj.sum(1))
+    d_inv_sqrt = np.power(rowsum, -0.5).flatten()
+    d_inv_sqrt[np.isinf(d_inv_sqrt)] = 0.
+    d_mat_inv_sqrt = ss.diags(d_inv_sqrt)
+    return adj.dot(d_mat_inv_sqrt).transpose().dot(d_mat_inv_sqrt).toarray()
 
 def explicit_bit_vect_to_array(bitvector):
     """Convert a bit vector into an array
@@ -330,8 +339,9 @@ class AdjGraphTransformer(MoleculeTransformer):
         # do the same thing but with bond now
         # start with bond types
         self.n_bond_feat += len(BOND_TYPES) + 1
-        # bond is conjugated, in rings
-        self.n_bond_feat += 2
+        # bond is conjugated, in rings, stereo
+        # please note that stereo is not one hot
+        self.n_bond_feat += 3
 
     def transform(self, mols):
         """Transform a batch of N molecules or smiles into a graph and 
@@ -397,48 +407,7 @@ class AdjGraphTransformer(MoleculeTransformer):
         if self.with_bond:
             atom_matrix = np.concatenate(
                 [atom_matrix, bond_matrix], axis=1).astype(np.uint8)
-        return (adj_matrix.astype(np.uint8), atom_matrix.astype(np.uint8))
-
-
-class DGLGraphTransformer(AdjGraphTransformer):
-    """
-    Graph feature extraction using DGL
-
-    """
-    def __init__(self, explicit_H=False, chirality=True):
-        super(DGLGraphTransformer, self).__init__(max_n_atoms=None, with_bond=False, explicit_H=explicit_H, chirality=chirality)
-
-
-    def _transform(self, mol):
-        atom_feats = []
-        bond_feats = []
-        n_atoms = mol.GetNumAtoms()
-        n_bonds = mol.GetNumBonds()
-        graph = DGLGraph()
-
-        for a_idx in range(0, n_atoms):
-            atom = mol.GetAtomWithIdx(a_idx)
-            atom_feats.append(get_atom_features(atom))
-        graph.add_nodes(n_atoms)
-
-        bond_src = []
-        bond_dst = []
-        for i, bond in enumerate(mol.GetBonds()):
-            begin_idx = bond.GetBeginAtom().GetIdx()
-            end_idx = bond.GetEndAtom().GetIdx()
-            features = get_edge_features(bond)
-            bond_src.append(begin_idx)
-            bond_dst.append(end_idx)
-            bond_feats.append(features)
-            # set up the reverse direction
-            bond_src.append(end_idx)
-            bond_dst.append(begin_idx)
-            bond_feats.append(features)
-        graph.add_edges(bond_src, bond_dst)
-
-        graph.ndata["hv"] = totensor(np.asarray(atom_feats), gpu=torch.cuda.is_available())
-        graph.edata["he"] = totensor(np.asarray(bond_feats), gpu=torch.cuda.is_available())
-        return graph
+        return (totensor(normalize_adj(adj_matrix.astype(np.uint8)), gpu=False), totensor(atom_matrix.astype(np.float32), gpu=False))
 
 
 class FingerprintsTransformer(MoleculeTransformer):
@@ -462,7 +431,6 @@ class FingerprintsTransformer(MoleculeTransformer):
         function to call to compute the fingerprint
     """
     mapping = OrderedDict(
-        global_properties=lambda x, params: augmented_mol_properties(x),
         # physiochemical=lambda x: GetBPFingerprint(x),
         atom_pair=lambda x, params: GetHashedAtomPairFingerprintAsBitVect(
             x, **params),
@@ -478,7 +446,7 @@ class FingerprintsTransformer(MoleculeTransformer):
         maccs=lambda x, params: GetMACCSKeysFingerprint(x)
     )
 
-    def __init__(self, kind='global_properties', length=2000):
+    def __init__(self, kind='morgan_circular', length=2000):
         super(FingerprintsTransformer, self).__init__()
         if not (isinstance(kind, str) and (kind in FingerprintsTransformer.mapping)):
             raise ValueError("Argument kind must be in: " +

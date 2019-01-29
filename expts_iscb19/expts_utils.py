@@ -31,15 +31,17 @@ def get_outfname_prefix(all_params):
 def save_stats(scores_dict, outfile=sys.stdout):
     metrics = list(scores_dict.keys())
     metrics.remove('size')
+    metrics.remove('name')
+    names = scores_dict['name']
     sizes = scores_dict['size']
 
     results = [
         OrderedDict(
-            ([('name', dataset_name), ('size', sizes[dataset_name])] +
-             [(metric_name + aggregator.__name__, aggregator(scores_dict[metric_name][dataset_name]))
+            ([('name', names[idx]), ('size', sizes[idx])] +
+             [(metric_name + aggregator.__name__, aggregator(scores_dict[metric_name][idx]))
               for metric_name in metrics for aggregator in [np.mean, np.median, np.std]]
              )
-        ) for dataset_name in sizes]
+        ) for idx in names]
 
     results = pd.DataFrame(results)
     results.to_csv(outfile, index=False, sep='\t')

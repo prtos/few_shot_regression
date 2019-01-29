@@ -53,7 +53,7 @@ class KrrLearner(torch.nn.Module):
     def fit(self, phis, y):
         batch_size_train = phis.size(0)
         K = compute_kernel(phis, phis, kernel=self.kernel, **self.kernel_params)
-        I = torch.eye(batch_size_train, dtype=K.dtype)
+        I = torch.eye(batch_size_train, dtype=K.dtype, device=K.device)
 
         try:
             tmp = torch.inverse(K + self.l2 * I)
@@ -79,13 +79,13 @@ def cv_and_best_hp(X, y, kernel, l2s, **kernels_params):
         Ks = compute_rbf_kernels(X, X, **kernels_params)
     Ks = torch.cat(torch.unbind(Ks, dim=0), dim=0)
     
-    temp = torch.arange(0, k*n, n).view(-1, 1, 1)
-    train_row_idx = (torch.eye(n, n)==0).nonzero()[:, 1].view(n, n-1)
+    temp = torch.arange(0, k*n, n, device=X.device).view(-1, 1, 1)
+    train_row_idx = (torch.eye(n, n, device=X.device)==0).nonzero()[:, 1].view(n, n-1)
     train_row_idx = train_row_idx.unsqueeze(dim=0).expand(k, *train_row_idx.shape)
     train_row_idx = (train_row_idx + temp).reshape(k*n, n-1)
     train_col_idx = train_row_idx.unsqueeze(1).expand(k*n, n-1, n-1).reshape(-1, n-1) % n
 
-    test_row_idx = torch.arange(n).unsqueeze(dim=1)
+    test_row_idx = torch.arange(n, device=X.device).unsqueeze(dim=1)
     test_row_idx = test_row_idx.unsqueeze(dim=0).expand(k, *test_row_idx.shape)
     test_row_idx = (test_row_idx + temp).reshape(k*n, 1)
     test_col_idx = train_row_idx.unsqueeze(1).expand(*test_row_idx.shape, n-1).reshape(-1, n-1) % n
@@ -147,8 +147,8 @@ def cv_and_best_hp_loopy(X, y, gammas, l2s):
 
 
 def generate_grid(x, y):
-   grid = torch.stack([x.repeat(y.size(0)), y.repeat(x.size(0),1).t().contiguous().view(-1)],1)
-   return grid
+    grid = torch.stack([x.repeat(y.size(0)), y.repeat(x.size(0),1).t().contiguous().view(-1)],1)
+    return grid
 
 class KrrLearnerCV(KrrLearner):
     

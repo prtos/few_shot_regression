@@ -1,15 +1,17 @@
+
+import os 
 import torch
 import pickle
+import json
 import numpy as np
 import pandas as pd
 from glob import glob
-from os.path import dirname, realpath, join
-from os import listdir
+from os.path import dirname, realpath, join, exists
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from metalearn.datasets.metadataset import MetaRegressionDataset
-from metalearn.feature_extraction import SequenceTransformer, DGLGraphTransformer
-from metalearn.feature_extraction.constants import AMINO_ACID_ALPHABET, SMILES_ALPHABET
+from metalearn.feature_extraction import SequenceTransformer, AdjGraphTransformer
+from metalearn.feature_extraction.constants import AMINO_ACID_ALPHABET, SMILES_ALPHABET, ATOM_LIST 
 from torch.utils.data import DataLoader, WeightedRandomSampler
 from contextlib import contextmanager
 from inspect import currentframe, getouterframes
@@ -50,12 +52,16 @@ class MhcDataset(MetaRegressionDataset):
 
         x_transformer = SequenceTransformer(AMINO_ACID_ALPHABET)
         self.x_transformer = lambda x: x_transformer.transform(x)
-        self.y_transformer = lambda y: torch.FloatTensor(np.log(y))
+        self.y_transformer = lambda y: torch.FloatTensor(y)
         self.task_descriptor_transformer = None
+        self.max_test_examples = 10000
+        self.vocab = AMINO_ACID_ALPHABET
 
     def episode_loader(self, filename):
         data = np.loadtxt(filename, dtype=str, )
         x, y = data[:, 0], data[:, 1].astype(float).reshape((-1, 1))
+        scaler = MinMaxScaler()
+        y = scaler.fit_transform(y).astype('float32')
         return x, y, None
 
     def get_sampling_weights(self):
@@ -67,14 +73,40 @@ class ChemblDataset(MetaRegressionDataset):
     def __init__(self, *args, use_graph=True, **kwargs):
         super(ChemblDataset, self).__init__(*args, **kwargs)
         y_epsilon = 1e-7
-        if use_graph:
-            transformer = DGLGraphTransformer()
+        self.use_graph = use_graph
+        if self.use_graph:
+            transformer = AdjGraphTransformer()
         else:
             transformer = SequenceTransformer(SMILES_ALPHABET, returnTensor=True)
         prot_transformer = SequenceTransformer(AMINO_ACID_ALPHABET)
         self.x_transformer = lambda x: transformer.transform(x)
-        self.y_transformer = lambda y: torch.FloatTensor(np.log(y + y_epsilon))
+        self.y_transformer = lambda y: torch.FloatTensor(y)
         self.task_descr_transformer = lambda z: None if z is None else prot_transformer.transform([z])[0] 
+        self.max_test_examples = 500
+        self.vocab = SMILES_ALPHABET if not use_graph else ATOM_LIST 
+
+    def _episode(self, xtrain, ytrain, xtest, ytest, task_descriptor=None, idx=None):
+        if not self.use_graph:
+            return super(ChemblDataset, self)._episode(xtrain, ytrain, xtest, ytest, task_descriptor, idx)
+        ntrain = len(xtrain)
+        temp = self.x_transformer(np.concatenate([xtrain, xtest]))
+        G, feat = zip(*temp)
+        temp = [(self.cuda_tensor(G[i]), self.cuda_tensor(feat[i])) for i in range(len(G))]
+        xtrain, xtest = temp[:ntrain], temp[ntrain:]
+        temp = self.y_transformer(np.concatenate([ytrain, ytest]))
+        ytrain, ytest = temp[:ntrain], temp[ntrain:]
+
+        if task_descriptor is not None:
+            task_descriptor = self.task_descriptor_transformer(task_descriptor)
+            td = dict(task_descr = self.cuda_tensor(task_descriptor))
+        else:
+            td=dict()
+
+        return (dict(Dtrain=(xtrain, self.cuda_tensor(ytrain)),
+                     Dtest=(xtest, self.cuda_tensor(ytest)),
+                     idx=idx,
+                     **td),
+                self.cuda_tensor(ytest))
 
     def episode_loader(self, filename):
         with open(filename, 'r') as f_in:
@@ -136,25 +168,11 @@ def __get_partitions(dataset_cls, episode_files, batch_size, test_files=None,
     valid = dataset_cls(valid_files, **kwargs)
     test = dataset_cls(test_files, is_test=True, **kwargs)
     collate = lambda x: list(zip(*x))
-    # def collate(x):
-    #     # print(x)
-    #     print(len(x[0]))
-    #     print(x[0])
-    #     exit(222)
-    #     return list(zip(*x))
     train = DataLoader(train, batch_size=batch_size, collate_fn=collate, 
                     sampler=WeightedRandomSampler(np.log(train.task_sizes()), len(train)))
     test = DataLoader(test, batch_size=batch_size, collate_fn=collate)
     valid = DataLoader(valid, batch_size=batch_size, collate_fn=collate)
     return train, valid, test
-    # if 'raw_inputs' in kwargs and kwargs['raw_inputs']:
-    #     return train, valid, test
-    # else:
-    #     train = DataLoader(train, batch_size=batch_size, collate_fn=collate, 
-    #                 sampler=WeightedRandomSampler(np.log(train.task_sizes()), len(train)))
-    #     test = DataLoader(test, batch_size=batch_size, collate_fn=collate)
-    #     valid = DataLoader(valid, batch_size=batch_size, collate_fn=collate)
-    #     return train, valid, test
 
 
 def load_dataset(dataset_name, ds_folder=None, max_tasks=None, fold=None, **kwargs):
@@ -164,13 +182,13 @@ def load_dataset(dataset_name, ds_folder=None, max_tasks=None, fold=None, **kwar
     maps = dict(
         pubchemtox=dict(files=[join(ds_folder, x) for x in glob(f"{ds_folder}/*/*.csv")], 
                      dscls=PubchemToxDataset),
-        mhc=dict(files=[join(ds_folder, x) for x in listdir(ds_folder)], 
+        mhc=dict(files=[join(ds_folder, x) for x in os.listdir(ds_folder)], 
                      dscls=MhcDataset),
-        easytoy=dict(files=[join(ds_folder, x) for x in listdir(ds_folder) if x.endswith('.csv')], 
+        easytoy=dict(files=[join(ds_folder, x) for x in os.listdir(ds_folder) if x.endswith('.csv')], 
                      dscls=HarmonicsDataset),
-        tox21=dict(files=[join(ds_folder, x) for x in listdir(ds_folder) if x.endswith('.smiles')], 
+        tox21=dict(files=[join(ds_folder, x) for x in os.listdir(ds_folder) if x.endswith('.smiles')], 
                      dscls=Tox21Dataset),
-        chembl=dict(files=[join(ds_folder, x) for x in listdir(ds_folder) if x.endswith('.tsv')], 
+        chembl=dict(files=[join(ds_folder, x) for x in os.listdir(ds_folder) if x.endswith('.tsv')], 
                      dscls=ChemblDataset),
     )
 
@@ -184,16 +202,30 @@ def load_dataset(dataset_name, ds_folder=None, max_tasks=None, fold=None, **kwar
         test_files = [episode_files[fold]]
         del episode_files[fold]
 
+    splitting_file = join(ds_folder, dataset_name+'.json')
+    if exists(splitting_file):
+        with open(splitting_file) as fd:
+            temp = json.load(fd)
+        episode_files = [join(dirname(ds_folder), f) for f in temp['Dtrain']]
+        test_files = [join(dirname(ds_folder), f) for f in temp['Dtest']]
+
     return __get_partitions(dataset_cls, episode_files, test_files=test_files, **kwargs)
 
 
 if __name__ == '__main__':
     from time import time
     t = time()
-    ds = load_dataset('mhc')
-    for meta_train, meta_valid, meta_test in ds:
-        for episodes in meta_train:
-            for ep in episodes:
-                print(ep[0])
-                exit()
+    ds = load_dataset('pubchemtox', batch_size=32, max_examples_per_episode=10 )
+    train, valid, test = ds
+    all_files = train.dataset.tasks_filenames + valid.dataset.tasks_filenames + test.dataset.tasks_filenames
+    # for f in all_files:
+    #     x, y, _ = sum([len(train.dataset.episode_loader(f)[0]) > 100 for f in all_files], 0)
+    #     print(len(x))
+    lens_0 = [len(train.dataset.episode_loader(f)[0]) for f in all_files]
+    lens = lens_0[:]
+    print(f'sans filtre {len(lens)} {sum(lens)}')
+    lens = [l>50 for l in lens_0]
+    print(f'avec filtre 50 {len(lens)} {sum(lens)}')
+    lens = [l>100 for l in lens_0]
+    print(f'avec filtre 100 {len(lens)} {sum(lens)}')
     print("time", time()-t)

@@ -11,6 +11,7 @@ from .metaboost import MetaBoostLearner
 from .mars import MarsLearner
 from .perspectron import PerspectronEncoderLearner
 from .fp_learner import FPLearner
+from .seq2seq_fingerprint import Seq2SeqLearner
 
 class ModelFactory:
     name_map = dict(
@@ -27,6 +28,7 @@ class ModelFactory:
         mars=MarsLearner,
         perspectron=PerspectronEncoderLearner,
         fingerprint=FPLearner,
+        seqtoseq=Seq2SeqLearner,
     )
 
     def __init__(self):

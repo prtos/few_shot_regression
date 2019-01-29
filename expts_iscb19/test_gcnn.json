@@ -1,19 +1,20 @@
 [
   {
     "dataset_name": [
-      "chembl"
+      "pubchemtox"
     ],
     "dataset_params": [
       {
         "batch_size": 32,
         "max_examples_per_episode": 10,
-        "use_graph": false
+        "use_graph": true,
+        "max_tasks": 100
       }
     ],
     "fit_params": [
       {
-        "n_epochs": 100,
-        "steps_per_epoch": 500
+        "n_epochs": 1,
+        "steps_per_epoch": 10
       }
     ],
     "model_name": [
@@ -23,18 +24,12 @@
       {
         "controller_size": 100,
         "feature_extractor_params": {
-          "arch": "cnn",
-          "cnn_sizes": [
-            512,
-            512
-          ],
-          "dilatation_rate": 2,
-          "embedding_size": 20,
-          "kernel_size": 2,
-          "normalize_features": false,
-          "pooling_len": 1,
-          "use_bn": false,
-          "vocab_size": 151
+          "arch": "gcnn",
+          "atom_dim":79,
+          "bond_dim":8,
+          "hidden_size": 128,
+          "implementation_name": "bmpn",
+          "readout_size":64
         },
         "memory_shape": [
           64,

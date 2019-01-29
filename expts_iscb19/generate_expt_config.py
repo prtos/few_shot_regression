@@ -37,8 +37,11 @@ if __name__ == '__main__':
     # args = parser.parse_args()
     # algos, datasets, config_name = args.algos, args.datasets, args.outfile
 
-    main(['pubchemtox', 'chembl', 'mhc'], ['mann'], 'config_mann.json')
-    main(['pubchemtox', 'chembl', 'mhc'], ['maml'], 'config_maml.json')
-    main(['pubchemtox', 'chembl'], ['fingerprint'], 'config_fp.json')
-    main(['pubchemtox', 'chembl', 'mhc'], ['metakrr_sk'], 'config_krr.json')
-    # main(['pubchemtox', 'chembl', 'mhc'], ['seq2seq'], 'config_s2s.json')
+    # main(['chembl'], ['mann'], 'config_mann.json')
+    # main(['pubchemtox', 'chembl', 'mhc'], ['maml'], 'config_maml.json')
+    # main(['pubchemtox', 'chembl'], ['fingerprint'], 'config_fp.json')
+    main(['pubchemtox', 'chembl'], ['metakrr_sk'], 'config_krr_graph.json')
+    # main(['pubchemtox', 'chembl', 'mhc'], ['metakrr_sk'], 'config_krr.json')
+    # main(['mhc'], ['metakrr_sk'], 'config_krr_len_expts.json')
+    # main(['pubchemtox', 'chembl', 'mhc'], ['seqtoseq'], 'config_s2s.json')
+    # main(['mhc'], ['seqtoseq'], 'config_s2s.json')

@@ -3,6 +3,8 @@
 /home/prtos/workspace/code/phd/few_shot_regression/install.sh
 /home/prtos/workspace/code/phd/few_shot_regression/setup.py
 /home/prtos/workspace/code/phd/few_shot_regression/expts_iscb19/config_krr.json
+/home/prtos/workspace/code/phd/few_shot_regression/expts_iscb19/config_krr_graph.json
+/home/prtos/workspace/code/phd/few_shot_regression/expts_iscb19/config_krr_len_expts.json
 /home/prtos/workspace/code/phd/few_shot_regression/expts_iscb19/config_mann.json
 /home/prtos/workspace/code/phd/few_shot_regression/expts_iscb19/config_maml.json
 /home/prtos/workspace/code/phd/few_shot_regression/expts_iscb19/config_fp.json
