@@ -221,9 +221,10 @@ if __name__ == '__main__':
     # for f in all_files:
     #     x, y, _ = sum([len(train.dataset.episode_loader(f)[0]) > 100 for f in all_files], 0)
     #     print(len(x))
-    lens_0 = [len(train.dataset.episode_loader(f)[0]) for f in all_files]
+    temp = [list(train.dataset.episode_loader(f)[0]) for f in all_files]
+    lens_0 = [len(f) for f in temp]
     lens = lens_0[:]
-    print(f'sans filtre {len(lens)} {sum(lens)}')
+    print(f'sans filtre {len(lens)} {sum(lens)} {len(set(sum(temp, [])))}')
     lens = [l>50 for l in lens_0]
     print(f'avec filtre 50 {len(lens)} {sum(lens)}')
     lens = [l>100 for l in lens_0]
