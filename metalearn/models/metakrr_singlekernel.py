@@ -71,7 +71,7 @@ class MetaKrrSingleKernelNetwork(MetaNetwork):
             learner = KrrLearnerCV(l2s, self.kernel, dual=False, **kernels_params)
         else:
             # l2 = torch.clamp(self.l2, min=1e-3)
-            l2 = torch.FloatTensor([1.0/m]).to(self.device) #todo: need to remove this after expts
+            l2 = torch.FloatTensor([self.l2]).to(self.device)
             kp = {k: torch.clamp(self.kernel_params[k], min=1e-6) for k in self.kernel_params}
             learner = KrrLearner(l2, self.kernel, dual=False, **kp)
 
