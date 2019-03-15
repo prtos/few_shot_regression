@@ -33,4 +33,4 @@ class ModelFactory:
 
 if __name__ == "__main__":
     factory = ModelFactory()
-    factory(arch='fc', input_size=100, hidden_sizes=200, normalize_features=True)
+    model = factory(arch='fc', input_size=100, hidden_sizes=200, normalize_features=True)

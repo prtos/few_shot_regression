@@ -1,5 +1,5 @@
 
-import os 
+import os
 import torch
 import pickle
 import json
@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from metalearn.datasets.metadataset import MetaRegressionDataset
 from metalearn.feature_extraction import SequenceTransformer, AdjGraphTransformer
-from metalearn.feature_extraction.constants import AMINO_ACID_ALPHABET, SMILES_ALPHABET, ATOM_LIST 
+from metalearn.feature_extraction.constants import AMINO_ACID_ALPHABET, SMILES_ALPHABET, ATOM_LIST
 from torch.utils.data import DataLoader, WeightedRandomSampler
 from contextlib import contextmanager
 from inspect import currentframe, getouterframes
@@ -21,7 +21,7 @@ DATASETS_ROOT = join(dirname(dirname(dirname(realpath(__file__)))), 'datasets')
 
 @contextmanager
 def let(**bindings):
-    frame = getouterframes(currentframe(), 2)[-1][0] # 2 because first frame in `contextmanager` decorator  
+    frame = getouterframes(currentframe(), 2)[-1][0]  # 2 because first frame in `contextmanager` decorator
     locals_ = frame.f_locals
     original = {var: locals_.get(var) for var in bindings.keys()}
     locals_.update(bindings)
@@ -38,10 +38,19 @@ class HarmonicsDataset(MetaRegressionDataset):
 
     def episode_loader(self, filename):
         metadata = pd.read_csv(filename, nrows=1).values[0]
+        cols = pd.read_csv(filename, nrows=1).columns.tolist()
+        n_harmonics = (len(metadata) - 2) // 3
+        metadata = metadata[:-n_harmonics].astype('float32')
         data = pd.read_csv(filename, skiprows=2)
         x = data[['x']].values.astype('float32')
         y = data[['y']].values.astype('float32')
-        return x, y, None
+        meta = [metadata[0], metadata[1]]
+        for i in range(n_harmonics):
+            amp, ph = metadata[2 + i], metadata[n_harmonics + 2 + i]
+            p_x, p_y = amp * np.cos(ph), (amp * np.sin(ph))
+            meta += [p_x, p_y]
+        metadata = np.array(meta)
+        return x, y, metadata
 
 
 class MhcDataset(MetaRegressionDataset):
@@ -81,9 +90,9 @@ class ChemblDataset(MetaRegressionDataset):
         prot_transformer = SequenceTransformer(AMINO_ACID_ALPHABET)
         self.x_transformer = lambda x: transformer.transform(x)
         self.y_transformer = lambda y: torch.FloatTensor(y)
-        self.task_descr_transformer = lambda z: None if z is None else prot_transformer.transform([z])[0] 
+        self.task_descr_transformer = lambda z: None if z is None else prot_transformer.transform([z])[0]
         self.max_test_examples = 500
-        self.vocab = SMILES_ALPHABET if not use_graph else ATOM_LIST 
+        self.vocab = SMILES_ALPHABET if not use_graph else ATOM_LIST
 
     def _episode(self, xtrain, ytrain, xtest, ytest, task_descriptor=None, idx=None):
         if not self.use_graph:
@@ -98,9 +107,9 @@ class ChemblDataset(MetaRegressionDataset):
 
         if task_descriptor is not None:
             task_descriptor = self.task_descriptor_transformer(task_descriptor)
-            td = dict(task_descr = self.cuda_tensor(task_descriptor))
+            td = dict(task_descr=self.cuda_tensor(task_descriptor))
         else:
-            td=dict()
+            td = dict()
 
         return (dict(Dtrain=(xtrain, self.cuda_tensor(ytrain)),
                      Dtest=(xtest, self.cuda_tensor(ytest)),
@@ -110,7 +119,7 @@ class ChemblDataset(MetaRegressionDataset):
 
     def episode_loader(self, filename):
         with open(filename, 'r') as f_in:
-            f_in.readline() # reand and neglect the first line
+            f_in.readline()  # reand and neglect the first line
             protein = f_in.readline()[:-1].upper()
         data = pd.read_csv(filename, header=None, skiprows=2, delim_whitespace=True)
         data = data.values
@@ -122,17 +131,18 @@ class ChemblDataset(MetaRegressionDataset):
     def get_sampling_weights(self):
         episode_sizes = np.array([len(self.episode_loader(f)[0]) for f in self.tasks_filenames])
         episode_sizes = np.log2(episode_sizes)
-        return episode_sizes/np.sum(episode_sizes)
+        return episode_sizes / np.sum(episode_sizes)
 
 
 class PubchemToxDataset(ChemblDataset):
     def __init__(self, *args, **kwargs):
         super(PubchemToxDataset, self).__init__(*args, **kwargs)
+
         def file_len(fname):
             with open(fname) as f:
                 for i, _ in enumerate(f):
                     pass
-            return i+1
+            return i + 1
         self.tasks_sizes = np.array([file_len(f) for f in self.tasks_filenames])
 
     def episode_loader(self, filename):
@@ -153,11 +163,12 @@ class PubchemToxDataset(ChemblDataset):
 
 class Tox21Dataset(ChemblDataset):
     def episode_loader(self, filename):
-        data = pd.read_csv(filename, header=None,  delim_whitespace=True).values
+        data = pd.read_csv(filename, header=None, delim_whitespace=True).values
         x, y = data[:, 0], data[:, 1].astype('float').reshape((-1, 1))
         return x, y, None
 
-def __get_partitions(dataset_cls, episode_files, batch_size, test_files=None, 
+
+def __get_partitions(dataset_cls, episode_files, batch_size, test_files=None,
                      test_size=0.25, valid_size=0.25, **kwargs):
     if test_files is not None:
         train_files = episode_files
@@ -167,9 +178,10 @@ def __get_partitions(dataset_cls, episode_files, batch_size, test_files=None,
     train = dataset_cls(train_files, **kwargs)
     valid = dataset_cls(valid_files, **kwargs)
     test = dataset_cls(test_files, is_test=True, **kwargs)
-    collate = lambda x: list(zip(*x))
-    train = DataLoader(train, batch_size=batch_size, collate_fn=collate, 
-                    sampler=WeightedRandomSampler(np.log(train.task_sizes()), len(train)))
+
+    def collate(x): return list(zip(*x))
+    train = DataLoader(train, batch_size=batch_size, collate_fn=collate,
+                       sampler=WeightedRandomSampler(np.log(train.task_sizes()), len(train)))
     test = DataLoader(test, batch_size=batch_size, collate_fn=collate)
     valid = DataLoader(valid, batch_size=batch_size, collate_fn=collate)
     return train, valid, test
@@ -178,18 +190,22 @@ def __get_partitions(dataset_cls, episode_files, batch_size, test_files=None,
 def load_dataset(dataset_name, ds_folder=None, max_tasks=None, fold=None, **kwargs):
     if ds_folder is None:
         ds_folder = join(DATASETS_ROOT, dataset_name)
-    
+
     maps = dict(
-        pubchemtox=dict(files=[join(ds_folder, x) for x in glob(f"{ds_folder}/*/*.csv")], 
-                     dscls=PubchemToxDataset),
-        mhc=dict(files=[join(ds_folder, x) for x in os.listdir(ds_folder)], 
-                     dscls=MhcDataset),
-        easytoy=dict(files=[join(ds_folder, x) for x in os.listdir(ds_folder) if x.endswith('.csv')], 
+        pubchemtox=dict(files=[join(ds_folder, x) for x in glob(f"{ds_folder}/*/*.csv")],
+                        dscls=PubchemToxDataset),
+        mhc=dict(files=[join(ds_folder, x) for x in os.listdir(ds_folder)],
+                 dscls=MhcDataset),
+        easytoy=dict(files=[join(ds_folder, x) for x in os.listdir(ds_folder) if x.endswith('.csv')],
                      dscls=HarmonicsDataset),
-        tox21=dict(files=[join(ds_folder, x) for x in os.listdir(ds_folder) if x.endswith('.smiles')], 
-                     dscls=Tox21Dataset),
-        chembl=dict(files=[join(ds_folder, x) for x in os.listdir(ds_folder) if x.endswith('.tsv')], 
-                     dscls=ChemblDataset),
+        toy=dict(files=[join(ds_folder, x) for x in os.listdir(ds_folder) if x.endswith('.csv')],
+                 dscls=HarmonicsDataset),
+        toy123=dict(files=[join(ds_folder, x) for x in os.listdir(ds_folder) if x.endswith('.csv')],
+                    dscls=HarmonicsDataset),
+        tox21=dict(files=[join(ds_folder, x) for x in os.listdir(ds_folder) if x.endswith('.smiles')],
+                   dscls=Tox21Dataset),
+        chembl=dict(files=[join(ds_folder, x) for x in os.listdir(ds_folder) if x.endswith('.tsv')],
+                    dscls=ChemblDataset),
     )
 
     if dataset_name not in maps:
@@ -202,7 +218,7 @@ def load_dataset(dataset_name, ds_folder=None, max_tasks=None, fold=None, **kwar
         test_files = [episode_files[fold]]
         del episode_files[fold]
 
-    splitting_file = join(ds_folder, dataset_name+'.json')
+    splitting_file = join(ds_folder, dataset_name + '.json')
     if exists(splitting_file):
         with open(splitting_file) as fd:
             temp = json.load(fd)
@@ -215,7 +231,7 @@ def load_dataset(dataset_name, ds_folder=None, max_tasks=None, fold=None, **kwar
 if __name__ == '__main__':
     from time import time
     t = time()
-    ds = load_dataset('pubchemtox', batch_size=32, max_examples_per_episode=10 )
+    ds = load_dataset('pubchemtox', batch_size=32, max_examples_per_episode=10)
     train, valid, test = ds
     all_files = train.dataset.tasks_filenames + valid.dataset.tasks_filenames + test.dataset.tasks_filenames
     # for f in all_files:
@@ -225,8 +241,8 @@ if __name__ == '__main__':
     lens_0 = [len(f) for f in temp]
     lens = lens_0[:]
     print(f'sans filtre {len(lens)} {sum(lens)} {len(set(sum(temp, [])))}')
-    lens = [l>50 for l in lens_0]
+    lens = [l > 50 for l in lens_0]
     print(f'avec filtre 50 {len(lens)} {sum(lens)}')
-    lens = [l>100 for l in lens_0]
+    lens = [l > 100 for l in lens_0]
     print(f'avec filtre 100 {len(lens)} {sum(lens)}')
-    print("time", time()-t)
+    print("time", time() - t)
