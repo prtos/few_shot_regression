@@ -110,4 +110,7 @@ venv.bak/
 dataset/BindingDB_*.tsv
 results/
 datasets/originals
+*.ckp
 *.png
+*.aws
+*events*
