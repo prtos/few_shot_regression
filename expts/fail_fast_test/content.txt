@@ -1,0 +1,7 @@
+/home/prtos/workspace/code/phd/few_shot_regression/datasets
+/home/prtos/workspace/code/phd/few_shot_regression/metalearn
+/home/prtos/workspace/code/phd/few_shot_regression/install.sh
+/home/prtos/workspace/code/phd/few_shot_regression/setup.py
+/home/prtos/workspace/code/phd/few_shot_regression/expts/fail_fast_test/config.json
+/home/prtos/workspace/code/phd/few_shot_regression/expts/fail_fast_test/expts_utils.py
+/home/prtos/workspace/code/phd/few_shot_regression/expts/fail_fast_test/train

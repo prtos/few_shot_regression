@@ -1,0 +1,6980 @@
+[
+  {
+    "dataset_name": [
+      "toy"
+    ],
+    "dataset_params": [
+      {
+        "batch_size": 32,
+        "max_examples_per_episode": 10,
+        "max_tasks": null
+      }
+    ],
+    "fit_params": [
+      {
+        "n_epochs": 100,
+        "steps_per_epoch": 500
+      }
+    ],
+    "model_name": [
+      "metakrr_mk"
+    ],
+    "model_params": [
+      {
+        "condition_on": "train",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      }
+    ]
+  },
+  {
+    "dataset_name": [
+      "toy"
+    ],
+    "dataset_params": [
+      {
+        "batch_size": 32,
+        "max_examples_per_episode": 10,
+        "max_tasks": null
+      }
+    ],
+    "fit_params": [
+      {
+        "n_epochs": 100,
+        "steps_per_epoch": 500
+      }
+    ],
+    "model_name": [
+      "metakrr_sk"
+    ],
+    "model_params": [
+      {
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001
+      }
+    ]
+  },
+  {
+    "dataset_name": [
+      "easytoy"
+    ],
+    "dataset_params": [
+      {
+        "batch_size": 32,
+        "max_examples_per_episode": 10,
+        "max_tasks": null
+      }
+    ],
+    "fit_params": [
+      {
+        "n_epochs": 100,
+        "steps_per_epoch": 500
+      }
+    ],
+    "model_name": [
+      "metakrr_mk"
+    ],
+    "model_params": [
+      {
+        "condition_on": "train",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 6,
+          "normalize_features": false
+        }
+      }
+    ]
+  },
+  {
+    "dataset_name": [
+      "easytoy"
+    ],
+    "dataset_params": [
+      {
+        "batch_size": 32,
+        "max_examples_per_episode": 10,
+        "max_tasks": null
+      }
+    ],
+    "fit_params": [
+      {
+        "n_epochs": 100,
+        "steps_per_epoch": 500
+      }
+    ],
+    "model_name": [
+      "metakrr_sk"
+    ],
+    "model_params": [
+      {
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001
+      }
+    ]
+  },
+  {
+    "dataset_name": [
+      "toy123"
+    ],
+    "dataset_params": [
+      {
+        "batch_size": 32,
+        "max_examples_per_episode": 10,
+        "max_tasks": null
+      }
+    ],
+    "fit_params": [
+      {
+        "n_epochs": 100,
+        "steps_per_epoch": 500
+      }
+    ],
+    "model_name": [
+      "metakrr_mk"
+    ],
+    "model_params": [
+      {
+        "condition_on": "train",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": false,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "train",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "descr",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "film",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "gated",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "bilinear",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "sum",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 1.0,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.1,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      },
+      {
+        "condition_on": "both",
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataenc_beta": 0.01,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "regularize_dataencoder": true,
+        "task_descr_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            16,
+            16
+          ],
+          "input_size": 8,
+          "normalize_features": false
+        }
+      }
+    ]
+  },
+  {
+    "dataset_name": [
+      "toy123"
+    ],
+    "dataset_params": [
+      {
+        "batch_size": 32,
+        "max_examples_per_episode": 10,
+        "max_tasks": null
+      }
+    ],
+    "fit_params": [
+      {
+        "n_epochs": 100,
+        "steps_per_epoch": 500
+      }
+    ],
+    "model_name": [
+      "metakrr_sk"
+    ],
+    "model_params": [
+      {
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001
+      }
+    ]
+  }
+]

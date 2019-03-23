@@ -8,11 +8,10 @@ from .krr import KrrLearner, KrrLearnerCV
 from .utils import reset_BN_stats, to_unit
 
 
-
 class MetaKrrSKNetwork(MetaNetwork):
 
     def __init__(self, feature_extractor_params, l2=0.1, gamma=0.1, kernel='linear',
-                 regularize_phi=False, hp_mode='fixe', device='cuda'):
+                 hp_mode='fixe', device='cuda'):
         """
         In the constructor we instantiate an lstm module
         """
@@ -28,23 +27,23 @@ class MetaKrrSKNetwork(MetaNetwork):
             self.l2 = torch.FloatTensor([l2]).to(device)
             self.kernel_params = dict()
             if kernel == 'rbf':
-                self.kernel_params.update(dict(gamma=torch.FloatTensor([gamma]).to(device)))                  
+                self.kernel_params.update(dict(gamma=torch.FloatTensor([gamma]).to(device)))
             if kernel == 'sm':
-                self.kernel_params.update(dict())  #todo: Need to finish this   
+                self.kernel_params.update(dict())  # todo: Need to finish this
         elif hp_mode.lower() in ['learn', 'learned', 'l']:
             self.hp_mode = 'l'
             self.l2 = Parameter(torch.FloatTensor([l2]).to(device))
             self.kernel_params = ParameterDict()
             if kernel == 'rbf':
-                self.kernel_params.update(dict(gamma=Parameter(torch.FloatTensor([gamma]).to(device))))                 
+                self.kernel_params.update(dict(gamma=Parameter(torch.FloatTensor([gamma]).to(device))))
             if kernel == 'sm':
-                self.kernel_params.update(dict()) #todo: Need to finish this
+                self.kernel_params.update(dict())  # todo: Need to finish this
         elif hp_mode.lower() in ['cv', 'valid', 'crossvalid']:
             self.hp_mode = 'cv'
             self.l2_grid = torch.logspace(-4, 1, 10).to(self.device) if not self.fixe_hps else self.l2s
             self.kernel_params_grid = dict()
             if self.kernel == 'rbf':
-                self.kernel_params_grid.update(dict(gamma = torch.logspace(-4, 1, 10).to(self.device)))
+                self.kernel_params_grid.update(dict(gamma=torch.logspace(-4, 1, 10).to(self.device)))
             if self.kernel == 'sm':
                 raise NotImplementedError
         else:
@@ -69,15 +68,13 @@ class MetaKrrSKNetwork(MetaNetwork):
         self.feature_extractor.eval()
         x_test, _ = episode['Dtest']
         n, bsize = len(x_test), 10
-        res = torch.cat([learner(self.feature_extractor(x_test[i:i+bsize])) for i in range(0, n, bsize)])
+        res = torch.cat([learner(self.feature_extractor(x_test[i:i + bsize])) for i in range(0, n, bsize)])
 
-        self.phis_norms.append(torch.norm(phis, dim=1))
         self.l2_ = learner.l2
         self.kernel_params_ = learner.kernel_params
         return res
 
     def forward(self, episodes):
-        self.phis_norms = []
         res = [self.__forward(episode) for episode in episodes]
         return res
 
@@ -86,23 +83,19 @@ class MetaKrrSKLearner(MetaLearnerRegression):
     def __init__(self, *args, optimizer='adam', lr=0.001, weight_decay=0.0, **kwargs):
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         network = MetaKrrSKNetwork(*args, **kwargs, device=device)
-        super(MetaKrrSKLearner, self).__init__(network, optimizer, lr, 
-                                                        weight_decay)
+        super(MetaKrrSKLearner, self).__init__(network, optimizer, lr,
+                                               weight_decay)
 
     def _compute_aux_return_loss(self, y_preds, y_tests):
         res = dict()
-        loss = torch.mean(torch.stack([mse_loss(y_pred, y_test) 
-                    for y_pred, y_test in zip(y_preds, y_tests)]))
+        loss = torch.mean(torch.stack([mse_loss(y_pred, y_test)
+                                       for y_pred, y_test in zip(y_preds, y_tests)]))
 
         res.update(dict(mse=loss))
-        if self.model.training:
-            x = torch.mean(torch.cat(self.model.phis_norms))
-            res.update(dict(phis_norm=x))
-            if self.model.regularize_phi:
-                loss = loss + x
         res.update(dict(l2=self.model.l2_))
         res.update({k: self.model.kernel_params_[k] for k in self.model.kernel_params_})
         return loss, res
+
 
 if __name__ == '__main__':
     pass

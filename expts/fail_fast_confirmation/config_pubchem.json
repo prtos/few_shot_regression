@@ -1,0 +1,409 @@
+[
+  {
+    "dataset_name": [
+      "pubchemtox"
+    ],
+    "dataset_params": [
+      {
+        "batch_size": 32,
+        "max_examples_per_episode": 10,
+        "max_tasks": null,
+        "use_graph": true
+      }
+    ],
+    "fit_params": [
+      {
+        "n_epochs": 100,
+        "steps_per_epoch": 500
+      }
+    ],
+    "model_name": [
+      "metakrr_mk"
+    ],
+    "model_params": [
+      {
+        "conditioner_mode": "film",
+        "conditioner_params": null,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "cnn",
+          "cnn_sizes": [
+            512,
+            512
+          ],
+          "dilatation_rate": 2,
+          "embedding_size": 20,
+          "kernel_size": 2,
+          "normalize_features": false,
+          "pooling_len": 1,
+          "use_bn": false,
+          "vocab_size": 151
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "task_descr_extractor_params": {
+          "arch": "cnn",
+          "cnn_sizes": [
+            256,
+            256,
+            20
+          ],
+          "dilatation_rate": 2,
+          "embedding_size": 20,
+          "kernel_size": 5,
+          "normalize_features": false,
+          "pooling_len": 1,
+          "use_bn": false,
+          "vocab_size": 25
+        }
+      },
+      {
+        "conditioner_mode": "gated",
+        "conditioner_params": null,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "cnn",
+          "cnn_sizes": [
+            512,
+            512
+          ],
+          "dilatation_rate": 2,
+          "embedding_size": 20,
+          "kernel_size": 2,
+          "normalize_features": false,
+          "pooling_len": 1,
+          "use_bn": false,
+          "vocab_size": 151
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "task_descr_extractor_params": {
+          "arch": "cnn",
+          "cnn_sizes": [
+            256,
+            256,
+            20
+          ],
+          "dilatation_rate": 2,
+          "embedding_size": 20,
+          "kernel_size": 5,
+          "normalize_features": false,
+          "pooling_len": 1,
+          "use_bn": false,
+          "vocab_size": 25
+        }
+      },
+      {
+        "conditioner_mode": "film",
+        "conditioner_params": null,
+        "dataset_encoder_params": null,
+        "feature_extractor_params": {
+          "arch": "cnn",
+          "cnn_sizes": [
+            512,
+            512
+          ],
+          "dilatation_rate": 2,
+          "embedding_size": 20,
+          "kernel_size": 2,
+          "normalize_features": false,
+          "pooling_len": 1,
+          "use_bn": false,
+          "vocab_size": 151
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "task_descr_extractor_params": {
+          "arch": "cnn",
+          "cnn_sizes": [
+            256,
+            256,
+            20
+          ],
+          "dilatation_rate": 2,
+          "embedding_size": 20,
+          "kernel_size": 5,
+          "normalize_features": false,
+          "pooling_len": 1,
+          "use_bn": false,
+          "vocab_size": 25
+        }
+      },
+      {
+        "conditioner_mode": "gated",
+        "conditioner_params": null,
+        "dataset_encoder_params": null,
+        "feature_extractor_params": {
+          "arch": "cnn",
+          "cnn_sizes": [
+            512,
+            512
+          ],
+          "dilatation_rate": 2,
+          "embedding_size": 20,
+          "kernel_size": 2,
+          "normalize_features": false,
+          "pooling_len": 1,
+          "use_bn": false,
+          "vocab_size": 151
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "task_descr_extractor_params": {
+          "arch": "cnn",
+          "cnn_sizes": [
+            256,
+            256,
+            20
+          ],
+          "dilatation_rate": 2,
+          "embedding_size": 20,
+          "kernel_size": 5,
+          "normalize_features": false,
+          "pooling_len": 1,
+          "use_bn": false,
+          "vocab_size": 25
+        }
+      },
+      {
+        "conditioner_mode": "film",
+        "conditioner_params": null,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "cnn",
+          "cnn_sizes": [
+            512,
+            512
+          ],
+          "dilatation_rate": 2,
+          "embedding_size": 20,
+          "kernel_size": 2,
+          "normalize_features": false,
+          "pooling_len": 1,
+          "use_bn": false,
+          "vocab_size": 151
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "task_descr_extractor_params": null
+      },
+      {
+        "conditioner_mode": "gated",
+        "conditioner_params": null,
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "cnn",
+          "cnn_sizes": [
+            512,
+            512
+          ],
+          "dilatation_rate": 2,
+          "embedding_size": 20,
+          "kernel_size": 2,
+          "normalize_features": false,
+          "pooling_len": 1,
+          "use_bn": false,
+          "vocab_size": 151
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "task_descr_extractor_params": null
+      },
+      {
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "cnn",
+          "cnn_sizes": [
+            512,
+            512
+          ],
+          "dilatation_rate": 2,
+          "embedding_size": 20,
+          "kernel_size": 2,
+          "normalize_features": false,
+          "pooling_len": 1,
+          "use_bn": false,
+          "vocab_size": 151
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "task_descr_extractor_params": {
+          "arch": "cnn",
+          "cnn_sizes": [
+            256,
+            256,
+            20
+          ],
+          "dilatation_rate": 2,
+          "embedding_size": 20,
+          "kernel_size": 5,
+          "normalize_features": false,
+          "pooling_len": 1,
+          "use_bn": false,
+          "vocab_size": 25
+        }
+      },
+      {
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": null,
+        "feature_extractor_params": {
+          "arch": "cnn",
+          "cnn_sizes": [
+            512,
+            512
+          ],
+          "dilatation_rate": 2,
+          "embedding_size": 20,
+          "kernel_size": 2,
+          "normalize_features": false,
+          "pooling_len": 1,
+          "use_bn": false,
+          "vocab_size": 151
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "task_descr_extractor_params": {
+          "arch": "cnn",
+          "cnn_sizes": [
+            256,
+            256,
+            20
+          ],
+          "dilatation_rate": 2,
+          "embedding_size": 20,
+          "kernel_size": 5,
+          "normalize_features": false,
+          "pooling_len": 1,
+          "use_bn": false,
+          "vocab_size": 25
+        }
+      },
+      {
+        "conditioner_mode": "fusion",
+        "conditioner_params": {
+          "nb_layers": 2,
+          "residual": false
+        },
+        "dataset_encoder_params": {
+          "latent_space_dim": 20,
+          "nb_layers": 2,
+          "pooling_mode": "mean",
+          "target_dim": 1
+        },
+        "feature_extractor_params": {
+          "arch": "cnn",
+          "cnn_sizes": [
+            512,
+            512
+          ],
+          "dilatation_rate": 2,
+          "embedding_size": 20,
+          "kernel_size": 2,
+          "normalize_features": false,
+          "pooling_len": 1,
+          "use_bn": false,
+          "vocab_size": 151
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001,
+        "task_descr_extractor_params": null
+      }
+    ]
+  },
+  {
+    "dataset_name": [
+      "pubchemtox"
+    ],
+    "dataset_params": [
+      {
+        "batch_size": 32,
+        "max_examples_per_episode": 10,
+        "max_tasks": null,
+        "use_graph": true
+      }
+    ],
+    "fit_params": [
+      {
+        "n_epochs": 100,
+        "steps_per_epoch": 500
+      }
+    ],
+    "model_name": [
+      "metakrr_sk"
+    ],
+    "model_params": [
+      {
+        "feature_extractor_params": {
+          "arch": "cnn",
+          "cnn_sizes": [
+            512,
+            512
+          ],
+          "dilatation_rate": 2,
+          "embedding_size": 20,
+          "kernel_size": 2,
+          "normalize_features": false,
+          "pooling_len": 1,
+          "use_bn": false,
+          "vocab_size": 151
+        },
+        "hp_mode": "f",
+        "kernel": "linear",
+        "l2": 0.1,
+        "lr": 0.001
+      }
+    ]
+  }
+]

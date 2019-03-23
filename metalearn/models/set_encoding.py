@@ -4,6 +4,38 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
+class DeepSetEncoder(torch.nn.Module):
+    def __init__(self, input_dim, hidden_dim, num_layers=1):
+        super(DeepSetEncoder, self).__init__()
+
+        layers = []
+        in_dim, out_dim = input_dim, hidden_dim
+        for i in range(1, num_layers + 1):
+            layers.append(nn.Linear(in_dim, out_dim))
+            layers.append(nn.ReLU())
+            in_dim, out_dim = out_dim, out_dim
+        self.phi_net = nn.Sequential(*layers)
+
+        layers = []
+        in_dim, out_dim = hidden_dim * 2, hidden_dim
+        for i in range(1, num_layers + 1):
+            layers.append(nn.Linear(in_dim, out_dim))
+            layers.append(nn.ReLU())
+            in_dim, out_dim = out_dim, out_dim
+        self.rho_net = nn.Sequential(*layers)
+
+    def _forward(self, x):
+        phis_x = self.phi_net(x)
+        sum_x = torch.sum(phis_x, dim=0, keepdim=True)
+        max_x, _ = torch.max(phis_x, dim=0, keepdim=True)
+        maxsum_x = torch.cat([sum_x, max_x], dim=1)
+        res = self.rho_net(maxsum_x).squeeze(0)
+        return res
+
+    def forward(self, x):
+        return torch.stack([self._forward(x_i) for x_i in x], dim=0)
+
+
 class Set2SetEncoder(torch.nn.Module):
     r"""
     Set2Set global pooling operator from the `"Order Matters: Sequence to sequence for sets"
@@ -35,14 +67,16 @@ class Set2SetEncoder(torch.nn.Module):
             (Default, value = 1)
     """
 
-    def __init__(self, input_dim, hidden_dim=None, num_layers=1):
+    def __init__(self, input_dim, hidden_dim, num_layers=1):
         super(Set2SetEncoder, self).__init__()
 
         self.input_dim = input_dim
+        self.hidden_lstm_dim = input_dim * 2
         self.hidden_dim = hidden_dim
         self.num_layers = num_layers
-        self.lstm = nn.LSTM(self.hidden_dim, self.input_dim, num_layers=num_layers, batch_first=True)
+        self.lstm = nn.LSTM(self.hidden_lstm_dim, self.input_dim, num_layers=num_layers, batch_first=True)
         self.softmax = nn.Softmax(dim=1)
+        self.linear = nn.Linear(self.hidden_lstm_dim, self.hidden_dim)
 
     def forward(self, x):
         r"""
@@ -58,37 +92,33 @@ class Set2SetEncoder(torch.nn.Module):
             x: `torch.FloatTensor`
                 Tensor resulting from the  set2set pooling operation.
         """
-
         batch_size, n, _ = x.shape
 
         h = (x.new_zeros((self.num_layers, batch_size, self.input_dim)),
              x.new_zeros((self.num_layers, batch_size, self.input_dim)))
 
-        q_star = x.new_zeros(batch_size, 1, self.hidden_dim)
+        q_star = x.new_zeros(batch_size, 1, self.hidden_lstm_dim)
 
         for i in range(n):
             # q: batch_size x 1 x input_dim
             q, h = self.lstm(q_star, h)
             # e: batch_size x n x 1
-            e = torch.matmul(x, torch.transpose(q, 1, 2))
+            e = torch.matmul(x, q.transpose(1, 2))
             a = self.softmax(e)
-            r = torch.sum(a * e, dim=1, keepdim=True)
+            r = torch.sum(a * x, dim=1, keepdim=True)
             q_star = torch.cat([q, r], dim=-1)
 
-        return torch.squeeze(q_star, dim=1)
+        return self.linear(torch.squeeze(q_star, dim=1))
 
 
 class AttentionLayer(nn.Module):
     def __init__(self, input_size, value_size, key_size, pooling_function=None):
         # input_size == query_size
         super(AttentionLayer, self).__init__()
-        self.input_size = input_size
-        self.key_size = key_size
-        self.output_size = value_size
-        self.query_network = nn.Linear(self.input_size, self.key_size)
-        self.key_network = nn.Linear(self.input_size, self.key_size)
-        self.value_network = nn.Linear(self.input_size, self.value_size)
-        self.norm_layer = nn.LayerNorm(self.key_size)
+        self.query_network = nn.Linear(input_size, key_size)
+        self.key_network = nn.Linear(input_size, key_size)
+        self.value_network = nn.Linear(input_size, value_size)
+        self.norm_layer = nn.LayerNorm(value_size)
         self.pooling_function = pooling_function
 
     def forward(self, query, key=None, value=None):
@@ -96,13 +126,12 @@ class AttentionLayer(nn.Module):
             key = query
             value = query
         assert query.dim() == 3
-        assert query.size(2) == self.input_size
 
         query = self.query_network(query)
         key = self.key_network(key)
         value = self.value_network(value)
         attention_matrix = torch.bmm(query, key.transpose(1, 2))
-        attention_matrix = attention_matrix / math.sqrt(self.key_size)
+        attention_matrix = attention_matrix / math.sqrt(query.size(2))
         attention_matrix = F.softmax(attention_matrix, dim=2)
         res = self.norm_layer(torch.bmm(attention_matrix, value))
 
@@ -211,15 +240,7 @@ class RelationNetEncoder(torch.nn.Module):
     def __init__(self, input_dim, hidden_dim=20, num_layers=1):
         super(RelationNetEncoder, self).__init__()
         in_dim, out_dim = input_dim * 2, hidden_dim
-        layers = []
-        for i in range(1, num_layers + 1):
-            layers.append(nn.Linear(in_dim, out_dim))
-            layers.append(nn.ReLU())
-            in_dim, out_dim = out_dim, out_dim
-        layers.append(AttentionLayer(out_dim, out_dim, out_dim, pooling_function='mean'))
-
-        self._output_dim = out_dim
-        self.net = nn.Sequential(*layers)
+        self.net = DeepSetEncoder(in_dim, out_dim)
 
     def _forward(self, x):
         n = x.shape[0]
@@ -240,16 +261,17 @@ class RegDatasetEncoder(torch.nn.Module):
         if arch in ['set', 'set2set', 's2s']:
             self.net = Set2SetEncoder(in_dim, out_dim, num_layers=num_layers)
             self._output_dim = out_dim
-        elif arch in ['standard_attention', 's_att', 'att']:
-            self.net = StandardAttentionEncoder(in_dim, out_dim, num_layers=num_layers,
-                                                pooling_mode='mean')
+        elif arch in ['standard_attention', 'simple_attention', 's_att', 'att']:
+            self.net = StandardAttentionEncoder(in_dim, out_dim, num_layers=num_layers)
             self._output_dim = out_dim
         elif arch in ['multihead_attention', 'mh_att']:
-            self.net = MultiHeadAttentionEncoder(in_dim, out_dim, num_layers=num_layers,
-                                                 pooling_mode='mean', residual=True)
+            self.net = MultiHeadAttentionEncoder(in_dim, out_dim, num_layers=num_layers, residual=True)
             self._output_dim = in_dim
-        elif arch in ['relation_net', 'rn']:
+        elif arch in ['relation', 'relation_net', 'rn']:
             self.net = RelationNetEncoder(in_dim, out_dim, num_layers=num_layers)
+            self._output_dim = out_dim
+        elif arch in ['deepset', 'ds']:
+            self.net = DeepSetEncoder(in_dim, out_dim, num_layers=num_layers)
             self._output_dim = out_dim
         else:
             raise Exception('arch is undefined')

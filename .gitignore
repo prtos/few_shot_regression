@@ -114,3 +114,4 @@ datasets/originals
 *.png
 *.aws
 *events*
+expts/*/results/*
