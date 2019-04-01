@@ -92,19 +92,20 @@ class MetaKrrMKNetwork(MetaNetwork):
         # training part of the episode
         self.feature_extractor.train()
         condition, phis = self.get_condition(episode, return_phi_train=True)
-        task_descr = episode['task_descr']
         _, y_train = episode['Dtrain']
         phis = self.conditioner(phis, condition)
 
         l2 = torch.clamp(self.l2, min=1e-3)
-        learner = KrrLearner(l2, self.kernel, dual=False, **kp)
+        learner = KrrLearner(l2, self.kernel, dual=False)
         learner.fit(phis, y_train)
 
         # Testing part of the episode
         self.feature_extractor.eval()
         x_test, _ = episode['Dtest']
         n, bsize = len(x_test), 10
-        res = torch.cat([learner(self.conditioner(self.feature_extractor(x_test[i:i + bsize]), condition))
+        # print(n, bsize, x_test.shape, self.feature_extractor(x_test).shape, condition.shape)
+        res = torch.cat([learner(self.conditioner(self.feature_extractor(x_test[i:i + bsize]),
+                                                  condition[0:1, :].expand(min(bsize, n - i), -1)))
                          for i in range(0, n, bsize)])
         self.l2_ = l2
         if self.regularize_dataencoder and self.training:

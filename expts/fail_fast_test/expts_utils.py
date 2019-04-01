@@ -1,10 +1,13 @@
-import sys, hashlib, json, os
+import sys
+import hashlib
+import json
+import os
 import pandas as pd
 import numpy as np
 from collections import OrderedDict, MutableMapping
 from metalearn.datasets.loaders import load_dataset
 from metalearn.models.factory import ModelFactory
-from metalearn.utils.metric import mse, vse, r2, pcc
+from metalearn.metric import mse, vse, r2, pcc
 
 
 SAVING_DIR_FORMAT = '{expts_dir}/results_{dataset_name}_{algo}_{arch}'
@@ -62,8 +65,8 @@ def run_experiment(model_name, model_params, dataset_name, dataset_params,
 
     with open("{}/{}_params.json".format(output_path, out_prefix), 'w') as fd:
         temp = flatten_dict(all_params)
-        temp = {k: temp[k] for k in temp 
-            if isinstance(temp[k], (str, int, float, bool, list, dict, tuple, type(None)))}
+        temp = {k: temp[k] for k in temp
+                if isinstance(temp[k], (str, int, float, bool, list, dict, tuple, type(None)))}
         json.dump(temp, fd, indent=4, sort_keys=True)
 
     model = ModelFactory()(model_name, **model_params)

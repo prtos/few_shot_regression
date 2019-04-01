@@ -15,7 +15,7 @@ warning_settings['batch_size'] = 'ignore'
 
 
 def get_optimizer_cls(optimizer):
-    OPTIMIZERS = {k.lower(): v for k, v in vars(torch.optim).items() 
+    OPTIMIZERS = {k.lower(): v for k, v in vars(torch.optim).items()
                   if not k.startswith('__')}
     return OPTIMIZERS[optimizer]
 
@@ -45,8 +45,8 @@ class MetaLearnerRegression(Model):
         self.is_eval = False
 
     def _compute_aux_return_loss(self, y_preds, y_tests):
-        loss = torch.mean(torch.stack([mse_loss(y_pred, y_test) 
-                for y_pred, y_test in zip(y_preds, y_tests)]))
+        loss = torch.mean(torch.stack([mse_loss(y_pred, y_test)
+                                       for y_pred, y_test in zip(y_preds, y_tests)]))
         return loss, dict(mse=loss)
 
     def _on_batch_end(self, y_preds, y_tests):
@@ -61,7 +61,7 @@ class MetaLearnerRegression(Model):
                 self.writer.add_scalar(f'{tag}/{k}', to_unit(v), t)
         if torch.isnan(loss).any():
             raise Exception(f'{self.__class__.__name__}: Loss goes NaN')
-        
+
         if self.model.training:
             self.train_step += 1
         else:
@@ -75,23 +75,23 @@ class MetaLearnerRegression(Model):
         self.is_eval = False
         self.steps_per_epoch = steps_per_epoch
         callbacks = [EarlyStopping(patience=10, verbose=False),
-                     ReduceLROnPlateau(patience=2, factor=1/2, min_lr=1e-6, verbose=True),
+                     ReduceLROnPlateau(patience=2, factor=1 / 2, min_lr=1e-6, verbose=True),
                      BestModelRestore()]
         if log_filename:
             callbacks += [CSVLogger(log_filename, batch_granularity=False, separator='\t')]
         if checkpoint_filename:
             callbacks += [ModelCheckpoint(checkpoint_filename, monitor='val_loss', save_best_only=True,
-                                          temporary_filename=checkpoint_filename+'temp')]
+                                          temporary_filename=checkpoint_filename + 'temp')]
 
         if tboard_folder is not None:
             self.writer = SummaryWriter(tboard_folder)
 
         self.fit_generator(meta_train, meta_valid,
-                            epochs=n_epochs,
-                            steps_per_epoch=steps_per_epoch,
-                            validation_steps=steps_per_epoch,
-                            callbacks=callbacks,
-                            verbose=True)
+                           epochs=n_epochs,
+                           steps_per_epoch=steps_per_epoch,
+                           validation_steps=steps_per_epoch,
+                           callbacks=callbacks,
+                           verbose=True)
         self.is_fitted = True
         return self
 
@@ -136,7 +136,8 @@ class MetaLearnerRegression(Model):
         it = 0
         for batch in metatest:
             episodes = batch[0]
-            y_preds = self.model(episodes)
+            with torch.no_grad():
+                y_preds = self.model(episodes)
             y_tests = batch[1]
             for episode, y_test, y_pred in zip(episodes, y_tests, y_preds):
                 if self.model.return_var:
@@ -148,7 +149,7 @@ class MetaLearnerRegression(Model):
                 is_one_dim_input = not isinstance(one_sample, (list, tuple)) and (one_sample.size(1) == 1)
                 if is_one_dim_input and np.random.binomial(1, 0.1, 1)[0] == 1 and it <= 5000:
                     it += 1
-                    self.plot_harmonics(episode, tag='test'+str(ep_idx), step=it)
+                    self.plot_harmonics(episode, tag='test' + str(ep_idx), step=it)
                 ep_name_is_new = (ep_idx not in metrics_per_dataset["size"])
                 for metric in metrics:
                     m_value = to_unit(metric(y_pred_mean, y_test))

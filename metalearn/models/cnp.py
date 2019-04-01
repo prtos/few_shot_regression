@@ -2,10 +2,9 @@ import torch
 from torch.optim import Adam
 from torch.nn.functional import mse_loss, softplus
 from torch.nn import MSELoss, Parameter, ParameterDict, Sequential, ReLU
-from torch.distributions.multivariate_normal import
+from torch.distributions.multivariate_normal import MultivariateNormal
 from pytoune.framework import Model
 from metalearn.feature_extraction import FeaturesExtractorFactory, FcFeaturesExtractor
-from metalearn.feature_extraction import F
 from .base import MetaLearnerRegression, MetaNetwork
 from .utils import reset_BN_stats, to_unit
 from .set_encoding import RegDatasetEncoder
@@ -20,10 +19,16 @@ class CNPNetwork(MetaNetwork):
         In the constructor we instantiate an lstm module
         """
         super(CNPNetwork, self).__init__()
-        edim = self.feature_extractor.output_dim + target_dim
         self.feature_extractor = FeaturesExtractorFactory()(**feature_extractor_params)
-        self.encoder = FcFeaturesExtractor(input_size=edim, hidden_sizes=encoder_hidden_sizes)
-        self.decoder = FcFeaturesExtractor(input_size=self.encoder.output_dim, hidden_sizes=decoder_hidden_sizes + [target_dim * 2])
+        phi_dim = self.feature_extractor.output_dim
+        self.encoder = FcFeaturesExtractor(input_size=(phi_dim + target_dim),
+                                           hidden_sizes=encoder_hidden_sizes)
+        self.decoder = FcFeaturesExtractor(input_size=self.encoder.output_dim + phi_dim,
+                                           hidden_sizes=decoder_hidden_sizes + [target_dim * 2])
+
+    @property
+    def return_var(self):
+        return True
 
     def forward(self, episodes):
         xs_train, ys_train = zip(*[episode['Dtrain'] for episode in episodes])
@@ -37,8 +42,9 @@ class CNPNetwork(MetaNetwork):
         self.feature_extractor.train()
         phis_train = self.feature_extractor(xs_train)
         phis_ys_train = torch.cat((phis_train, ys_train), dim=1)
-        data_repr = torch.cat([chunck.mean(dim=0, keepdim=True).expand(test_sizes[i], -1)
-                               for i, chunck in enumerate(self.encoder(phis_ys_train))],
+        encoded_phis_ys = self.encoder(phis_ys_train).split(train_sizes)
+        data_repr = torch.cat([chunk.mean(dim=0, keepdim=True).expand(test_sizes[i], -1)
+                               for i, chunk in enumerate(encoded_phis_ys)],
                               dim=0)
 
         self.feature_extractor.eval()
@@ -47,14 +53,23 @@ class CNPNetwork(MetaNetwork):
         ys_pred = self.decoder(phis_repr_test)
 
         # Get the mean an the variance and bound the variance
-        mu, log_sigma = ys_pred.t()
+        mu, log_sigma = ys_pred.chunk(2, dim=1)
         sigma = 0.1 + 0.9 * softplus(log_sigma)
-        return list(zip(mu.split(test_sizes, dim=0), log_sigma.split(test_sizes, dim=0)))
+        return list(zip(mu.split(test_sizes, dim=0), sigma.split(test_sizes, dim=0)))
 
 
 def log_pdf(y, mu, std):
-    cov = torch.diag(std.view(-1))
-    return MultivariateNormal(mu.view(-1), cov).log_prob(y.view(-1))
+    try:
+        cov = torch.diag(std.view(-1))
+        n = cov.shape[0]
+        log_p = MultivariateNormal(mu.view(-1), cov).log_prob(y.view(-1)) / n
+    except:
+        print('Error when computing log_pdf')
+        print('y', y.view(-1))
+        print('mu', mu.view(-1))
+        print('std', std.view(-1))
+        exit(1)
+    return log_p
 
 
 class CNPLearner(MetaLearnerRegression):
@@ -71,7 +86,6 @@ class CNPLearner(MetaLearnerRegression):
                                             for (mu, sigma), y_test in zip(y_preds, y_tests)]))
 
         res.update(dict(mse=mse, marginal_likelihood=loss))
-        res.update(dict(l2=self.model.l2_))
         return loss, res
 
 

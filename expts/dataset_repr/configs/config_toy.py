@@ -27,14 +27,19 @@ dataset_encoder_params = list(ParameterGrid(dict(
 common_model_params = dict(
     l2=[0.1],
     lr=[0.001],
-    kernel=['linear'],
     hp_mode=['f'],  # ['f', 'l', 'cv'],
     feature_extractor_params=features_extractor_params,
 )
 
 metakrr_sk = dict(
     model_name=['metakrr_sk'],
-    model_params=list(ParameterGrid(common_model_params)),
+    model_params=list(ParameterGrid(dict(
+        l2=[0.1],
+        lr=[0.001],
+        kernel=['linear'],
+        hp_mode=['f'],  # ['f', 'l', 'cv'],
+        feature_extractor_params=features_extractor_params,
+    ))),
     **shared_params
 )
 
@@ -61,8 +66,8 @@ metakrr_mk = dict(
 cnp = dict(
     model_name=['cnp'],
     model_params=list(ParameterGrid(dict(
-        encoder_hidden_sizes=[[128] * 2],
-        decoder_hidden_sizes=[[128] * 2],
+        encoder_hidden_sizes=[[20] * 2],
+        decoder_hidden_sizes=[[128] * 2, [128] * 4, [20] * 2],
         feature_extractor_params=features_extractor_params,
     ))),
     **shared_params

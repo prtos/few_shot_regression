@@ -7,13 +7,13 @@
       {
         "batch_size": 32,
         "max_examples_per_episode": 10,
-        "max_tasks": 10
+        "max_tasks": null
       }
     ],
     "fit_params": [
       {
-        "n_epochs": 1,
-        "steps_per_epoch": 5
+        "n_epochs": 200,
+        "steps_per_epoch": 500
       }
     ],
     "model_name": [
@@ -43,7 +43,6 @@
           "normalize_features": false
         },
         "hp_mode": "f",
-        "kernel": "linear",
         "l2": 0.1,
         "lr": 0.001,
         "regularize_dataencoder": false,
@@ -80,7 +79,6 @@
           "normalize_features": false
         },
         "hp_mode": "f",
-        "kernel": "linear",
         "l2": 0.1,
         "lr": 0.001,
         "regularize_dataencoder": false,
@@ -117,7 +115,6 @@
           "normalize_features": false
         },
         "hp_mode": "f",
-        "kernel": "linear",
         "l2": 0.1,
         "lr": 0.001,
         "regularize_dataencoder": false,
@@ -154,7 +151,6 @@
           "normalize_features": false
         },
         "hp_mode": "f",
-        "kernel": "linear",
         "l2": 0.1,
         "lr": 0.001,
         "regularize_dataencoder": false,
@@ -191,7 +187,6 @@
           "normalize_features": false
         },
         "hp_mode": "f",
-        "kernel": "linear",
         "l2": 0.1,
         "lr": 0.001,
         "regularize_dataencoder": false,
@@ -228,7 +223,6 @@
           "normalize_features": false
         },
         "hp_mode": "f",
-        "kernel": "linear",
         "l2": 0.1,
         "lr": 0.001,
         "regularize_dataencoder": false,
@@ -265,7 +259,6 @@
           "normalize_features": false
         },
         "hp_mode": "f",
-        "kernel": "linear",
         "l2": 0.1,
         "lr": 0.001,
         "regularize_dataencoder": false,
@@ -302,7 +295,6 @@
           "normalize_features": false
         },
         "hp_mode": "f",
-        "kernel": "linear",
         "l2": 0.1,
         "lr": 0.001,
         "regularize_dataencoder": false,
@@ -339,7 +331,6 @@
           "normalize_features": false
         },
         "hp_mode": "f",
-        "kernel": "linear",
         "l2": 0.1,
         "lr": 0.001,
         "regularize_dataencoder": false,
@@ -376,7 +367,6 @@
           "normalize_features": false
         },
         "hp_mode": "f",
-        "kernel": "linear",
         "l2": 0.1,
         "lr": 0.001,
         "regularize_dataencoder": false,
@@ -413,7 +403,6 @@
           "normalize_features": false
         },
         "hp_mode": "f",
-        "kernel": "linear",
         "l2": 0.1,
         "lr": 0.001,
         "regularize_dataencoder": false,
@@ -450,7 +439,6 @@
           "normalize_features": false
         },
         "hp_mode": "f",
-        "kernel": "linear",
         "l2": 0.1,
         "lr": 0.001,
         "regularize_dataencoder": false,
@@ -461,6 +449,88 @@
             16
           ],
           "input_size": 6,
+          "normalize_features": false
+        }
+      }
+    ]
+  },
+  {
+    "dataset_name": [
+      "toy"
+    ],
+    "dataset_params": [
+      {
+        "batch_size": 32,
+        "max_examples_per_episode": 10,
+        "max_tasks": null
+      }
+    ],
+    "fit_params": [
+      {
+        "n_epochs": 200,
+        "steps_per_epoch": 500
+      }
+    ],
+    "model_name": [
+      "cnp"
+    ],
+    "model_params": [
+      {
+        "decoder_hidden_sizes": [
+          128,
+          128
+        ],
+        "encoder_hidden_sizes": [
+          20,
+          20
+        ],
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        }
+      },
+      {
+        "decoder_hidden_sizes": [
+          128,
+          128,
+          128,
+          128
+        ],
+        "encoder_hidden_sizes": [
+          20,
+          20
+        ],
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
+          "normalize_features": false
+        }
+      },
+      {
+        "decoder_hidden_sizes": [
+          20,
+          20
+        ],
+        "encoder_hidden_sizes": [
+          20,
+          20
+        ],
+        "feature_extractor_params": {
+          "arch": "fc",
+          "hidden_sizes": [
+            128,
+            128
+          ],
+          "input_size": 1,
           "normalize_features": false
         }
       }

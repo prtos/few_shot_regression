@@ -19,7 +19,6 @@ class MetaKrrSKNetwork(MetaNetwork):
         self.feature_extractor = FeaturesExtractorFactory()(**feature_extractor_params)
         self.kernel = kernel
         self.hp_mode = hp_mode
-        self.regularize_phi = regularize_phi
         self.device = device
 
         if hp_mode.lower() in ['fixe', 'fixed', 'f']:

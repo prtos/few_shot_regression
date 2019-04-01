@@ -18,7 +18,7 @@ from collections import defaultdict, OrderedDict
 from IPython.display import display
 from metalearn.datasets.loaders import load_dataset
 from metalearn.models.factory import ModelFactory
-from metalearn.utils.metric import mse, vse, r2, pcc
+from metalearn.metric import mse, vse, r2, pcc
 from ivbase.utils.memoize import memoize, hash_dict
 mpl.rcParams['font.family'] = 'Arial'
 sns.set(rc={'figure.figsize':(10,6)})
@@ -116,7 +116,11 @@ def get_result_summaries(results_folder, return_test_filenames=True):
         params.update(dict(val_loss=vloss))
         res_data =  pd.read_csv(res_file, sep='\t')
         tboard_folder = res_file.replace(res_ext, '')
-        events_file = [os.path.join(tboard_folder, f) for f in os.listdir(tboard_folder) if f.startswith('events')][0]
+        events_file = [os.path.join(tboard_folder, f) for f in os.listdir(tboard_folder) if f.startswith('events')]
+        if len(events_file) != 0:
+            events_file = events_file[0]
+        else:
+            events_file = None
         params.update(dict(
             pcc =res_data.pccmean.mean(),
             r2 = res_data.r2mean.mean(),
@@ -127,6 +131,7 @@ def get_result_summaries(results_folder, return_test_filenames=True):
         data_list.append(params)
     test_filenames = sorted(res_data.name.str.split('/').apply(lambda x: x[-1]))
     data = pd.DataFrame(data_list)
+    display(data)
     data = data[data['dataset_params.max_tasks']=='None']
     data = data.loc[:, data.apply(pd.Series.nunique) != 1]
     data = data.fillna('None')

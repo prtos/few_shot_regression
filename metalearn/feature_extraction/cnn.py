@@ -14,9 +14,9 @@ class Cnn1dFeaturesExtractor(ClonableModule):
         self.embedding_size = embedding_size
         self.cnn_sizes = cnn_sizes
         if type(pooling_len) == int:
-            self.pooling_len = [pooling_len]*len(cnn_sizes)
+            self.pooling_len = [pooling_len] * len(cnn_sizes)
         if type(kernel_size) == int:
-            self.kernel_size = [kernel_size]*len(cnn_sizes)
+            self.kernel_size = [kernel_size] * len(cnn_sizes)
         self.normalize_kernel = normalize_features
         self.dilatation_rate = 1
         self.use_bn = use_bn
@@ -55,6 +55,7 @@ class Cnn1dFeaturesExtractor(ClonableModule):
         return self.cnn_sizes[-1]
 
     def forward(self, x):
+        # print(x)
         return self.net(x)
 
     def clone(self):
@@ -66,6 +67,6 @@ class Cnn1dFeaturesExtractor(ClonableModule):
 
 if __name__ == '__main__':
     x = torch.Tensor(32, 80, 4)
-    model = Cnn1dFeaturesExtractor(4, 50, cnn_sizes=[25]*4, kernel_size=5, dilatation_rate=2, pooling_len=2)
+    model = Cnn1dFeaturesExtractor(4, 50, cnn_sizes=[25] * 4, kernel_size=5, dilatation_rate=2, pooling_len=2)
     y = model(x)
     print(y.size())

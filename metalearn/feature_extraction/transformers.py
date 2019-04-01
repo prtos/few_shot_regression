@@ -31,6 +31,7 @@ def normalize_adj(adj):
     d_mat_inv_sqrt = ss.diags(d_inv_sqrt)
     return adj.dot(d_mat_inv_sqrt).transpose().dot(d_mat_inv_sqrt).toarray()
 
+
 def explicit_bit_vect_to_array(bitvector):
     """Convert a bit vector into an array
 
@@ -46,6 +47,7 @@ def explicit_bit_vect_to_array(bitvector):
     """
     return np.array(list(map(int, bitvector.ToBitString())))
 
+
 def one_of_k_encoding(val, allowed_choices):
     """Converts a single value to a one-hot vector.
 
@@ -59,7 +61,7 @@ def one_of_k_encoding(val, allowed_choices):
     -------
         A list of size len(allowed_choices) + 1
     """
-    encoding = np.zeros(len(allowed_choices)+1, dtype=int)
+    encoding = np.zeros(len(allowed_choices) + 1, dtype=int)
     # not using index of, in case, someone fuck up
     # and there are duplicates in the allowed choices
     for i, v in enumerate(allowed_choices):
@@ -157,92 +159,152 @@ def to_categorical(y, num_classes=None):
 
 
 class MoleculeTransformer(TransformerMixin):
+    r"""
+    Transform a molecule (rdkit.Chem.Mol object) into a feature representation.
+    This class is an abstract class, and all its children are expected to implement the `_transform` method.
     """
-    This class is abstract all children should implement fit and transform
-    """
+
     def __init__(self):
         super(MoleculeTransformer, self).__init__()
 
-    def fit(self, X):
+    def fit(self, X, y=None, **fit_params):
         return self
 
     @classmethod
-    def to_mol(clc, mol, addHs=False, ordered=True, explicitOnly=False):
-        """Convert the input into a Chem.Mol with implicit hydrogens
+    def to_mol(clc, mol, addHs=False, explicitOnly=True, ordered=True):
+        r"""
+        Convert an imput molecule (smiles representation) into a Chem.Mol
+        :raises ValueError: if the input is neither a CHem.Mol nor a string
 
-        Parameters
+        .. CAUTION::
+            As per rdkit recommandation, you need to be very careful about the molecules
+            that Chem.AddHs outputs, since it is assumed that there is no hydrogen in the
+            original molecule
+
+        Arguments
         ----------
-        mol: str or rdkit.Chem.Mol
-            SMILES of a molecule or a molecule
-        addHs: bool, optional, default=False
-            Whether the implicit hydrogens should be added the molecule.
-        ordered: bool, optional, default=False
-            Whether the atom should be ordered for graph conv.
-        explicitOnly: bool, optional, default=False
-            Whether the explicit hydrogen are included in the output molecule
+            mol: str or rdkit.Chem.Mol
+                SMILES of a molecule or a molecule
+            addHs: bool, optional): Whether hydrogens should be added the molecule.
+               (Default value = False)
+            explicitOnly: bool, optional
+                Whether to only add explicit hydrogen or both
+                (implicit and explicit) when addHs is set to True.
+                (Default value = True)
+            ordered: bool, optional, default=False
+                Whether the atom should be ordered. This option is important if you want to ensure
+                that the features returned will always maintain a sinfle atom order for the same molecule,
+                regardless of its original smiles representation.
 
         Returns
         -------
-        mol: rdkit.Chem.Molecule
-            the molecule if some conversion have been made.
-            If the conversion fails None is returned so make sure that you handle this case on your own.
-
-        Raises
-        ------
-        ValueError
-            if the input is neither a CHem.Mol neither a string
+            mol: rdkit.Chem.Molecule
+                the molecule if some conversion have been made.
+                If the conversion fails None is returned so make sure that you handle this case on your own.
         """
         if not isinstance(mol, (str, Chem.Mol)):
             raise ValueError("Input should be a CHem.Mol or a string")
         if isinstance(mol, str):
             mol = Chem.MolFromSmiles(mol)
-        if ordered:
+        # make more sense to add hydrogen before ordering
+        if mol is not None and addHs:
+            mol = Chem.AddHs(mol, explicitOnly=explicitOnly)
+        if mol and ordered:
             new_order = Chem.rdmolfiles.CanonicalRankAtoms(mol)
             mol = RenumberAtoms(mol, new_order)
-        if addHs and (mol is not None):
-            mol = Chem.AddHs(mol, explicitOnly=explicitOnly)
         return mol
 
     def _transform(self, mol):
-        """
+        r"""
         Compute features for a single molecule.
-        """
-        raise NotImplementedError('Missing implementation of _transform.')
+        This method need to be implemented by each child that inherits from MoleculeTransformer
+        :raises NotImplementedError: if the method is not implemented by the child class
+        Arguments
+        ----------
+            mol: Chem.Mol
+                molecule to transform into features
 
-    def transform(self, mols, as_numpy=False, **kwargs):
-        """
-        Compute the features of a molecule
-
-        Args:
-        -----
-            mols: a list containing smiles
-            addH: a bool to specify if hydrogen atom should be added
-
-        Returns:
-        --------
+        Returns
+        -------
             features: the list of features
 
         """
+        raise NotImplementedError('Missing implementation of _transform.')
+
+    def transform(self, mols, ignore_errors=True, **kwargs):
+        r"""
+        Compute the features for a set of molecules.
+
+        .. note::
+            Note that depending on the `ignore_errors` argument, all failed
+            featurization (caused whether by invalid smiles or error during
+            data transformation) will be substitued by None features for the
+            corresponding molecule. This is done, so you can find the positions
+            of these molecules and filter them out according to your own logic.
+
+        Arguments
+        ----------
+            mols: list(Chem.Mol) or list(str)
+                a list containing smiles or Chem.Mol objects
+            ignore_errors: bool, optional
+                Whether to silently ignore errors
+            kwargs:
+                named arguments that are to be passed to the `to_mol` function.
+
+        Returns
+        --------
+            features: a list of features for each molecule in the input set
+        """
+
         features = []
         for i, mol in enumerate(mols):
-            feat = []
-            mol = self.to_mol(mol, **kwargs)
-            if mol:
+            feat = None
+            if ignore_errors:
+                try:
+                    mol = self.to_mol(mol, **kwargs)
+                    feat = self._transform(mol)
+                except:
+                    pass
+            else:
+                mol = self.to_mol(mol, **kwargs)
                 feat = self._transform(mol)
             features.append(feat)
-        if as_numpy:
-            return np.array(features)
         return features
 
-    def __call__(self, mols, **kwargs):
-        """
-        Calculate features for molecules.
-        Parameters
+    def __call__(self, mols, ignore_errors=True, **kwargs):
+        r"""
+        Calculate features for molecules. Using __call__, instead of transform. This function
+        will force ignore_errors to be true, regardless of your original settings, and is offered
+        mainly as a shortcut for data preprocessing. Note that most Transfomers allow you to specify
+        a return datatype.
+
+        Arguments
         ----------
-        mols : iterable
-                RDKit Mol objects.
+            mols: (str or rdkit.Chem.Mol) iterable
+                SMILES of the molecules to be transformed
+            ignore_errors: bool, optional
+                Whether to ignore errors and silently fallback
+                (Default value = True)
+            kwargs: Named parameters for the transform method
+
+        Returns
+        -------
+            feats: array
+                list of valid features
+            ids: array
+                all valid molecule positions that did not failed during featurization
+
+        See Also
+        --------
+            :func:`~ivbase.transformers.features.MoleculeTransformer.transform`
+
         """
-        return self.transform(mols, **kwargs)
+        feats = self.transform(mols, ignore_errors=ignore_errors, **kwargs)
+        ids = []
+        for f_id, feat in enumerate(feats):
+            if feat is not None:
+                ids.append(f_id)
+        return list(filter(None.__ne__, feats)), ids
 
 
 class SequenceTransformer:
@@ -292,7 +354,7 @@ class AdjGraphTransformer(MoleculeTransformer):
     Parameters
     ----------
     max_n_atoms: Maximum number of atom, to set the size of the graph.
-        Use default value None, to allow graph with different size that 
+        Use default value None, to allow graph with different size that
         will be packed together later
     with_bond: bool, optional, default=False
         whether to return bond feature too
@@ -307,7 +369,7 @@ class AdjGraphTransformer(MoleculeTransformer):
 
     def __init__(self, max_n_atoms=None, with_bond=False, explicit_H=False, chirality=True, max_valence=4):
         self.max_valence = max_valence
-        self.max_n_atoms = max_n_atoms # if this is not set, packing of graph would be expected later
+        self.max_n_atoms = max_n_atoms  # if this is not set, packing of graph would be expected later
         self.n_atom_feat = 0
         self.n_bond_feat = 0
         self.explicit_H = explicit_H
@@ -344,7 +406,7 @@ class AdjGraphTransformer(MoleculeTransformer):
         self.n_bond_feat += 3
 
     def transform(self, mols):
-        """Transform a batch of N molecules or smiles into a graph and 
+        """Transform a batch of N molecules or smiles into a graph and
 
         Parameters
         ----------
@@ -390,7 +452,7 @@ class AdjGraphTransformer(MoleculeTransformer):
         for a_idx in range(0, mol.GetNumAtoms()):
             atom = mol.GetAtomWithIdx(a_idx)
             atom_arrays.append(get_atom_features(atom))
-            adj_matrix[a_idx, a_idx] = 1 # add self loop
+            adj_matrix[a_idx, a_idx] = 1  # add self loop
             for n_idx, neighbor in enumerate(atom.GetNeighbors()):
                 adj_matrix[neighbor.GetIdx(), a_idx] = 1
                 adj_matrix[a_idx, neighbor.GetIdx()] = 1
@@ -403,7 +465,7 @@ class AdjGraphTransformer(MoleculeTransformer):
             (n_atoms, self.n_atom_feat)).astype(np.uint8)
         for idx, atom_array in enumerate(atom_arrays):
             atom_matrix[idx, :] = atom_array
-        
+
         if self.with_bond:
             atom_matrix = np.concatenate(
                 [atom_matrix, bond_matrix], axis=1).astype(np.uint8)
@@ -411,26 +473,33 @@ class AdjGraphTransformer(MoleculeTransformer):
 
 
 class FingerprintsTransformer(MoleculeTransformer):
-    """Molecule transformer into molecular fingerprint
+    r"""
+    Fingerprint molecule transformer.
+    This transformer is able to compute various fingerprints regularly used in QSAR modeling.
 
-    Parameters
+    Arguments
     ----------
-    kind : {'global_properties', 'atom_pair', 'topological_torsion', 'morgan_circular',
-        'estate', 'avalon_bit', 'avalon_count', 'erg', 'rdkit', 'maccs'}, optional, default='global_properties'
-        Name of the fingerprinting technique used
-    length: int
-        Length of the fingerprint to use
+        kind: str, optional
+            Name of the fingerprinting method used. Should be one of
+            {'global_properties', 'atom_pair', 'topological_torsion',
+            'morgan_circular', 'estate', 'avalon_bit', 'avalon_count', 'erg',
+            'rdkit', 'maccs'}
+            (Default value = 'morgan_circular')
+        length: int, optional
+            Length of the fingerprint to use
+            (Default value = 2000)
 
     Attributes
     ----------
-    kind : str
-        Name of the fingerprinting technique used
-    length : int
-        Length of the fingerprint to use
-    fpfun : function
-        function to call to compute the fingerprint
+        kind: str
+            Name of the fingerprinting technique used
+        length: int
+            Length of the fingerprint to use
+        fpfun: function
+            function to call to compute the fingerprint
     """
-    mapping = OrderedDict(
+    MAPPING = OrderedDict(
+        global_properties=lambda x, params: augmented_mol_properties(x),
         # physiochemical=lambda x: GetBPFingerprint(x),
         atom_pair=lambda x, params: GetHashedAtomPairFingerprintAsBitVect(
             x, **params),
@@ -448,12 +517,12 @@ class FingerprintsTransformer(MoleculeTransformer):
 
     def __init__(self, kind='morgan_circular', length=2000):
         super(FingerprintsTransformer, self).__init__()
-        if not (isinstance(kind, str) and (kind in FingerprintsTransformer.mapping)):
+        if not (isinstance(kind, str) and (kind in FingerprintsTransformer.MAPPING.keys())):
             raise ValueError("Argument kind must be in: " +
-                             ', '.join(FingerprintsTransformer.mapping.keys()))
+                             ', '.join(FingerprintsTransformer.MAPPING.keys()))
         self.kind = kind
         self.length = length
-        self.fpfun = self.mapping.get(kind, None)
+        self.fpfun = self.MAPPING.get(kind, None)
         if not self.fpfun:
             raise ValueError("Fingerprint {} is not offered".format(kind))
         self._params = {}
@@ -461,41 +530,98 @@ class FingerprintsTransformer(MoleculeTransformer):
             {('fpSize' if kind == 'rdkit' else 'nBits'): length})
 
     def _transform(self, mol):
-        """Transform a molecule into a fingerprint vector
+        r"""
+        Transforms a molecule into a fingerprint vector
+        :raises ValueError: when the input molecule is None
 
-        Parameters
+        Arguments
         ----------
-        mol: str or rdkit.Chem.Mol
-            The smiles of the molecule of interest or the molecule itself
+            mol: rdkit.Chem.Mol
+                Molecule of interest
+
         Returns
         -------
-        fp : np.ndarray
-            The computed fingerprint
+            fp: np.ndarray
+                The computed fingerprint
+
         """
+
         if mol is None:
-            warnings.warn("None value received for argument mol")
-            fp = np.zeros(self.length)
-        else:
-            fp = self.fpfun(mol, self._params)
+            raise ValueError("Expecting a Chem.Mol object, got None")
+        # expect cryptic rdkit errors here if this fails, #rdkitdev
+        fp = self.fpfun(mol, self._params)
         if isinstance(fp, ExplicitBitVect):
             fp = explicit_bit_vect_to_array(fp)
         else:
-            fp = np.array(list(fp))
+            fp = list(fp)
         return fp
-   
 
-    def transform(self, mols):
-        """Transform a batch of molecule into a fingerprint vectors
+    def transform(self, mols, **kwargs):
+        r"""
+        Transforms a batch of molecules into fingerprint vectors.
 
-        Parameters
+        .. note::
+            The recommended way is to use the object as a callable.
+
+        Arguments
         ----------
-        X: (str or rdkit.Chem.Mol) list
-            The list of smiles or molecule
+            mols: (str or rdkit.Chem.Mol) iterable
+                List of SMILES or molecules
+            kwargs: named parameters for transform (see below)
 
         Returns
         -------
-        fp : 2d np.ndarray
-            The computed fingerprint vectors
+            fp: array
+                computed fingerprints of size NxD, where D is the
+                requested length of features and N is the number of input
+                molecules that have been successfully featurized.
+
+        See Also
+        --------
+            :func:`~ivbase.transformers.features.MoleculeTransformer.transform`
+
         """
-        res = np.array(super(FingerprintsTransformer, self).transform(mols, as_numpy=True))
-        return res
+        return super(FingerprintsTransformer, self).transform(mols, **kwargs)
+
+    def __call__(self, mols, dtype=torch.long, cuda=False, **kwargs):
+        r"""
+        Transforms a batch of molecules into fingerprint vectors,
+        and return the transformation in the desired data type format as well as
+        the set of valid indexes.
+
+        Arguments
+        ----------
+            mols: (str or rdkit.Chem.Mol) iterable
+                The list of input smiles or molecules
+            dtype: torch.dtype or numpy.dtype, optional
+                Datatype of the transformed variable.
+                Expect a tensor if you provide a torch dtype, a numpy array if you provide a
+                numpy dtype (supports valid strings) or a vanilla int/float. Any other option will
+                return the output of the transform function.
+                (Default value = torch.long)
+            cuda: bool, optional
+                Whether to transfer tensor on the GPU (if output is a tensor)
+            kwargs: named parameters for transform (see below)
+
+        Returns
+        -------
+            fp: array
+                computed fingerprints (in `dtype` datatype) of size NxD,
+                where D is the requested length of features and N is the number
+                of input molecules that have been successfully featurized.
+            ids: array
+                all valid molecule positions that did not failed during featurization
+
+        See Also
+        --------
+            :func:`~ivbase.transformers.features.FingerprintsTransformer.transform`
+
+        """
+        fp, ids = super(FingerprintsTransformer, self).__call__(mols, **kwargs)
+        if is_dtype_numpy_array(dtype):
+            fp = np.array(fp, dtype=dtype)
+        elif is_dtype_torch_tensor(dtype):
+            fp = to_tensor(fp, gpu=cuda, dtype=dtype)
+        else:
+            raise(TypeError('The type {} is not supported'.format(dtype)))
+        return fp, ids
