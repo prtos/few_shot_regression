@@ -7,7 +7,7 @@ import numpy as np
 from collections import OrderedDict, MutableMapping
 from metalearn.datasets.loaders import load_dataset
 from metalearn.models.factory import ModelFactory
-from metalearn.metric import mse, vse, r2, pcc
+from metalearn.metric import mse, vse, r2_score, pearsonr
 
 
 SAVING_DIR_FORMAT = '{expts_dir}/results_{dataset_name}_{algo}_{arch}'
@@ -61,6 +61,8 @@ def run_experiment(model_name, model_params, dataset_name, dataset_params,
     ckp_fname = "{}/{}_ckp.ckp".format(output_path, out_prefix)
     result_fname = "{}/{}_res.csv".format(output_path, out_prefix)
     log_fname = "{}/{}_log.log".format(output_path, out_prefix)
+    grads_fname = "{}/{}_grads".format(output_path, out_prefix)
+    graphflow_fname = "{}/{}_graphflow".format(output_path, out_prefix) + '{}.dot'
     tboard = "{}/{}".format(output_path, out_prefix)
 
     with open("{}/{}_params.json".format(output_path, out_prefix), 'w') as fd:
@@ -79,10 +81,12 @@ def run_experiment(model_name, model_params, dataset_name, dataset_params,
             pass
     fit_params.update(dict(log_filename=log_fname,
                            checkpoint_filename=ckp_fname,
-                           tboard_folder=tboard))
+                           tboard_folder=tboard,
+                           grads_inspect_dir=grads_fname,
+                           graph_flow_filename=None))
     model.fit(meta_train, meta_valid, **fit_params)
 
-    scores = model.evaluate(meta_test, metrics=[mse, vse, r2, pcc])
+    scores = model.evaluate(meta_test, metrics=[mse, vse, r2_score, pearsonr])
     with open(result_fname, "w") as outfile:
         results = save_stats(scores, outfile)
         print(results)

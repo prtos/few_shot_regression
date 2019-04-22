@@ -1,11 +1,14 @@
 import os
 import io
+import ast
 import sys
 import glob
 import json
 import pickle
 import itertools
 import ipywidgets
+import functools
+import operator
 import seaborn as sns
 import pandas as pd
 import numpy as np
@@ -18,7 +21,7 @@ from collections import defaultdict, OrderedDict
 from IPython.display import display
 from metalearn.datasets.loaders import load_dataset
 from metalearn.models.factory import ModelFactory
-from metalearn.metric import mse, vse, r2, pcc
+from metalearn.metric import mse, vse, r2_score, pearsonr
 from ivbase.utils.memoize import memoize, hash_dict
 mpl.rcParams['font.family'] = 'Arial'
 sns.set(rc={'figure.figsize':(10,6)})
@@ -83,6 +86,17 @@ def all_files_ending_with(folder, extension):
     return [os.path.join(folder, f) for f in os.listdir(folder) if f.endswith(extension)]
 
 def update_params_for_mk(params):
+    keyr = 'input_features_extractor_params'
+    new_dict = dict()
+    keys = []
+    for k, v in params.items():
+        if keyr in k:
+            new_dict[k.replace(keyr, 'feature_extractor_params')] = v
+            keys.append(k)
+    for k in keys:
+        params.pop(k)
+    params.update(new_dict)
+
     if 'model_params.condition_on' in params:
         return params
     key1, key2, new_key = ('model_params.dataset_encoder_params.', 'model_params.task_descr_extractor_params.', 'model_params.condition_on')
@@ -97,6 +111,7 @@ def update_params_for_mk(params):
         params[new_key] = 'task_descr'
     else:
         params[new_key] = '_none'
+
     return params
 
 def get_result_summaries(results_folder, return_test_filenames=True):
@@ -111,7 +126,7 @@ def get_result_summaries(results_folder, return_test_filenames=True):
         with open(param_file) as fd:
             params = json.load(fd)
             params = {k: str(v) for k, v in params.items()}
-            update_params_for_mk(params)
+            params = update_params_for_mk(params)
         vloss = pd.read_csv(log_file, sep='\t').val_loss.min()
         params.update(dict(val_loss=vloss))
         res_data =  pd.read_csv(res_file, sep='\t')
@@ -121,17 +136,25 @@ def get_result_summaries(results_folder, return_test_filenames=True):
             events_file = events_file[0]
         else:
             events_file = None
-        params.update(dict(
-            pcc =res_data.pccmean.mean(),
-            r2 = res_data.r2mean.mean(),
-            mse = res_data.msemean.mean(),
-            tboard_folder = tboard_folder,
-            events_file = events_file
-        ))
+        try:
+            params.update(dict(
+                pcc =res_data.pccmean.mean(),
+                r2 = res_data.r2mean.mean(),
+                mse = res_data.msemean.mean(),
+                tboard_folder = tboard_folder,
+                events_file = events_file
+            ))
+        except:
+            params.update(dict(
+                pcc =res_data.pearsonrmean.mean(),
+                r2 = res_data.r2_scoremean.mean(),
+                mse = res_data.msemean.mean(),
+                tboard_folder = tboard_folder,
+                events_file = events_file
+            ))            
         data_list.append(params)
     test_filenames = sorted(res_data.name.str.split('/').apply(lambda x: x[-1]))
     data = pd.DataFrame(data_list)
-    display(data)
     data = data[data['dataset_params.max_tasks']=='None']
     data = data.loc[:, data.apply(pd.Series.nunique) != 1]
     data = data.fillna('None')
@@ -167,9 +190,10 @@ def plot_heatmap(resdata, metric, column_names, row_names, filters=None, save_fo
             plt.savefig(os.path.join(res_folder, f'heatmaps_{metric}_{filter_str}.svg'), dpi=800)
         return out  
     
-def get_widgets(data, filter_names):
+def get_metric_heatmap_widgets(data, filter_names):
     widgets = dict(metric=dropdown_widget(name='Metric', opts=['mse', 'r2', 'pcc', 'val_loss']))
     if filter_names is not None:
+        print(filter_names)
         for key in filter_names:
             widgets[key] = dropdown_widget(name=key.replace('_', ' ').capitalize(), opts=list(set(data[key].tolist())))
     return widgets
@@ -184,11 +208,11 @@ def get_heatmaps(data, heat_column_names, heat_row_names, metric, **kwargs):
 
 def plot_fitting_curves(resdata, **filters):
     table = resdata.copy()
-    test_filename = filters.get('test_filename', None)
-    filters.pop('test_filename')
-    for key, value in filters.items():
+    test_filename = filters.pop('test_filename', None)
+    config =  ast.literal_eval(filters.pop('configs'))
+    for key, value in config.items():
         table = table[table[key]==value]
-    
+        
     events_file = table['events_file'].tolist()[0]
     test_name = 'test'+test_filename.split('_')[-1].split('.')[0]
     out = ipywidgets.Output()
@@ -203,13 +227,17 @@ def plot_fitting_curves(resdata, **filters):
                     fig = plt.figure(dpi=120)
                     plt.axis('off')
                     plt.imshow(img)
+                    plt.show()
     return out 
 
-def get_test_fitting_curves_widgets(data, test_filenames):
+def get_fitting_curves_widgets(data, test_filenames):
     metrics=['mse', 'r2', 'pcc', 'val_loss', 'tboard_folder', 'tboard_folder', 'events_file']
-    filter_names = set(data.columns.tolist()).difference(metrics)
+    filter_names = list(set(data.columns.tolist()).difference(metrics))
+    config_options = [str(row.to_dict()) for _, row in data[filter_names].iterrows()]
+    
     widgets = dict()
-    for key in filter_names:
-        widgets[key] = dropdown_widget(name=key.replace('_', ' ').capitalize(), opts=list(set(data[key].tolist())))
+#     for key in filter_names:
+#         widgets[key] = dropdown_widget(name=key.replace('_', ' ').capitalize(), opts=list(set(data[key].tolist())))
+    widgets['configs'] = dropdown_widget(name='Configuration', opts=config_options)
     widgets['test_filename'] = dropdown_widget(name='Test filename', opts=test_filenames)
     return widgets

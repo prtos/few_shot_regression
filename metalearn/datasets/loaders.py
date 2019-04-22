@@ -181,8 +181,8 @@ def __get_partitions(dataset_cls, episode_files, batch_size, test_files=None,
 
     def collate(x): return list(zip(*x))
     train = DataLoader(train, batch_size=batch_size, collate_fn=collate,
-                       sampler=WeightedRandomSampler(np.log(train.task_sizes()), len(train)))
-    test = DataLoader(test, batch_size=batch_size, collate_fn=collate)
+                       sampler=WeightedRandomSampler(np.log(train.task_sizes()), len(train)), num_workers=4)
+    test = DataLoader(test, batch_size=batch_size, num_workers=4, collate_fn=collate)
     valid = DataLoader(valid, batch_size=batch_size, collate_fn=collate)
     return train, valid, test
 

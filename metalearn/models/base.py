@@ -5,12 +5,13 @@ import matplotlib.pyplot as plt
 from tensorboardX import SummaryWriter
 from pytoune.utils import torch_to_numpy
 from pytoune.framework.callbacks import CSVLogger, EarlyStopping, ModelCheckpoint, ReduceLROnPlateau, \
-    BestModelRestore, TensorBoardLogger, DelayCallback
+    BestModelRestore, TensorBoardLogger, DelayCallback, Callback
 from metalearn.feature_extraction.factory import FeaturesExtractorFactory
 from torch.nn.functional import mse_loss
 from torch.utils.data import random_split
 from pytoune.framework import warning_settings, Model
 from metalearn.models.utils import to_unit, to_numpy_vec
+from .grad_check import GradFlow, GradientInspector
 warning_settings['batch_size'] = 'ignore'
 
 
@@ -49,6 +50,22 @@ class MetaLearnerRegression(Model):
                                        for y_pred, y_test in zip(y_preds, y_tests)]))
         return loss, dict(mse=loss)
 
+    def _fit_batch(self, x, y, *, callback=Callback(), step=None, return_pred=False):
+        self.optimizer.zero_grad()
+
+        loss_tensor, metrics, pred_y = self._compute_loss_and_metrics(
+            x, y, return_loss_tensor=True, return_pred=return_pred
+        )
+        if hasattr(self, 'grad_flow'):
+            self.grad_flow.on_backward_start(step, loss_tensor)
+        loss_tensor.backward()
+
+        callback.on_backward_end(step)
+        self.optimizer.step()
+
+        loss = float(loss_tensor)
+        return loss, metrics, pred_y
+
     def _on_batch_end(self, y_preds, y_tests):
         loss, scalars = self._compute_aux_return_loss(y_preds, y_tests)
 
@@ -69,7 +86,7 @@ class MetaLearnerRegression(Model):
         return loss
 
     def fit(self, meta_train, meta_valid, n_epochs=100, steps_per_epoch=100,
-            log_filename=None, checkpoint_filename=None, tboard_folder=None):
+            log_filename=None, checkpoint_filename=None, tboard_folder=None, grads_inspect_dir=None, graph_flow_filename=None):
         if hasattr(self.model, 'is_eval'):
             self.model.is_eval = False
         self.is_eval = False
@@ -77,8 +94,17 @@ class MetaLearnerRegression(Model):
         callbacks = [EarlyStopping(patience=10, verbose=False),
                      ReduceLROnPlateau(patience=2, factor=1 / 2, min_lr=1e-6, verbose=True),
                      BestModelRestore()]
+        # if grads_inspect_dir:
+        #     callbacks += [GradientInspector(outdir=grads_inspect_dir)]
+
+        if graph_flow_filename:
+            self.model_dir = os.path.dirname(compute_graph_filename)
+            self.grad_flow = GradFlow(outfile=compute_graph_filename)
+            callbacks.append(self.gradflow)
+
         if log_filename:
             callbacks += [CSVLogger(log_filename, batch_granularity=False, separator='\t')]
+
         if checkpoint_filename:
             callbacks += [ModelCheckpoint(checkpoint_filename, monitor='val_loss', save_best_only=True,
                                           temporary_filename=checkpoint_filename + 'temp')]

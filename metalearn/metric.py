@@ -70,6 +70,7 @@ def __std_se(y_pred, y_true, per_tasks=True, weights=None):
     r"""Compute the std from numpy.ndarray inputs"""
     y_pred, y_true = np.array(y_pred), np.array(y_true)
     # se : squared_error
+    print(y_pred.shape, y_true.shape)
     se = (y_pred - y_true) ** 2
     if weights is None:
         std = np.std(se, axis=0, ddof=1)

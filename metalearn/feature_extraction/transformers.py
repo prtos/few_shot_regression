@@ -158,6 +158,45 @@ def to_categorical(y, num_classes=None):
     return categorical
 
 
+def is_dtype_torch_tensor(dtype):
+    r"""
+    Verify if the dtype is a torch dtype
+
+    Arguments
+    ----------
+        dtype: dtype
+            The dtype of a value. E.g. np.int32, str, torch.float
+
+    Returns
+    -------
+        A boolean saying if the dtype is a torch dtype
+    """
+    return isinstance(dtype, torch.dtype) or (dtype == torch.Tensor)
+
+
+def is_dtype_numpy_array(dtype):
+    r"""
+    Verify if the dtype is a numpy dtype
+
+    Arguments
+    ----------
+        dtype: dtype
+            The dtype of a value. E.g. np.int32, str, torch.float
+
+    Returns
+    -------
+        A boolean saying if the dtype is a numpy dtype
+    """
+    is_torch = is_dtype_torch_tensor(dtype)
+    is_num = dtype in (int, float, complex)
+    if hasattr(dtype, '__module__'):
+        is_numpy = dtype.__module__ == 'numpy'
+    else:
+        is_numpy = False
+
+    return (is_num or is_numpy) and not is_torch
+
+
 class MoleculeTransformer(TransformerMixin):
     r"""
     Transform a molecule (rdkit.Chem.Mol object) into a feature representation.

@@ -1,6 +1,10 @@
+
+import sys
+import os
 import json
 import argparse
 from pprint import pprint
+sys.path.append(os.getcwd())
 from configs import ConfigFactory
 
 
@@ -28,24 +32,16 @@ def main(datasets, algos, config_name, use_graph=True):
 
 
 if __name__ == '__main__':
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument('--datasets', default=['easytoy'], nargs='+',
-    #                     type=str, help='Names of the datasets for the experiments')
-    # parser.add_argument('--algos',
-    #                     default=['mars'],
-    #                     type=str, nargs='+',
-    #                     help='Names of the algos tested')
-    # parser.add_argument('--outfile', default=None,
-    #                     type=str, help='Output file name')
-    # args = parser.parse_args()
-    # algos, datasets, config_name = args.algos, args.datasets, args.outfile
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-d', '--datasets', default=['easytoy'], nargs='+',
+                        type=str, help='Names of the datasets for the experiments')
+    parser.add_argument('-a', '--algos',
+                        default=['mars'],
+                        type=str, nargs='+',
+                        help='Names of the algos tested')
+    parser.add_argument('-o', '--outfile', default=None,
+                        type=str, help='Output file name')
+    args = parser.parse_args()
+    algos, datasets, config_name = args.algos, args.datasets, args.outfile
 
-    # main(['chembl'], ['mann'], 'config_mann.json')
-    # main(['pubchemtox', 'chembl', 'mhc'], ['maml'], 'config_maml.json')
-    # main(['pubchemtox', 'chembl'], ['fingerprint'], 'config_fp.json')
-    main(['toy'], ['metakrr_mk'], 'config_toy.json')
-    # main(['toy', 'easytoy', 'toy123'], ['metakrr_mk', 'metakrr_sk'], 'config_toy.json')
-    # main(['pubchemtox'], ['metakrr_mk', 'metakrr_sk'], 'config_pubchem.json', use_graph=False)
-    # main(['mhc'], ['metakrr_sk'], 'config_krr_len_expts.json')
-    # main(['pubchemtox', 'chembl', 'mhc'], ['seqtoseq'], 'config_s2s.json')
-    # main(['mhc'], ['seqtoseq'], 'config_s2s.json')
+    main(datasets, algos, config_name)

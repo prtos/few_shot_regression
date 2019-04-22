@@ -5,9 +5,9 @@ import torch.nn.functional as F
 
 
 class DeepSetEncoder(torch.nn.Module):
-    def __init__(self, input_dim, hidden_dim, num_layers=1):
+    def __init__(self, input_dim, hidden_dim=0, num_layers=0, functions='meanstd'):
         super(DeepSetEncoder, self).__init__()
-
+        assert functions in ['meanstd', 'stdmean', 'maxsum', 'summax']
         layers = []
         in_dim, out_dim = input_dim, hidden_dim
         for i in range(1, num_layers + 1):
@@ -20,20 +20,32 @@ class DeepSetEncoder(torch.nn.Module):
         in_dim, out_dim = hidden_dim * 2, hidden_dim
         for i in range(1, num_layers + 1):
             layers.append(nn.Linear(in_dim, out_dim))
-            layers.append(nn.ReLU())
+            # if i != num_layers:
+            layers.append(nn.ELU())
             in_dim, out_dim = out_dim, out_dim
         self.rho_net = nn.Sequential(*layers)
+        self.functions = functions
+        self._output_dim = 2 * input_dim if num_layers <= 0 else hidden_dim
 
     def _forward(self, x):
         phis_x = self.phi_net(x)
-        sum_x = torch.sum(phis_x, dim=0, keepdim=True)
-        max_x, _ = torch.max(phis_x, dim=0, keepdim=True)
-        maxsum_x = torch.cat([sum_x, max_x], dim=1)
-        res = self.rho_net(maxsum_x).squeeze(0)
+        if self.functions in ['meanstd', 'stdmean']:
+            x1 = torch.mean(phis_x, dim=0, keepdim=True)
+            x2 = torch.sqrt(torch.var(phis_x, dim=0, keepdim=True) + torch.FloatTensor([1e-8]))
+
+        else:
+            x1 = torch.sum(phis_x, dim=0, keepdim=True)
+            x2, _ = torch.max(phis_x, dim=0, keepdim=True)
+        z = torch.cat([x1, x2], dim=1)
+        res = self.rho_net(z).squeeze(0)
         return res
 
     def forward(self, x):
         return torch.stack([self._forward(x_i) for x_i in x], dim=0)
+
+    @property
+    def output_dim(self):
+        return self._output_dim
 
 
 class Set2SetEncoder(torch.nn.Module):
@@ -77,6 +89,7 @@ class Set2SetEncoder(torch.nn.Module):
         self.lstm = nn.LSTM(self.hidden_lstm_dim, self.input_dim, num_layers=num_layers, batch_first=True)
         self.softmax = nn.Softmax(dim=1)
         self.linear = nn.Linear(self.hidden_lstm_dim, self.hidden_dim)
+        self._output_dim = hidden_dim
 
     def forward(self, x):
         r"""
@@ -110,9 +123,14 @@ class Set2SetEncoder(torch.nn.Module):
 
         return self.linear(torch.squeeze(q_star, dim=1))
 
+    @property
+    def output_dim(self):
+        return self._output_dim
+
 
 class AttentionLayer(nn.Module):
-    def __init__(self, input_size, value_size, key_size, pooling_function=None):
+    def __init__(self, input_size, value_size, key_size, pooling_function=None, softmax_coef=1):
+        assert softmax_coef > 0, 'Must be positive nonzero'
         # input_size == query_size
         super(AttentionLayer, self).__init__()
         self.query_network = nn.Linear(input_size, key_size)
@@ -120,8 +138,10 @@ class AttentionLayer(nn.Module):
         self.value_network = nn.Linear(input_size, value_size)
         self.norm_layer = nn.LayerNorm(value_size)
         self.pooling_function = pooling_function
+        self._output_dim = value_size
+        self.softmax_coef = torch.FloatTensor([softmax_coef])
 
-    def forward(self, query, key=None, value=None):
+    def forward(self, query, key=None, value=None, return_attention=False):
         if key is None and value is None:
             key = query
             value = query
@@ -132,7 +152,7 @@ class AttentionLayer(nn.Module):
         value = self.value_network(value)
         attention_matrix = torch.bmm(query, key.transpose(1, 2))
         attention_matrix = attention_matrix / math.sqrt(query.size(2))
-        attention_matrix = F.softmax(attention_matrix, dim=2)
+        attention_matrix = F.softmax(self.softmax_coef * attention_matrix, dim=2)
         res = self.norm_layer(torch.bmm(attention_matrix, value))
 
         if self.pooling_function == 'max':
@@ -140,7 +160,13 @@ class AttentionLayer(nn.Module):
         elif self.pooling_function == 'mean':
             res = torch.mean(res, dim=1)
 
+        if return_attention:
+            return res, attention_matrix
         return res
+
+    @property
+    def output_dim(self):
+        return self._output_dim
 
 
 class MultiHeadAttentionLayer(nn.Module):
@@ -161,6 +187,7 @@ class MultiHeadAttentionLayer(nn.Module):
         self.dropout = nn.Dropout(dropout)
         self.pooling_function = pooling_function
         self.residual = residual
+        self._output_dim = value_size
 
     def forward(self, queries, keys=None, values=None):
         if keys is None and values is None:
@@ -200,6 +227,10 @@ class MultiHeadAttentionLayer(nn.Module):
 
         return res
 
+    @property
+    def output_dim(self):
+        return self._output_dim
+
 
 class StandardAttentionEncoder(torch.nn.Module):
     def __init__(self, input_dim, hidden_dim=20, num_layers=1):
@@ -214,9 +245,14 @@ class StandardAttentionEncoder(torch.nn.Module):
             in_dim, out_dim = out_dim, out_dim
         self._output_dim = out_dim
         self.net = nn.Sequential(*layers)
+        self._output_dim = hidden_dim
 
     def forward(self, x):
         return self.net(x)
+
+    @property
+    def output_dim(self):
+        return self._output_dim
 
 
 class MultiHeadAttentionEncoder(torch.nn.Module):
@@ -231,9 +267,14 @@ class MultiHeadAttentionEncoder(torch.nn.Module):
                 layers.append(nn.ReLU())
         self._output_dim = out_dim
         self.net = nn.Sequential(*layers)
+        self._output_dim = hidden_dim
 
     def forward(self, x):
         return self.net(x)
+
+    @property
+    def output_dim(self):
+        return self._output_dim
 
 
 class RelationNetEncoder(torch.nn.Module):
@@ -241,6 +282,7 @@ class RelationNetEncoder(torch.nn.Module):
         super(RelationNetEncoder, self).__init__()
         in_dim, out_dim = input_dim * 2, hidden_dim
         self.net = DeepSetEncoder(in_dim, out_dim)
+        self._output_dim = hidden_dim
 
     def _forward(self, x):
         n = x.shape[0]
@@ -251,9 +293,13 @@ class RelationNetEncoder(torch.nn.Module):
     def forward(self, x):
         return torch.stack([self._forward(x_i) for x_i in x], dim=0)
 
+    @property
+    def output_dim(self):
+        return self._output_dim
+
 
 class RegDatasetEncoder(torch.nn.Module):
-    def __init__(self, arch, input_dim, target_dim, num_layers=1, hidden_dim=20):
+    def __init__(self, arch, input_dim, target_dim, num_layers=1, hidden_dim=20, functions='meanstd'):
         super(RegDatasetEncoder, self).__init__()
         in_dim, out_dim = (input_dim + target_dim), hidden_dim
 
@@ -271,7 +317,7 @@ class RegDatasetEncoder(torch.nn.Module):
             self.net = RelationNetEncoder(in_dim, out_dim, num_layers=num_layers)
             self._output_dim = out_dim
         elif arch in ['deepset', 'ds']:
-            self.net = DeepSetEncoder(in_dim, out_dim, num_layers=num_layers)
+            self.net = DeepSetEncoder(in_dim, out_dim, num_layers=num_layers, functions=functions)
             self._output_dim = out_dim
         else:
             raise Exception('arch is undefined')
@@ -288,4 +334,4 @@ class RegDatasetEncoder(torch.nn.Module):
 
     @property
     def output_dim(self):
-        return self._output_dim
+        return self.net.output_dim

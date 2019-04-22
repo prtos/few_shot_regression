@@ -55,7 +55,7 @@ pip install biopython
 pip install torchvision pytoune
 conda install -y -c conda-forge -n $env_name tensorflow
 conda install -y -c rdkit -n $env_name rdkit
-
+conda install -y -c conda-forge ffmpeg
 
 # Run the setup.py script
 echo "Install the $env_name package"
