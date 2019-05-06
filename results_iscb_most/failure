@@ -1,0 +1,41 @@
+Exception during training: start (8) + length (0) exceeds dimension size (96).
+Traceback (most recent call last):
+  File "train", line 53, in main
+    run_experiment(**training_params, output_path=output_path, input_path=input_path)
+  File "/opt/program/expts_utils.py", line 80, in run_experiment
+    model.fit(meta_train, meta_valid, **fit_params)
+  File "/opt/program/metalearn/models/base.py", line 94, in fit
+    verbose=True)
+  File "/root/miniconda3/envs/invivo/lib/python3.6/site-packages/pytoune/framework/model.py", line 310, in fit_generator
+    step=step.number)
+  File "/root/miniconda3/envs/invivo/lib/python3.6/site-packages/pytoune/framework/model.py", line 325, in _fit_batch
+    x, y, return_loss_tensor=True, return_pred=return_pred
+  File "/root/miniconda3/envs/invivo/lib/python3.6/site-packages/pytoune/framework/model.py", line 600, in _compute_loss_and_metrics
+    pred_y = self.model(x)
+  File "/root/miniconda3/envs/invivo/lib/python3.6/site-packages/torch/nn/modules/module.py", line 477, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/opt/program/metalearn/models/metakrr_singlekernel.py", line 92, in forward
+    res = [self.__forward(episode) for episode in episodes]
+  File "/opt/program/metalearn/models/metakrr_singlekernel.py", line 92, in <listcomp>
+    res = [self.__forward(episode) for episode in episodes]
+  File "/opt/program/metalearn/models/metakrr_singlekernel.py", line 59, in __forward
+    phis = self.feature_extractor(x_train)
+  File "/root/miniconda3/envs/invivo/lib/python3.6/site-packages/torch/nn/modules/module.py", line 477, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/opt/program/metalearn/feature_extraction/graph_cnn.py", line 31, in forward
+    return self.net(input_x)[1]
+  File "/root/miniconda3/envs/invivo/lib/python3.6/site-packages/torch/nn/modules/module.py", line 477, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/opt/program/metalearn/feature_extraction/graphs/gcn.py", line 74, in forward
+    return G, self.gather(G)
+  File "/opt/program/metalearn/feature_extraction/graphs/gcn.py", line 41, in gather
+    glist = dgl.unbatch(G)
+  File "/root/miniconda3/envs/invivo/lib/python3.6/site-packages/dgl/batched_graph.py", line 322, in unbatch
+    col_splits = F.split(col, be, dim=0)
+  File "/root/miniconda3/envs/invivo/lib/python3.6/site-packages/dgl/backend/pytorch/tensor.py", line 95, in split
+    return th.split(input, sizes_or_sections, dim)
+  File "/root/miniconda3/envs/invivo/lib/python3.6/site-packages/torch/functional.py", line 44, in split
+    return tensor.split(split_size_or_sections, dim)
+  File "/root/miniconda3/envs/invivo/lib/python3.6/site-packages/torch/tensor.py", line 278, in split
+    return super(Tensor, self).split_with_sizes(split_size, dim)
+RuntimeError: start (8) + length (0) exceeds dimension size (96).

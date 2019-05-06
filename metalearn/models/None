@@ -1,0 +1,276 @@
+import os
+import pickle
+import itertools
+import json
+import argparse
+
+import numpy as np
+import pandas as pd
+
+
+import boto
+from boto.s3.connection import S3Connection
+from boto.s3.key import Key
+import pubchempy
+
+import matplotlib as mpl
+mpl.use('Agg')
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.set(style="white", context="talk")
+
+from matplotlib import rcParams
+rcParams.update({'figure.autolayout': True})
+
+from invivobase.utils.pubchem import PubChem
+
+def aids_preprocess(pubchem, aids, work_dir):
+    aids_keywords, aids_counts = zip(*[(k, len(l)) for k, l in aids.items() if k != "filtered"])
+
+    plt.figure(figsize=(12,10))
+    f = sns.barplot(x=list(aids_keywords), y=list(aids_counts), palette=sns.color_palette("hls", 8))
+    f.axhline(0, color="k", clip_on=False)
+    f.set_ylabel("Bioassay Count")
+    f.set_xlabel("Keyword Queried")
+    sns.despine(bottom=True)
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.savefig(os.path.join(work_dir, "aids_distribution.pdf"))
+
+    aids = list(itertools.chain.from_iterable([v for v in aids.values()]))
+    print("Total aids: {}".format(len(aids)))
+    aids = list(set(aids))
+    print("Unique aids: {}".format(len(aids)))
+
+    filtered_aids = []
+    for aid in aids:
+        print("Processing AID:{}".format(aid))
+        assay = pubchem.get_assay(aid)
+        data_begin = int(np.where(assay['PUBCHEM_RESULT_TAG'] == '1')[0])
+        assay = assay.drop(assay.index[list(range(0, data_begin))])
+        assay = assay.dropna(subset=['PUBCHEM_CID'])
+        if (assay.shape[0] >= 20):
+            filtered_aids.append(aid)
+    print("Filtered aids: {}".format(len(filtered_aids)))
+
+    with open(os.path.join(work_dir, "filtered_AID.txt"), 'w') as out_file:
+        for aid in filtered_aids:
+            out_file.write("{}\n".format(str(aid)))
+
+def assays_entries_analysis(pubchem, aids, work_dir):
+    data_cache_file = os.path.join(work_dir, 'assays_entries_analysis_data.pickle')
+    if not(os.path.isfile(data_cache_file)):
+        tags_info = {}
+        tags = []
+        sizes = []
+        for aid in aids:
+            print("Processing AID:{}".format(aid))
+            assay = pubchem.get_assay(aid)
+
+            # Extracting tags relevant info
+            if 'RESULT_TYPE' in list(assay['PUBCHEM_RESULT_TAG']) and 'RESULT_DESCR' in list(assay['PUBCHEM_RESULT_TAG']):
+                type_index = int(np.where(assay['PUBCHEM_RESULT_TAG'] == 'RESULT_TYPE')[0])
+                descr_index = int(np.where(assay['PUBCHEM_RESULT_TAG'] == 'RESULT_DESCR')[0])
+                for tag in assay.keys():
+                    if tag not in tags_info:
+                        tags_info[tag] = (assay[tag][type_index], assay[tag][descr_index])
+
+            data_begin = int(np.where(assay['PUBCHEM_RESULT_TAG'] == '1')[0])
+            assay = assay.drop(assay.index[list(range(0, data_begin))])
+            assay = assay.dropna(subset=['PUBCHEM_CID'])
+            tags += list(assay.keys())
+            sizes.append(assay.shape[0])
+            with open(data_cache_file, 'wb') as out_file:
+                pickle.dump({"tags":tags, "tags_info":tags_info, "sizes":sizes}, out_file)
+
+    with open(data_cache_file, 'rb') as in_file:
+        stats = pickle.load(in_file)
+
+    # Number of entries statistics
+    lower_bound = 250
+    upper_bound = 10000
+    sizes = [s for s in stats["sizes"] if s <= lower_bound]
+    print("{:.2f}% of bioassays have between 20 and {} entries".format(len(sizes)/len(stats["sizes"])*100, lower_bound))
+    plt.hist(sizes, bins=75)
+    plt.xlabel("Number of entries")
+    plt.ylabel("Number of bioassays")
+    plt.savefig(os.path.join(work_dir, "aids_size_lower.pdf"))
+    plt.close()
+
+    sizes = [s for s in stats["sizes"] if s > lower_bound and s <= upper_bound]
+    print("{:.2f}% of bioassays have between {} and {} entries".format(len(sizes)/len(stats["sizes"])*100, lower_bound, upper_bound))
+    plt.hist(sizes, bins=50)
+    plt.xlabel("Number of entries")
+    plt.ylabel("Number of bioassays")
+    plt.savefig(os.path.join(work_dir, "aids_size_middle.pdf"))
+    plt.close()
+
+    sizes = [s for s in stats["sizes"] if s > upper_bound]
+    print("{:.2f}% of bioassays have more than {} entries".format(len(sizes)/len(stats["sizes"])*100, upper_bound))
+    plt.hist(sizes, bins=50)
+    plt.xlabel("Number of entries")
+    plt.ylabel("Number of bioassays")
+    plt.savefig(os.path.join(work_dir, "aids_size_upper.pdf"))
+    plt.close()
+
+    # Entries target types
+    common_irrelevant = ["PUBCHEM_RESULT_TAG", "PUBCHEM_SID", "PUBCHEM_CID"]
+    tags = [k for k in stats["tags"] if k not in common_irrelevant]
+    unique, counts = (np.unique(tags, return_counts=True))
+    tags = list(zip(list(unique), list(counts)))
+    tags = sorted(tags, key=lambda x: x[1])
+    print("Total results tags: {}".format(len(tags)))
+    min_appearance = 50
+    tags = [(k, n) for k, n in tags if n >= min_appearance]
+    print("Remaining results tags appearing in at least {} bioassays: {}".format(min_appearance, len(tags)))
+
+    plt.figure(figsize=(10,20))
+    frequent_tags, occurence = zip(*tags[-100:])
+    f = sns.barplot(x=list(occurence), y=list(frequent_tags), palette=sns.color_palette("hls", 100), orient="h")
+    f.set_ylabel("Result Tag")
+    f.set_xlabel("Number of bioassays")
+    sns.despine(bottom=True)
+    plt.tight_layout()
+    plt.savefig(os.path.join(work_dir, "tags_distribution.pdf"))
+
+    tags = [(k, n) for k, n in tags if stats["tags_info"][k][0] in ["FLOAT", "INTEGER"]]
+    plt.figure(figsize=(10,20))
+    frequent_tags, occurence = zip(*tags[-100:])
+    f = sns.barplot(x=list(occurence), y=list(frequent_tags), palette=sns.color_palette("hls", 100), orient="h")
+    f.set_ylabel("Result Tag")
+    f.set_xlabel("Number of bioassays")
+    sns.despine(bottom=True)
+    plt.tight_layout()
+    plt.savefig(os.path.join(work_dir, "tags_float_distribution.pdf"))
+
+    with open(os.path.join(work_dir, "relevant_tags.txt"), 'w') as out_file:
+        for tag, occurence in tags[-100:]:
+            out_file.write("{} [{}]: {}, {} bioassays occurences\n".format(tag, stats["tags_info"][tag][0], stats["tags_info"][tag][1],  occurence))
+
+
+
+def build_datasets(pubchem, targets, aids, work_dir):
+    conn = boto.s3.connect_to_region('us-east-2',
+                    aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
+                    aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'],
+                    is_secure=True,
+                    calling_format = boto.s3.connection.OrdinaryCallingFormat())
+    bucket = conn.get_bucket('datasets-ressources/')
+
+    def save_dataset(dataset, target, header):
+        target = target.replace('standard value', '').rstrip().replace(' ', '_')
+        target_path = os.path.join(work_dir, 'assay', target)
+        if not os.path.exists(target_path):
+            os.makedirs(target_path)
+        filename = os.path.join(target_path, str(aid) + '.csv')
+        with open(filename, 'w') as out_file:
+            out_file.write(assay_info.name + "\n")
+            for smiles, label in dataset:
+                out_file.write(','.join([smiles, str(label)]) + '\n')
+        key = Key(bucket, 'pubchem/datasets/preclinical/' + target + '/' + str(aid) + '.csv')
+        key.set_contents_from_filename(filename)
+
+    def save_metadata(target):
+        target = target.replace('standard value', '').rstrip().replace(' ', '_')
+        target_dir = os.path.join(work_dir, 'assay', target)
+        filename = os.path.join(target_dir, 'metadata.txt')
+        with open(filename, 'w') as out_file:
+            out_file.write('\n'.join([f for f in os.listdir(target_dir) if f != 'metadata.txt']))
+        key = Key(bucket, 'pubchem/datasets/preclinical/' + target + '/' + 'metadata.txt')
+        key.set_contents_from_filename(filename)
+
+    for aid in aids:
+        print("Processing AID:{}".format(aid))
+        assay = pubchem.get_assay(aid)
+        data_begin = int(np.where(assay['PUBCHEM_RESULT_TAG'] == '1')[0])
+        assay = assay.drop(assay.index[list(range(0, data_begin))])
+        assay = assay.dropna(subset=['PUBCHEM_CID'])
+        assay_info = pubchempy.get_assays(aid)[0]
+        for target in set(targets).intersection(assay.keys()):
+            target_assay = assay.dropna(subset=[target])
+            if target_assay.shape[0] >= 20:
+                print("Creating {} dataset (size: {})".format(target, target_assay.shape[0]))
+                target_dataset = [(pubchem.get_smiles(int(cid)), label) for cid, label in zip(target_assay['PUBCHEM_CID'], target_assay[target])]
+                target_dataset = [(smile, label) for smile, label in target_dataset if smile]
+                save_dataset(target_dataset, target, assay_info)
+
+    for target in targets:
+        save_metadata(target)
+
+def dataset_analysis(dataset_path, work_dir):
+    targets = [d for d  in os.listdir(dataset_path) if d != "aids"]
+    targets_data = {}
+    for target in targets:
+        targets_data[target] = os.listdir(os.path.join(dataset_path, target))
+
+    plt.figure(figsize=(12,10))
+    distribution = [(t,len(targets_data[t])) for t in targets]
+    distribution = sorted(distribution, key=lambda x: x[1], reverse=True)
+    tags, occurence = zip(*distribution)
+    f = sns.barplot(x=list(tags), y=list(occurence), palette=sns.color_palette("hls", len(tags)))
+    f.axhline(0, color="k", clip_on=False)
+    f.set_ylabel("Number of tasks")
+    f.set_xlabel("Target measure")
+    sns.despine(bottom=True)
+    plt.xticks(rotation=45, rotation_mode="anchor", ha="right")
+    plt.tight_layout()
+    plt.savefig(os.path.join(work_dir, "targets_tasks_distribution.pdf"))
+
+    print("Total number of tasks: {}".format(sum([len(t) for t in targets_data.values()])))
+
+    conn = boto.s3.connect_to_region('us-east-2',
+                    aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
+                    aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'],
+                    is_secure=True,
+                    calling_format = boto.s3.connection.OrdinaryCallingFormat())
+    bucket = conn.get_bucket('datasets-ressources/')
+
+    def save_stats(target, stats):
+        target_dir = os.path.join(work_dir, 'stats')
+        filename = os.path.join(target_dir, target + '.json')
+        with open(filename, 'w') as out_file:
+            json.dump(stats, out_file)
+        key = Key(bucket, 'pubchem/datasets/preclinical/stats/' + target + '.json')
+        key.set_contents_from_filename(filename)
+
+    for target in targets:
+        files = [os.path.join(dataset_path, target, f) for f in os.listdir(os.path.join(dataset_path, target)) if f != 'metadata.txt']
+        target_measures = []
+        for f in files:
+            data = pd.read_csv(f, skiprows=1).values
+            x, y = data[:, 0], data[:, 1].astype('float')
+            target_measures.append(y)
+        target_measures = np.concatenate(target_measures, axis=0)
+        stats = {}
+        stats['mean'] = np.mean(target_measures)
+        stats['std'] = np.std(target_measures)
+        stats['var'] = np.var(target_measures)
+        stats['min'] = np.min(target_measures)
+        stats['max'] = np.max(target_measures)
+        save_stats(target, stats)
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Bioassays preprocessing utilities.')
+    parser.add_argument('--work-dir', type=str, default=".")
+    args = parser.parse_args()
+    pubchem = PubChem(caching_path=args.work_dir)
+
+    #aids_preprocess(pubchem, pubchem.get_preclinical_aids(), args.work_dir)
+
+    filtered_aids = pubchem.get_preclinical_aids(["filtered"])["filtered"]
+    #assays_entries_analysis(pubchem, filtered_aids, args.work_dir)
+
+    targets = ["IC50 standard value", "SEI", "LLE", "LE", "BEI", "Activity standard value", "MIC standard value", "Inhibition standard value",
+               "EC50 standard value", "Ki standard value", "CC50 standard value", "GI50 standard value", "Kd standard value",
+               "Residual Activity standard value", "Efficacy", "ED50 standard value", "GI standard value", "Max_Response", "IZ standard value"]
+    #build_datasets(pubchem, targets, filtered_aids, args.work_dir)
+
+    ds_path = pubchem.get_dataset("preclinical", [t.replace('standard value', '').rstrip().replace(' ', '_') for t in targets])
+    dataset_analysis(ds_path, args.work_dir)
+
+    print("### DONE ###")
+
+if __name__ == '__main__':
+    main()

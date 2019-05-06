@@ -1,0 +1,14 @@
+{
+    "dataset_name": "mhc",
+    "dataset_params.batch_size": 32,
+    "dataset_params.fold": 3,
+    "dataset_params.max_examples_per_episode": 10,
+    "dataset_params.max_tasks": null,
+    "fit_params.n_epochs": 100,
+    "fit_params.steps_per_epoch": 500,
+    "model_name": "seqtoseq",
+    "model_params.decoder_layers": 2,
+    "model_params.dropout": 0.1,
+    "model_params.embedding_dim": 256,
+    "model_params.encoder_layers": 2
+}

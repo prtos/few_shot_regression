@@ -1,0 +1,22 @@
+{
+  "model_name": [
+    "morgan_circular",
+    "meta",
+    "active"
+  ],
+  "data_filename": [
+    "Bioassay/R3_1259318.csv",
+    "Bioassay/R3_1259374.csv",
+    "Bioassay/R3_651958.csv"
+  ],
+  "train_size": [
+    10000,
+    20000,
+    50000
+  ],
+  "y_scaler": [
+    "none",
+    "minmax",
+    "norm"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+    "dataset_name": "pubchemtox",
+    "dataset_params.batch_size": 32,
+    "dataset_params.max_examples_per_episode": 10,
+    "dataset_params.use_graph": true,
+    "fit_params.n_epochs": 100,
+    "fit_params.steps_per_epoch": 500,
+    "model_name": "metakrr_sk",
+    "model_params.do_cv": false,
+    "model_params.feature_extractor_params.arch": "gcnn",
+    "model_params.feature_extractor_params.atom_dim": 79,
+    "model_params.feature_extractor_params.bond_dim": 8,
+    "model_params.feature_extractor_params.hidden_size": [
+        512,
+        512
+    ],
+    "model_params.feature_extractor_params.implementation_name": "gcn",
+    "model_params.feature_extractor_params.readout_size": 32,
+    "model_params.fixe_hps": true,
+    "model_params.kernel": "linear",
+    "model_params.l2": 0.1,
+    "model_params.lr": 0.001
+}

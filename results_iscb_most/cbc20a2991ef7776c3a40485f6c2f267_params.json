@@ -1,0 +1,26 @@
+{
+    "dataset_name": "pubchemtox",
+    "dataset_params.batch_size": 32,
+    "dataset_params.max_examples_per_episode": 10,
+    "dataset_params.use_graph": false,
+    "fit_params.n_epochs": 100,
+    "fit_params.steps_per_epoch": 500,
+    "model_name": "metakrr_sk",
+    "model_params.do_cv": false,
+    "model_params.feature_extractor_params.arch": "cnn",
+    "model_params.feature_extractor_params.cnn_sizes": [
+        512,
+        512
+    ],
+    "model_params.feature_extractor_params.dilatation_rate": 2,
+    "model_params.feature_extractor_params.embedding_size": 20,
+    "model_params.feature_extractor_params.kernel_size": 2,
+    "model_params.feature_extractor_params.normalize_features": false,
+    "model_params.feature_extractor_params.pooling_len": 1,
+    "model_params.feature_extractor_params.use_bn": false,
+    "model_params.feature_extractor_params.vocab_size": 151,
+    "model_params.fixe_hps": false,
+    "model_params.kernel": "rbf",
+    "model_params.l2": 0.1,
+    "model_params.lr": 0.001
+}

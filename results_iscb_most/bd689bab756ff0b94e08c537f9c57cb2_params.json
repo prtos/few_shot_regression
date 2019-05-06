@@ -1,0 +1,12 @@
+{
+    "dataset_name": "chembl",
+    "dataset_params.batch_size": 32,
+    "dataset_params.max_examples_per_episode": 10,
+    "dataset_params.raw_inputs": true,
+    "dataset_params.use_graph": true,
+    "fit_params.n_epochs": 100,
+    "fit_params.steps_per_epoch": 500,
+    "model_name": "fingerprint",
+    "model_params.algo": "krr",
+    "model_params.fp": "morgan_circular"
+}
